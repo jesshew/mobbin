@@ -1,15 +1,15 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
-import { Trash2, Clock, Save, ArrowLeft, ArrowRight, Download } from "lucide-react"
+import { useState, useMemo } from "react"
+import { Trash2, Eye, Clock, Save, ArrowLeft, ArrowRight, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ElementListItem } from "@/components/element-list-item"
 
 interface BoundingBox {
   id: number
@@ -50,8 +50,6 @@ export function ControlPanel({
 }: ControlPanelProps) {
   const [editingLabel, setEditingLabel] = useState<string>("")
   const [activeTab, setActiveTab] = useState<string>("elements")
-  const [setSelectedBoxState, setSetSelectedBoxState] = useState<((box: BoundingBox | null) => void) | null>(null)
-  const [expandedBoxId, setExpandedBoxId] = useState<number | null>(null)
 
   // Calculate total inference time
   const totalInferenceTime = useMemo(() => {
@@ -104,16 +102,6 @@ export function ControlPanel({
     linkElement.click()
   }
 
-  const handleToggleExpand = (id: number) => {
-    setExpandedBoxId(expandedBoxId === id ? null : id)
-  }
-
-  useEffect(() => {
-    if (selectedBox) {
-      setExpandedBoxId(null)
-    }
-  }, [selectedBox])
-
   // Mobile view uses tabs
   if (isMobile) {
     return (
@@ -131,19 +119,58 @@ export function ControlPanel({
             <ScrollArea className="h-[calc(100vh-220px)]">
               <div className="p-4 space-y-4">
                 {boundingBoxes.map((box) => (
-                  <ElementListItem
+                  <Card
                     key={box.id}
-                    box={box}
-                    isSelected={selectedBox?.id === box.id}
-                    isExpanded={false} // Mobile doesn't use expansion
-                    onSelect={(box) => {
+                    className={`cursor-pointer transition-colors ${selectedBox?.id === box.id ? "border-primary" : ""}`}
+                    onClick={() => {
                       onBoxSelect(box)
                       setActiveTab("editor")
                     }}
-                    onDelete={onBoxDelete}
-                    onToggleExpand={() => {}} // No-op for mobile
-                    isMobile={isMobile}
-                  />
+                  >
+                    <CardContent className="p-3">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="font-medium break-words">{box.textLabel}</div>
+                          <div className="text-xs text-muted-foreground">{box.label}</div>
+                        </div>
+                        <div className="flex gap-1">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              onBoxSelect(box)
+                              setActiveTab("editor")
+                            }}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7 text-destructive"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              onBoxDelete(box.id)
+                            }}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                      <div
+                        className="text-xs text-muted-foreground mt-1"
+                        key={`${box.x}-${box.y}-${box.width}-${box.height}`}
+                      >
+                        x: {box.x}, y: {box.y}, w: {box.width}, h: {box.height}
+                      </div>
+                      <div className="text-xs flex items-center mt-1 text-muted-foreground">
+                        <Clock className="h-3 w-3 mr-1" />
+                        Inference Time: {box.inferenceTime.toFixed(2)}s
+                      </div>
+                    </CardContent>
+                  </Card>
                 ))}
               </div>
             </ScrollArea>
@@ -153,11 +180,6 @@ export function ControlPanel({
             {selectedBox ? (
               <ScrollArea className="h-[calc(100vh-220px)]">
                 <div className="p-4 space-y-4">
-                  <Button variant="ghost" className="mb-2 -ml-2" onClick={() => setActiveTab("elements")}>
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back to Elements
-                  </Button>
-
                   <div className="space-y-2">
                     <Label htmlFor="element-type">Element Type</Label>
                     <Select value={selectedBox.label} onValueChange={handleLabelChange}>
@@ -353,16 +375,54 @@ export function ControlPanel({
       <ScrollArea className="flex-1">
         <div className="p-4 space-y-4">
           {boundingBoxes.map((box) => (
-            <ElementListItem
+            <Card
               key={box.id}
-              box={box}
-              isSelected={selectedBox?.id === box.id}
-              isExpanded={expandedBoxId === box.id}
-              onSelect={onBoxSelect}
-              onDelete={onBoxDelete}
-              onToggleExpand={handleToggleExpand}
-              isMobile={isMobile}
-            />
+              className={`cursor-pointer transition-colors ${selectedBox?.id === box.id ? "border-primary" : ""}`}
+              onClick={() => onBoxSelect(box)}
+            >
+              <CardContent className="p-3">
+                <div className="flex items-center justify-between">
+                  <div className="max-w-[70%]">
+                    <div className="font-medium break-words">{box.textLabel}</div>
+                    <div className="text-xs text-muted-foreground">{box.label}</div>
+                  </div>
+                  <div className="flex gap-1">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onBoxSelect(box)
+                      }}
+                    >
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7 text-destructive"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onBoxDelete(box.id)
+                      }}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+                <div
+                  className="text-xs text-muted-foreground mt-1"
+                  key={`${box.x}-${box.y}-${box.width}-${box.height}`}
+                >
+                  x: {box.x}, y: {box.y}, w: {box.width}, h: {box.height}
+                </div>
+                <div className="text-xs flex items-center mt-1 text-muted-foreground">
+                  <Clock className="h-3 w-3 mr-1" />
+                  Inference Time: {box.inferenceTime.toFixed(2)}s
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </ScrollArea>
@@ -370,15 +430,6 @@ export function ControlPanel({
       {selectedBox && (
         <div className="border-t p-4">
           <h3 className="text-lg font-medium mb-4">Edit Element</h3>
-
-          <Button
-            variant="ghost"
-            className="mb-4 -ml-2"
-            onClick={() => setSelectedBoxState && setSelectedBoxState(null)}
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Elements
-          </Button>
 
           <div className="space-y-4">
             <div className="space-y-2">
