@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Image from "next/image"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface UploadInterfaceProps {
   onImagesUploaded: (files: File[]) => void
@@ -16,6 +17,7 @@ interface UploadInterfaceProps {
 
 export function UploadInterface({ onImagesUploaded, uploadedImages, onImageSelect }: UploadInterfaceProps) {
   const [isDragging, setIsDragging] = useState(false)
+  const isMobile = useIsMobile()
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -41,58 +43,60 @@ export function UploadInterface({ onImagesUploaded, uploadedImages, onImageSelec
   })
 
   return (
-    <div className="container mx-auto py-10 px-4">
-      <h1 className="text-3xl font-bold mb-8 text-center">Annotation Tool</h1>
+    <div className="container mx-auto py-6 md:py-10 px-4">
+      <h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center">Annotation Tool</h1>
 
-      <div
-        {...getRootProps()}
-        className={`border-2 border-dashed rounded-lg p-10 text-center cursor-pointer transition-colors
-          ${isDragging ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-primary/50"}`}
-      >
-        <input {...getInputProps()} />
-        <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-        <h2 className="text-xl font-medium mb-2">Drag & drop images here</h2>
-        <p className="text-muted-foreground mb-4">Or click to browse files (up to 20 images)</p>
-        <div className="flex justify-center gap-4">
-          <Button>
-            <ImageIcon className="mr-2 h-4 w-4" />
-            Select Images
-          </Button>
-          <Button variant="outline">
-            <FolderOpen className="mr-2 h-4 w-4" />
-            Select Folder
-          </Button>
+      <div className="flex flex-col gap-8">
+        <div
+          {...getRootProps()}
+          className={`border-2 border-dashed rounded-lg p-6 md:p-10 text-center cursor-pointer transition-colors
+            ${isDragging ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-primary/50"}`}
+        >
+          <input {...getInputProps()} />
+          <Upload className="mx-auto h-10 w-10 md:h-12 md:w-12 text-muted-foreground mb-4" />
+          <h2 className="text-lg md:text-xl font-medium mb-2">Drag & drop images here</h2>
+          <p className="text-muted-foreground mb-4">Or click to browse files (up to 20 images)</p>
+          <div className="flex flex-col sm:flex-row justify-center gap-3">
+            <Button className="w-full sm:w-auto">
+              <ImageIcon className="mr-2 h-4 w-4" />
+              Select Images
+            </Button>
+            <Button variant="outline" className="w-full sm:w-auto">
+              <FolderOpen className="mr-2 h-4 w-4" />
+              Select Folder
+            </Button>
+          </div>
         </div>
+
+        {uploadedImages.length > 0 && (
+          <div>
+            <h2 className="text-xl font-medium mb-4">Uploaded Images ({uploadedImages.length})</h2>
+            <ScrollArea className="h-[300px] md:h-[400px] rounded-md border">
+              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-4">
+                {uploadedImages.map((file, index) => (
+                  <Card
+                    key={`${file.name}-${index}`}
+                    className="cursor-pointer hover:shadow-md transition-shadow"
+                    onClick={() => onImageSelect(index)}
+                  >
+                    <CardContent className="p-2">
+                      <div className="aspect-square relative overflow-hidden rounded-md mb-2">
+                        <Image
+                          src={URL.createObjectURL(file) || "/placeholder.svg"}
+                          alt={file.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <p className="text-xs break-words">{file.name}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </ScrollArea>
+          </div>
+        )}
       </div>
-
-      {uploadedImages.length > 0 && (
-        <div className="mt-8">
-          <h2 className="text-xl font-medium mb-4">Uploaded Images ({uploadedImages.length})</h2>
-          <ScrollArea className="h-[300px] rounded-md border">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-4">
-              {uploadedImages.map((file, index) => (
-                <Card
-                  key={`${file.name}-${index}`}
-                  className="cursor-pointer hover:shadow-md transition-shadow"
-                  onClick={() => onImageSelect(index)}
-                >
-                  <CardContent className="p-2">
-                    <div className="aspect-square relative overflow-hidden rounded-md mb-2">
-                      <Image
-                        src={URL.createObjectURL(file) || "/placeholder.svg"}
-                        alt={file.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <p className="text-xs truncate">{file.name}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </ScrollArea>
-        </div>
-      )}
     </div>
   )
 }
