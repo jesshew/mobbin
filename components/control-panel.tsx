@@ -3,7 +3,6 @@
 import { useState, useMemo } from "react"
 import { Trash2, Eye, Clock, Save, ArrowLeft, ArrowRight, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -34,6 +33,7 @@ interface ControlPanelProps {
   onNextImage?: () => void
   onPreviousImage?: () => void
   isMobile?: boolean
+  onBoxDeselect: () => void
 }
 
 export function ControlPanel({
@@ -47,9 +47,11 @@ export function ControlPanel({
   onNextImage,
   onPreviousImage,
   isMobile = false,
+  onBoxDeselect,
 }: ControlPanelProps) {
   const [editingLabel, setEditingLabel] = useState<string>("")
   const [activeTab, setActiveTab] = useState<string>("elements")
+  const [hoveredBoxId, setHoveredBoxId] = useState<number | null>(null)
 
   // Calculate total inference time
   const totalInferenceTime = useMemo(() => {
@@ -117,23 +119,22 @@ export function ControlPanel({
 
           <TabsContent value="elements" className="mt-0 p-0">
             <ScrollArea className="h-[calc(100vh-220px)]">
-              <div className="p-4 space-y-4">
+              <div className="p-4 space-y-2">
                 {boundingBoxes.map((box) => (
-                  <Card
+                  <div
                     key={box.id}
-                    className={`cursor-pointer transition-colors ${selectedBox?.id === box.id ? "border-primary" : ""}`}
+                    className={`rounded-md border transition-all duration-200 overflow-hidden ${
+                      selectedBox?.id === box.id ? "border-primary" : "border-border"
+                    }`}
                     onClick={() => {
                       onBoxSelect(box)
                       setActiveTab("editor")
                     }}
                   >
-                    <CardContent className="p-3">
+                    <div className="p-3">
                       <div className="flex items-center justify-between">
-                        <div>
-                          <div className="font-medium break-words">{box.textLabel}</div>
-                          <div className="text-xs text-muted-foreground">{box.label}</div>
-                        </div>
-                        <div className="flex gap-1">
+                        <div className="font-medium truncate">{box.textLabel}</div>
+                        <div className="flex gap-1 ml-2">
                           <Button
                             variant="ghost"
                             size="icon"
@@ -159,18 +160,8 @@ export function ControlPanel({
                           </Button>
                         </div>
                       </div>
-                      <div
-                        className="text-xs text-muted-foreground mt-1"
-                        key={`${box.x}-${box.y}-${box.width}-${box.height}`}
-                      >
-                        x: {box.x}, y: {box.y}, w: {box.width}, h: {box.height}
-                      </div>
-                      <div className="text-xs flex items-center mt-1 text-muted-foreground">
-                        <Clock className="h-3 w-3 mr-1" />
-                        Inference Time: {box.inferenceTime.toFixed(2)}s
-                      </div>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 ))}
               </div>
             </ScrollArea>
@@ -180,6 +171,20 @@ export function ControlPanel({
             {selectedBox ? (
               <ScrollArea className="h-[calc(100vh-220px)]">
                 <div className="p-4 space-y-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-lg font-medium">Edit Element</h3>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        setActiveTab("elements")
+                      }}
+                    >
+                      <ArrowLeft className="h-4 w-4 mr-1" />
+                      Back
+                    </Button>
+                  </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="element-type">Element Type</Label>
                     <Select value={selectedBox.label} onValueChange={handleLabelChange}>
@@ -373,63 +378,83 @@ export function ControlPanel({
       </div>
 
       <ScrollArea className="flex-1">
-        <div className="p-4 space-y-4">
+        <div className="p-4 space-y-2">
           {boundingBoxes.map((box) => (
-            <Card
+            <div
               key={box.id}
-              className={`cursor-pointer transition-colors ${selectedBox?.id === box.id ? "border-primary" : ""}`}
+              className={`rounded-md border transition-all duration-200 overflow-hidden ${
+                selectedBox?.id === box.id
+                  ? "border-primary"
+                  : hoveredBoxId === box.id
+                    ? "border-primary/50"
+                    : "border-border"
+              }`}
+              onMouseEnter={() => setHoveredBoxId(box.id)}
+              onMouseLeave={() => setHoveredBoxId(null)}
               onClick={() => onBoxSelect(box)}
             >
-              <CardContent className="p-3">
+              <div className="p-3">
                 <div className="flex items-center justify-between">
-                  <div className="max-w-[70%]">
-                    <div className="font-medium break-words">{box.textLabel}</div>
-                    <div className="text-xs text-muted-foreground">{box.label}</div>
-                  </div>
-                  <div className="flex gap-1">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-7 w-7"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        onBoxSelect(box)
-                      }}
-                    >
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-7 w-7 text-destructive"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        onBoxDelete(box.id)
-                      }}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
+                  <div className="font-medium truncate">{box.textLabel}</div>
+                  {(hoveredBoxId === box.id || selectedBox?.id === box.id) && (
+                    <div className="flex gap-1 ml-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          onBoxSelect(box)
+                        }}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7 text-destructive"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          onBoxDelete(box.id)
+                        }}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  )}
                 </div>
+
                 <div
-                  className="text-xs text-muted-foreground mt-1"
-                  key={`${box.x}-${box.y}-${box.width}-${box.height}`}
+                  className={`overflow-hidden transition-all duration-200 ${
+                    hoveredBoxId === box.id || selectedBox?.id === box.id
+                      ? "max-h-20 mt-2 opacity-100"
+                      : "max-h-0 opacity-0"
+                  }`}
                 >
-                  x: {box.x}, y: {box.y}, w: {box.width}, h: {box.height}
+                  <div className="text-xs text-muted-foreground">{box.label}</div>
+                  <div className="text-xs text-muted-foreground mt-1">
+                    x: {box.x}, y: {box.y}, w: {box.width}, h: {box.height}
+                  </div>
+                  <div className="text-xs flex items-center mt-1 text-muted-foreground">
+                    <Clock className="h-3 w-3 mr-1" />
+                    Inference Time: {box.inferenceTime.toFixed(2)}s
+                  </div>
                 </div>
-                <div className="text-xs flex items-center mt-1 text-muted-foreground">
-                  <Clock className="h-3 w-3 mr-1" />
-                  Inference Time: {box.inferenceTime.toFixed(2)}s
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       </ScrollArea>
 
       {selectedBox && (
         <div className="border-t p-4">
-          <h3 className="text-lg font-medium mb-4">Edit Element</h3>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-medium">Edit Element</h3>
+            <Button variant="ghost" size="sm" onClick={onBoxDeselect}>
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back to List
+            </Button>
+          </div>
 
           <div className="space-y-4">
             <div className="space-y-2">
