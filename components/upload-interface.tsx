@@ -59,12 +59,17 @@ export function UploadInterface({
 
   const uploadFiles = async (files: File[], batchName: string, analysisType: string) => {
     try {
+      // Generate default batch name if empty
+      const finalBatchName = batchName.trim() || `Batch ${batches.length + 1}`;
+      
       const uploadedFiles: File[] = [];
       
       // Upload each file individually
       for (const file of files) {
         const formData = new FormData();
         formData.append('file', file);
+        formData.append('batchName', finalBatchName);
+        formData.append('analysisType', analysisType);
         
         const response = await fetch('/api/upload', {
           method: 'POST',
@@ -83,7 +88,7 @@ export function UploadInterface({
 
       // Only proceed with batch creation if at least one file was uploaded
       if (uploadedFiles.length > 0) {
-        onUploadBatch(batchName, analysisType, uploadedFiles);
+        onUploadBatch(finalBatchName, analysisType, uploadedFiles);
       }
     } catch (error) {
       console.error('Upload error:', error);

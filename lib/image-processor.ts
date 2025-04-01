@@ -18,7 +18,7 @@ if (!fs.existsSync(TEMP_DIR)) {
 }
 
 interface ProcessedImage {
-  path: string;
+  buffer: Buffer;
   filename: string;
 }
 
@@ -36,15 +36,9 @@ export async function processImage(
   targetWidth: number = DEFAULT_TARGET_WIDTH,
   targetHeight: number = DEFAULT_TARGET_HEIGHT
 ): Promise<ProcessedImage> {
-  // Generate a unique filename while preserving original name
-  const timestamp = Date.now()
-  const originalName = path.parse(originalFilename).name
-  const filename = `${originalName}.png`
-//   const filename = `${originalName}-${timestamp}.png`
-  const outputPath = path.join(TEMP_DIR, filename)
+  const filename = `${path.parse(originalFilename).name}.jpg`
   
   try {
-    // Get image metadata
     const metadata = await sharp(imageBuffer).metadata()
     
     // Calculate resize dimensions while maintaining aspect ratio
@@ -63,8 +57,8 @@ export async function processImage(
       }
     }
     
-    // Resize and compress the image
-    await sharp(imageBuffer)
+    // Process image and return buffer directly
+    const processedBuffer = await sharp(imageBuffer)
       .resize(resizeWidth, resizeHeight, {
         fit: 'inside',
         withoutEnlargement: true
@@ -81,19 +75,16 @@ export async function processImage(
             background: { r: 255, g: 255, b: 255, alpha: 1 }
           }
         })
-          // Composite the resized image onto the center of the canvas
-          .composite([
-            {
-              input: resizedBuffer,
-              gravity: 'center'
-            }
-          ])
-          .jpeg({ quality: DEFAULT_JPEG_QUALITY })
-          .toFile(outputPath)
+        .composite([{
+          input: resizedBuffer,
+          gravity: 'center'
+        }])
+        .jpeg({ quality: DEFAULT_JPEG_QUALITY })
+        .toBuffer()
       })
-    
+
     return {
-      path: outputPath,
+      buffer: processedBuffer,
       filename
     }
   } catch (error) {
