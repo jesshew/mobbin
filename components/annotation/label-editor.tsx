@@ -29,44 +29,50 @@ export function LabelEditor({
   setEditingLabelText,
   onBoxUpdate
 }: LabelEditorProps) {
+  const handleUpdateAndClose = () => {
+    const updatedBox = { ...box, textLabel: editingLabelText }
+    onBoxUpdate(updatedBox)
+    setEditingLabelId(null)
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleUpdateAndClose()
+    } else if (e.key === "Escape") {
+      setEditingLabelId(null)
+    }
+  }
+
+  const handleMouseEnter = () => {
+    if (editingLabelId !== box.id) {
+      setEditingLabelId(box.id)
+      setEditingLabelText(box.textLabel)
+    }
+  }
+
+  const labelStyles = "bg-blue-500 text-white text-xs px-1 py-0.5 rounded"
+
   return (
     <div
       className="absolute -top-6 left-0 min-w-[60px] max-w-full"
-      onMouseEnter={() => {
-        if (editingLabelId !== box.id) {
-          setEditingLabelId(box.id)
-          setEditingLabelText(box.textLabel)
-        }
-      }}
+      onMouseEnter={handleMouseEnter}
     >
       {editingLabelId === box.id ? (
         <input
           type="text"
           value={editingLabelText}
           onChange={(e) => setEditingLabelText(e.target.value)}
-          onBlur={() => {
-            const updatedBox = { ...box, textLabel: editingLabelText }
-            onBoxUpdate(updatedBox)
-            setEditingLabelId(null)
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              const updatedBox = { ...box, textLabel: editingLabelText }
-              onBoxUpdate(updatedBox)
-              setEditingLabelId(null)
-            } else if (e.key === "Escape") {
-              setEditingLabelId(null)
-            }
-          }}
-          className="bg-blue-500 text-white text-xs px-1 py-0.5 rounded w-full outline-none border border-white"
+          onBlur={handleUpdateAndClose}
+          onKeyDown={handleKeyDown}
+          className={`${labelStyles} w-full outline-none border border-white`}
           autoFocus
           onClick={(e) => e.stopPropagation()}
         />
       ) : (
-        <span className="bg-blue-500 text-white text-xs px-1 py-0.5 rounded pointer-events-auto cursor-text inline-block max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
+        <span className={`${labelStyles} pointer-events-auto cursor-text inline-block max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap`}>
           {box.textLabel}
         </span>
       )}
     </div>
   )
-} 
+}

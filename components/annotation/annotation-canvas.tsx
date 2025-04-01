@@ -75,6 +75,42 @@ export function AnnotationCanvas({
   const { editingLabelId, editingLabelText, setEditingLabelId, setEditingLabelText } = labelEditing
   const { startDragging, startResizing, dragState } = interactionHandlers
 
+  const renderBoundingBox = (box: BoundingBox) => (
+    <div
+      key={box.id}
+      className={`absolute border-2 ${
+        selectedBox?.id === box.id ? "border-primary" : "border-blue-500"
+      } bg-blue-500/10 group hover:bg-blue-500/20`}
+      style={{
+        left: `${box.x * scale}px`,
+        top: `${box.y * scale}px`,
+        width: `${box.width * scale}px`,
+        height: `${box.height * scale}px`,
+        cursor: dragState.isDragging && dragState.originalBox?.id === box.id ? "grabbing" : "grab",
+      }}
+      onClick={(e) => {
+        e.stopPropagation()
+        onSelect(box)
+      }}
+      onMouseDown={(e) => startDragging(e, box)}
+      onTouchStart={(e) => startDragging(e, box)}
+    >
+      <LabelEditor
+        box={box}
+        editingLabelId={editingLabelId}
+        editingLabelText={editingLabelText}
+        setEditingLabelId={setEditingLabelId}
+        setEditingLabelText={setEditingLabelText}
+        onBoxUpdate={onUpdate}
+      />
+      <BoxHandles 
+        box={box} 
+        startResizing={startResizing} 
+        isMobile={isMobile} 
+      />
+    </div>
+  )
+
   return (
     <div
       ref={containerRef}
@@ -97,48 +133,9 @@ export function AnnotationCanvas({
               transformOrigin: "top left",
             }}
           />
-
-          {/* Render bounding boxes */}
-          {boundingBoxes.map((box) => (
-            <div
-              key={box.id}
-              className={`absolute border-2 ${
-                selectedBox?.id === box.id ? "border-primary" : "border-blue-500"
-              } bg-blue-500/10 group hover:bg-blue-500/20`}
-              style={{
-                left: `${box.x * scale}px`,
-                top: `${box.y * scale}px`,
-                width: `${box.width * scale}px`,
-                height: `${box.height * scale}px`,
-                cursor: dragState.isDragging && dragState.originalBox?.id === box.id ? "grabbing" : "grab",
-              }}
-              onClick={(e) => {
-                e.stopPropagation()
-                onSelect(box)
-              }}
-              onMouseDown={(e) => startDragging(e, box)}
-              onTouchStart={(e) => startDragging(e, box)}
-            >
-              {/* Text label with inline editing */}
-              <LabelEditor
-                box={box}
-                editingLabelId={editingLabelId}
-                editingLabelText={editingLabelText}
-                setEditingLabelId={setEditingLabelId}
-                setEditingLabelText={setEditingLabelText}
-                onBoxUpdate={onUpdate}
-              />
-
-              {/* Resize handles - only visible on hover */}
-              <BoxHandles 
-                box={box} 
-                startResizing={startResizing} 
-                isMobile={isMobile} 
-              />
-            </div>
-          ))}
+          {boundingBoxes.map(renderBoundingBox)}
         </div>
       )}
     </div>
   )
-} 
+}

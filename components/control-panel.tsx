@@ -459,7 +459,7 @@ export function ControlPanel({
             <div className="grid grid-cols-2 gap-2 mb-3">
               <Button variant="outline" className="w-full" onClick={onPreviousImage} disabled={!onPreviousImage}>
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Previous Image
+                Prev Image
               </Button>
               <Button variant="outline" className="w-full" onClick={onNextImage} disabled={!onNextImage}>
                 Next Image
