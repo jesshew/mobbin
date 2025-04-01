@@ -175,14 +175,12 @@ export function BatchCard({ batch, isExpanded, onToggle, onImageSelect }: BatchC
 
       {batch.performance && isExpanded && renderPerformanceStats()}
 
-      <div
-        className={`overflow-hidden transition-all duration-300 ${
-          isExpanded ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
-        <Separator />
-        {renderImageGrid()}
-      </div>
+      {isExpanded && (
+        <>
+          <Separator />
+          {renderImageGrid()}
+        </>
+      )}
     </div>
   )
 } 

@@ -15,12 +15,15 @@ export function BatchList({ batches, expandedBatchId, toggleBatch, onImageSelect
       <h2 className="text-xl font-medium mb-4">Batches ({batches.length})</h2>
       <div className="space-y-3">
         {batches.map((batch) => (
-        //   <RevealOnHover
+        //   <div
         //     key={batch.id}
-        //     isVisible={expandedBatchId === batch.id}
-        //     visibleHeight="max-h-[500px]"
-        //     visibleMargin="mt-0"
-        //     duration="duration-300"
+        //     className={`transition-all duration-300 ease-in-out group ${
+        //       expandedBatchId === batch.id 
+        //         ? 'max-h-[500px] opacity-100' 
+        //         : 'max-h-[80px] opacity-90 hover:opacity-100'
+        //     }`}
+        //     onMouseEnter={() => toggleBatch(batch.id)}
+        //     onMouseLeave={() => toggleBatch(batch.id)}
         //   >
             <BatchCard
               batch={batch}
@@ -28,7 +31,7 @@ export function BatchList({ batches, expandedBatchId, toggleBatch, onImageSelect
               onToggle={() => toggleBatch(batch.id)}
               onImageSelect={(imageIndex: number) => onImageSelect(batch.id, imageIndex)}
             />
-        //   </RevealOnHover>
+        //   </div>
         ))}
       </div>
     </div>
