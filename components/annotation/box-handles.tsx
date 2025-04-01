@@ -47,3 +47,4 @@ export function BoxHandles({ box, startResizing, isMobile }: BoxHandlesProps) {
       ))}
     </>
   )
+}
