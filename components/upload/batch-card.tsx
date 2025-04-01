@@ -37,47 +37,50 @@ export function BatchCard({ batch, isExpanded, onToggle, onImageSelect }: BatchC
     }).format(date)
   }
 
+  // Define status badge configurations
+  const STATUS_BADGE_CONFIG: Record<Batch["status"], {
+    icon: React.ReactNode;
+    label: string;
+    className: string;
+  }> = {
+    uploading: {
+      icon: <Loader2 className="h-3 w-3 animate-spin" />,
+      label: "Uploading",
+      className: "bg-blue-50 text-blue-700 border-blue-200"
+    },
+    extracting: {
+      icon: <Zap className="h-3 w-3" />,
+      label: "Extracting UI",
+      className: "bg-amber-50 text-amber-700 border-amber-200"
+    },
+    annotating: {
+      icon: <Pencil className="h-3 w-3" />,
+      label: "Annotating",
+      className: "bg-purple-50 text-purple-700 border-purple-200"
+    },
+    preview: {
+      icon: <Eye className="h-3 w-3" />,
+      label: "Preview Available",
+      className: "bg-green-50 text-green-700 border-green-200"
+    },
+    done: {
+      icon: <CheckCircle className="h-3 w-3" />,
+      label: "Done",
+      className: "bg-green-100 text-green-800 border-green-300"
+    }
+  };
+
   // Get status badge for a batch
   const getStatusBadge = (status: Batch["status"]) => {
-    switch (status) {
-      case "uploading":
-        return (
-          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 flex items-center gap-1">
-            <Loader2 className="h-3 w-3 animate-spin" />
-            <span>Uploading</span>
-          </Badge>
-        )
-      case "extracting":
-        return (
-          <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200 flex items-center gap-1">
-            <Zap className="h-3 w-3" />
-            <span>Extracting UI</span>
-          </Badge>
-        )
-      case "annotating":
-        return (
-          <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200 flex items-center gap-1">
-            <Pencil className="h-3 w-3" />
-            <span>Annotating</span>
-          </Badge>
-        )
-      case "preview":
-        return (
-          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 flex items-center gap-1">
-            <Eye className="h-3 w-3" />
-            <span>Preview Available</span>
-          </Badge>
-        )
-      case "done":
-        return (
-          <Badge variant="outline" className="bg-green-100 text-green-800 border-green-300 flex items-center gap-1">
-            <CheckCircle className="h-3 w-3" />
-            <span>Done</span>
-          </Badge>
-        )
-      default:
-        return null
-    }
+    const config = STATUS_BADGE_CONFIG[status];
+    if (!config) return null;
+
+    return (
+      <Badge variant="outline" className={`${config.className} flex items-center gap-1`}>
+        {config.icon}
+        <span>{config.label}</span>
+      </Badge>
+    );
   }
 
   const renderPerformanceTooltip = () => (

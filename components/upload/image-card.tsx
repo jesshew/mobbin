@@ -11,16 +11,34 @@ interface ImageCardProps {
   showRemoveButton?: boolean
 }
 
-export function ImageCard({ file, index, onRemove, onClick, showRemoveButton = false }: ImageCardProps) {
+export function ImageCard({ 
+  file, 
+  index, 
+  onRemove, 
+  onClick, 
+  showRemoveButton = false 
+}: ImageCardProps) {
+  const imageUrl = URL.createObjectURL(file) || "/placeholder.svg"
+  const isClickable = Boolean(onClick)
+  
+  const cardClassName = `relative group ${
+    isClickable ? 'cursor-pointer hover:shadow-md transition-shadow' : ''
+  }`
+
+  const handleRemoveClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    onRemove?.(index)
+  }
+
   return (
     <Card 
-      className={`relative group ${onClick ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}`}
+      className={cardClassName}
       onClick={onClick}
     >
       <CardContent className="p-2">
         <div className="aspect-square relative overflow-hidden rounded-md mb-2">
           <Image
-            src={URL.createObjectURL(file) || "/placeholder.svg"}
+            src={imageUrl}
             alt={file.name}
             fill
             className="object-cover"
@@ -30,10 +48,7 @@ export function ImageCard({ file, index, onRemove, onClick, showRemoveButton = f
               variant="destructive"
               size="icon"
               className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-              onClick={(e) => {
-                e.stopPropagation()
-                onRemove(index)
-              }}
+              onClick={handleRemoveClick}
             >
               <X className="h-3 w-3" />
             </Button>
@@ -43,4 +58,4 @@ export function ImageCard({ file, index, onRemove, onClick, showRemoveButton = f
       </CardContent>
     </Card>
   )
-} 
+}
