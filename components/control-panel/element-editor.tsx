@@ -12,8 +12,8 @@ interface ElementEditorProps {
   onBoxUpdate: (box: BoundingBox) => void
   onBoxDelete: (id: number) => void
   onBackToList: () => void
-  isMobile: boolean
-  setActiveTab?: (tab: string) => void
+  // isMobile: boolean
+  // setActiveTab?: (tab: string) => void
   editingLabel?: string
   setEditingLabel?: (label: string) => void
 }
@@ -23,8 +23,8 @@ export function ElementEditor({
   onBoxUpdate,
   onBoxDelete,
   onBackToList,
-  isMobile,
-  setActiveTab,
+  // isMobile,
+  // setActiveTab,
   editingLabel,
   setEditingLabel
 }: ElementEditorProps) {
@@ -53,11 +53,11 @@ export function ElementEditor({
   }
 
   const handleBackClick = () => {
-    if (isMobile && setActiveTab) {
-      setActiveTab("elements")
-    } else {
+    // if (isMobile && setActiveTab) {
+    //   setActiveTab("elements")
+    // } else {
       onBackToList()
-    }
+    // }
   }
 
   return (
@@ -67,16 +67,17 @@ export function ElementEditor({
           <h3 className="text-lg font-medium">Edit Element</h3>
           <Button variant="ghost" size="sm" onClick={handleBackClick}>
             <ArrowLeft className="h-4 w-4 mr-1" />
-            {!isMobile && <List className="h-4 w-4 mr-1" />}
-            {isMobile ? "Back" : "Back to List"}
+            <List className="h-4 w-4 mr-1" />
+            Back to List
           </Button>
         </div>
         <p className="text-sm text-muted-foreground">
-          {!isMobile && `Editing "${selectedBox.textLabel}" (${selectedBox.label})`}
+          {`Editing "${selectedBox.textLabel}" (${selectedBox.label})`}
         </p>
       </div>
 
-      <ScrollArea className={isMobile ? "h-[calc(100vh-220px)]" : "flex-1"}>
+      {/* <ScrollArea className={isMobile ? "h-[calc(100vh-220px)]" : "flex-1"}> */}
+      <ScrollArea className={"flex-1"}>
         <div className="p-4 space-y-4">
           <div className="space-y-2">
             <Label htmlFor="element-type">Element Type</Label>
@@ -167,16 +168,16 @@ export function ElementEditor({
             </div>
           </div>
 
-          {isMobile && (
+          {/* {isMobile && (
             <Button className="w-full" variant="outline" onClick={() => onBoxDelete(selectedBox.id)}>
               <Trash2 className="mr-2 h-4 w-4" />
               Delete Element
             </Button>
-          )}
+          )} */}
         </div>
       </ScrollArea>
 
-      {!isMobile && (
+      {/* {!isMobile && ( */}
         <div className="border-t p-4">
           <Button className="w-full mb-3" variant="outline" onClick={() => onBoxDelete(selectedBox.id)}>
             <Trash2 className="mr-2 h-4 w-4" />
@@ -187,7 +188,7 @@ export function ElementEditor({
             Back to Element List
           </Button>
         </div>
-      )}
+      {/* )} */}
     </>
   )
 } 

@@ -1,5 +1,6 @@
 import type { Batch } from "@/app/page"
 import { BatchCard } from "@/components/upload/batch-card"
+import { RevealOnHover } from "@/components/ui/reveal-on-hover"
 
 interface BatchListProps {
   batches: Batch[]
@@ -14,13 +15,20 @@ export function BatchList({ batches, expandedBatchId, toggleBatch, onImageSelect
       <h2 className="text-xl font-medium mb-4">Batches ({batches.length})</h2>
       <div className="space-y-3">
         {batches.map((batch) => (
-          <BatchCard
-            key={batch.id}
-            batch={batch}
-            isExpanded={expandedBatchId === batch.id}
-            onToggle={() => toggleBatch(batch.id)}
-            onImageSelect={(imageIndex: number) => onImageSelect(batch.id, imageIndex)}
-          />
+        //   <RevealOnHover
+        //     key={batch.id}
+        //     isVisible={expandedBatchId === batch.id}
+        //     visibleHeight="max-h-[500px]"
+        //     visibleMargin="mt-0"
+        //     duration="duration-300"
+        //   >
+            <BatchCard
+              batch={batch}
+              isExpanded={expandedBatchId === batch.id}
+              onToggle={() => toggleBatch(batch.id)}
+              onImageSelect={(imageIndex: number) => onImageSelect(batch.id, imageIndex)}
+            />
+        //   </RevealOnHover>
         ))}
       </div>
     </div>

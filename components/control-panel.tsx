@@ -55,25 +55,6 @@ export function ControlPanel({
     totalInferenceTime
   } = useControlPanelState(boundingBoxes, editingLabelState)
 
-  // Group related props
-  const boxControls = {
-    boundingBoxes,
-    selectedBox,
-    onBoxSelect,
-    onBoxUpdate,
-    onBoxDelete,
-    onBoxDeselect
-  }
-
-  const navigation = {
-    onNextImage,
-    onPreviousImage
-  }
-
-  const runtime = {
-    masterPromptRuntime,
-    totalInferenceTime
-  }
 
   const handleElementSelect = (box: BoundingBox) => {
     onBoxSelect(box)
@@ -124,8 +105,8 @@ export function ControlPanel({
               setHoveredBoxId={setHoveredBoxId}
               onBoxSelect={onBoxSelect}
               onBoxDelete={onBoxDelete}
-              isMobile={true}
-              setActiveTab={setActiveTab}
+              // isMobile={true}
+              // setActiveTab={setActiveTab}
             />
           </TabsContent>
 
@@ -136,8 +117,8 @@ export function ControlPanel({
                 onBoxUpdate={onBoxUpdate}
                 onBoxDelete={onBoxDelete}
                 onBackToList={handleBackToList}
-                isMobile={true}
-                setActiveTab={setActiveTab}
+                // isMobile={true}
+                // setActiveTab={setActiveTab}
               />
             ) : (
               <div className="p-4 text-center text-muted-foreground">Select an element to edit its properties</div>
@@ -190,7 +171,7 @@ export function ControlPanel({
             setHoveredBoxId={setHoveredBoxId}
             onBoxSelect={handleElementSelect}
             onBoxDelete={onBoxDelete}
-            isMobile={false}
+            // isMobile={false}
           />
 
           {/* Navigation and Save Controls */}
@@ -210,7 +191,7 @@ export function ControlPanel({
           onBoxUpdate={onBoxUpdate}
           onBoxDelete={onBoxDelete}
           onBackToList={handleBackToList}
-          isMobile={false}
+          // isMobile={false}
         />
       )}
     </div>
