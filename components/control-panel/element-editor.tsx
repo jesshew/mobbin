@@ -1,4 +1,4 @@
-import { ArrowLeft, List, Trash2 } from "lucide-react"
+import { ArrowLeft, List, WandSparkles, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -56,8 +56,8 @@ export function ElementEditor({
           <h3 className="text-lg font-medium">Edit Element</h3>
           <Button variant="ghost" size="sm" onClick={onBackToList}>
             <ArrowLeft className="h-4 w-4 mr-1" />
-            <List className="h-4 w-4 mr-1" />
-            Back to List
+            {/* <List className="h-4 w-4 mr-1" /> */}
+            Back to Element List
           </Button>
         </div>
         <p className="text-sm text-muted-foreground">
@@ -159,9 +159,13 @@ export function ElementEditor({
       </ScrollArea>
 
       <div className="border-t p-4">
-        <Button className="w-full mb-3" variant="outline" onClick={() => onBoxDelete(selectedBox.id)}>
+        {/* <Button className="w-full mb-3" variant="outline" onClick={() => onBoxDelete(selectedBox.id)}>
           <Trash2 className="mr-2 h-4 w-4" />
           Delete Element
+        </Button> */}
+        <Button className="w-full mb-3" variant="outline">
+          <WandSparkles className="mr-2 h-4 w-4" />
+          Regenerate Description and Label
         </Button>
         <Button className="w-full" onClick={onBackToList}>
           <ArrowLeft className="mr-2 h-4 w-4" />

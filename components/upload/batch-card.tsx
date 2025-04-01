@@ -90,8 +90,10 @@ export function BatchCard({ batch, isExpanded, onToggle, onImageSelect }: BatchC
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-6 w-6">
+            <Button variant="ghost" size="icon" className="flex items-center gap-1">
               <BarChart className="h-4 w-4 text-muted-foreground" />
+              <span>Insight</span>
+
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -112,17 +114,17 @@ export function BatchCard({ batch, isExpanded, onToggle, onImageSelect }: BatchC
         <h3 className="font-medium">{batch.name}</h3>
         {getStatusBadge(batch.status)}
       </div>
-      <div className="flex flex-wrap items-center text-sm text-muted-foreground mt-1 gap-4">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center text-sm text-muted-foreground mt-1">
+        <div className="flex items-center gap-2 mr-4">
           <Calendar className="h-4 w-4" />
           {formatDate(batch.timestamp)}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mr-4">
           <FileImage className="h-4 w-4" />
           {batch.images.length} {batch.images.length === 1 ? "image" : "images"}
         </div>
         {batch.analysisType && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mr-4">
             <ClipboardCheck className="h-4 w-4" />
             <span>{batch.analysisType}</span>
           </div>
