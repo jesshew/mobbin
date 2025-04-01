@@ -22,6 +22,10 @@ interface ControlPanelProps {
   onPreviousImage?: () => void
   isMobile?: boolean
   onBoxDeselect: () => void
+  editingLabelState?: {
+    editingLabel: string
+    setEditingLabel: (label: string) => void
+  }
 }
 
 export function ControlPanel({
@@ -36,6 +40,7 @@ export function ControlPanel({
   onPreviousImage,
   isMobile = false,
   onBoxDeselect,
+  editingLabelState,
 }: ControlPanelProps) {
   // Use the custom hook for state management
   const {
@@ -48,7 +53,7 @@ export function ControlPanel({
     view,
     setView,
     totalInferenceTime
-  } = useControlPanelState(boundingBoxes)
+  } = useControlPanelState(boundingBoxes, editingLabelState)
 
   // Group related props
   const boxControls = {

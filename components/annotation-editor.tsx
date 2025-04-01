@@ -105,8 +105,15 @@ export function AnnotationEditor({ image, onBack, onNextImage, onPreviousImage }
   const containerRef = useRef<HTMLDivElement>(document.createElement('div'))
   const imageRef = useRef<HTMLImageElement>(document.createElement('img'))
   
+  // Unified label editing state
   const [editingLabelId, setEditingLabelId] = useState<number | null>(null)
   const [editingLabelText, setEditingLabelText] = useState<string>("")
+
+  // Create a shared editing state object to pass to both components
+  const editingLabelState = {
+    editingLabel: editingLabelText,
+    setEditingLabel: setEditingLabelText
+  }
 
   // Custom hooks
   const { imageUrl, scale } = useImageScale(image, containerRef, imageRef)
@@ -243,6 +250,7 @@ export function AnnotationEditor({ image, onBack, onNextImage, onPreviousImage }
           onPreviousImage={onPreviousImage}
           isMobile={false}
           onBoxDeselect={handleBoxDeselect}
+          editingLabelState={editingLabelState}
         />
       </div>
     </div>

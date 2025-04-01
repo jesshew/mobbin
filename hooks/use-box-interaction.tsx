@@ -259,8 +259,18 @@ export function useBoxInteraction({
   }
 }
 
-export function useControlPanelState(boundingBoxes: BoundingBox[]) {
-  const [editingLabel, setEditingLabel] = useState<string>("")
+export function useControlPanelState(
+  boundingBoxes: BoundingBox[],
+  externalEditingState?: {
+    editingLabel: string;
+    setEditingLabel: (label: string) => void;
+  }
+) {
+  // Use external state if provided, otherwise create local state
+  const [localEditingLabel, setLocalEditingLabel] = useState<string>("")
+  const editingLabel = externalEditingState?.editingLabel ?? localEditingLabel
+  const setEditingLabel = externalEditingState?.setEditingLabel ?? setLocalEditingLabel
+  
   const [activeTab, setActiveTab] = useState<string>("elements")
   const [hoveredBoxId, setHoveredBoxId] = useState<number | null>(null)
   const [view, setView] = useState<"list" | "edit">("list")

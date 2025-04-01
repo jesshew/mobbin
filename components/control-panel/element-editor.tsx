@@ -5,8 +5,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { BoundingBox } from "@/types/annotation"
-
-
+import { useState } from "react"
 
 interface ElementEditorProps {
   selectedBox: BoundingBox
@@ -15,6 +14,8 @@ interface ElementEditorProps {
   onBackToList: () => void
   isMobile: boolean
   setActiveTab?: (tab: string) => void
+  editingLabel?: string
+  setEditingLabel?: (label: string) => void
 }
 
 export function ElementEditor({
@@ -23,14 +24,21 @@ export function ElementEditor({
   onBoxDelete,
   onBackToList,
   isMobile,
-  setActiveTab
+  setActiveTab,
+  editingLabel,
+  setEditingLabel
 }: ElementEditorProps) {
+  const [localEditingLabel, setLocalEditingLabel] = useState(selectedBox.textLabel)
+  const currentEditingLabel = editingLabel ?? localEditingLabel
+  const handleEditingLabelChange = setEditingLabel ?? setLocalEditingLabel
+
   const handleLabelChange = (value: string) => {
     onBoxUpdate({ ...selectedBox, label: value })
   }
 
   const handleTextLabelChange = (value: string) => {
     onBoxUpdate({ ...selectedBox, textLabel: value })
+    handleEditingLabelChange(value)
   }
 
   const handleDescriptionChange = (value: string) => {
@@ -93,7 +101,7 @@ export function ElementEditor({
             <Label htmlFor="text-label">Text Label</Label>
             <Input
               id="text-label"
-              value={selectedBox.textLabel}
+              value={currentEditingLabel}
               onChange={(e) => handleTextLabelChange(e.target.value)}
               placeholder="Enter display text"
             />
