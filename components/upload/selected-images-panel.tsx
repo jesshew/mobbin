@@ -26,7 +26,7 @@ interface SelectedImagesPanelProps {
   batchName: string
   setBatchName: (name: string) => void
   onRemoveFile: (index: number) => void
-  onUploadBatch: (batchName: string, analysisType: string) => void
+  onUploadBatch: (files: File[], batchName: string, analysisType: string) => void
   analysisType: string
   setAnalysisType: (type: string) => void
 }
@@ -41,14 +41,23 @@ export function SelectedImagesPanel({
   setAnalysisType,
 }: SelectedImagesPanelProps) {
   const [showToast, setShowToast] = React.useState(false);
+  const [isUploading, setIsUploading] = React.useState(false);
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (!analysisType) {
       setShowToast(true);
       return;
     }
     
-    onUploadBatch(batchName, analysisType);
+    setIsUploading(true);
+    try {
+      await onUploadBatch(selectedFiles, batchName, analysisType);
+    } catch (error) {
+      console.error('Upload failed:', error);
+      // You might want to show an error toast here
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -89,9 +98,22 @@ export function SelectedImagesPanel({
               </SelectContent>
             </Select>
             
-            <Button className="w-full sm:w-auto" onClick={handleUpload}>
-              <Upload className="mr-2 h-4 w-4" />
-              Upload Batch
+            <Button 
+              className="w-full sm:w-auto" 
+              onClick={handleUpload} 
+              disabled={isUploading}
+            >
+              {isUploading ? (
+                <>
+                  <span className="animate-spin mr-2">⏳</span>
+                  Uploading...
+                </>
+              ) : (
+                <>
+                  <Upload className="mr-2 h-4 w-4" />
+                  Upload Batch
+                </>
+              )}
             </Button>
           </div>
         </div>

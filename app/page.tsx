@@ -33,17 +33,14 @@ export default function AnnotationTool() {
   }
 
   // Handle batch upload
-  const handleUploadBatch = (batchName: string, analysisType: string) => {
-    // In a real app, this would make API calls to upload files
-    // For now, we'll just simulate the upload by creating a batch
+  const handleUploadBatch = (batchName: string, analysisType: string, uploadedFiles: File[]) => {
     const newBatchId = Date.now().toString()
 
-    // Create initial batch with 'uploading' status
     const newBatch: Batch = {
       id: newBatchId,
       name: batchName || `Batch ${batches.length + 1}`,
       timestamp: new Date(),
-      images: [...selectedFiles],
+      images: uploadedFiles,
       status: "uploading",
       analysisType: analysisType
     }
@@ -51,7 +48,6 @@ export default function AnnotationTool() {
     setBatches([...batches, newBatch])
     setSelectedFiles([]) // Clear selected files after upload
 
-    // Simulate status changes
     simulateBatchProcessing(newBatchId)
   }
 

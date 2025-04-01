@@ -12,7 +12,7 @@ interface UploadInterfaceProps {
   selectedFiles: File[]
   batches: Batch[]
   onFilesSelected: (files: File[]) => void
-  onUploadBatch: (batchName: string, analysisType: string) => void
+  onUploadBatch: (batchName: string, analysisType: string, uploadedFiles: File[]) => void
   onImageSelect: (batchId: string, imageIndex: number) => void
 }
 
@@ -57,28 +57,39 @@ export function UploadInterface({
     setExpandedBatchId(expandedBatchId === batchId ? null : batchId)
   }
 
-  // const handleUploadBatch = (batchName: string, analysisType: string) => {
-  //   console.log("handleUploadBatch", batchName, analysisType)
-  //   const newBatchId = Date.now().toString()
+  const uploadFiles = async (files: File[], batchName: string, analysisType: string) => {
+    try {
+      const uploadedFiles: File[] = [];
+      
+      // Upload each file individually
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
 
-  //   // Create initial batch with 'uploading' status
-  //   const newBatch: Batch = {
-  //     id: newBatchId,
-  //     name: batchName || `Batch ${batches.length + 1}`,
-  //     timestamp: new Date(),
-  //     images: [...selectedFiles],
-  //     status: "uploading",
-  //     analysisType: analysisType // Add analysis type to batch
-  //   }
+        if (!response.ok) {
+          throw new Error(`Upload failed for ${file.name}`);
+        }
 
-  //   onFilesSelected([...selectedFiles, ...newBatch.images])
-  //   setIsDragging(false)
-  //   setBatchName(newBatch.name)
-  //   setAnalysisType(analysisType)
+        const result = await response.json();
+        if (result.success) {
+          uploadedFiles.push(file);
+        }
+      }
 
-  //   // Simulate status changes
-  //   onUploadBatch(newBatch.name, analysisType)
-  // }
+      // Only proceed with batch creation if at least one file was uploaded
+      if (uploadedFiles.length > 0) {
+        onUploadBatch(batchName, analysisType, uploadedFiles);
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      // You might want to show an error toast here
+    }
+  };
 
   return (
     <div className="container mx-auto py-6 md:py-10 px-4">
@@ -97,7 +108,7 @@ export function UploadInterface({
             batchName={batchName}
             setBatchName={setBatchName}
             onRemoveFile={removeFile}
-            onUploadBatch={(batchName, analysisType) => onUploadBatch(batchName, analysisType)}
+            onUploadBatch={uploadFiles}
             analysisType={analysisType}
             setAnalysisType={setAnalysisType}
           />
