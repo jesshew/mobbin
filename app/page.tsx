@@ -11,6 +11,7 @@ export interface Batch {
   timestamp: Date
   images: File[]
   status: "uploading" | "extracting" | "annotating" | "preview" | "done"
+  analysisType: string
   performance?: {
     masterPromptRuntime: number // in seconds
     totalInferenceTime: number // in seconds
@@ -32,7 +33,7 @@ export default function AnnotationTool() {
   }
 
   // Handle batch upload
-  const handleUploadBatch = (batchName: string) => {
+  const handleUploadBatch = (batchName: string, analysisType: string) => {
     // In a real app, this would make API calls to upload files
     // For now, we'll just simulate the upload by creating a batch
     const newBatchId = Date.now().toString()
@@ -44,6 +45,7 @@ export default function AnnotationTool() {
       timestamp: new Date(),
       images: [...selectedFiles],
       status: "uploading",
+      analysisType: analysisType
     }
 
     setBatches([...batches, newBatch])

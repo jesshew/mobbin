@@ -9,7 +9,12 @@ interface BatchListProps {
   onImageSelect: (batchId: string, imageIndex: number) => void
 }
 
-export function BatchList({ batches, expandedBatchId, toggleBatch, onImageSelect }: BatchListProps) {
+export function BatchList({ 
+  batches, 
+  expandedBatchId, 
+  toggleBatch, 
+  onImageSelect,
+}: BatchListProps) {
   return (
     <div className="mt-4">
       <h2 className="text-xl font-medium mb-4">Batches ({batches.length})</h2>

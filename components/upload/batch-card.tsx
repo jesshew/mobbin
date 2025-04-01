@@ -8,7 +8,8 @@ import {
   Zap,
   Pencil,
   Eye,
-  CheckCircle
+  CheckCircle,
+  ClipboardCheck
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -23,6 +24,7 @@ interface BatchCardProps {
   isExpanded: boolean
   onToggle: () => void
   onImageSelect: (imageIndex: number) => void
+
 }
 
 export function BatchCard({ batch, isExpanded, onToggle, onImageSelect }: BatchCardProps) {
@@ -110,15 +112,21 @@ export function BatchCard({ batch, isExpanded, onToggle, onImageSelect }: BatchC
         <h3 className="font-medium">{batch.name}</h3>
         {getStatusBadge(batch.status)}
       </div>
-      <div className="flex flex-wrap items-center text-sm text-muted-foreground mt-1 gap-y-1">
-        <div className="flex items-center mr-4">
-          <Calendar className="mr-2 h-4 w-4" />
+      <div className="flex flex-wrap items-center text-sm text-muted-foreground mt-1 gap-4">
+        <div className="flex items-center gap-2">
+          <Calendar className="h-4 w-4" />
           {formatDate(batch.timestamp)}
         </div>
-        <div className="flex items-center">
-          <FileImage className="mr-2 h-4 w-4" />
+        <div className="flex items-center gap-2">
+          <FileImage className="h-4 w-4" />
           {batch.images.length} {batch.images.length === 1 ? "image" : "images"}
         </div>
+        {batch.analysisType && (
+          <div className="flex items-center gap-2">
+            <ClipboardCheck className="h-4 w-4" />
+            <span>{batch.analysisType}</span>
+          </div>
+        )}
         {batch.performance && renderPerformanceTooltip()}
       </div>
     </div>

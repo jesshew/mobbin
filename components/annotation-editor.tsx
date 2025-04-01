@@ -165,7 +165,7 @@ export function AnnotationEditor({ image, onBack, onNextImage, onPreviousImage }
   return (
     <div className="flex h-screen min-w-[800px]">
       {/* Main annotation area - fixed width and height */}
-      <div className="w-[1000px] h-[800px] flex flex-col">
+      <div className="w-[1000px] h-screen flex flex-col">
         <AnnotationHeader 
           imageName={image.name}
           onBack={onBack}

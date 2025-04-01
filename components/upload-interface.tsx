@@ -12,7 +12,7 @@ interface UploadInterfaceProps {
   selectedFiles: File[]
   batches: Batch[]
   onFilesSelected: (files: File[]) => void
-  onUploadBatch: (batchName: string) => void
+  onUploadBatch: (batchName: string, analysisType: string) => void
   onImageSelect: (batchId: string, imageIndex: number) => void
 }
 
@@ -27,6 +27,8 @@ export function UploadInterface({
   const [batchName, setBatchName] = useState("")
   const [expandedBatchId, setExpandedBatchId] = useState<string | null>(null)
   const isMobile = useIsMobile()
+  const [analysisType, setAnalysisType] = useState("")
+  const [showToast, setShowToast] = useState(false)
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -51,16 +53,32 @@ export function UploadInterface({
     onFilesSelected(newFiles)
   }
 
-  const handleUpload = () => {
-    if (selectedFiles.length > 0) {
-      onUploadBatch(batchName)
-      setBatchName("")
-    }
-  }
-
   const toggleBatch = (batchId: string) => {
     setExpandedBatchId(expandedBatchId === batchId ? null : batchId)
   }
+
+  // const handleUploadBatch = (batchName: string, analysisType: string) => {
+  //   console.log("handleUploadBatch", batchName, analysisType)
+  //   const newBatchId = Date.now().toString()
+
+  //   // Create initial batch with 'uploading' status
+  //   const newBatch: Batch = {
+  //     id: newBatchId,
+  //     name: batchName || `Batch ${batches.length + 1}`,
+  //     timestamp: new Date(),
+  //     images: [...selectedFiles],
+  //     status: "uploading",
+  //     analysisType: analysisType // Add analysis type to batch
+  //   }
+
+  //   onFilesSelected([...selectedFiles, ...newBatch.images])
+  //   setIsDragging(false)
+  //   setBatchName(newBatch.name)
+  //   setAnalysisType(analysisType)
+
+  //   // Simulate status changes
+  //   onUploadBatch(newBatch.name, analysisType)
+  // }
 
   return (
     <div className="container mx-auto py-6 md:py-10 px-4">
@@ -79,7 +97,9 @@ export function UploadInterface({
             batchName={batchName}
             setBatchName={setBatchName}
             onRemoveFile={removeFile}
-            onUploadBatch={handleUpload}
+            onUploadBatch={(batchName, analysisType) => onUploadBatch(batchName, analysisType)}
+            analysisType={analysisType}
+            setAnalysisType={setAnalysisType}
           />
         )}
 

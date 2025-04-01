@@ -106,24 +106,32 @@ export function AnnotationCanvas({
       ref={containerRef}
       className="relative mx-auto bg-white shadow-md"
       style={{
-        maxWidth: "100%",
-        height: "auto",
-        overflow: "auto",
+        width: "100%",
+        height: "90vh",
+        overflow: "hidden",
       }}
     >
       {imageUrl && (
-        <div className="relative">
+        <div className="relative h-full">
           <img
             ref={imageRef}
             src={imageUrl || "/placeholder.svg"}
             alt="Annotation canvas"
-            className="max-w-full h-auto"
+            className="w-full h-full object-contain"
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
+          />
+          <div 
+            className="absolute top-0 left-0 w-full h-full"
             style={{
               transform: `scale(${scale})`,
               transformOrigin: "top left",
             }}
-          />
-          {boundingBoxes.map(renderBoundingBox)}
+          >
+            {boundingBoxes.map(renderBoundingBox)}
+          </div>
         </div>
       )}
     </div>
