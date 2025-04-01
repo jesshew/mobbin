@@ -7,6 +7,8 @@ import { useIsMobile } from "@/hooks/use-mobile"
 import { DropzoneArea } from "@/components/upload/dropzone-area"
 import { SelectedImagesPanel } from "@/components/upload/selected-images-panel"
 import { BatchList } from "@/components/upload/batch-list"
+import { Toast, ToastProvider, ToastViewport, ToastTitle, ToastDescription } from "@/components/ui/toast"
+
 
 interface UploadInterfaceProps {
   selectedFiles: File[]
@@ -62,37 +64,36 @@ export function UploadInterface({
       // Generate default batch name if empty
       const finalBatchName = batchName.trim() || `Batch ${batches.length + 1}`;
       
-      const uploadedFiles: File[] = [];
-      
-      // Upload each file individually
-      for (const file of files) {
-        const formData = new FormData();
+      // Create a single FormData for all files
+      const formData = new FormData();
+      files.forEach(file => {
         formData.append('file', file);
-        formData.append('batchName', finalBatchName);
-        formData.append('analysisType', analysisType);
-        
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-        });
+      });
+      formData.append('batchName', finalBatchName);
+      formData.append('analysisType', analysisType);
+      
+      // Single API call for all files
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
 
-        if (!response.ok) {
-          throw new Error(`Upload failed for ${file.name}`);
-        }
-
-        const result = await response.json();
-        if (result.success) {
-          uploadedFiles.push(file);
-        }
+      if (!response.ok) {
+        throw new Error('Upload failed');
       }
 
-      // Only proceed with batch creation if at least one file was uploaded
-      if (uploadedFiles.length > 0) {
-        onUploadBatch(finalBatchName, analysisType, uploadedFiles);
+      const result = await response.json();
+      if (result.success) {
+        onUploadBatch(finalBatchName, analysisType, files);
       }
     } catch (error) {
       console.error('Upload error:', error);
-      // You might want to show an error toast here
+      <Toast variant="default" onOpenChange={setShowToast}>
+        <ToastTitle>Upload failed</ToastTitle>
+        <ToastDescription>
+          There was an error uploading your files. Please try again.
+        </ToastDescription>
+      </Toast>
     }
   };
 

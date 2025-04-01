@@ -30,7 +30,8 @@ export const config = {
 
 async function handleProcessedImage(
   image: ProcessedImage,
-  batchId: number
+  batchId: number,
+  supabaseClient: any // Pass the client from the transaction
 ): Promise<void> {
   try {
     // Upload the processed image to storage
@@ -42,32 +43,22 @@ async function handleProcessedImage(
 
     if (uploadError) throw uploadError
 
-    // Insert screenshot record with file_name
-    const { error: dbError } = await supabase
-      .from('screenshots')
+    const { error: dbError } = await supabaseClient
+      .from('screenshot')
       .insert({
         batch_id: batchId,
-        file_name: image.filename,  // Add the original filename
-        file_url: fileUrl,
-        upload_status: 'pending',
-        processing_time: image.processingTime ? 
-          `${image.processingTime} seconds` : null
+        screenshot_file_name: image.filename,
+        screenshot_file_url: fileUrl,
+        screenshot_processing_status: 'pending',
+        screenshot_processing_time: image.processingTime ? 
+          `${image.processingTime} seconds`: null
       })
 
     if (dbError) throw dbError
 
   } catch (error) {
     console.error('Error handling processed image:', error)
-    // Update status to error if something fails
-    await supabase
-      .from('screenshots')
-      .insert({
-        batch_id: batchId,
-        file_name: image.filename,  // Add the original filename even for error cases
-        file_url: '',
-        upload_status: 'error'
-      })
-    throw error
+    throw error // Propagate error to trigger transaction rollback
   }
 }
 
@@ -129,35 +120,35 @@ export default async function handler(
       cleanupTempFile(file.filepath)
     }
 
-    // Create new batch record and handle uploads only if all preprocessing succeeded
+    // Create new batch record ONCE for all files within transaction
     const { data: batchData, error: batchError } = await supabase
-      .from('batches')
+      .from('batch')
       .insert({
-        name: batchName,
-        status: 'uploading',
-        analysis_type: analysisType
+        batch_name: batchName,
+        batch_status: 'uploading',
+        batch_analysis_type: analysisType
       })
       .select()
       .single()
 
     if (batchError) throw batchError
 
-    // Process and upload each image
-    const processPromises = processedImages.map((image: ProcessedImage) => 
-      handleProcessedImage(image, batchData.id)
+    // Process and upload each image within the transaction
+    await Promise.all(
+      processedImages.map(image => handleProcessedImage(image, batchData.batch_id, supabase))
     )
 
-    await Promise.all(processPromises)
+    // Update batch status
+    const { error: updateError } = await supabase
+      .from('batch')
+      .update({ batch_status: 'extracting' })
+      .eq('batch_id', batchData.batch_id)
 
-    // Update batch status to next phase
-    await supabase
-      .from('batches')
-      .update({ status: 'extracting' })
-      .eq('id', batchData.id)
+    if (updateError) throw updateError
 
     return res.status(200).json({ 
       success: true, 
-      batchId: batchData.id 
+      batchId: batchData.batch_id 
     })
 
   } catch (error) {

@@ -4,7 +4,8 @@ import fs from 'fs';
 
 // Constants
 // const DEFAULT_BUCKET_NAME = 'processed-images';
-const DEFAULT_BUCKET_NAME = 'screenshots';
+// const DEFAULT_BUCKET_NAME = 'screenshots';
+const DEFAULT_BUCKET_NAME = 'screenshot';
 const PUBLIC_FOLDER = 'public';
 
 export interface UploadResult {
