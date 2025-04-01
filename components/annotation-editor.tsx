@@ -112,8 +112,8 @@ export function AnnotationEditor({ image, onBack, onNextImage, onPreviousImage }
   const [isPanelCollapsed, setIsPanelCollapsed] = useState(false)
   // const isMobile = useIsMobile()  // Commented out mobile check
   
-  const containerRef = useRef<HTMLDivElement>(null)
-  const imageRef = useRef<HTMLImageElement>(null)
+  const containerRef = useRef<HTMLDivElement>(document.createElement('div'))
+  const imageRef = useRef<HTMLImageElement>(document.createElement('img'))
   
   const [editingLabelId, setEditingLabelId] = useState<number | null>(null)
   const [editingLabelText, setEditingLabelText] = useState<string>("")
