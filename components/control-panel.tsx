@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import { Trash2, Eye, Clock, Save, ArrowLeft, ArrowRight, Download } from "lucide-react"
+import { Trash2, Eye, Clock, Save, ArrowLeft, ArrowRight, Download, List } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Input } from "@/components/ui/input"
@@ -52,6 +52,7 @@ export function ControlPanel({
   const [editingLabel, setEditingLabel] = useState<string>("")
   const [activeTab, setActiveTab] = useState<string>("elements")
   const [hoveredBoxId, setHoveredBoxId] = useState<number | null>(null)
+  const [view, setView] = useState<"list" | "edit">("list")
 
   // Calculate total inference time
   const totalInferenceTime = useMemo(() => {
@@ -104,6 +105,16 @@ export function ControlPanel({
     linkElement.click()
   }
 
+  const handleElementSelect = (box: BoundingBox) => {
+    onBoxSelect(box)
+    setView("edit")
+  }
+
+  const handleBackToList = () => {
+    onBoxDeselect()
+    setView("list")
+  }
+
   // Mobile view uses tabs
   if (isMobile) {
     return (
@@ -127,7 +138,7 @@ export function ControlPanel({
                       selectedBox?.id === box.id ? "border-primary" : "border-border"
                     }`}
                     onClick={() => {
-                      onBoxSelect(box)
+                      handleElementSelect(box)
                       setActiveTab("editor")
                     }}
                   >
@@ -141,7 +152,7 @@ export function ControlPanel({
                             className="h-7 w-7"
                             onClick={(e) => {
                               e.stopPropagation()
-                              onBoxSelect(box)
+                              handleElementSelect(box)
                               setActiveTab("editor")
                             }}
                           >
@@ -347,234 +358,248 @@ export function ControlPanel({
     )
   }
 
-  // Desktop view
+  // Desktop view - now with separate list and edit views
   return (
     <div className="flex flex-col h-full">
-      {/* Performance Summary Section */}
-      <div className="p-4 border-b">
-        <h3 className="text-lg font-medium">Performance Summary</h3>
-        <div className="mt-2 space-y-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center text-sm">
-              <Clock className="h-4 w-4 mr-1.5 text-muted-foreground" />
-              <span>Master Prompt Runtime:</span>
-            </div>
-            <span className="font-medium">{masterPromptRuntime.toFixed(1)}s</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center text-sm">
-              <Clock className="h-4 w-4 mr-1.5 text-muted-foreground" />
-              <span>Total Inference Time:</span>
-            </div>
-            <span className="font-medium">{totalInferenceTime.toFixed(1)}s</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Elements List Section */}
-      <div className="p-4 border-b">
-        <h3 className="text-lg font-medium">Detected Elements</h3>
-        <p className="text-sm text-muted-foreground">{boundingBoxes.length} elements found</p>
-      </div>
-
-      <ScrollArea className="flex-1">
-        <div className="p-4 space-y-2">
-          {boundingBoxes.map((box) => (
-            <div
-              key={box.id}
-              className={`rounded-md border transition-all duration-200 overflow-hidden ${
-                selectedBox?.id === box.id
-                  ? "border-primary"
-                  : hoveredBoxId === box.id
-                    ? "border-primary/50"
-                    : "border-border"
-              }`}
-              onMouseEnter={() => setHoveredBoxId(box.id)}
-              onMouseLeave={() => setHoveredBoxId(null)}
-              onClick={() => onBoxSelect(box)}
-            >
-              <div className="p-3">
-                <div className="flex items-center justify-between">
-                  <div className="font-medium truncate">{box.textLabel}</div>
-                  {(hoveredBoxId === box.id || selectedBox?.id === box.id) && (
-                    <div className="flex gap-1 ml-2">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          onBoxSelect(box)
-                        }}
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7 text-destructive"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          onBoxDelete(box.id)
-                        }}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  )}
+      {/* List View */}
+      {view === "list" && (
+        <>
+          {/* Performance Summary Section */}
+          <div className="p-4 border-b">
+            <h3 className="text-lg font-medium">Performance Summary</h3>
+            <div className="mt-2 space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center text-sm">
+                  <Clock className="h-4 w-4 mr-1.5 text-muted-foreground" />
+                  <span>Master Prompt Runtime:</span>
                 </div>
-
-                <div
-                  className={`overflow-hidden transition-all duration-200 ${
-                    hoveredBoxId === box.id || selectedBox?.id === box.id
-                      ? "max-h-20 mt-2 opacity-100"
-                      : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <div className="text-xs text-muted-foreground">{box.label}</div>
-                  <div className="text-xs text-muted-foreground mt-1">
-                    x: {box.x}, y: {box.y}, w: {box.width}, h: {box.height}
-                  </div>
-                  <div className="text-xs flex items-center mt-1 text-muted-foreground">
-                    <Clock className="h-3 w-3 mr-1" />
-                    Inference Time: {box.inferenceTime.toFixed(2)}s
-                  </div>
+                <span className="font-medium">{masterPromptRuntime.toFixed(1)}s</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center text-sm">
+                  <Clock className="h-4 w-4 mr-1.5 text-muted-foreground" />
+                  <span>Total Inference Time:</span>
                 </div>
+                <span className="font-medium">{totalInferenceTime.toFixed(1)}s</span>
               </div>
             </div>
-          ))}
-        </div>
-      </ScrollArea>
+          </div>
 
-      {selectedBox && (
-        <div className="border-t p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-medium">Edit Element</h3>
-            <Button variant="ghost" size="sm" onClick={onBoxDeselect}>
-              <ArrowLeft className="h-4 w-4 mr-1" />
-              Back to List
+          {/* Elements List Section */}
+          <div className="p-4 border-b">
+            <h3 className="text-lg font-medium">Detected Elements</h3>
+            <p className="text-sm text-muted-foreground">{boundingBoxes.length} elements found</p>
+          </div>
+
+          <ScrollArea className="flex-1">
+            <div className="p-4 space-y-2">
+              {boundingBoxes.map((box) => (
+                <div
+                  key={box.id}
+                  className={`rounded-md border transition-all duration-200 overflow-hidden ${
+                    hoveredBoxId === box.id ? "border-primary/50" : "border-border"
+                  }`}
+                  onMouseEnter={() => setHoveredBoxId(box.id)}
+                  onMouseLeave={() => setHoveredBoxId(null)}
+                  onClick={() => handleElementSelect(box)}
+                >
+                  <div className="p-3">
+                    <div className="flex items-center justify-between">
+                      <div className="font-medium truncate">{box.textLabel}</div>
+                      {hoveredBoxId === box.id && (
+                        <div className="flex gap-1 ml-2">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handleElementSelect(box)
+                            }}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7 text-destructive"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              onBoxDelete(box.id)
+                            }}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+
+                    <div
+                      className={`overflow-hidden transition-all duration-200 ${
+                        hoveredBoxId === box.id ? "max-h-20 mt-2 opacity-100" : "max-h-0 opacity-0"
+                      }`}
+                    >
+                      <div className="text-xs text-muted-foreground">{box.label}</div>
+                      <div className="text-xs text-muted-foreground mt-1">
+                        x: {box.x}, y: {box.y}, w: {box.width}, h: {box.height}
+                      </div>
+                      <div className="text-xs flex items-center mt-1 text-muted-foreground">
+                        <Clock className="h-3 w-3 mr-1" />
+                        Inference Time: {box.inferenceTime.toFixed(2)}s
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
+
+          {/* Navigation and Save Controls */}
+          <div className="border-t p-4">
+            <div className="grid grid-cols-2 gap-2 mb-3">
+              <Button variant="outline" className="w-full" onClick={onPreviousImage} disabled={!onPreviousImage}>
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Previous Image
+              </Button>
+              <Button variant="outline" className="w-full" onClick={onNextImage} disabled={!onNextImage}>
+                Next Image
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+            <Button className="w-full mb-2" onClick={onSave}>
+              <Save className="mr-2 h-4 w-4" />
+              Save Changes
+            </Button>
+            <Button className="w-full" variant="secondary" onClick={handleExportAnnotations}>
+              <Download className="mr-2 h-4 w-4" />
+              Export Annotations
             </Button>
           </div>
+        </>
+      )}
 
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="element-type">Element Type</Label>
-              <Select value={selectedBox.label} onValueChange={handleLabelChange}>
-                <SelectTrigger id="element-type">
-                  <SelectValue placeholder="Select element type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Button">Button</SelectItem>
-                  <SelectItem value="Tab Bar">Tab Bar</SelectItem>
-                  <SelectItem value="Text Field">Text Field</SelectItem>
-                  <SelectItem value="Checkbox">Checkbox</SelectItem>
-                  <SelectItem value="Dropdown">Dropdown</SelectItem>
-                  <SelectItem value="Image">Image</SelectItem>
-                  <SelectItem value="Icon">Icon</SelectItem>
-                  <SelectItem value="Label">Label</SelectItem>
-                </SelectContent>
-              </Select>
+      {/* Edit View */}
+      {view === "edit" && selectedBox && (
+        <div className="flex flex-col h-full">
+          <div className="p-4 border-b">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-lg font-medium">Edit Element</h3>
+              <Button variant="ghost" size="sm" onClick={handleBackToList}>
+                <ArrowLeft className="h-4 w-4 mr-1" />
+                <List className="h-4 w-4 mr-1" />
+                Back to List
+              </Button>
             </div>
+            <p className="text-sm text-muted-foreground">
+              Editing "{selectedBox.textLabel}" ({selectedBox.label})
+            </p>
+          </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="text-label">Text Label</Label>
-              <Input
-                id="text-label"
-                value={selectedBox.textLabel}
-                onChange={(e) => handleTextLabelChange(e.target.value)}
-                placeholder="Enter display text"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
-              <Input
-                id="description"
-                value={selectedBox.description}
-                onChange={(e) => handleDescriptionChange(e.target.value)}
-                placeholder="Enter description"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="inference-time">Inference Time</Label>
-              <Input
-                id="inference-time"
-                value={`${selectedBox.inferenceTime.toFixed(2)}s`}
-                readOnly
-                disabled
-                className="bg-muted"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-2">
+          <ScrollArea className="flex-1">
+            <div className="p-4 space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="x-coord">X Position</Label>
+                <Label htmlFor="element-type">Element Type</Label>
+                <Select value={selectedBox.label} onValueChange={handleLabelChange}>
+                  <SelectTrigger id="element-type">
+                    <SelectValue placeholder="Select element type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Button">Button</SelectItem>
+                    <SelectItem value="Tab Bar">Tab Bar</SelectItem>
+                    <SelectItem value="Text Field">Text Field</SelectItem>
+                    <SelectItem value="Checkbox">Checkbox</SelectItem>
+                    <SelectItem value="Dropdown">Dropdown</SelectItem>
+                    <SelectItem value="Image">Image</SelectItem>
+                    <SelectItem value="Icon">Icon</SelectItem>
+                    <SelectItem value="Label">Label</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="text-label">Text Label</Label>
                 <Input
-                  id="x-coord"
-                  type="number"
-                  value={selectedBox.x}
-                  onChange={(e) => handleCoordinateChange("x", e.target.value)}
+                  id="text-label"
+                  value={selectedBox.textLabel}
+                  onChange={(e) => handleTextLabelChange(e.target.value)}
+                  placeholder="Enter display text"
                 />
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="y-coord">Y Position</Label>
+                <Label htmlFor="description">Description</Label>
                 <Input
-                  id="y-coord"
-                  type="number"
-                  value={selectedBox.y}
-                  onChange={(e) => handleCoordinateChange("y", e.target.value)}
+                  id="description"
+                  value={selectedBox.description}
+                  onChange={(e) => handleDescriptionChange(e.target.value)}
+                  placeholder="Enter description"
                 />
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="width">Width</Label>
+                <Label htmlFor="inference-time">Inference Time</Label>
                 <Input
-                  id="width"
-                  type="number"
-                  value={selectedBox.width}
-                  onChange={(e) => handleCoordinateChange("width", e.target.value)}
+                  id="inference-time"
+                  value={`${selectedBox.inferenceTime.toFixed(2)}s`}
+                  readOnly
+                  disabled
+                  className="bg-muted"
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="height">Height</Label>
-                <Input
-                  id="height"
-                  type="number"
-                  value={selectedBox.height}
-                  onChange={(e) => handleCoordinateChange("height", e.target.value)}
-                />
+
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-2">
+                  <Label htmlFor="x-coord">X Position</Label>
+                  <Input
+                    id="x-coord"
+                    type="number"
+                    value={selectedBox.x}
+                    onChange={(e) => handleCoordinateChange("x", e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="y-coord">Y Position</Label>
+                  <Input
+                    id="y-coord"
+                    type="number"
+                    value={selectedBox.y}
+                    onChange={(e) => handleCoordinateChange("y", e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="width">Width</Label>
+                  <Input
+                    id="width"
+                    type="number"
+                    value={selectedBox.width}
+                    onChange={(e) => handleCoordinateChange("width", e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="height">Height</Label>
+                  <Input
+                    id="height"
+                    type="number"
+                    value={selectedBox.height}
+                    onChange={(e) => handleCoordinateChange("height", e.target.value)}
+                  />
+                </div>
               </div>
             </div>
+          </ScrollArea>
 
-            <Button className="w-full" variant="outline" onClick={() => onBoxDelete(selectedBox.id)}>
+          <div className="border-t p-4">
+            <Button className="w-full mb-3" variant="outline" onClick={() => onBoxDelete(selectedBox.id)}>
               <Trash2 className="mr-2 h-4 w-4" />
               Delete Element
+            </Button>
+            <Button className="w-full" onClick={handleBackToList}>
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Element List
             </Button>
           </div>
         </div>
       )}
-
-      {/* Navigation and Save Controls */}
-      <div className="border-t p-4">
-        <div className="grid grid-cols-2 gap-2 mb-3">
-          <Button variant="outline" className="w-full" onClick={onPreviousImage} disabled={!onPreviousImage}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Previous Image
-          </Button>
-          <Button variant="outline" className="w-full" onClick={onNextImage} disabled={!onNextImage}>
-            Next Image
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-        <Button className="w-full mb-2" onClick={onSave}>
-          <Save className="mr-2 h-4 w-4" />
-          Save Changes
-        </Button>
-        <Button className="w-full" variant="secondary" onClick={handleExportAnnotations}>
-          <Download className="mr-2 h-4 w-4" />
-          Export Annotations
-        </Button>
-      </div>
     </div>
   )
 }
