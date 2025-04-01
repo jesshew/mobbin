@@ -1,4 +1,5 @@
 import React from "react"
+import { BoundingBox } from "@/types/annotation"
 
 interface BoxHandlesProps {
   box: BoundingBox
@@ -6,17 +7,6 @@ interface BoxHandlesProps {
   isMobile: boolean
 }
 
-interface BoundingBox {
-  id: number
-  label: string
-  textLabel: string
-  description: string
-  x: number
-  y: number
-  width: number
-  height: number
-  inferenceTime: number
-}
 
 export function BoxHandles({ box, startResizing, isMobile }: BoxHandlesProps) {
   const handleSize = isMobile ? "16px" : "12px"

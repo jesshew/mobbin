@@ -1,18 +1,7 @@
 import React from "react"
 import { LabelEditor } from "./label-editor"
 import { BoxHandles } from "./box-handles"
-
-interface BoundingBox {
-  id: number
-  label: string
-  textLabel: string
-  description: string
-  x: number
-  y: number
-  width: number
-  height: number
-  inferenceTime: number
-}
+import { BoundingBox } from "@/types/annotation"
 
 interface ImageState {
   imageUrl: string

@@ -1,4 +1,6 @@
-import { useState, useEffect, RefObject } from "react"
+import { useState, useEffect, RefObject, useMemo } from "react"
+import { BoundingBox } from "@/types/annotation"
+
 
 type DragState = {
   isDragging: boolean
@@ -13,18 +15,6 @@ type ResizeState = {
   startX: number
   startY: number
   originalBox: BoundingBox | null
-}
-
-interface BoundingBox {
-  id: number
-  label: string
-  textLabel: string
-  description: string
-  x: number
-  y: number
-  width: number
-  height: number
-  inferenceTime: number
 }
 
 interface UseBoxInteractionProps {
@@ -266,5 +256,29 @@ export function useBoxInteraction({
     resizeState,
     startDragging,
     startResizing
+  }
+}
+
+export function useControlPanelState(boundingBoxes: BoundingBox[]) {
+  const [editingLabel, setEditingLabel] = useState<string>("")
+  const [activeTab, setActiveTab] = useState<string>("elements")
+  const [hoveredBoxId, setHoveredBoxId] = useState<number | null>(null)
+  const [view, setView] = useState<"list" | "edit">("list")
+
+  // Calculate total inference time
+  const totalInferenceTime = useMemo(() => {
+    return boundingBoxes.reduce((total, box) => total + box.inferenceTime, 0)
+  }, [boundingBoxes])
+
+  return {
+    editingLabel,
+    setEditingLabel,
+    activeTab,
+    setActiveTab,
+    hoveredBoxId,
+    setHoveredBoxId,
+    view,
+    setView,
+    totalInferenceTime
   }
 } 

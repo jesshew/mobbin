@@ -1,4 +1,5 @@
 import React from "react"
+import { BoundingBox } from "@/types/annotation"
 
 interface LabelEditorProps {
   box: BoundingBox
@@ -9,17 +10,6 @@ interface LabelEditorProps {
   onBoxUpdate: (box: BoundingBox) => void
 }
 
-interface BoundingBox {
-  id: number
-  label: string
-  textLabel: string
-  description: string
-  x: number
-  y: number
-  width: number
-  height: number
-  inferenceTime: number
-}
 
 export function LabelEditor({
   box,

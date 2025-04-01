@@ -11,6 +11,7 @@ import { useImageScale } from "../hooks/use-image-scale"
 import { useBoxInteraction } from "../hooks/use-box-interaction"
 import { AnnotationCanvas } from "../components/annotation/annotation-canvas"
 import { AnnotationHeader } from "../components/annotation/annotation-header"
+import { BoundingBox } from "@/types/annotation"
 
 // Mock data for demonstration purposes
 const mockBoundingBoxes = [
@@ -71,17 +72,6 @@ const mockBoundingBoxes = [
   },
 ]
 
-interface BoundingBox {
-  id: number
-  label: string // element type
-  textLabel: string // display text
-  description: string // additional description
-  x: number
-  y: number
-  width: number
-  height: number
-  inferenceTime: number // time in seconds
-}
 
 interface AnnotationEditorProps {
   image: File

@@ -3,18 +3,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Trash2, Eye, Clock, ChevronDown, ChevronUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-
-interface BoundingBox {
-  id: number
-  label: string // element type
-  textLabel: string // display text
-  description: string // additional description
-  x: number
-  y: number
-  width: number
-  height: number
-  inferenceTime: number // time in seconds
-}
+import { BoundingBox } from "@/types/annotation"
 
 interface ElementListItemProps {
   box: BoundingBox
