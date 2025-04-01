@@ -5,15 +5,12 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { BoundingBox } from "@/types/annotation"
-import { useState } from "react"
 
 interface ElementEditorProps {
   selectedBox: BoundingBox
   onBoxUpdate: (box: BoundingBox) => void
   onBoxDelete: (id: number) => void
   onBackToList: () => void
-  // isMobile: boolean
-  // setActiveTab?: (tab: string) => void
   editingLabel?: string
   setEditingLabel?: (label: string) => void
 }
@@ -23,14 +20,14 @@ export function ElementEditor({
   onBoxUpdate,
   onBoxDelete,
   onBackToList,
-  // isMobile,
-  // setActiveTab,
   editingLabel,
   setEditingLabel
 }: ElementEditorProps) {
-  const [localEditingLabel, setLocalEditingLabel] = useState(selectedBox.textLabel)
-  const currentEditingLabel = editingLabel ?? localEditingLabel
-  const handleEditingLabelChange = setEditingLabel ?? setLocalEditingLabel
+  // Use shared state when available, fallback to local state
+//   const currentEditingLabel = editingLabel ?? selectedBox.textLabel;
+  const handleEditingLabelChange = setEditingLabel ?? ((value: string) => {
+    onBoxUpdate({ ...selectedBox, textLabel: value })
+  });
 
   const handleLabelChange = (value: string) => {
     onBoxUpdate({ ...selectedBox, label: value })
@@ -52,20 +49,12 @@ export function ElementEditor({
     }
   }
 
-  const handleBackClick = () => {
-    // if (isMobile && setActiveTab) {
-    //   setActiveTab("elements")
-    // } else {
-      onBackToList()
-    // }
-  }
-
   return (
     <>
       <div className="p-4 border-b">
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-lg font-medium">Edit Element</h3>
-          <Button variant="ghost" size="sm" onClick={handleBackClick}>
+          <Button variant="ghost" size="sm" onClick={onBackToList}>
             <ArrowLeft className="h-4 w-4 mr-1" />
             <List className="h-4 w-4 mr-1" />
             Back to List
@@ -76,7 +65,6 @@ export function ElementEditor({
         </p>
       </div>
 
-      {/* <ScrollArea className={isMobile ? "h-[calc(100vh-220px)]" : "flex-1"}> */}
       <ScrollArea className={"flex-1"}>
         <div className="p-4 space-y-4">
           <div className="space-y-2">
@@ -102,7 +90,7 @@ export function ElementEditor({
             <Label htmlFor="text-label">Text Label</Label>
             <Input
               id="text-label"
-              value={currentEditingLabel}
+              value={selectedBox.textLabel}
               onChange={(e) => handleTextLabelChange(e.target.value)}
               placeholder="Enter display text"
             />
@@ -167,28 +155,19 @@ export function ElementEditor({
               />
             </div>
           </div>
-
-          {/* {isMobile && (
-            <Button className="w-full" variant="outline" onClick={() => onBoxDelete(selectedBox.id)}>
-              <Trash2 className="mr-2 h-4 w-4" />
-              Delete Element
-            </Button>
-          )} */}
         </div>
       </ScrollArea>
 
-      {/* {!isMobile && ( */}
-        <div className="border-t p-4">
-          <Button className="w-full mb-3" variant="outline" onClick={() => onBoxDelete(selectedBox.id)}>
-            <Trash2 className="mr-2 h-4 w-4" />
-            Delete Element
-          </Button>
-          <Button className="w-full" onClick={onBackToList}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Element List
-          </Button>
-        </div>
-      {/* )} */}
+      <div className="border-t p-4">
+        <Button className="w-full mb-3" variant="outline" onClick={() => onBoxDelete(selectedBox.id)}>
+          <Trash2 className="mr-2 h-4 w-4" />
+          Delete Element
+        </Button>
+        <Button className="w-full" onClick={onBackToList}>
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Element List
+        </Button>
+      </div>
     </>
   )
 } 

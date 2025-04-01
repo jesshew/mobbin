@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useControlPanelState } from "../hooks/use-box-interaction"
 import { ControlPanelHeader } from "@/components/control-panel/control-panel-header"
 import { ElementList } from "@/components/control-panel/element-list"
 import { ElementEditor } from "@/components/control-panel/element-editor"
@@ -22,9 +21,12 @@ interface ControlPanelProps {
   onPreviousImage?: () => void
   isMobile?: boolean
   onBoxDeselect: () => void
-  editingLabelState?: {
-    editingLabel: string
-    setEditingLabel: (label: string) => void
+  editingLabelState: {
+    editingLabelId: number | null
+    editingLabelText: string
+    setEditingLabelId: (id: number | null) => void
+    setEditingLabelText: (text: string) => void
+    updateLabelAndFinishEditing: () => void
   }
 }
 
@@ -42,19 +44,13 @@ export function ControlPanel({
   onBoxDeselect,
   editingLabelState,
 }: ControlPanelProps) {
-  // Use the custom hook for state management
-  const {
-    editingLabel,
-    setEditingLabel,
-    activeTab,
-    setActiveTab,
-    hoveredBoxId,
-    setHoveredBoxId,
-    view,
-    setView,
-    totalInferenceTime
-  } = useControlPanelState(boundingBoxes, editingLabelState)
-
+  // Local UI state
+  const [activeTab, setActiveTab] = useState<string>("elements")
+  const [hoveredBoxId, setHoveredBoxId] = useState<number | null>(null)
+  const [view, setView] = useState<"list" | "edit">("list")
+  
+  // Calculate total inference time
+  const totalInferenceTime = boundingBoxes.reduce((total, box) => total + box.inferenceTime, 0)
 
   const handleElementSelect = (box: BoundingBox) => {
     onBoxSelect(box)
@@ -105,8 +101,6 @@ export function ControlPanel({
               setHoveredBoxId={setHoveredBoxId}
               onBoxSelect={onBoxSelect}
               onBoxDelete={onBoxDelete}
-              // isMobile={true}
-              // setActiveTab={setActiveTab}
             />
           </TabsContent>
 
@@ -117,8 +111,8 @@ export function ControlPanel({
                 onBoxUpdate={onBoxUpdate}
                 onBoxDelete={onBoxDelete}
                 onBackToList={handleBackToList}
-                // isMobile={true}
-                // setActiveTab={setActiveTab}
+                editingLabel={editingLabelState.editingLabelText}
+                setEditingLabel={editingLabelState.setEditingLabelText}
               />
             ) : (
               <div className="p-4 text-center text-muted-foreground">Select an element to edit its properties</div>
@@ -134,7 +128,6 @@ export function ControlPanel({
           </TabsContent>
         </Tabs>
 
-        {/* Navigation and Save Controls */}
         <PanelFooterActions
           onSave={onSave}
           onExport={handleExportAnnotations}
@@ -151,14 +144,12 @@ export function ControlPanel({
       {/* List View */}
       {view === "list" && (
         <>
-          {/* Performance Summary Section */}
           <ControlPanelHeader
             title="Performance Summary"
             masterPromptRuntime={masterPromptRuntime}
             totalInferenceTime={totalInferenceTime}
           />
 
-          {/* Elements List Section */}
           <div className="p-4 border-b">
             <h3 className="text-lg font-medium">Detected Elements</h3>
             <p className="text-sm text-muted-foreground">{boundingBoxes.length} elements found</p>
@@ -171,10 +162,8 @@ export function ControlPanel({
             setHoveredBoxId={setHoveredBoxId}
             onBoxSelect={handleElementSelect}
             onBoxDelete={onBoxDelete}
-            // isMobile={false}
           />
 
-          {/* Navigation and Save Controls */}
           <PanelFooterActions
             onSave={onSave}
             onExport={handleExportAnnotations}
@@ -191,7 +180,8 @@ export function ControlPanel({
           onBoxUpdate={onBoxUpdate}
           onBoxDelete={onBoxDelete}
           onBackToList={handleBackToList}
-          // isMobile={false}
+          editingLabel={editingLabelState.editingLabelText}
+          setEditingLabel={editingLabelState.setEditingLabelText}
         />
       )}
     </div>

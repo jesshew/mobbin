@@ -1,4 +1,4 @@
-import { useState, useEffect, RefObject, useMemo } from "react"
+import { useCallback, useEffect, RefObject, useMemo, useState } from "react"
 import { BoundingBox } from "@/types/annotation"
 
 
@@ -18,37 +18,22 @@ type ResizeState = {
 }
 
 interface UseBoxInteractionProps {
-  boundingBoxes: BoundingBox[]
-  setBoundingBoxes: React.Dispatch<React.SetStateAction<BoundingBox[]>>
-  selectedBox: BoundingBox | null
-  setSelectedBox: React.Dispatch<React.SetStateAction<BoundingBox | null>>
-  scale: number
   containerRef: RefObject<HTMLDivElement>
+  scale: number
+  updateBox: (box: BoundingBox) => void
+  selectBox: (box: BoundingBox | null) => void
+  setDragState: (state: Partial<DragState> | ((prev: DragState) => DragState)) => void
+  setResizeState: (state: Partial<ResizeState> | ((prev: ResizeState) => ResizeState)) => void
 }
 
 export function useBoxInteraction({
-  boundingBoxes,
-  setBoundingBoxes,
-  selectedBox,
-  setSelectedBox,
+  containerRef,
   scale,
-  containerRef
+  updateBox,
+  selectBox,
+  setDragState,
+  setResizeState
 }: UseBoxInteractionProps) {
-  const [dragState, setDragState] = useState<DragState>({
-    isDragging: false,
-    startX: 0,
-    startY: 0,
-    originalBox: null,
-  })
-
-  const [resizeState, setResizeState] = useState<ResizeState>({
-    isResizing: false,
-    handle: null,
-    startX: 0,
-    startY: 0,
-    originalBox: null,
-  })
-
   // Set up global mouse event listeners for dragging and resizing
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -57,114 +42,114 @@ export function useBoxInteraction({
         const x = (e.clientX - rect.left) / scale
         const y = (e.clientY - rect.top) / scale
 
-        // Handle dragging
-        if (dragState.isDragging && dragState.originalBox) {
-          const deltaX = x - dragState.startX / scale
-          const deltaY = y - dragState.startY / scale
+        // Get current state using callback pattern
+        setDragState(dragState => {
+          // Handle dragging
+          if (dragState.isDragging && dragState.originalBox) {
+            const deltaX = x - dragState.startX / scale
+            const deltaY = y - dragState.startY / scale
 
-          const updatedBox = {
-            ...dragState.originalBox,
-            x: dragState.originalBox.x + deltaX,
-            y: dragState.originalBox.y + deltaY,
-          }
-
-          setBoundingBoxes((boxes) => boxes.map((box) => (box.id === updatedBox.id ? updatedBox : box)))
-
-          if (selectedBox?.id === updatedBox.id) {
-            setSelectedBox(updatedBox)
-          }
-        }
-
-        // Handle resizing
-        if (resizeState.isResizing && resizeState.originalBox && resizeState.handle) {
-          const deltaX = x - resizeState.startX / scale
-          const deltaY = y - resizeState.startY / scale
-          const original = resizeState.originalBox
-          let updatedBox = { ...original }
-
-          // Apply resize based on which handle is being dragged
-          switch (resizeState.handle) {
-            case "top-left":
-              updatedBox = {
-                ...original,
-                x: original.x + deltaX,
-                y: original.y + deltaY,
-                width: original.width - deltaX,
-                height: original.height - deltaY,
-              }
-              break
-            case "top-right":
-              updatedBox = {
-                ...original,
-                y: original.y + deltaY,
-                width: original.width + deltaX,
-                height: original.height - deltaY,
-              }
-              break
-            case "bottom-left":
-              updatedBox = {
-                ...original,
-                x: original.x + deltaX,
-                width: original.width - deltaX,
-                height: original.height + deltaY,
-              }
-              break
-            case "bottom-right":
-              updatedBox = {
-                ...original,
-                width: original.width + deltaX,
-                height: original.height + deltaY,
-              }
-              break
-            case "top":
-              updatedBox = {
-                ...original,
-                y: original.y + deltaY,
-                height: original.height - deltaY,
-              }
-              break
-            case "right":
-              updatedBox = {
-                ...original,
-                width: original.width + deltaX,
-              }
-              break
-            case "bottom":
-              updatedBox = {
-                ...original,
-                height: original.height + deltaY,
-              }
-              break
-            case "left":
-              updatedBox = {
-                ...original,
-                x: original.x + deltaX,
-                width: original.width - deltaX,
-              }
-              break
-          }
-
-          // Ensure width and height are positive
-          if (updatedBox.width < 10) {
-            updatedBox.width = 10
-            if (["top-left", "bottom-left", "left"].includes(resizeState.handle)) {
-              updatedBox.x = original.x + original.width - 10
+            const updatedBox = {
+              ...dragState.originalBox,
+              x: dragState.originalBox.x + deltaX,
+              y: dragState.originalBox.y + deltaY,
             }
-          }
 
-          if (updatedBox.height < 10) {
-            updatedBox.height = 10
-            if (["top-left", "top-right", "top"].includes(resizeState.handle)) {
-              updatedBox.y = original.y + original.height - 10
+            updateBox(updatedBox)
+          }
+          return dragState;
+        })
+
+        // Get current resize state
+        setResizeState((resizeState: ResizeState) => {
+          // Handle resizing
+          if (resizeState.isResizing && resizeState.originalBox && resizeState.handle) {
+            const deltaX = x - resizeState.startX / scale
+            const deltaY = y - resizeState.startY / scale
+            const original = resizeState.originalBox
+            let updatedBox = { ...original }
+
+            // Apply resize based on which handle is being dragged
+            switch (resizeState.handle) {
+              case "top-left":
+                updatedBox = {
+                  ...original,
+                  x: original.x + deltaX,
+                  y: original.y + deltaY,
+                  width: original.width - deltaX,
+                  height: original.height - deltaY,
+                }
+                break
+              case "top-right":
+                updatedBox = {
+                  ...original,
+                  y: original.y + deltaY,
+                  width: original.width + deltaX,
+                  height: original.height - deltaY,
+                }
+                break
+              case "bottom-left":
+                updatedBox = {
+                  ...original,
+                  x: original.x + deltaX,
+                  width: original.width - deltaX,
+                  height: original.height + deltaY,
+                }
+                break
+              case "bottom-right":
+                updatedBox = {
+                  ...original,
+                  width: original.width + deltaX,
+                  height: original.height + deltaY,
+                }
+                break
+              case "top":
+                updatedBox = {
+                  ...original,
+                  y: original.y + deltaY,
+                  height: original.height - deltaY,
+                }
+                break
+              case "right":
+                updatedBox = {
+                  ...original,
+                  width: original.width + deltaX,
+                }
+                break
+              case "bottom":
+                updatedBox = {
+                  ...original,
+                  height: original.height + deltaY,
+                }
+                break
+              case "left":
+                updatedBox = {
+                  ...original,
+                  x: original.x + deltaX,
+                  width: original.width - deltaX,
+                }
+                break
             }
-          }
 
-          setBoundingBoxes((boxes) => boxes.map((box) => (box.id === updatedBox.id ? updatedBox : box)))
+            // Ensure width and height are positive
+            if (updatedBox.width < 10) {
+              updatedBox.width = 10
+              if (["top-left", "bottom-left", "left"].includes(resizeState.handle)) {
+                updatedBox.x = original.x + original.width - 10
+              }
+            }
 
-          if (selectedBox?.id === updatedBox.id) {
-            setSelectedBox(updatedBox)
+            if (updatedBox.height < 10) {
+              updatedBox.height = 10
+              if (["top-left", "top-right", "top"].includes(resizeState.handle)) {
+                updatedBox.y = original.y + original.height - 10
+              }
+            }
+
+            updateBox(updatedBox)
           }
-        }
+          return resizeState;
+        })
       }
     }
 
@@ -194,14 +179,13 @@ export function useBoxInteraction({
       window.removeEventListener("mouseup", handleMouseUp)
       window.removeEventListener("touchend", handleMouseUp)
     }
-  }, [dragState, resizeState, selectedBox, scale, setBoundingBoxes, setSelectedBox, containerRef])
+  }, [containerRef, scale, updateBox, setDragState, setResizeState])
 
-  const startDragging = (e: React.MouseEvent | React.TouchEvent, box: BoundingBox) => {
+  const startDragging = useCallback((e: React.MouseEvent | React.TouchEvent, box: BoundingBox) => {
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect()
 
       let clientX, clientY
-
       if ("touches" in e) {
         // Touch event
         clientX = e.touches[0].clientX
@@ -218,17 +202,16 @@ export function useBoxInteraction({
         startY: clientY - rect.top,
         originalBox: box,
       })
-      setSelectedBox(box)
+      selectBox(box)
       e.stopPropagation()
     }
-  }
+  }, [containerRef, selectBox, setDragState])
 
-  const startResizing = (e: React.MouseEvent | React.TouchEvent, box: BoundingBox, handle: string) => {
+  const startResizing = useCallback((e: React.MouseEvent | React.TouchEvent, box: BoundingBox, handle: string) => {
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect()
 
       let clientX, clientY
-
       if ("touches" in e) {
         // Touch event
         clientX = e.touches[0].clientX
@@ -246,14 +229,12 @@ export function useBoxInteraction({
         startY: clientY - rect.top,
         originalBox: box,
       })
-      setSelectedBox(box)
+      selectBox(box)
       e.stopPropagation()
     }
-  }
+  }, [containerRef, selectBox, setResizeState])
 
   return {
-    dragState,
-    resizeState,
     startDragging,
     startResizing
   }

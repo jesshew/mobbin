@@ -7,9 +7,8 @@ interface LabelEditorProps {
   editingLabelText: string
   setEditingLabelId: (id: number | null) => void
   setEditingLabelText: (text: string) => void
-  onBoxUpdate: (box: BoundingBox) => void
+  updateLabelAndFinishEditing: () => void
 }
-
 
 export function LabelEditor({
   box,
@@ -17,17 +16,11 @@ export function LabelEditor({
   editingLabelText,
   setEditingLabelId,
   setEditingLabelText,
-  onBoxUpdate
+  updateLabelAndFinishEditing
 }: LabelEditorProps) {
-  const handleUpdateAndClose = () => {
-    const updatedBox = { ...box, textLabel: editingLabelText }
-    onBoxUpdate(updatedBox)
-    setEditingLabelId(null)
-  }
-
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleUpdateAndClose()
+      updateLabelAndFinishEditing()
     } else if (e.key === "Escape") {
       setEditingLabelId(null)
     }
@@ -36,7 +29,6 @@ export function LabelEditor({
   const handleMouseEnter = () => {
     if (editingLabelId !== box.id) {
       setEditingLabelId(box.id)
-      setEditingLabelText(box.textLabel)
     }
   }
 
@@ -52,7 +44,7 @@ export function LabelEditor({
           type="text"
           value={editingLabelText}
           onChange={(e) => setEditingLabelText(e.target.value)}
-          onBlur={handleUpdateAndClose}
+          onBlur={updateLabelAndFinishEditing}
           onKeyDown={handleKeyDown}
           className={`${labelStyles} w-full outline-none border border-white`}
           autoFocus

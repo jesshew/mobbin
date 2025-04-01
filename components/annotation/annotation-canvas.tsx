@@ -20,11 +20,12 @@ interface BoxControls {
 }
 
 interface LabelEditing {
-  editingLabelId: number | null
-  editingLabelText: string
-  setEditingLabelId: (id: number | null) => void
-  setEditingLabelText: (text: string) => void
-}
+    editingLabelId: number | null
+    editingLabelText: string
+    setEditingLabelId: (id: number | null) => void
+    setEditingLabelText: (text: string) => void
+    updateLabelAndFinishEditing: () => void
+  }
 
 interface InteractionHandlers {
   startDragging: (e: React.MouseEvent | React.TouchEvent, box: BoundingBox) => void
@@ -61,7 +62,7 @@ export function AnnotationCanvas({
 }: AnnotationCanvasProps) {
   const { imageUrl, scale, imageRef, containerRef } = imageState
   const { boundingBoxes, selectedBox, onSelect, onUpdate } = boxControls
-  const { editingLabelId, editingLabelText, setEditingLabelId, setEditingLabelText } = labelEditing
+  const { editingLabelId, editingLabelText, setEditingLabelId, setEditingLabelText, updateLabelAndFinishEditing } = labelEditing
   const { startDragging, startResizing, dragState } = interactionHandlers
 
   const renderBoundingBox = (box: BoundingBox) => (
@@ -90,7 +91,7 @@ export function AnnotationCanvas({
         editingLabelText={editingLabelText}
         setEditingLabelId={setEditingLabelId}
         setEditingLabelText={setEditingLabelText}
-        onBoxUpdate={onUpdate}
+        updateLabelAndFinishEditing={updateLabelAndFinishEditing}
       />
       <BoxHandles 
         box={box} 

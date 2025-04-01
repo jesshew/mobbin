@@ -12,6 +12,7 @@ import { useBoxInteraction } from "../hooks/use-box-interaction"
 import { AnnotationCanvas } from "../components/annotation/annotation-canvas"
 import { AnnotationHeader } from "../components/annotation/annotation-header"
 import { BoundingBox } from "@/types/annotation"
+import { useAnnotationState } from "../hooks/use-annotation-state"
 
 // Mock data for demonstration purposes
 const mockBoundingBoxes = [
@@ -80,24 +81,25 @@ interface AnnotationEditorProps {
   onPreviousImage?: () => void
 }
 
-type DragState = {
-  isDragging: boolean
-  startX: number
-  startY: number
-  originalBox: BoundingBox | null
-}
-
-type ResizeState = {
-  isResizing: boolean
-  handle: string | null
-  startX: number
-  startY: number
-  originalBox: BoundingBox | null
-}
-
 export function AnnotationEditor({ image, onBack, onNextImage, onPreviousImage }: AnnotationEditorProps) {
-  const [boundingBoxes, setBoundingBoxes] = useState<BoundingBox[]>(mockBoundingBoxes)
-  const [selectedBox, setSelectedBox] = useState<BoundingBox | null>(null)
+  // Use our centralized annotation state
+  const {
+    boundingBoxes,
+    selectedBox,
+    editingLabelId,
+    editingLabelText,
+    setEditingLabelId,
+    setEditingLabelText,
+    updateBox,
+    selectBox,
+    deleteBox,
+    updateLabelAndFinishEditing,
+    dragState,
+    resizeState,
+    setDragState,
+    setResizeState
+  } = useAnnotationState(mockBoundingBoxes)
+
   const [masterPromptRuntime, setMasterPromptRuntime] = useState<number>(1.8) // in seconds
   const [isPanelCollapsed, setIsPanelCollapsed] = useState(false)
   // const isMobile = useIsMobile()  // Commented out mobile check
@@ -105,50 +107,18 @@ export function AnnotationEditor({ image, onBack, onNextImage, onPreviousImage }
   const containerRef = useRef<HTMLDivElement>(document.createElement('div'))
   const imageRef = useRef<HTMLImageElement>(document.createElement('img'))
   
-  // Unified label editing state
-  const [editingLabelId, setEditingLabelId] = useState<number | null>(null)
-  const [editingLabelText, setEditingLabelText] = useState<string>("")
-
-  // Create a shared editing state object to pass to both components
-  const editingLabelState = {
-    editingLabel: editingLabelText,
-    setEditingLabel: setEditingLabelText
-  }
-
   // Custom hooks
   const { imageUrl, scale } = useImageScale(image, containerRef, imageRef)
   
-  const { 
-    dragState, 
-    resizeState, 
-    startDragging, 
-    startResizing 
-  } = useBoxInteraction({
-    boundingBoxes,
-    setBoundingBoxes,
-    selectedBox,
-    setSelectedBox,
+  // Use the useBoxInteraction hook with our centralized state
+  const { startDragging, startResizing } = useBoxInteraction({
+    containerRef,
     scale,
-    containerRef
+    updateBox,
+    selectBox,
+    setDragState,
+    setResizeState
   })
-
-  const handleBoxSelect = (box: BoundingBox) => {
-    setSelectedBox(box)
-    // if (isMobile) {  // Commented out mobile-specific behavior
-    //   setIsPanelCollapsed(false)
-    // }
-  }
-
-  const handleBoxUpdate = (updatedBox: BoundingBox) => {
-    setBoundingBoxes((boxes) => boxes.map((box) => (box.id === updatedBox.id ? updatedBox : box)))
-  }
-
-  const handleBoxDelete = (id: number) => {
-    setBoundingBoxes((boxes) => boxes.filter((box) => box.id !== id))
-    if (selectedBox?.id === id) {
-      setSelectedBox(null)
-    }
-  }
 
   const handleSave = () => {
     console.log("Saving annotation data:", boundingBoxes)
@@ -160,25 +130,22 @@ export function AnnotationEditor({ image, onBack, onNextImage, onPreviousImage }
     setIsPanelCollapsed(!isPanelCollapsed)
   }
 
-  const handleBoxDeselect = () => {
-    setSelectedBox(null)
-  }
-
   // Group related props
   const boxControls = {
     boundingBoxes,
     selectedBox,
-    onSelect: handleBoxSelect,
-    onUpdate: handleBoxUpdate,
-    onDelete: handleBoxDelete,
-    onDeselect: handleBoxDeselect
+    onSelect: selectBox,
+    onUpdate: updateBox,
+    onDelete: deleteBox,
+    onDeselect: () => selectBox(null)
   }
 
   const labelEditing = {
     editingLabelId,
     editingLabelText,
     setEditingLabelId,
-    setEditingLabelText
+    setEditingLabelText,
+    updateLabelAndFinishEditing
   }
 
   const imageState = {
@@ -237,20 +204,26 @@ export function AnnotationEditor({ image, onBack, onNextImage, onPreviousImage }
       </div>
 
       {/* Control panel / sidebar - flexible width */}
-      <div className="flex-1 border-l bg-background flex flex-col h-full min-w-[300px]">
+      <div className={`flex-1 border-l bg-background flex flex-col h-full min-w-[300px] ${isPanelCollapsed ? "hidden" : "flex"}`}>
         <ControlPanel
           boundingBoxes={boundingBoxes}
           selectedBox={selectedBox}
-          onBoxSelect={handleBoxSelect}
-          onBoxUpdate={handleBoxUpdate}
-          onBoxDelete={handleBoxDelete}
+          onBoxSelect={selectBox}
+          onBoxUpdate={updateBox}
+          onBoxDelete={deleteBox}
+          onBoxDeselect={() => selectBox(null)}
+          editingLabelState={{
+            editingLabelId,
+            editingLabelText,
+            setEditingLabelId,
+            setEditingLabelText,
+            updateLabelAndFinishEditing
+          }}
           masterPromptRuntime={masterPromptRuntime}
           onSave={handleSave}
           onNextImage={onNextImage}
           onPreviousImage={onPreviousImage}
           isMobile={false}
-          onBoxDeselect={handleBoxDeselect}
-          editingLabelState={editingLabelState}
         />
       </div>
     </div>

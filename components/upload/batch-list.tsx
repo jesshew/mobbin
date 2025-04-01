@@ -1,6 +1,6 @@
 import type { Batch } from "@/app/page"
 import { BatchCard } from "@/components/upload/batch-card"
-import { RevealOnHover } from "@/components/ui/reveal-on-hover"
+// import { RevealOnHover } from "@/components/ui/reveal-on-hover"
 
 interface BatchListProps {
   batches: Batch[]
@@ -26,6 +26,7 @@ export function BatchList({ batches, expandedBatchId, toggleBatch, onImageSelect
         //     onMouseLeave={() => toggleBatch(batch.id)}
         //   >
             <BatchCard
+              key={batch.id}
               batch={batch}
               isExpanded={expandedBatchId === batch.id}
               onToggle={() => toggleBatch(batch.id)}
