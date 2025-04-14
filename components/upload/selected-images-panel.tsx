@@ -126,7 +126,8 @@ export function SelectedImagesPanel({
                 file={file}
                 index={index}
                 onRemove={onRemoveFile}
-                showRemoveButton
+                isUploadMode={true} 
+                onClick={() => {}}
               />
             ))}
           </div>

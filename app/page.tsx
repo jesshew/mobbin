@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { UploadInterface } from "@/components/upload-interface"
 import { AnnotationEditor } from "@/components/annotation-editor"
 import type { Batch } from "@/types/batch"
@@ -112,7 +112,7 @@ export default function Home() {
   }
 
   // Fetch batches on component mount
-  useState(() => {
+  useEffect(() => {
     const fetchBatches = async () => {
       try {
         const response = await fetch('/api/batches')

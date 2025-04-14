@@ -173,6 +173,7 @@ export function BatchCard({ batch, isExpanded, onToggle, onImageSelect }: BatchC
               file={image}
               index={index}
               onClick={() => onImageSelect(index)}
+              isUploadMode={false}
             />
           ))}
         </div>
