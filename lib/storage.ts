@@ -54,13 +54,31 @@ export async function uploadToSupabaseStorage(
   }
 }
 
+/**
+ * Generates a random 4-character alphabetic string
+ */
+function generateRandomSuffix(): string {
+  const alphabet = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';
+  let result = '';
+  for (let i = 0; i < 4; i++) {
+    result += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+  }
+  return result;
+}
+
 export async function uploadImageToStorage(
   file: File | Blob,
   batchId: number,
   filename: string
 ): Promise<UploadResult> {
   try {
-    const storagePath = `${DEFAULT_BUCKET_NAME}/${batchId}/${filename}`;
+    // Add random suffix to filename
+    const fileExtension = filename.split('.').pop();
+    const baseName = filename.substring(0, filename.lastIndexOf('.'));
+    const randomSuffix = generateRandomSuffix();
+    const newFilename = `${baseName}_${randomSuffix}.${fileExtension}`;
+    
+    const storagePath = `${DEFAULT_BUCKET_NAME}/${batchId}/${newFilename}`;
     
     const { data, error } = await supabase.storage
       .from(DEFAULT_BUCKET_NAME)
