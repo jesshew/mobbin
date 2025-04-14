@@ -17,26 +17,37 @@ import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { ImageCard } from "./image-card"
-import type { Batch } from "@/app/page"
+import type { Batch } from "@/types/batch"
 
 interface BatchCardProps {
   batch: Batch
   isExpanded: boolean
   onToggle: () => void
   onImageSelect: (imageIndex: number) => void
-
 }
 
 export function BatchCard({ batch, isExpanded, onToggle, onImageSelect }: BatchCardProps) {
-  // Format date for display
+  // Format date for display with error handling
   const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(date)
+    try {
+      // Check if date is valid
+      if (!(date instanceof Date) || isNaN(date.getTime())) {
+        return 'Invalid date'
+      }
+      
+      // Format the date in the user's local timezone
+      return new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+      }).format(date)
+    } catch (error) {
+      console.error('Error formatting date:', error)
+      return 'Invalid date'
+    }
   }
 
   // Define status badge configurations
@@ -93,7 +104,6 @@ export function BatchCard({ batch, isExpanded, onToggle, onImageSelect }: BatchC
             <Button variant="ghost" size="icon" className="flex items-center gap-1">
               <BarChart className="h-4 w-4 text-muted-foreground" />
               <span>Insight</span>
-
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -157,10 +167,10 @@ export function BatchCard({ batch, isExpanded, onToggle, onImageSelect }: BatchC
     <div className="p-4">
       <ScrollArea className="h-[300px]">
         <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {batch.images.map((file, index) => (
+          {batch.images.map((image, index) => (
             <ImageCard
-              key={`${file.name}-${index}`}
-              file={file}
+              key={image.id}
+              file={image}
               index={index}
               onClick={() => onImageSelect(index)}
             />

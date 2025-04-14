@@ -1,4 +1,4 @@
-import type { Batch } from "@/app/page"
+import type { Batch } from "@/types/batch"
 import { BatchCard } from "@/components/upload/batch-card"
 // import { RevealOnHover } from "@/components/ui/reveal-on-hover"
 

@@ -1,61 +1,29 @@
+import { FileImage } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { X } from "lucide-react"
-import Image from "next/image"
 
 interface ImageCardProps {
-  file: File
+  file: {
+    id: string
+    name: string
+    url: string
+  }
   index: number
-  onRemove?: (index: number) => void
-  onClick?: () => void
-  showRemoveButton?: boolean
+  onClick: () => void
 }
 
-export function ImageCard({ 
-  file, 
-  index, 
-  onRemove, 
-  onClick, 
-  showRemoveButton = false 
-}: ImageCardProps) {
-  const imageUrl = URL.createObjectURL(file) || "/placeholder.svg"
-  const isClickable = Boolean(onClick)
-  
-  const cardClassName = `relative group ${
-    isClickable ? 'cursor-pointer hover:shadow-md transition-shadow' : ''
-  }`
-
-  const handleRemoveClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    onRemove?.(index)
-  }
-
+export function ImageCard({ file, index, onClick }: ImageCardProps) {
   return (
-    <Card 
-      className={cardClassName}
+    <Button
+      variant="outline"
+      className="h-32 w-full p-0 relative overflow-hidden group"
       onClick={onClick}
     >
-      <CardContent className="p-2">
-        <div className="aspect-square relative overflow-hidden rounded-md mb-2">
-          <Image
-            src={imageUrl}
-            alt={file.name}
-            fill
-            className="object-cover"
-          />
-          {showRemoveButton && onRemove && (
-            <Button
-              variant="destructive"
-              size="icon"
-              className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-              onClick={handleRemoveClick}
-            >
-              <X className="h-3 w-3" />
-            </Button>
-          )}
-        </div>
-        <p className="text-xs break-words">{file.name}</p>
-      </CardContent>
-    </Card>
+      <div className="absolute inset-0 flex items-center justify-center bg-muted/50 group-hover:bg-muted/30 transition-colors">
+        <FileImage className="h-8 w-8 text-muted-foreground" />
+      </div>
+      <div className="absolute bottom-0 left-0 right-0 p-2 bg-background/80 text-xs truncate">
+        {file.name}
+      </div>
+    </Button>
   )
 }

@@ -2,13 +2,12 @@
 
 import { useState, useCallback } from "react"
 import { Upload } from "lucide-react"
-import type { Batch } from "@/app/page"
+import type { Batch } from "@/types/batch"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { DropzoneArea } from "@/components/upload/dropzone-area"
 import { SelectedImagesPanel } from "@/components/upload/selected-images-panel"
 import { BatchList } from "@/components/upload/batch-list"
 import { Toast, ToastProvider, ToastViewport, ToastTitle, ToastDescription } from "@/components/ui/toast"
-
 
 interface UploadInterfaceProps {
   selectedFiles: File[]
