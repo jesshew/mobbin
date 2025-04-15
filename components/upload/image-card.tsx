@@ -52,34 +52,26 @@ export function ImageCard({
     >
       <CardContent className="p-2">
       <div className="aspect-square relative overflow-hidden rounded-md mb-2">
-      {isUploadMode ? (
-            <>
-              <Image
-                src={getImageUrl()}
-                alt={getFileName()}
-                fill
-                className="object-cover"
-              />
-              {onRemove && (
-                <Button
-                  variant="destructive"
-                  size="icon"
-                  className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={handleRemoveClick}
-                >
-                  <X className="h-3 w-3" />
-                </Button>
-              )}
-            </>
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center bg-muted/50 group-hover:bg-muted/30 transition-colors">
-              <FileImage className="h-8 w-8 text-muted-foreground" />
-            </div>
-          )}
-          <div className="absolute bottom-0 left-0 right-0 p-2 bg-background/80 text-xs truncate">
-            {getFileName()}
-          </div>
+        <Image
+          src={getImageUrl()}
+          alt={getFileName()}
+          fill
+          className="object-cover"
+        />
+        {isUploadMode && onRemove && (
+          <Button
+            variant="destructive"
+            size="icon"
+            className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={handleRemoveClick}
+          >
+            <X className="h-3 w-3" />
+          </Button>
+        )}
+        <div className="absolute bottom-0 left-0 right-0 p-2 bg-background/80 text-xs truncate">
+          {getFileName()}
         </div>
+      </div>
       </CardContent>
     </Card>
   )

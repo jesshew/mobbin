@@ -146,7 +146,7 @@ export function UploadInterface({
         ) : null}
       </div>
 
-      <BatchDisplay />
+      {/* <BatchDisplay /> */}
     </div>
   )
 }
