@@ -27,7 +27,6 @@ export function BatchList({
               onToggle={() => toggleBatch(batch.id)}
               onImageSelect={(imageIndex: number) => onImageSelect(batch.id, imageIndex)}
             />
-        //   </div>
         ))}
       </div>
     </div>

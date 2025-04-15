@@ -1,3 +1,6 @@
+// TODO: This component is not used anymore, but it's kept here for reference
+// TODO: Remove this file once the new upload interface is fully implementeds
+
 import useSWR from 'swr'
 import Image from 'next/image'
 import type { Batch } from '@/types/batch'
