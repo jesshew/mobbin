@@ -32,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // Transform the data to match the expected format
-    const transformedBatches = batches.map(batch => {
+    const transformedBatches = await Promise.all(batches.map(async batch => {
       // Parse the ISO timestamp string
       const timestamp = new Date(batch.batch_created_at)
       
@@ -41,6 +41,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.error('Invalid timestamp:', batch.batch_created_at)
         throw new Error(`Invalid timestamp format: ${batch.batch_created_at}`)
       }
+
+      // Generate signed URLs for each screenshot
+      const images = await Promise.all(batch.screenshot.map(async screenshot => {
+        // Extract the path from the URL
+        const url = new URL(screenshot.screenshot_file_url)
+        const pathParts = url.pathname.split('/')
+        const firstScreenshotIndex = pathParts.indexOf('screenshot')
+        const filePath = pathParts.slice(firstScreenshotIndex + 1).join('/')
+
+        // Generate signed URL (valid for 1 hour)
+        const { data, error } = await supabase
+          .storage
+          .from('screenshot')
+          .createSignedUrl(filePath, 3600)
+
+        if (error) {
+          console.error('Error generating signed URL:', error)
+          throw error
+        }
+
+        return {
+          id: screenshot.screenshot_id.toString(),
+          name: screenshot.screenshot_file_name,
+          url: data.signedUrl
+        }
+      }))
 
       return {
         id: batch.batch_id.toString(),
@@ -53,13 +79,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           totalInferenceTime: batch.batch_total_inference_time || 0,
           detectedElementsCount: batch.batch_detected_elements_count || 0
         },
-        images: batch.screenshot.map(screenshot => ({
-          id: screenshot.screenshot_id.toString(),
-          name: screenshot.screenshot_file_name,
-          url: screenshot.screenshot_file_url
-        }))
+        images
       }
-    })
+    }))
 
     return res.status(200).json(transformedBatches)
   } catch (error) {

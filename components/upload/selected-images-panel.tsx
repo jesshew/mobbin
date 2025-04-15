@@ -29,6 +29,7 @@ interface SelectedImagesPanelProps {
   onUploadBatch: (files: File[], batchName: string, analysisType: string) => void
   analysisType: string
   setAnalysisType: (type: string) => void
+  onRefetchBatches: () => void
 }
 
 export function SelectedImagesPanel({
@@ -39,6 +40,7 @@ export function SelectedImagesPanel({
   onUploadBatch,
   analysisType,
   setAnalysisType,
+  onRefetchBatches,
 }: SelectedImagesPanelProps) {
   const [showToast, setShowToast] = React.useState(false);
   const [isUploading, setIsUploading] = React.useState(false);
@@ -52,6 +54,7 @@ export function SelectedImagesPanel({
     setIsUploading(true);
     try {
       await onUploadBatch(selectedFiles, batchName, analysisType);
+      onRefetchBatches(); // Refetch batches after successful upload
     } catch (error) {
       console.error('Upload failed:', error);
       // You might want to show an error toast here

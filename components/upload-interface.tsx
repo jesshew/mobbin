@@ -1,35 +1,45 @@
 "use client"
 
 import { useState, useCallback } from "react"
-import { Upload } from "lucide-react"
+import { Loader2, Upload } from "lucide-react"
 import type { Batch } from "@/types/batch"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { DropzoneArea } from "@/components/upload/dropzone-area"
 import { SelectedImagesPanel } from "@/components/upload/selected-images-panel"
 import { BatchList } from "@/components/upload/batch-list"
 import { Toast, ToastProvider, ToastViewport, ToastTitle, ToastDescription } from "@/components/ui/toast"
+import useSWR from 'swr'
+import { BatchDisplay } from "./upload/batch-display"
 
 interface UploadInterfaceProps {
   selectedFiles: File[]
-  batches: Batch[]
   onFilesSelected: (files: File[]) => void
   onUploadBatch: (batchName: string, analysisType: string, uploadedFiles: File[]) => void
   onImageSelect: (batchId: string, imageIndex: number) => void
+  onRefetchBatches: () => void
 }
+
+const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 export function UploadInterface({
   selectedFiles,
-  batches,
   onFilesSelected,
   onUploadBatch,
   onImageSelect,
+  onRefetchBatches,
 }: UploadInterfaceProps) {
   const [isDragging, setIsDragging] = useState(false)
   const [batchName, setBatchName] = useState("")
-  const [expandedBatchId, setExpandedBatchId] = useState<string | null>(null)
   const isMobile = useIsMobile()
   const [analysisType, setAnalysisType] = useState("")
   const [showToast, setShowToast] = useState(false)
+  const [expandedBatchId, setExpandedBatchId] = useState<string | null>(null)
+
+  const { data: batches, error, isLoading } = useSWR<Batch[]>('/api/batches', fetcher)
+
+  const toggleBatch = (batchId: string) => {
+    setExpandedBatchId(expandedBatchId === batchId ? null : batchId)
+  }
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -54,14 +64,10 @@ export function UploadInterface({
     onFilesSelected(newFiles)
   }
 
-  const toggleBatch = (batchId: string) => {
-    setExpandedBatchId(expandedBatchId === batchId ? null : batchId)
-  }
-
   const uploadFiles = async (files: File[], batchName: string, analysisType: string) => {
     try {
       // Generate default batch name if empty
-      const finalBatchName = batchName.trim() || `Batch ${batches.length + 1}`;
+      const finalBatchName = batchName.trim() || `Batch ${new Date().getTime()}`;
       
       // Create a single FormData for all files
       const formData = new FormData();
@@ -84,6 +90,7 @@ export function UploadInterface({
       const result = await response.json();
       if (result.success) {
         onUploadBatch(finalBatchName, analysisType, files);
+        onRefetchBatches(); // Refetch batches after successful upload
       }
     } catch (error) {
       console.error('Upload error:', error);
@@ -116,18 +123,30 @@ export function UploadInterface({
             onUploadBatch={uploadFiles}
             analysisType={analysisType}
             setAnalysisType={setAnalysisType}
+            onRefetchBatches={onRefetchBatches}
           />
         )}
 
-        {batches.length > 0 && (
+        {isLoading ? (
+          <div className="flex items-center justify-center h-full">
+            <div className="flex flex-col items-center">
+              <Loader2 className="h-8 w-8 animate-spin" />
+              <p className="mt-4 text-lg">Loading batches, please wait...</p>
+            </div>
+          </div>
+        ) : error ? (
+          <div>Error loading batches</div>
+        ) : batches ? (
           <BatchList
             batches={batches}
             expandedBatchId={expandedBatchId}
             toggleBatch={toggleBatch}
             onImageSelect={onImageSelect}
           />
-        )}
+        ) : null}
       </div>
+
+      <BatchDisplay />
     </div>
   )
 }
