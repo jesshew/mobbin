@@ -8,9 +8,10 @@ interface BatchHeaderProps {
   batch: Batch;
   isExpanded: boolean;
   onToggle: () => void;
+  onViewResults: (batchId: string) => void;
 }
 
-export const BatchHeader = ({ batch, isExpanded, onToggle }: BatchHeaderProps) => (
+export const BatchHeader = ({ batch, isExpanded, onToggle, onViewResults }: BatchHeaderProps) => (
   <div className="flex-1">
     <div className="flex items-center justify-between mb-1">
       <h3 className="font-medium">{batch.name}</h3>
@@ -21,7 +22,10 @@ export const BatchHeader = ({ batch, isExpanded, onToggle }: BatchHeaderProps) =
             variant="outline" 
             size="default" 
             className="flex items-center gap-1 h-6 px-2"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              onViewResults(batch.id);
+            }}
           >
             <ExternalLink className="h-3 w-3" />
             <span className="text-xs">View Result</span>

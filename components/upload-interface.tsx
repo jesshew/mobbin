@@ -18,6 +18,7 @@ interface UploadInterfaceProps {
   onFilesSelected: (files: File[]) => void
   onUploadBatch: (batchName: string, analysisType: string, uploadedFiles: File[]) => void
   onImageSelect: (batchId: string, imageIndex: number) => void
+  onViewResults: (batchId: string) => void
   onRefetchBatches: () => void
 }
 
@@ -26,6 +27,7 @@ export function UploadInterface({
   onFilesSelected,
   onUploadBatch,
   onImageSelect,
+  onViewResults,
   onRefetchBatches,
 }: UploadInterfaceProps) {
   const [isDragging, setIsDragging] = useState(false)
@@ -111,6 +113,7 @@ export function UploadInterface({
             expandedBatchId={expandedBatchId}
             toggleBatch={toggleBatch}
             onImageSelect={onImageSelect}
+            onViewResults={onViewResults}
           />
         ) : null}
       </div>

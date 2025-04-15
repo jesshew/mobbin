@@ -7,6 +7,7 @@ interface BatchListProps {
   expandedBatchId: string | null
   toggleBatch: (batchId: string) => void
   onImageSelect: (batchId: string, imageIndex: number) => void
+  onViewResults: (batchId: string) => void
 }
 
 export function BatchList({ 
@@ -14,6 +15,7 @@ export function BatchList({
   expandedBatchId, 
   toggleBatch, 
   onImageSelect,
+  onViewResults,
 }: BatchListProps) {
   return (
     <div className="mt-4">
@@ -26,6 +28,7 @@ export function BatchList({
               isExpanded={expandedBatchId === batch.id}
               onToggle={() => toggleBatch(batch.id)}
               onImageSelect={(imageIndex: number) => onImageSelect(batch.id, imageIndex)}
+              onViewResults={() => onViewResults(batch.id)}
             />
         ))}
       </div>

@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
-import { ArrowLeft, Save, ChevronUp, ChevronDown } from "lucide-react"
+import { ArrowLeft, Save, ChevronUp, ChevronDown, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ControlPanel } from "@/components/control-panel"
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -75,7 +75,11 @@ const mockBoundingBoxes = [
 
 
 interface AnnotationEditorProps {
-  image: File
+  image: {
+    id: string
+    name: string
+    url: string
+  }
   onBack: () => void
   onNextImage?: () => void
   onPreviousImage?: () => void
@@ -102,14 +106,28 @@ export function AnnotationEditor({ image, onBack, onNextImage, onPreviousImage }
 
   const [masterPromptRuntime, setMasterPromptRuntime] = useState<number>(1.8) // in seconds
   const [isPanelCollapsed, setIsPanelCollapsed] = useState(false)
+  const [isImageLoading, setIsImageLoading] = useState(true)
   // const isMobile = useIsMobile()  // Commented out mobile check
   
   const containerRef = useRef<HTMLDivElement>(document.createElement('div'))
   const imageRef = useRef<HTMLImageElement>(document.createElement('img'))
   
   // Custom hooks
-  const { imageUrl, scale } = useImageScale(image, containerRef, imageRef)
+  const { scale } = useImageScale(image.url, containerRef, imageRef)
   
+  // Handle image load
+  useEffect(() => {
+    const handleImageLoad = () => {
+      setIsImageLoading(false)
+    }
+
+    if (imageRef.current) {
+      imageRef.current.onload = handleImageLoad
+      // Reset loading state if image URL changes
+      setIsImageLoading(true)
+    }
+  }, [image.url])
+
   // Use the useBoxInteraction hook with our centralized state
   const { startDragging, startResizing } = useBoxInteraction({
     containerRef,
@@ -149,7 +167,7 @@ export function AnnotationEditor({ image, onBack, onNextImage, onPreviousImage }
   }
 
   const imageState = {
-    imageUrl,
+    imageUrl: image.url,
     scale,
     imageRef,
     containerRef
@@ -172,7 +190,12 @@ export function AnnotationEditor({ image, onBack, onNextImage, onPreviousImage }
           onSave={handleSave}
         />
 
-        <div className="flex-1 overflow-auto bg-muted/30 p-2 sm:p-4">
+        <div className="flex-1 overflow-auto bg-muted/30 p-2 sm:p-4 relative">
+          {isImageLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-background/80 z-10">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          )}
           <AnnotationCanvas
             imageState={imageState}
             boxControls={boxControls}

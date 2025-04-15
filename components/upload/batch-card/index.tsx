@@ -10,16 +10,17 @@ interface BatchCardProps {
   isExpanded: boolean;
   onToggle: () => void;
   onImageSelect: (imageIndex: number) => void;
+  onViewResults: (batchId: string) => void;
 }
 
-export function BatchCard({ batch, isExpanded, onToggle, onImageSelect }: BatchCardProps) {
+export function BatchCard({ batch, isExpanded, onToggle, onImageSelect, onViewResults }: BatchCardProps) {
   return (
     <div className="rounded-md border border-border overflow-hidden">
       <div
         className="p-4 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
         onClick={onToggle}
       >
-        <BatchHeader batch={batch} isExpanded={isExpanded} onToggle={onToggle} />
+        <BatchHeader batch={batch} isExpanded={isExpanded} onToggle={onToggle} onViewResults={(batchId) => onViewResults(batchId)   } />
       </div>
 
       {batch.performance && isExpanded && <PerformanceStats performance={batch.performance} />}

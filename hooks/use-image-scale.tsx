@@ -1,20 +1,11 @@
 import { useState, useEffect, RefObject } from "react"
 
 export function useImageScale(
-  image: File,
+  imageUrl: string,
   containerRef: RefObject<HTMLDivElement>,
   imageRef: RefObject<HTMLImageElement>
 ) {
-  const [imageUrl, setImageUrl] = useState<string>("")
   const [scale, setScale] = useState<number>(1)
-
-  useEffect(() => {
-    if (image) {
-      const url = URL.createObjectURL(image)
-      setImageUrl(url)
-      return () => URL.revokeObjectURL(url)
-    }
-  }, [image])
 
   // Calculate scale factor when image loads or container resizes
   useEffect(() => {
@@ -41,5 +32,5 @@ export function useImageScale(
     return () => window.removeEventListener("resize", updateScale)
   }, [imageUrl])
 
-  return { imageUrl, scale }
+  return { scale }
 } 

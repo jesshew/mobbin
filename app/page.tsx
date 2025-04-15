@@ -4,27 +4,23 @@ import { useState, useEffect } from "react"
 import { UploadInterface } from "@/components/upload-interface"
 import { AnnotationEditor } from "@/components/annotation-editor"
 import type { Batch } from "@/types/batch"
+import { useBatchManagement } from "@/hooks/use-batch-management"
 
 export default function Home() {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
-  const [batches, setBatches] = useState<Batch[]>([])
   const [selectedBatchId, setSelectedBatchId] = useState<string | null>(null)
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const [currentView, setCurrentView] = useState<"upload" | "annotation">("upload")
-
-  // Fetch batches function
-  const fetchBatches = async () => {
-    try {
-      const response = await fetch('/api/batches')
-      if (!response.ok) {
-        throw new Error('Failed to fetch batches')
-      }
-      const data = await response.json()
-      setBatches(data)
-    } catch (error) {
-      console.error('Error fetching batches:', error)
-    }
-  }
+  
+  const {
+    batches,
+    mutate: refetchBatches,
+    expandedBatchId,
+    toggleBatch,
+    showToast,
+    setShowToast,
+    generateDefaultBatchName,
+  } = useBatchManagement()
 
   // Handle file selection (not uploading yet)
   const handleFilesSelected = (files: File[]) => {
@@ -37,7 +33,7 @@ export default function Home() {
 
     const newBatch: Batch = {
       id: newBatchId,
-      name: batchName || `Batch ${batches.length + 1}`,
+      name: batchName || generateDefaultBatchName(),
       timestamp: new Date(),
       images: uploadedFiles.map(file => ({
         id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
@@ -48,7 +44,8 @@ export default function Home() {
       analysisType: analysisType
     }
 
-    setBatches([...batches, newBatch])
+    // Update local state and trigger refetch
+    refetchBatches()
     setSelectedFiles([]) // Clear selected files after upload
 
     simulateBatchProcessing(newBatchId)
@@ -58,27 +55,10 @@ export default function Home() {
   const simulateBatchProcessing = (batchId: string) => {
     // Simulate upload completion after 2 seconds
     setTimeout(() => {
-      setBatches((currentBatches) =>
-        currentBatches.map((batch) => (batch.id === batchId ? { ...batch, status: "extracting" as const } : batch)),
-      )
-
+      refetchBatches()
       // Simulate extraction completion after 3 more seconds
       setTimeout(() => {
-        setBatches((currentBatches) =>
-          currentBatches.map((batch) =>
-            batch.id === batchId
-              ? {
-                  ...batch,
-                  status: "preview" as const,
-                  performance: {
-                    masterPromptRuntime: 1.8 + Math.random() * 0.5,
-                    totalInferenceTime: 5.2 + Math.random() * 2,
-                    detectedElementsCount: Math.floor(5 + Math.random() * 10),
-                  },
-                }
-              : batch,
-          ),
-        )
+        refetchBatches()
       }, 3000)
     }, 2000)
   }
@@ -88,24 +68,10 @@ export default function Home() {
     setSelectedBatchId(batchId)
     setSelectedImageIndex(imageIndex)
     setCurrentView("annotation")
-
-    // Update batch status to 'annotating' when user starts annotating
-    setBatches((currentBatches) =>
-      currentBatches.map((batch) =>
-        batch.id === batchId && batch.status !== "done" ? { ...batch, status: "annotating" as const } : batch,
-      ),
-    )
   }
 
   // Handle navigation back to upload interface
   const handleBackToUpload = () => {
-    // When returning from annotation, mark the batch as 'done'
-    if (selectedBatchId) {
-      setBatches((currentBatches) =>
-        currentBatches.map((batch) => (batch.id === selectedBatchId ? { ...batch, status: "done" as const } : batch)),
-      )
-    }
-
     setSelectedBatchId(null)
     setSelectedImageIndex(null)
     setCurrentView("upload")
@@ -113,7 +79,7 @@ export default function Home() {
 
   // Handle navigation between images in annotation view
   const handleNextImage = () => {
-    const currentBatch = batches.find((batch) => batch.id === selectedBatchId)
+    const currentBatch = batches?.find((batch) => batch.id === selectedBatchId)
     if (selectedImageIndex !== null && currentBatch && selectedImageIndex < currentBatch.images.length - 1) {
       setSelectedImageIndex(selectedImageIndex + 1)
     }
@@ -125,36 +91,45 @@ export default function Home() {
     }
   }
 
-  // Fetch batches on component mount
-  useEffect(() => {
-    fetchBatches()
-  }, [])
+  // Handle viewing results from a batch
+  const handleViewResults = (batchId: string) => {
+    const batch = batches?.find(b => b.id === batchId)
+    if (batch && batch.images && batch.images.length > 0) {
+      setSelectedBatchId(batchId)
+      setSelectedImageIndex(0) // Start with the first image
+      setCurrentView("annotation")
+    }
+  }
 
   return (
     <main className="min-h-screen bg-background">
       {currentView === "upload" && (
         <UploadInterface
           selectedFiles={selectedFiles}
-          // batches={batches}
           onFilesSelected={handleFilesSelected}
           onUploadBatch={handleUploadBatch}
           onImageSelect={handleImageSelect}
-          onRefetchBatches={fetchBatches}
+          onViewResults={handleViewResults}
+          onRefetchBatches={refetchBatches}
         />
       )}
 
-      {/* {currentView === "annotation" && selectedBatchId && selectedImageIndex !== null && (
+      {currentView === "annotation" && selectedBatchId && selectedImageIndex !== null && (
         <AnnotationEditor
-          image={batches.find((batch) => batch.id === selectedBatchId)!.images[selectedImageIndex]}
+          image={batches?.find((batch) => batch.id === selectedBatchId)?.images[selectedImageIndex] ?? {
+            id: "",
+            name: "",
+            url: ""
+          }}
           onBack={handleBackToUpload}
           onNextImage={
-            selectedImageIndex < batches.find((batch) => batch.id === selectedBatchId)!.images.length - 1
+            selectedImageIndex < (batches?.find((batch) => batch.id === selectedBatchId)?.images.length ?? 0) - 1
               ? handleNextImage
               : undefined
           }
           onPreviousImage={selectedImageIndex > 0 ? handlePreviousImage : undefined}
         />
-      )} */}
+      )}
     </main>
   )
 }
