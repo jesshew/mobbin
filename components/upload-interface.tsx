@@ -35,7 +35,7 @@ export function UploadInterface({
   const [showToast, setShowToast] = useState(false)
   const [expandedBatchId, setExpandedBatchId] = useState<string | null>(null)
 
-  const { data: batches, error, isLoading } = useSWR<Batch[]>('/api/batches', fetcher)
+  const { data: batches, error, isLoading, mutate } = useSWR<Batch[]>('/api/batches', fetcher)
 
   const toggleBatch = (batchId: string) => {
     setExpandedBatchId(expandedBatchId === batchId ? null : batchId)
@@ -84,22 +84,19 @@ export function UploadInterface({
       });
 
       if (!response.ok) {
-        throw new Error('Upload failed');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Upload failed');
       }
 
       const result = await response.json();
       if (result.success) {
         onUploadBatch(finalBatchName, analysisType, files);
-        onRefetchBatches(); // Refetch batches after successful upload
+        // Trigger a revalidation of the batches data
+        await mutate();
       }
     } catch (error) {
       console.error('Upload error:', error);
-      <Toast variant="default" onOpenChange={setShowToast}>
-        <ToastTitle>Upload failed</ToastTitle>
-        <ToastDescription>
-          There was an error uploading your files. Please try again.
-        </ToastDescription>
-      </Toast>
+      setShowToast(true);
     }
   };
 

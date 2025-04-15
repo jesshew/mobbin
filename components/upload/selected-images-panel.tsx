@@ -54,7 +54,6 @@ export function SelectedImagesPanel({
     setIsUploading(true);
     try {
       await onUploadBatch(selectedFiles, batchName, analysisType);
-      onRefetchBatches(); // Refetch batches after successful upload
     } catch (error) {
       console.error('Upload failed:', error);
       // You might want to show an error toast here

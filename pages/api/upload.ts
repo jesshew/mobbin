@@ -153,8 +153,23 @@ export default async function handler(
 
   } catch (error) {
     console.error('Upload handler error:', error)
+    
+    // Provide more specific error messages based on the error type
+    if (error instanceof Error) {
+      if (error.message.includes('maxFileSize')) {
+        return res.status(400).json({ 
+          error: 'File size exceeds the maximum limit of 10MB' 
+        })
+      }
+      if (error.message.includes('filter')) {
+        return res.status(400).json({ 
+          error: 'Only image files are allowed' 
+        })
+      }
+    }
+    
     return res.status(500).json({ 
-      error: 'Failed to process upload' 
+      error: error instanceof Error ? error.message : 'Failed to process upload' 
     })
   }
 } 

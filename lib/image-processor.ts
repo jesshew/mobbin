@@ -12,6 +12,26 @@ const DEFAULT_JPEG_QUALITY = 80
 // Temporary directory for processed images
 const TEMP_DIR = path.join(process.cwd(), 'tmp')
 
+/**
+ * Normalizes a filename by removing special characters and spaces
+ * @param filename - Original filename to normalize
+ * @returns Normalized filename with only alphanumeric characters, dots, and hyphens
+ */
+function normalizeFilename(filename: string): string {
+  // Remove file extension
+  const { name, ext } = path.parse(filename)
+  
+  // Replace spaces and special characters with hyphens
+  const normalized = name
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '-') // Replace non-alphanumeric with hyphens
+    .replace(/-+/g, '-')        // Replace multiple hyphens with single hyphen
+    .replace(/^-|-$/g, '')      // Remove leading/trailing hyphens
+  
+  // Add timestamp to ensure uniqueness
+  return `${normalized}${ext}`
+}
+
 // Ensure temp directory exists
 if (!fs.existsSync(TEMP_DIR)) {
   fs.mkdirSync(TEMP_DIR, { recursive: true })
@@ -36,7 +56,7 @@ export async function processImage(
   targetWidth: number = DEFAULT_TARGET_WIDTH,
   targetHeight: number = DEFAULT_TARGET_HEIGHT
 ): Promise<ProcessedImage> {
-  const filename = `${path.parse(originalFilename).name}.jpg`
+  const filename = normalizeFilename(originalFilename)
   
   try {
     const metadata = await sharp(imageBuffer).metadata()
