@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ControlPanelHeader } from "@/components/control-panel/control-panel-header"
 import { ElementList } from "@/components/control-panel/element-list"
@@ -8,6 +8,7 @@ import { ElementEditor } from "@/components/control-panel/element-editor"
 import { SummaryPanel } from "@/components/control-panel/summary-panel"
 import { PanelFooterActions } from "@/components/control-panel/panel-footer-actions"
 import { BoundingBox } from "@/types/annotation"
+import { useControlPanelState } from "@/hooks/use-box-interaction"
 
 interface ControlPanelProps {
   boundingBoxes: BoundingBox[]
@@ -44,13 +45,16 @@ export function ControlPanel({
   onBoxDeselect,
   editingLabelState,
 }: ControlPanelProps) {
-  // Local UI state
-  const [activeTab, setActiveTab] = useState<string>("elements")
-  const [hoveredBoxId, setHoveredBoxId] = useState<number | null>(null)
-  const [view, setView] = useState<"list" | "edit">("list")
-  
-  // Calculate total inference time
-  const totalInferenceTime = boundingBoxes.reduce((total, box) => total + box.inferenceTime, 0)
+  // Use the hook for UI state management
+  const {
+    activeTab,
+    setActiveTab,
+    hoveredBoxId,
+    setHoveredBoxId,
+    view,
+    setView,
+    totalInferenceTime
+  } = useControlPanelState(boundingBoxes)
 
   const handleElementSelect = (box: BoundingBox) => {
     onBoxSelect(box)
@@ -111,8 +115,7 @@ export function ControlPanel({
                 onBoxUpdate={onBoxUpdate}
                 onBoxDelete={onBoxDelete}
                 onBackToList={handleBackToList}
-                editingLabel={editingLabelState.editingLabelText}
-                setEditingLabel={editingLabelState.setEditingLabelText}
+                editingLabelState={editingLabelState}
               />
             ) : (
               <div className="p-4 text-center text-muted-foreground">Select an element to edit its properties</div>
@@ -180,8 +183,7 @@ export function ControlPanel({
           onBoxUpdate={onBoxUpdate}
           onBoxDelete={onBoxDelete}
           onBackToList={handleBackToList}
-          editingLabel={editingLabelState.editingLabelText}
-          setEditingLabel={editingLabelState.setEditingLabelText}
+          editingLabelState={editingLabelState}
         />
       )}
     </div>

@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react"
+import { useState, useCallback, useRef } from "react"
 import { BoundingBox } from "@/types/annotation"
 
 interface AnnotationState {
@@ -22,36 +22,53 @@ interface AnnotationState {
 }
 
 export function useAnnotationState(initialBoxes: BoundingBox[]) {
+  // Use refs for frequently updated values to avoid re-renders
+  const dragStateRef = useRef({
+    isDragging: false,
+    startX: 0,
+    startY: 0,
+    originalBox: null as BoundingBox | null
+  })
+
+  const resizeStateRef = useRef({
+    isResizing: false,
+    handle: null as string | null,
+    startX: 0,
+    startY: 0,
+    originalBox: null as BoundingBox | null
+  })
+
   // Core state management
   const [state, setState] = useState<AnnotationState>({
     boundingBoxes: initialBoxes,
     selectedBox: null,
     editingLabelId: null,
     editingLabelText: "",
-    dragState: {
-      isDragging: false,
-      startX: 0,
-      startY: 0,
-      originalBox: null
-    },
-    resizeState: {
-      isResizing: false,
-      handle: null,
-      startX: 0,
-      startY: 0,
-      originalBox: null
-    }
+    dragState: dragStateRef.current,
+    resizeState: resizeStateRef.current
   })
 
   // Box manipulation methods
   const updateBox = useCallback((updatedBox: BoundingBox) => {
-    setState(current => ({
-      ...current,
-      boundingBoxes: current.boundingBoxes.map(box => 
-        box.id === updatedBox.id ? updatedBox : box
-      ),
-      selectedBox: current.selectedBox?.id === updatedBox.id ? updatedBox : current.selectedBox
-    }))
+    setState(current => {
+      // Only update if the box has actually changed
+      const existingBox = current.boundingBoxes.find(box => box.id === updatedBox.id)
+      if (existingBox && 
+          existingBox.x === updatedBox.x &&
+          existingBox.y === updatedBox.y &&
+          existingBox.width === updatedBox.width &&
+          existingBox.height === updatedBox.height) {
+        return current
+      }
+
+      return {
+        ...current,
+        boundingBoxes: current.boundingBoxes.map(box => 
+          box.id === updatedBox.id ? updatedBox : box
+        ),
+        selectedBox: current.selectedBox?.id === updatedBox.id ? updatedBox : current.selectedBox
+      }
+    })
   }, [])
 
   const selectBox = useCallback((box: BoundingBox | null) => {
@@ -115,24 +132,41 @@ export function useAnnotationState(initialBoxes: BoundingBox[]) {
     })
   }, [])
 
-  // Interaction state methods
-  const setDragState = useCallback((state: Partial<AnnotationState['dragState']> | ((prev: AnnotationState['dragState']) => AnnotationState['dragState'])) => {
-    setState(current => ({
-      ...current,
-      dragState: typeof state === 'function' 
-        ? state(current.dragState)
-        : { ...current.dragState, ...state }
-    }))
-  }, [])
+  // Optimized interaction state methods
+  const setDragState = useCallback((newState: Partial<AnnotationState['dragState']> | ((prev: AnnotationState['dragState']) => AnnotationState['dragState'])) => {
+    const updatedState = typeof newState === 'function' 
+      ? newState(dragStateRef.current)
+      : { ...dragStateRef.current, ...newState }
+    
+    dragStateRef.current = updatedState
+    
+    // Only update React state if necessary
+    if (updatedState.isDragging !== state.dragState.isDragging ||
+        updatedState.originalBox !== state.dragState.originalBox) {
+      setState(current => ({
+        ...current,
+        dragState: updatedState
+      }))
+    }
+  }, [state.dragState.isDragging, state.dragState.originalBox])
 
-  const setResizeState = useCallback((state: Partial<AnnotationState['resizeState']> | ((prev: AnnotationState['resizeState']) => AnnotationState['resizeState'])) => {
-    setState(current => ({
-      ...current,
-      resizeState: typeof state === 'function'
-        ? state(current.resizeState)
-        : { ...current.resizeState, ...state }
-    }))
-  }, [])
+  const setResizeState = useCallback((newState: Partial<AnnotationState['resizeState']> | ((prev: AnnotationState['resizeState']) => AnnotationState['resizeState'])) => {
+    const updatedState = typeof newState === 'function'
+      ? newState(resizeStateRef.current)
+      : { ...resizeStateRef.current, ...newState }
+    
+    resizeStateRef.current = updatedState
+    
+    // Only update React state if necessary
+    if (updatedState.isResizing !== state.resizeState.isResizing ||
+        updatedState.handle !== state.resizeState.handle ||
+        updatedState.originalBox !== state.resizeState.originalBox) {
+      setState(current => ({
+        ...current,
+        resizeState: updatedState
+      }))
+    }
+  }, [state.resizeState.isResizing, state.resizeState.handle, state.resizeState.originalBox])
 
   return {
     // Direct state access
@@ -140,8 +174,8 @@ export function useAnnotationState(initialBoxes: BoundingBox[]) {
     selectedBox: state.selectedBox,
     editingLabelId: state.editingLabelId,
     editingLabelText: state.editingLabelText,
-    dragState: state.dragState,
-    resizeState: state.resizeState,
+    dragState: dragStateRef.current,
+    resizeState: resizeStateRef.current,
     
     // Methods
     updateBox,

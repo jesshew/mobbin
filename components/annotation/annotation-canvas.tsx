@@ -1,3 +1,4 @@
+import { useRef, useEffect, memo } from "react"
 import React from "react"
 import { LabelEditor } from "./label-editor"
 import { BoxHandles } from "./box-handles"
@@ -45,6 +46,61 @@ interface InteractionHandlers {
   }
 }
 
+// Memoized box component to prevent unnecessary re-renders
+const Box = memo(({ 
+  box, 
+  isSelected, 
+  onSelect, 
+  startDragging, 
+  startResizing,
+  labelEditing
+}: { 
+  box: BoundingBox
+  isSelected: boolean
+  onSelect: (box: BoundingBox) => void
+  startDragging: (e: React.MouseEvent | React.TouchEvent, box: BoundingBox) => void
+  startResizing: (e: React.MouseEvent | React.TouchEvent, box: BoundingBox, handle: string) => void
+  labelEditing: {
+    editingLabelId: number | null
+    editingLabelText: string
+    setEditingLabelId: (id: number | null) => void
+    setEditingLabelText: (text: string) => void
+    updateLabelAndFinishEditing: () => void
+  }
+}) => {
+  return (
+    <div
+      key={box.id}
+      className={`absolute border-2 ${isSelected ? 'border-slate-700' : 'border-muted-foreground/50'} cursor-move border-dotted`}
+      style={{
+        left: `${box.x}px`,
+        top: `${box.y}px`,
+        width: `${box.width}px`,
+        height: `${box.height}px`,
+      }}
+      onClick={(e) => {
+        e.stopPropagation()
+        onSelect(box)
+      }}
+      onMouseDown={(e) => startDragging(e, box)}
+      onTouchStart={(e) => startDragging(e, box)}
+    >
+      <BoxHandles 
+        box={box} 
+        isSelected={isSelected} 
+        startResizing={startResizing} 
+      />
+      <LabelEditor 
+        box={box} 
+        isSelected={isSelected}
+        {...labelEditing}
+      />
+    </div>
+  )
+})
+
+Box.displayName = 'Box'
+
 interface AnnotationCanvasProps {
   imageState: ImageState
   boxControls: BoxControls
@@ -61,79 +117,45 @@ export function AnnotationCanvas({
   isMobile
 }: AnnotationCanvasProps) {
   const { imageUrl, scale, imageRef, containerRef } = imageState
-  const { boundingBoxes, selectedBox, onSelect, onUpdate } = boxControls
-  const { editingLabelId, editingLabelText, setEditingLabelId, setEditingLabelText, updateLabelAndFinishEditing } = labelEditing
-  const { startDragging, startResizing, dragState } = interactionHandlers
+  const { boundingBoxes, selectedBox, onSelect, onDeselect } = boxControls
+  const { startDragging, startResizing } = interactionHandlers
 
-  const renderBoundingBox = (box: BoundingBox) => (
-    <div
-      key={box.id}
-      className={`absolute border-2 ${
-        selectedBox?.id === box.id ? "border-primary" : "border-blue-500"
-      } bg-blue-500/10 group hover:bg-blue-500/20`}
-      style={{
-        left: `${box.x * scale}px`,
-        top: `${box.y * scale}px`,
-        width: `${box.width * scale}px`,
-        height: `${box.height * scale}px`,
-        cursor: dragState.isDragging && dragState.originalBox?.id === box.id ? "grabbing" : "grab",
-      }}
-      onClick={(e) => {
-        e.stopPropagation()
-        onSelect(box)
-      }}
-      onMouseDown={(e) => startDragging(e, box)}
-      onTouchStart={(e) => startDragging(e, box)}
-    >
-      <LabelEditor
-        box={box}
-        editingLabelId={editingLabelId}
-        editingLabelText={editingLabelText}
-        setEditingLabelId={setEditingLabelId}
-        setEditingLabelText={setEditingLabelText}
-        updateLabelAndFinishEditing={updateLabelAndFinishEditing}
-      />
-      <BoxHandles 
-        box={box} 
-        startResizing={startResizing} 
-        isMobile={isMobile} 
-      />
-    </div>
-  )
+  // Handle click outside to deselect
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        onDeselect()
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [containerRef, onDeselect])
 
   return (
     <div
       ref={containerRef}
-      className="relative mx-auto bg-white shadow-md"
-      style={{
-        width: "100%",
-        height: "90vh",
-        overflow: "hidden",
-      }}
+      className="relative"
+      style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}
     >
-      {imageUrl && (
-        <div className="relative h-full">
-          <img
-            ref={imageRef}
-            src={imageUrl || "/placeholder.svg"}
-            alt="Annotation canvas"
-            className="w-full h-full object-contain"
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
-          />
-          <div 
-            className="absolute top-0 left-0 w-full h-full"
-            style={{
-              transform: `scale(${scale})`,
-              transformOrigin: "top left",
-            }}
-          >
-            {boundingBoxes.map(renderBoundingBox)}
-          </div>
-        </div>
-      )}
+      <img
+        ref={imageRef}
+        src={imageUrl}
+        alt="Annotation target"
+        className="max-w-full h-auto"
+        draggable={false}
+      />
+      {boundingBoxes.map((box) => (
+        <Box
+          key={box.id}
+          box={box}
+          isSelected={selectedBox?.id === box.id}
+          onSelect={onSelect}
+          startDragging={startDragging}
+          startResizing={startResizing}
+          labelEditing={labelEditing}
+        />
+      ))}
     </div>
   )
 }

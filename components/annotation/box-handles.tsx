@@ -3,36 +3,48 @@ import { BoundingBox } from "@/types/annotation"
 
 interface BoxHandlesProps {
   box: BoundingBox
+  isSelected: boolean
   startResizing: (e: React.MouseEvent | React.TouchEvent, box: BoundingBox, handle: string) => void
-  isMobile: boolean
 }
 
+export function BoxHandles({ box, isSelected, startResizing }: BoxHandlesProps) {
+  if (!isSelected) return null
 
-export function BoxHandles({ box, startResizing, isMobile }: BoxHandlesProps) {
-  const handleSize = isMobile ? "16px" : "12px"
-  
-  const handleConfigs = [
-    // Corner handles
-    { position: "top-0 left-0", translate: "-translate-x-1/2 -translate-y-1/2", cursor: "nwse-resize", handle: "top-left" },
-    { position: "top-0 right-0", translate: "translate-x-1/2 -translate-y-1/2", cursor: "nesw-resize", handle: "top-right" },
-    { position: "bottom-0 left-0", translate: "-translate-x-1/2 translate-y-1/2", cursor: "nesw-resize", handle: "bottom-left" },
-    { position: "bottom-0 right-0", translate: "translate-x-1/2 translate-y-1/2", cursor: "nwse-resize", handle: "bottom-right" },
-    // Edge handles
-    { position: "top-0 left-1/2", translate: "-translate-x-1/2 -translate-y-1/2", cursor: "ns-resize", handle: "top" },
-    { position: "right-0 top-1/2", translate: "translate-x-1/2 -translate-y-1/2", cursor: "ew-resize", handle: "right" },
-    { position: "bottom-0 left-1/2", translate: "-translate-x-1/2 translate-y-1/2", cursor: "ns-resize", handle: "bottom" },
-    { position: "left-0 top-1/2", translate: "-translate-x-1/2 -translate-y-1/2", cursor: "ew-resize", handle: "left" }
+  const handleSize = 8
+  const handleStyle = {
+    width: handleSize,
+    height: handleSize,
+    backgroundColor: "white",
+    border: "2px solid #3b82f6",
+    position: "absolute" as const,
+    borderRadius: "50%",
+    cursor: "pointer",
+  }
+
+  const handles = [
+    { position: "top-left", x: -handleSize / 2, y: -handleSize / 2, cursor: "nw-resize" },
+    { position: "top-right", x: box.width - handleSize / 2, y: -handleSize / 2, cursor: "ne-resize" },
+    { position: "bottom-left", x: -handleSize / 2, y: box.height - handleSize / 2, cursor: "sw-resize" },
+    { position: "bottom-right", x: box.width - handleSize / 2, y: box.height - handleSize / 2, cursor: "se-resize" },
+    { position: "top", x: box.width / 2 - handleSize / 2, y: -handleSize / 2, cursor: "n-resize" },
+    { position: "right", x: box.width - handleSize / 2, y: box.height / 2 - handleSize / 2, cursor: "e-resize" },
+    { position: "bottom", x: box.width / 2 - handleSize / 2, y: box.height - handleSize / 2, cursor: "s-resize" },
+    { position: "left", x: -handleSize / 2, y: box.height / 2 - handleSize / 2, cursor: "w-resize" },
   ]
 
   return (
     <>
-      {handleConfigs.map((config) => (
+      {handles.map(({ position, x, y, cursor }) => (
         <div
-          key={config.handle}
-          className={`absolute ${config.position} bg-primary rounded-full ${config.translate} cursor-${config.cursor} opacity-0 group-hover:opacity-100 transition-opacity`}
-          onMouseDown={(e) => startResizing(e, box, config.handle)}
-          onTouchStart={(e) => startResizing(e, box, config.handle)}
-          style={{ width: handleSize, height: handleSize }}
+          key={position}
+          style={{
+            ...handleStyle,
+            left: x,
+            top: y,
+            cursor,
+          }}
+          onMouseDown={(e) => startResizing(e, box, position)}
+          onTouchStart={(e) => startResizing(e, box, position)}
         />
       ))}
     </>

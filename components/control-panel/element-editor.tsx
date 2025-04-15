@@ -11,8 +11,12 @@ interface ElementEditorProps {
   onBoxUpdate: (box: BoundingBox) => void
   onBoxDelete: (id: number) => void
   onBackToList: () => void
-  editingLabel?: string
-  setEditingLabel?: (label: string) => void
+  editingLabelState: {
+    editingLabelId: number | null
+    editingLabelText: string
+    setEditingLabelText: (text: string) => void
+    updateLabelAndFinishEditing: () => void
+  }
 }
 
 export function ElementEditor({
@@ -20,22 +24,10 @@ export function ElementEditor({
   onBoxUpdate,
   onBoxDelete,
   onBackToList,
-  editingLabel,
-  setEditingLabel
+  editingLabelState
 }: ElementEditorProps) {
-  // Use shared state when available, fallback to local state
-//   const currentEditingLabel = editingLabel ?? selectedBox.textLabel;
-  const handleEditingLabelChange = setEditingLabel ?? ((value: string) => {
-    onBoxUpdate({ ...selectedBox, textLabel: value })
-  });
-
   const handleLabelChange = (value: string) => {
     onBoxUpdate({ ...selectedBox, label: value })
-  }
-
-  const handleTextLabelChange = (value: string) => {
-    onBoxUpdate({ ...selectedBox, textLabel: value })
-    handleEditingLabelChange(value)
   }
 
   const handleDescriptionChange = (value: string) => {
@@ -90,8 +82,9 @@ export function ElementEditor({
             <Label htmlFor="text-label">Text Label</Label>
             <Input
               id="text-label"
-              value={selectedBox.textLabel}
-              onChange={(e) => handleTextLabelChange(e.target.value)}
+              value={editingLabelState.editingLabelText}
+              onChange={(e) => editingLabelState.setEditingLabelText(e.target.value)}
+              onBlur={editingLabelState.updateLabelAndFinishEditing}
               placeholder="Enter display text"
             />
           </div>

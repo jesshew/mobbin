@@ -1,4 +1,4 @@
-import { useState, useEffect, RefObject } from "react"
+import { useState, useEffect, RefObject, useRef } from "react"
 
 export function useImageScale(
   imageUrl: string,
@@ -6,6 +6,8 @@ export function useImageScale(
   imageRef: RefObject<HTMLImageElement>
 ) {
   const [scale, setScale] = useState<number>(1)
+  const lastScaleRef = useRef(1)
+  const resizeTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
   // Calculate scale factor when image loads or container resizes
   useEffect(() => {
@@ -15,11 +17,25 @@ export function useImageScale(
         const imageNaturalWidth = imageRef.current.naturalWidth
 
         if (imageNaturalWidth > containerWidth) {
-          setScale(containerWidth / imageNaturalWidth)
-        } else {
+          const newScale = containerWidth / imageNaturalWidth
+          // Only update if the scale has changed significantly
+          if (Math.abs(newScale - lastScaleRef.current) > 0.01) {
+            lastScaleRef.current = newScale
+            setScale(newScale)
+          }
+        } else if (lastScaleRef.current !== 1) {
+          lastScaleRef.current = 1
           setScale(1)
         }
       }
+    }
+
+    // Debounced resize handler
+    const handleResize = () => {
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current)
+      }
+      resizeTimeoutRef.current = setTimeout(updateScale, 100)
     }
 
     // Update scale when image loads
@@ -27,10 +43,15 @@ export function useImageScale(
       imageRef.current.onload = updateScale
     }
 
-    // Update scale on window resize
-    window.addEventListener("resize", updateScale)
-    return () => window.removeEventListener("resize", updateScale)
-  }, [imageUrl])
+    // Update scale on window resize with debounce
+    window.addEventListener("resize", handleResize)
+    return () => {
+      window.removeEventListener("resize", handleResize)
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current)
+      }
+    }
+  }, [imageUrl, containerRef, imageRef])
 
   return { scale }
 } 

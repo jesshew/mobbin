@@ -1,4 +1,4 @@
-import { useCallback, useEffect, RefObject, useMemo, useState } from "react"
+import { useCallback, useEffect, RefObject, useMemo, useState, useRef } from "react"
 import { BoundingBox } from "@/types/annotation"
 
 
@@ -34,9 +34,19 @@ export function useBoxInteraction({
   setDragState,
   setResizeState
 }: UseBoxInteractionProps) {
+  // Add throttling refs
+  const lastUpdateTime = useRef(0)
+  const THROTTLE_MS = 16 // ~60fps
+
   // Set up global mouse event listeners for dragging and resizing
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
+      const now = Date.now()
+      if (now - lastUpdateTime.current < THROTTLE_MS) {
+        return
+      }
+      lastUpdateTime.current = now
+
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect()
         const x = (e.clientX - rect.left) / scale
@@ -55,7 +65,10 @@ export function useBoxInteraction({
               y: dragState.originalBox.y + deltaY,
             }
 
-            updateBox(updatedBox)
+            // Batch the update
+            requestAnimationFrame(() => {
+              updateBox(updatedBox)
+            })
           }
           return dragState;
         })
@@ -146,7 +159,10 @@ export function useBoxInteraction({
               }
             }
 
-            updateBox(updatedBox)
+            // Batch the update
+            requestAnimationFrame(() => {
+              updateBox(updatedBox)
+            })
           }
           return resizeState;
         })

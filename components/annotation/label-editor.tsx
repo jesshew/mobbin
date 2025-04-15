@@ -1,8 +1,9 @@
-import React from "react"
+import { useState, useEffect, useRef } from "react"
 import { BoundingBox } from "@/types/annotation"
 
 interface LabelEditorProps {
   box: BoundingBox
+  isSelected: boolean
   editingLabelId: number | null
   editingLabelText: string
   setEditingLabelId: (id: number | null) => void
@@ -12,13 +13,33 @@ interface LabelEditorProps {
 
 export function LabelEditor({
   box,
+  isSelected,
   editingLabelId,
   editingLabelText,
   setEditingLabelId,
   setEditingLabelText,
   updateLabelAndFinishEditing
 }: LabelEditorProps) {
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const [isHovered, setIsHovered] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const isEditing = editingLabelId === box.id
+
+  // Focus input when editing starts
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [isEditing])
+
+  const handleLabelClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (!isEditing) {
+      setEditingLabelId(box.id)
+      setEditingLabelText(box.textLabel)
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       updateLabelAndFinishEditing()
     } else if (e.key === "Escape") {
@@ -26,29 +47,25 @@ export function LabelEditor({
     }
   }
 
-  const handleMouseEnter = () => {
-    if (editingLabelId !== box.id) {
-      setEditingLabelId(box.id)
-    }
-  }
-
-  const labelStyles = "bg-blue-500 text-white text-xs px-1 py-0.5 rounded"
+  const labelStyles = "bg-black text-white text-xs px-1 py-0.5 rounded"
 
   return (
     <div
       className="absolute -top-6 left-0 min-w-[60px] max-w-full"
-      onMouseEnter={handleMouseEnter}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={handleLabelClick}
     >
-      {editingLabelId === box.id ? (
+      {isEditing ? (
         <input
+          ref={inputRef}
           type="text"
           value={editingLabelText}
           onChange={(e) => setEditingLabelText(e.target.value)}
-          onBlur={updateLabelAndFinishEditing}
           onKeyDown={handleKeyDown}
+          onBlur={updateLabelAndFinishEditing}
           className={`${labelStyles} w-full outline-none border border-white`}
-          autoFocus
-          onClick={(e) => e.stopPropagation()}
+          placeholder="Enter label..."
         />
       ) : (
         <span className={`${labelStyles} pointer-events-auto cursor-text inline-block max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap`}>
