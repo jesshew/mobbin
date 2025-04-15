@@ -1,15 +1,17 @@
 "use client"
 
 import { useState, useCallback } from "react"
-import { Loader2, Upload } from "lucide-react"
+import { Loader2 } from "lucide-react"
 import type { Batch } from "@/types/batch"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { useBatchManagement } from "@/hooks/use-batch-management"
+import { filterAndLimitImageFiles, removeFileAtIndex } from "@/lib/file-utils"
+import { uploadFiles } from "@/services/upload-service"
+import { TOAST_MESSAGES } from "@/lib/constants"
 import { DropzoneArea } from "@/components/upload/dropzone-area"
 import { SelectedImagesPanel } from "@/components/upload/selected-images-panel"
 import { BatchList } from "@/components/upload/batch-list"
 import { Toast, ToastProvider, ToastViewport, ToastTitle, ToastDescription } from "@/components/ui/toast"
-import useSWR from 'swr'
-import { BatchDisplay } from "./upload/batch-display"
 
 interface UploadInterfaceProps {
   selectedFiles: File[]
@@ -18,8 +20,6 @@ interface UploadInterfaceProps {
   onImageSelect: (batchId: string, imageIndex: number) => void
   onRefetchBatches: () => void
 }
-
-const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 export function UploadInterface({
   selectedFiles,
@@ -30,75 +30,47 @@ export function UploadInterface({
 }: UploadInterfaceProps) {
   const [isDragging, setIsDragging] = useState(false)
   const [batchName, setBatchName] = useState("")
-  const isMobile = useIsMobile()
   const [analysisType, setAnalysisType] = useState("")
-  const [showToast, setShowToast] = useState(false)
-  const [expandedBatchId, setExpandedBatchId] = useState<string | null>(null)
+  const isMobile = useIsMobile()
+  
+  const {
+    batches,
+    error,
+    isLoading,
+    mutate,
+    expandedBatchId,
+    toggleBatch,
+    showToast,
+    setShowToast,
+    generateDefaultBatchName,
+  } = useBatchManagement()
 
-  const { data: batches, error, isLoading, mutate } = useSWR<Batch[]>('/api/batches', fetcher)
-
-  const toggleBatch = (batchId: string) => {
-    setExpandedBatchId(expandedBatchId === batchId ? null : batchId)
-  }
-
-  const onDrop = useCallback(
+  const handleFileDrop = useCallback(
     (acceptedFiles: File[]) => {
-      // Filter to only include image files
-      const imageFiles = acceptedFiles.filter((file) => file.type.startsWith("image/"))
-
-      // Limit to 20 files
-      const limitedFiles = imageFiles.slice(0, 20)
-
-      // Combine with existing selected files, up to 20 total
-      const combinedFiles = [...selectedFiles, ...limitedFiles].slice(0, 20)
-
+      const combinedFiles = filterAndLimitImageFiles(acceptedFiles, selectedFiles)
       onFilesSelected(combinedFiles)
       setIsDragging(false)
     },
     [onFilesSelected, selectedFiles],
   )
 
-  const removeFile = (index: number) => {
-    const newFiles = [...selectedFiles]
-    newFiles.splice(index, 1)
+  const handleFileRemove = (index: number) => {
+    const newFiles = removeFileAtIndex(selectedFiles, index)
     onFilesSelected(newFiles)
   }
 
-  const uploadFiles = async (files: File[], batchName: string, analysisType: string) => {
-    try {
-      // Generate default batch name if empty
-      const finalBatchName = batchName.trim() || `Batch ${new Date().getTime()}`;
-      
-      // Create a single FormData for all files
-      const formData = new FormData();
-      files.forEach(file => {
-        formData.append('file', file);
-      });
-      formData.append('batchName', finalBatchName);
-      formData.append('analysisType', analysisType);
-      
-      // Single API call for all files
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Upload failed');
-      }
-
-      const result = await response.json();
-      if (result.success) {
-        onUploadBatch(finalBatchName, analysisType, files);
-        // Trigger a revalidation of the batches data
-        await mutate();
-      }
-    } catch (error) {
-      console.error('Upload error:', error);
-      setShowToast(true);
+  const handleUpload = async (files: File[], batchName: string, analysisType: string) => {
+    const finalBatchName = batchName.trim() || generateDefaultBatchName()
+    
+    const result = await uploadFiles(files, finalBatchName, analysisType)
+    
+    if (result.success) {
+      onUploadBatch(finalBatchName, analysisType, files)
+      await mutate()
+    } else {
+      setShowToast(true)
     }
-  };
+  }
 
   return (
     <div className="container mx-auto py-6 md:py-10 px-4">
@@ -108,7 +80,7 @@ export function UploadInterface({
         <DropzoneArea 
           isDragging={isDragging}
           setIsDragging={setIsDragging}
-          onDrop={onDrop}
+          onDrop={handleFileDrop}
         />
 
         {selectedFiles.length > 0 && (
@@ -116,8 +88,8 @@ export function UploadInterface({
             selectedFiles={selectedFiles}
             batchName={batchName}
             setBatchName={setBatchName}
-            onRemoveFile={removeFile}
-            onUploadBatch={uploadFiles}
+            onRemoveFile={handleFileRemove}
+            onUploadBatch={handleUpload}
             analysisType={analysisType}
             setAnalysisType={setAnalysisType}
             onRefetchBatches={onRefetchBatches}
@@ -128,7 +100,7 @@ export function UploadInterface({
           <div className="flex items-center justify-center h-full">
             <div className="flex flex-col items-center">
               <Loader2 className="h-8 w-8 animate-spin" />
-              <p className="mt-4 text-lg">Loading batches, please wait...</p>
+              <p className="mt-4 text-lg">{TOAST_MESSAGES.LOADING_BATCHES}</p>
             </div>
           </div>
         ) : error ? (
@@ -143,7 +115,13 @@ export function UploadInterface({
         ) : null}
       </div>
 
-      {/* <BatchDisplay /> */}
+      <ToastProvider>
+        <Toast open={showToast} onOpenChange={setShowToast}>
+          <ToastTitle>Error</ToastTitle>
+          <ToastDescription>{TOAST_MESSAGES.UPLOAD_ERROR}</ToastDescription>
+        </Toast>
+        <ToastViewport />
+      </ToastProvider>
     </div>
   )
 }
