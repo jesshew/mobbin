@@ -29,6 +29,7 @@ interface SelectedImagesPanelProps {
   onUploadBatch: (files: File[], batchName: string, analysisType: string) => void
   analysisType: string
   setAnalysisType: (type: string) => void
+  onRefetchBatches: () => void
 }
 
 export function SelectedImagesPanel({
@@ -39,6 +40,7 @@ export function SelectedImagesPanel({
   onUploadBatch,
   analysisType,
   setAnalysisType,
+  onRefetchBatches,
 }: SelectedImagesPanelProps) {
   const [showToast, setShowToast] = React.useState(false);
   const [isUploading, setIsUploading] = React.useState(false);
@@ -126,7 +128,8 @@ export function SelectedImagesPanel({
                 file={file}
                 index={index}
                 onRemove={onRemoveFile}
-                showRemoveButton
+                isUploadMode={true} 
+                onClick={() => {}}
               />
             ))}
           </div>

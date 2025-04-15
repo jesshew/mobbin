@@ -1,31 +1,30 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { UploadInterface } from "@/components/upload-interface"
 import { AnnotationEditor } from "@/components/annotation-editor"
+import type { Batch } from "@/types/batch"
 
-// Define types for our batch management system
-export interface Batch {
-  id: string
-  name: string
-  timestamp: Date
-  images: File[]
-  status: "uploading" | "extracting" | "annotating" | "preview" | "done"
-  analysisType: string
-  performance?: {
-    masterPromptRuntime: number // in seconds
-    totalInferenceTime: number // in seconds
-    detectedElementsCount: number
-  }
-}
-
-export default function AnnotationTool() {
-  // States for the streamlined flow
+export default function Home() {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
   const [batches, setBatches] = useState<Batch[]>([])
   const [selectedBatchId, setSelectedBatchId] = useState<string | null>(null)
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const [currentView, setCurrentView] = useState<"upload" | "annotation">("upload")
+
+  // Fetch batches function
+  const fetchBatches = async () => {
+    try {
+      const response = await fetch('/api/batches')
+      if (!response.ok) {
+        throw new Error('Failed to fetch batches')
+      }
+      const data = await response.json()
+      setBatches(data)
+    } catch (error) {
+      console.error('Error fetching batches:', error)
+    }
+  }
 
   // Handle file selection (not uploading yet)
   const handleFilesSelected = (files: File[]) => {
@@ -40,7 +39,11 @@ export default function AnnotationTool() {
       id: newBatchId,
       name: batchName || `Batch ${batches.length + 1}`,
       timestamp: new Date(),
-      images: uploadedFiles,
+      images: uploadedFiles.map(file => ({
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+        name: file.name,
+        url: URL.createObjectURL(file)
+      })),
       status: "uploading",
       analysisType: analysisType
     }
@@ -122,20 +125,25 @@ export default function AnnotationTool() {
     }
   }
 
-  // Render the appropriate view based on the current state
+  // Fetch batches on component mount
+  useEffect(() => {
+    fetchBatches()
+  }, [])
+
   return (
     <main className="min-h-screen bg-background">
       {currentView === "upload" && (
         <UploadInterface
           selectedFiles={selectedFiles}
-          batches={batches}
+          // batches={batches}
           onFilesSelected={handleFilesSelected}
           onUploadBatch={handleUploadBatch}
           onImageSelect={handleImageSelect}
+          onRefetchBatches={fetchBatches}
         />
       )}
 
-      {currentView === "annotation" && selectedBatchId && selectedImageIndex !== null && (
+      {/* {currentView === "annotation" && selectedBatchId && selectedImageIndex !== null && (
         <AnnotationEditor
           image={batches.find((batch) => batch.id === selectedBatchId)!.images[selectedImageIndex]}
           onBack={handleBackToUpload}
@@ -146,7 +154,7 @@ export default function AnnotationTool() {
           }
           onPreviousImage={selectedImageIndex > 0 ? handlePreviousImage : undefined}
         />
-      )}
+      )} */}
     </main>
   )
 }

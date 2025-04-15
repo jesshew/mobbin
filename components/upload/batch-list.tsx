@@ -1,4 +1,4 @@
-import type { Batch } from "@/app/page"
+import type { Batch } from "@/types/batch"
 import { BatchCard } from "@/components/upload/batch-card"
 // import { RevealOnHover } from "@/components/ui/reveal-on-hover"
 
@@ -20,16 +20,6 @@ export function BatchList({
       <h2 className="text-xl font-medium mb-4">Batches ({batches.length})</h2>
       <div className="space-y-3">
         {batches.map((batch) => (
-        //   <div
-        //     key={batch.id}
-        //     className={`transition-all duration-300 ease-in-out group ${
-        //       expandedBatchId === batch.id 
-        //         ? 'max-h-[500px] opacity-100' 
-        //         : 'max-h-[80px] opacity-90 hover:opacity-100'
-        //     }`}
-        //     onMouseEnter={() => toggleBatch(batch.id)}
-        //     onMouseLeave={() => toggleBatch(batch.id)}
-        //   >
             <BatchCard
               key={batch.id}
               batch={batch}
