@@ -120,18 +120,6 @@ export function AnnotationCanvas({
   const { boundingBoxes, selectedBox, onSelect, onDeselect } = boxControls
   const { startDragging, startResizing } = interactionHandlers
 
-  // Handle click outside to deselect
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        onDeselect()
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [containerRef, onDeselect])
-
   return (
     <div
       ref={containerRef}

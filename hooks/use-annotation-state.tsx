@@ -74,7 +74,9 @@ export function useAnnotationState(initialBoxes: BoundingBox[]) {
   const selectBox = useCallback((box: BoundingBox | null) => {
     setState(current => ({
       ...current,
-      selectedBox: box
+      selectedBox: box,
+      editingLabelId: box ? box.id : null,
+      editingLabelText: box ? box.textLabel : ""
     }))
   }, [])
 
@@ -93,10 +95,12 @@ export function useAnnotationState(initialBoxes: BoundingBox[]) {
       // If starting to edit, pre-populate with the existing label
       const editingBox = id ? current.boundingBoxes.find(box => box.id === id) : null;
       
+      const nextEditingText = editingBox ? editingBox.textLabel : current.editingLabelText
+
       return {
         ...current,
         editingLabelId: id,
-        editingLabelText: editingBox ? editingBox.textLabel : current.editingLabelText
+        editingLabelText: id === current.editingLabelId ? current.editingLabelText : nextEditingText
       }
     })
   }, [])
@@ -125,7 +129,8 @@ export function useAnnotationState(initialBoxes: BoundingBox[]) {
           ...current,
           boundingBoxes: updatedBoxes,
           selectedBox: updatedSelectedBox,
-          editingLabelId: null
+          editingLabelId: null,
+          editingLabelText: ""
         }
       }
       return current;

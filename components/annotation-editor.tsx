@@ -111,6 +111,7 @@ export function AnnotationEditor({ image, onBack, onNextImage, onPreviousImage }
   
   const containerRef = useRef<HTMLDivElement>(document.createElement('div'))
   const imageRef = useRef<HTMLImageElement>(document.createElement('img'))
+  const controlPanelRef = useRef<HTMLDivElement>(null) // Add ref for control panel
   
   // Custom hooks
   const { scale } = useImageScale(image.url, containerRef, imageRef)
@@ -137,6 +138,23 @@ export function AnnotationEditor({ image, onBack, onNextImage, onPreviousImage }
     setDragState,
     setResizeState
   })
+
+  // Handle click outside canvas and control panel to deselect
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        containerRef.current && 
+        !containerRef.current.contains(e.target as Node) &&
+        controlPanelRef.current && 
+        !controlPanelRef.current.contains(e.target as Node)
+      ) {
+        selectBox(null)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [containerRef, controlPanelRef, selectBox])
 
   const handleSave = () => {
     console.log("Saving annotation data:", boundingBoxes)
@@ -227,7 +245,9 @@ export function AnnotationEditor({ image, onBack, onNextImage, onPreviousImage }
       </div>
 
       {/* Control panel / sidebar - flexible width */}
-      <div className={`flex-1 border-l bg-background flex flex-col h-full min-w-[300px] ${isPanelCollapsed ? "hidden" : "flex"}`}>
+      <div 
+        ref={controlPanelRef} // Attach ref to the control panel wrapper
+        className={`flex-1 border-l bg-background flex flex-col h-full min-w-[300px] ${isPanelCollapsed ? "hidden" : "flex"}`}>
         <ControlPanel
           boundingBoxes={boundingBoxes}
           selectedBox={selectedBox}

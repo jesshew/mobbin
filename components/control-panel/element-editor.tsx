@@ -80,11 +80,18 @@ export function ElementEditor({
 
           <div className="space-y-2">
             <Label htmlFor="text-label">Text Label</Label>
-            <Input
+            {/* <Input
               id="text-label"
               value={editingLabelState.editingLabelText}
               onChange={(e) => editingLabelState.setEditingLabelText(e.target.value)}
               onBlur={editingLabelState.updateLabelAndFinishEditing}
+              placeholder="Enter display text"
+            /> */}
+            <Input
+              id="text-label"
+              value={selectedBox.textLabel}
+              readOnly
+              disabled
               placeholder="Enter display text"
             />
           </div>
