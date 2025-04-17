@@ -1,0 +1,11 @@
+[
+  {
+    "screenshotId": 78,
+    "batchId": 39,
+    "result": {
+      "elements": {}
+    },
+    "success": false,
+    "error": "Failed to generate signed URL: Object not found"
+  }
+]

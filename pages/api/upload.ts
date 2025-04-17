@@ -5,6 +5,7 @@ import fs from 'fs'
 import { uploadImageToStorage } from '@/lib/storage'
 import { supabase } from '@/lib/supabase'
 import { SupabaseClient } from '@supabase/supabase-js'
+import { processBatchAnalysis } from '@/services/image-analysis-pipeline'
 
 interface ProcessedImage {
   processedBlob: Blob;
@@ -217,22 +218,36 @@ export default async function handler(
 
     // 4. Process Images and Save Records
     const { failedSaves } = await processAndSaveImages(uploadedFiles, batchId, supabase);
-
     // 5. Determine final batch status and update
-    const finalStatus = failedSaves > 0 ? 'partial_upload' : 'extracting'; // Example logic
+    console.log(`Setting final status for batch ${batchId}. Failed saves: ${failedSaves}`);
+    const finalStatus = failedSaves > 0 ? 'partial_upload' : 'extracting';
+    console.log(`Final status determined: ${finalStatus}`);
     await updateBatchStatus(batchId, finalStatus, supabase);
+    console.log(`Batch status updated successfully`);
 
-    // 6. Return Success Response
+    // 6. Trigger image analysis pipeline asynchronously
+    if (failedSaves < uploadedFiles.length) {  // Only if at least one image was uploaded successfully
+      console.log(`Starting analysis pipeline for batch ${batchId}`);
+      processBatchAnalysis(supabase, batchId).catch(error => {
+        console.error(`Failed to start analysis pipeline for batch ${batchId}:`, error);
+      });
+    } else {
+      console.log(`Skipping analysis pipeline - all uploads failed for batch ${batchId}`);
+    }
+
+    // 7. Return Success Response
+    const responseMessage = failedSaves > 0
+      ? `Batch created with ${failedSaves} failed uploads. Analysis started for successful uploads.`
+      : 'Upload successful, analysis pipeline started.';
+    console.log(`Sending success response: ${responseMessage}`);
     return res.status(200).json({
       success: true,
       batchId: batchId,
-      message: failedSaves > 0
-        ? `Batch created, but ${failedSaves} image(s) failed to process.`
-        : 'Upload successful, batch created.'
+      message: responseMessage
     });
 
   } catch (error) {
-    // 7. Handle any Errors during the process
+    // 8. Handle any Errors during the process
     handleUploadError(error, res);
   }
 } 

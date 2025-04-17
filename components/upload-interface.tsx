@@ -6,7 +6,7 @@ import type { Batch } from "@/types/batch"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { useBatchManagement } from "@/hooks/use-batch-management"
 import { filterAndLimitImageFiles, removeFileAtIndex } from "@/lib/file-utils"
-import { uploadFiles } from "@/services/upload-service"
+import { uploadImageBatch } from "@/services/upload-service"
 import { TOAST_MESSAGES } from "@/lib/constants"
 import { DropzoneArea } from "@/components/upload/dropzone-area"
 import { SelectedImagesPanel } from "@/components/upload/selected-images-panel"
@@ -64,7 +64,7 @@ export function UploadInterface({
   const handleUpload = async (files: File[], batchName: string, analysisType: string) => {
     const finalBatchName = batchName.trim() || generateDefaultBatchName()
     
-    const result = await uploadFiles(files, finalBatchName, analysisType)
+    const result = await uploadImageBatch(files, finalBatchName, analysisType)
     
     if (result.success) {
       onUploadBatch(finalBatchName, analysisType, files)

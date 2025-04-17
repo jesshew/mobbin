@@ -1,32 +1,45 @@
 import { API_ENDPOINTS } from '@/lib/constants';
 
-export const uploadFiles = async (
+/**
+ * Uploads a batch of image files for processing with associated metadata.
+ * Sends files to the server along with a batch name and analysis type.
+ * 
+ * @param files - Array of image files to upload
+ * @param batchName - Name to identify this batch of uploads
+ * @param analysisType - Type of analysis to perform on the images
+ * @returns Object indicating success/failure with optional error message
+ */
+export const uploadImageBatch = async (
   files: File[],
-  batchName: string,
+  batchName: string, 
   analysisType: string
 ): Promise<{ success: boolean; error?: string }> => {
   try {
-    const formData = new FormData();
-    files.forEach(file => formData.append('file', file));
-    formData.append('batchName', batchName);
-    formData.append('analysisType', analysisType);
+    // Package files and metadata into form data for upload
+    const batchFormData = new FormData();
+    files.forEach(imageFile => batchFormData.append('file', imageFile));
+    batchFormData.append('batchName', batchName);
+    batchFormData.append('analysisType', analysisType);
 
-    const response = await fetch(API_ENDPOINTS.UPLOAD, {
+    // Send batch to server for processing
+    const uploadResponse = await fetch(API_ENDPOINTS.UPLOAD, {
       method: 'POST',
-      body: formData,
+      body: batchFormData,
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Upload failed');
+    // Handle unsuccessful uploads
+    if (!uploadResponse.ok) {
+      const { error } = await uploadResponse.json();
+      throw new Error(error || 'Image batch upload failed');
     }
 
     return { success: true };
+
   } catch (error) {
-    console.error('Upload error:', error);
-    return { 
-      success: false, 
-      error: error instanceof Error ? error.message : 'Unknown error occurred' 
+    console.error('Failed to upload image batch:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unexpected error during upload'
     };
   }
-}; 
+};
