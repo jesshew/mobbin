@@ -17,7 +17,7 @@ const TEMP_DIR = path.join(process.cwd(), 'tmp')
  * @param filename - Original filename to normalize
  * @returns Normalized filename with only alphanumeric characters, dots, and hyphens
  */
-function normalizeFilename(filename: string): string {
+function sanitizeFilename(filename: string): string {
   // Remove file extension
   const { name, ext } = path.parse(filename)
   
@@ -50,13 +50,13 @@ interface ProcessedImage {
  * @param targetHeight - Desired height after processing
  * @returns Object containing the path and filename of the processed image
  */
-export async function processImage(
+export async function resizeAndPadImageBuffer(
   imageBuffer: Buffer,
   originalFilename: string,
   targetWidth: number = DEFAULT_TARGET_WIDTH,
   targetHeight: number = DEFAULT_TARGET_HEIGHT
 ): Promise<ProcessedImage> {
-  const filename = normalizeFilename(originalFilename)
+  const filename = sanitizeFilename(originalFilename)
   
   try {
     const metadata = await sharp(imageBuffer).metadata()
@@ -116,7 +116,7 @@ export async function processImage(
 /**
  * Cleans up a temporary file
  */
-export function cleanupTempFile(filePath: string): void {
+export function deleteFile(filePath: string): void {
   try {
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath)
