@@ -64,7 +64,7 @@ export function UploadInterface({
   const handleUpload = async (files: File[], batchName: string, analysisType: string) => {
     const finalBatchName = batchName.trim() || generateDefaultBatchName()
     
-    const result = await uploadFiles(files, finalBatchName, analysisType)
+    const result= await uploadFiles(files, finalBatchName, analysisType)
     
     if (result.success) {
       onUploadBatch(finalBatchName, analysisType, files)

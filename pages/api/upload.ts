@@ -1,16 +1,22 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import formidable, { File, Fields } from 'formidable'
-import { resizeAndPadImageBuffer, deleteFile } from '@/lib/image-processor'
-import fs from 'fs'
-import { uploadImageToStorage } from '@/lib/storage'
+// Remove unused image processing imports
+// import { resizeAndPadImageBuffer, deleteFile } from '@/lib/image-processor'
+// import fs from 'fs' // Keep fs if parseFormData needs it, or remove if not needed elsewhere. Check parseFormData usage.
+// import { uploadImageToStorage } from '@/lib/storage' // Removed, handled by ScreenshotProcessor
 import { supabase } from '@/lib/supabase'
 import { SupabaseClient } from '@supabase/supabase-js'
+// Import the new services
+import { ScreenshotProcessor } from '@/lib/services/screenshotProcessor';
+import { BatchProcessingService } from '@/lib/services/batchProcessingService';
 
-interface ProcessedImage {
-  processedBlob: Blob;
-  filename: string;
-  processingTime?: number;
-}
+// Keep ProcessedImage interface ONLY if still needed by parseFormData or other parts.
+// If not, it can be removed as ScreenshotProcessor encapsulates its own processing details.
+// interface ProcessedImage {
+//  processedBlob: Blob;
+//  filename: string;
+//  processingTime?: number;
+// }
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
 
@@ -44,49 +50,10 @@ async function parseFormData(req: NextApiRequest): Promise<{ fields: Fields, fil
   })
 }
 
-// Helper function to process a single uploaded file
-async function processUploadedFile(file: File): Promise<ProcessedImage> {
-  const fileBuffer = fs.readFileSync(file.filepath)
-  const startTime = Date.now()
-  const processed = await resizeAndPadImageBuffer(fileBuffer, file.originalFilename || Date.now().toString())
-  const processingTime = (Date.now() - startTime) / 1000 // Convert to seconds
-  
-  // Ensure temp file is cleaned up even if processing fails later
-  deleteFile(file.filepath) 
+// Removed processUploadedFile function - logic moved to ScreenshotProcessor
 
-  return {
-    processedBlob: new Blob([processed.buffer], { type: 'image/jpeg' }),
-    filename: processed.filename,
-    processingTime,
-  }
-}
+// Removed saveScreenshotRecord function - logic moved to ScreenshotProcessor
 
-
-// Helper function to handle DB operations for a processed image
-async function saveScreenshotRecord(
-  image: ProcessedImage,
-  batchId: number,
-  supabaseClient: SupabaseClient // Use SupabaseClient type
-): Promise<void> {
-  const { fileUrl, error: uploadError } = await uploadImageToStorage(
-    image.processedBlob,
-    batchId,
-    image.filename
-  )
-  if (uploadError) throw uploadError
-
-  const { error: dbError } = await supabaseClient
-    .from('screenshot')
-    .insert({
-      batch_id: batchId,
-      screenshot_file_name: image.filename,
-      screenshot_file_url: fileUrl,
-      screenshot_processing_status: 'pending',
-      screenshot_processing_time: image.processingTime ? `${image.processingTime} seconds` : null,
-    })
-
-  if (dbError) throw dbError
-}
 
 // --- Refactored Helper Functions ---
 
@@ -139,45 +106,11 @@ async function createBatchRecord(
   return batchData;
 }
 
-// 3. Process Uploaded Files and Save Records
-async function processAndSaveImages(
-  uploadedFiles: File[],
-  batchId: number,
-  supabaseClient: SupabaseClient
-): Promise<{ failedSaves: number }> {
-  const processedImages = await Promise.all(
-    uploadedFiles.map(file => processUploadedFile(file))
-  );
+// Removed processAndSaveImages function - logic replaced by direct calls to ScreenshotProcessor
 
-  const saveResults = await Promise.allSettled(
-    processedImages.map(image => saveScreenshotRecord(image, batchId, supabaseClient))
-  );
 
-  const failedSaves = saveResults.filter(result => result.status === 'rejected');
-  if (failedSaves.length > 0) {
-    console.error(`Failed to save ${failedSaves.length} screenshot records:`, failedSaves);
-    // Logged here, handling (e.g., setting batch status) can occur in the main handler
-  }
-  return { failedSaves: failedSaves.length };
-}
+// Removed updateBatchStatus function - BatchProcessingService handles status updates post-upload
 
-// 4. Update Batch Status in DB
-async function updateBatchStatus(
-  batchId: number,
-  status: string, // e.g., 'extracting', 'partial_upload'
-  supabaseClient: SupabaseClient
-): Promise<void> {
-  const { error: updateError } = await supabaseClient
-    .from('batch')
-    .update({ batch_status: status })
-    .eq('batch_id', batchId);
-
-  if (updateError) {
-    console.error('Supabase batch update error:', updateError);
-    // Decide if this should throw or just log. Currently logging.
-    // throw new Error('Failed to update batch status');
-  }
-}
 
 // 5. Handle Errors
 function handleUploadError(error: unknown, res: NextApiResponse): void {
@@ -191,6 +124,12 @@ function handleUploadError(error: unknown, res: NextApiResponse): void {
                             error.message.includes('No files provided'));
 
   const statusCode = isUserInputError ? 400 : 500;
+  
+  // Also check for specific errors thrown by ScreenshotProcessor if needed
+  if (error instanceof Error && (error.message.includes('Failed to upload') || error.message.includes('Failed to save screenshot record'))) {
+    // Could potentially return a more specific status code like 502 Bad Gateway if storage/DB fails
+    // For simplicity, sticking to 500 for internal server errors
+  }
 
   res.status(statusCode).json({ error: errorMessage });
 }
@@ -201,8 +140,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // Instantiate services
+  const screenshotProcessor = new ScreenshotProcessor(supabase); // Use shared client
+  const batchProcessingService = new BatchProcessingService(supabase); // Use shared client
+
   try {
-    // 1. Parse Form Data (outside validation as it can throw specific errors)
+    // 1. Parse Form Data
     const { fields, files } = await parseFormData(req);
 
     // 2. Validate Request
@@ -215,24 +158,80 @@ export default async function handler(
     // 3. Create Batch Record
     const { batch_id: batchId } = await createBatchRecord(batchName, analysisType, supabase);
 
-    // 4. Process Images and Save Records
-    const { failedSaves } = await processAndSaveImages(uploadedFiles, batchId, supabase);
+    // 4. Process and Save each image using ScreenshotProcessor
+    const processingPromises = uploadedFiles.map(file => 
+        screenshotProcessor.processAndSave(file, batchId)
+    );
+    const results = await Promise.allSettled(processingPromises);
 
-    // 5. Determine final batch status and update
-    const finalStatus = failedSaves > 0 ? 'partial_upload' : 'extracting'; // Example logic
-    await updateBatchStatus(batchId, finalStatus, supabase);
+    const successfulUploads: Array<{ name: string; url: string }> = [];
+    const failedUploads: Array<{ file: string | null | undefined; reason: any }> = [];
 
-    // 6. Return Success Response
+    results.forEach((result, index) => {
+      if (result.status === 'fulfilled') {
+        successfulUploads.push(result.value);
+      } else {
+        // Log detailed error from ScreenshotProcessor
+        console.error(`Failed to process file ${uploadedFiles[index]?.originalFilename}:`, result.reason);
+        failedUploads.push({ 
+            file: uploadedFiles[index]?.originalFilename,
+            reason: result.reason instanceof Error ? result.reason.message : result.reason 
+        });
+      }
+    });
+
+    // 5. Handle partial failures - Update batch status if ALL files failed
+    if (failedUploads.length === uploadedFiles.length && uploadedFiles.length > 0) {
+        console.warn(`[Batch ${batchId}] All uploads failed. Setting status to 'upload_failed'.`);
+        // Use BatchProcessingService's utility or direct Supabase call for this specific status
+        try {
+            await supabase.from('batch').update({ batch_status: 'upload_failed' }).eq('batch_id', batchId);
+        } catch (statusError) {
+            console.error(`[Batch ${batchId}] Failed to update status to 'upload_failed':`, statusError);
+        }
+        // Return an error response indicating complete failure
+        return res.status(500).json({
+            success: false,
+            batchId: batchId,
+            message: 'All file uploads failed. Batch marked as failed.',
+            errors: failedUploads
+        });
+    }
+
+    // 6. Log summary
+    console.log(`[Batch ${batchId}] Upload complete. Successful: ${successfulUploads.length}, Failed: ${failedUploads.length}`);
+
+    // 7. Kick off Batch Processing Asynchronously (DO NOT await this)
+    if (successfulUploads.length > 0) {
+        // Use setImmediate or a similar non-blocking mechanism if available in the environment
+        // For Node.js environments (like Next.js API routes):
+        setImmediate(() => {
+            batchProcessingService.start(batchId).catch(err => {
+                // Log error from the async process start, status handling is inside start()
+                console.error(`[Batch ${batchId}] Error starting background processing:`, err);
+            });
+        });
+        console.log(`[Batch ${batchId}] Background processing task scheduled.`);
+    } else {
+        // This case is handled by step 5 (all uploads failed)
+        console.warn(`[Batch ${batchId}] No successful uploads, background processing not started.`);
+    }
+
+    // 8. Return Success Response (even if some files failed, as long as not all failed)
+    // The response indicates the immediate outcome of the upload request.
+    // The background processing handles the next stages.
     return res.status(200).json({
       success: true,
       batchId: batchId,
-      message: failedSaves > 0
-        ? `Batch created, but ${failedSaves} image(s) failed to process.`
-        : 'Upload successful, batch created.'
+      message: failedUploads.length === 0
+        ? 'Upload successful. Batch processing started.'
+        : `Upload partially successful (${successfulUploads.length}/${uploadedFiles.length}). Batch processing started for successful uploads.`,
+      files: successfulUploads, // Only return successfully processed files
+      errors: failedUploads.length > 0 ? failedUploads : undefined // Optionally include errors
     });
 
   } catch (error) {
-    // 7. Handle any Errors during the process
+    // Use the existing error handler
     handleUploadError(error, res);
   }
 } 

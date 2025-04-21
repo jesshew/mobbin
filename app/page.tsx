@@ -48,7 +48,7 @@ export default function Home() {
     refetchBatches()
     setSelectedFiles([]) // Clear selected files after upload
 
-    simulateBatchProcessing(newBatchId)
+    // simulateBatchProcessing(newBatchId)
   }
 
   // Simulate batch processing with status changes

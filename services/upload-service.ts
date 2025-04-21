@@ -20,7 +20,6 @@ export const uploadFiles = async (
       const errorData = await response.json();
       throw new Error(errorData.error || 'Upload failed');
     }
-
     return { success: true };
   } catch (error) {
     console.error('Upload error:', error);
