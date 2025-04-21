@@ -1,6 +1,6 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { DatabaseService } from '../lib/services/DatabaseService';
-import { Batch } from '../types/Batch';
+import { Batch_v2 } from '../types/batch_v2';
 
 export class BatchRepository {
   private db: SupabaseClient;
@@ -10,7 +10,7 @@ export class BatchRepository {
     this.db = DatabaseService.getInstance().getClient();
   }
 
-  async create_batch(data: Partial<Batch>): Promise<Batch> {
+  async create_batch(data: Partial<Batch_v2>): Promise<Batch_v2> {
     const { data: newBatch, error } = await this.db
       .from(this.tableName)
       .insert(data as any) // Cast needed if input type differs slightly
@@ -24,10 +24,10 @@ export class BatchRepository {
     if (!newBatch) {
         throw new Error('Failed to create batch, no data returned.');
     }
-    return newBatch as Batch;
+    return newBatch as Batch_v2;
   }
 
-  async get_batch_by_id(batch_id: number): Promise<Batch | null> {
+  async get_batch_by_id(batch_id: number): Promise<Batch_v2 | null> {
     const { data, error } = await this.db
       .from(this.tableName)
       .select('*')
@@ -38,10 +38,10 @@ export class BatchRepository {
       console.error(`Error fetching batch ${batch_id}:`, error);
       throw new Error(`Supabase error: ${error.message}`);
     }
-    return data as Batch | null;
+    return data as Batch_v2 | null;
   }
 
-  async update_batch(batch_id: number, changes: Partial<Batch>): Promise<void> {
+  async update_batch(batch_id: number, changes: Partial<Batch_v2>): Promise<void> {
     const { error } = await this.db
       .from(this.tableName)
       .update(changes as any) // Cast needed if input type differs slightly
@@ -65,7 +65,7 @@ export class BatchRepository {
     }
   }
 
-  async list_batches(filter?: Record<string, any>): Promise<Batch[]> {
+  async list_batches(filter?: Record<string, any>): Promise<Batch_v2[]> {
     let query = this.db.from(this.tableName).select('*');
 
     if (filter) {
@@ -78,6 +78,6 @@ export class BatchRepository {
       console.error('Error listing batches:', error);
       throw new Error(`Supabase error: ${error.message}`);
     }
-    return (data || []) as Batch[];
+    return (data || []) as Batch_v2[];
   }
 } 

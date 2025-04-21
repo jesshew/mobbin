@@ -1,6 +1,5 @@
- export interface Batch {
-
- batch_id: number;
+ export interface Batch_v2 {
+  batch_id: number;
   batch_name: string;
   batch_created_at: string; // TIMESTAMPTZ
   batch_status: 'uploading' | 'extracting' | 'annotating' | 'validating' | 'done';
