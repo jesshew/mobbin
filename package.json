@@ -45,6 +45,7 @@
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
     "date-fns": "^3.0.0",
+    "dotenv": "^16.5.0",
     "embla-carousel-react": "8.5.1",
     "formidable": "^3.5.2",
     "framer-motion": "^11.0.6",
@@ -67,7 +68,8 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/dotenv": "^6.1.1",
+    "@types/node": "^20.17.30",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",

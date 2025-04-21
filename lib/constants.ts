@@ -3,6 +3,7 @@ export const DEFAULT_BATCH_NAME_PREFIX = 'Batch_';
 export const API_ENDPOINTS = {
   BATCHES: '/api/batches',
   UPLOAD: '/api/upload',
+  UPLOAD_V2: '/api/v2/upload',
 } as const;
 
 export const TOAST_MESSAGES = {

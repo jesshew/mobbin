@@ -11,7 +11,7 @@ export const uploadFiles = async (
     formData.append('batchName', batchName);
     formData.append('analysisType', analysisType);
 
-    const response = await fetch(API_ENDPOINTS.UPLOAD, {
+    const response = await fetch(API_ENDPOINTS.UPLOAD_V2, {
       method: 'POST',
       body: formData,
     });
