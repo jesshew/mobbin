@@ -5,7 +5,6 @@ import fs from 'fs'
 import { uploadImageToStorage } from '@/lib/storage'
 import { supabase } from '@/lib/supabase'
 import { SupabaseClient } from '@supabase/supabase-js'
-import { processBatchAnalysis } from '@/services/image-analysis-pipeline'
 
 interface ProcessedImage {
   processedBlob: Blob;
@@ -145,21 +144,61 @@ async function processAndSaveImages(
   uploadedFiles: File[],
   batchId: number,
   supabaseClient: SupabaseClient
-): Promise<{ failedSaves: number }> {
+): Promise<{ failedSaves: number; uploadedUrls: string[] }> {
+  // Process each uploaded file concurrently to generate processed image objects.
   const processedImages = await Promise.all(
     uploadedFiles.map(file => processUploadedFile(file))
   );
 
+  // Initialize an array to collect URLs of successfully uploaded images.
+  const uploadedUrls: string[] = [];
+
+  // For each processed image, attempt to upload it and record its details in the database.
+  // Using Promise.allSettled to ensure that all uploads are attempted even if some fail.
   const saveResults = await Promise.allSettled(
-    processedImages.map(image => saveScreenshotRecord(image, batchId, supabaseClient))
+    processedImages.map(async (image) => {
+      // Upload the processed image blob to storage and retrieve its URL.
+      const { fileUrl, error: uploadError } = await uploadImageToStorage(
+        image.processedBlob,
+        batchId,
+        image.filename
+      );
+      if (uploadError) {
+        // If the upload fails, throw the error to be caught by Promise.allSettled.
+        throw uploadError;
+      }
+
+      // Add the successfully uploaded image's URL to the list.
+      uploadedUrls.push(fileUrl);
+
+      // Insert a record into the 'screenshot' table with details of the uploaded image.
+      const { error: dbError } = await supabaseClient
+        .from('screenshot')
+        .insert({
+          batch_id: batchId,
+          screenshot_file_name: image.filename,
+          screenshot_file_url: fileUrl,
+          screenshot_processing_status: 'pending',
+          // Include processing time if available, formatted in seconds.
+          screenshot_processing_time: image.processingTime ? `${image.processingTime} seconds` : null,
+        });
+
+      if (dbError) {
+        // If the database operation fails, throw the error to be handled later.
+        throw dbError;
+      }
+    })
   );
 
+  // Filter out the results that indicate a rejected promise (failed upload or DB insert).
   const failedSaves = saveResults.filter(result => result.status === 'rejected');
   if (failedSaves.length > 0) {
+    // Log details of any failures for debugging purposes.
     console.error(`Failed to save ${failedSaves.length} screenshot records:`, failedSaves);
-    // Logged here, handling (e.g., setting batch status) can occur in the main handler
   }
-  return { failedSaves: failedSaves.length };
+
+  // Return an object containing the number of failed saves and the list of successfully uploaded image URLs.
+  return { failedSaves: failedSaves.length, uploadedUrls };
 }
 
 // 4. Update Batch Status in DB
@@ -217,37 +256,24 @@ export default async function handler(
     const { batch_id: batchId } = await createBatchRecord(batchName, analysisType, supabase);
 
     // 4. Process Images and Save Records
-    const { failedSaves } = await processAndSaveImages(uploadedFiles, batchId, supabase);
+    const { failedSaves, uploadedUrls } = await processAndSaveImages(uploadedFiles, batchId, supabase);
+
     // 5. Determine final batch status and update
-    console.log(`Setting final status for batch ${batchId}. Failed saves: ${failedSaves}`);
     const finalStatus = failedSaves > 0 ? 'partial_upload' : 'extracting';
-    console.log(`Final status determined: ${finalStatus}`);
     await updateBatchStatus(batchId, finalStatus, supabase);
-    console.log(`Batch status updated successfully`);
 
-    // 6. Trigger image analysis pipeline asynchronously
-    if (failedSaves < uploadedFiles.length) {  // Only if at least one image was uploaded successfully
-      console.log(`Starting analysis pipeline for batch ${batchId}`);
-      processBatchAnalysis(supabase, batchId).catch(error => {
-        console.error(`Failed to start analysis pipeline for batch ${batchId}:`, error);
-      });
-    } else {
-      console.log(`Skipping analysis pipeline - all uploads failed for batch ${batchId}`);
-    }
-
-    // 7. Return Success Response
-    const responseMessage = failedSaves > 0
-      ? `Batch created with ${failedSaves} failed uploads. Analysis started for successful uploads.`
-      : 'Upload successful, analysis pipeline started.';
-    console.log(`Sending success response: ${responseMessage}`);
+    // 6. Return Success Response with uploaded URLs
     return res.status(200).json({
       success: true,
       batchId: batchId,
-      message: responseMessage
+      uploadedUrls: uploadedUrls,
+      message: failedSaves > 0
+        ? `Batch created, but ${failedSaves} image(s) failed to process.`
+        : 'Upload successful, batch created.'
     });
 
   } catch (error) {
-    // 8. Handle any Errors during the process
+    // 7. Handle any Errors during the process
     handleUploadError(error, res);
   }
 } 

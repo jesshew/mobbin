@@ -27,12 +27,16 @@ export const uploadImageBatch = async (
       body: batchFormData,
     });
 
+    const responseData = await uploadResponse.json();
+    
     // Handle unsuccessful uploads
     if (!uploadResponse.ok) {
-      const { error } = await uploadResponse.json();
-      throw new Error(error || 'Image batch upload failed');
+      throw new Error(responseData.error || 'Image batch upload failed');
     }
 
+    // Log the response data
+    console.log('Upload response JSON:', responseData);
+    console.log('Upload response status:', uploadResponse.status);
     return { success: true };
 
   } catch (error) {

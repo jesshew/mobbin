@@ -196,18 +196,34 @@ export async function processBatchAnalysis(
     // Write results to file and update batch status
     await writeResultsToFile(batchId, results);
     
+    // Commenting out batch status updates to reduce DB calls
+    /*
     const allSuccessful = results.every(result => result.success);
     const batchStatus = allSuccessful ? 'completed' : 'partial_completion';
     
-    await updateBatchRecord(supabase, batchId, batchStatus);
+    await updateBatchRecord(
+      supabase,
+      batchId,
+      batchStatus,
+      allSuccessful ? undefined : 'Some analyses failed'
+    );
+    */
 
     return results;
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-    console.error(`Batch analysis failed for batch ${batchId}:`, errorMessage);
+    console.error(`Batch analysis failed: ${errorMessage}`);
     
-    await updateBatchRecord(supabase, batchId, 'failed', errorMessage);
-
-    throw error;
+    // Commenting out error batch status update
+    /*
+    await updateBatchRecord(
+      supabase,
+      batchId,
+      'failed',
+      errorMessage
+    );
+    */
+    
+    return [];
   }
 }
