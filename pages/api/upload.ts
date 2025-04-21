@@ -5,6 +5,7 @@ import fs from 'fs'
 import { uploadImageToStorage } from '@/lib/storage'
 import { supabase } from '@/lib/supabase'
 import { SupabaseClient } from '@supabase/supabase-js'
+import { processBatchAnalysis } from '@/services/image-analysis-pipeline'
 
 interface ProcessedImage {
   processedBlob: Blob;
@@ -273,7 +274,7 @@ export default async function handler(
     });
 
   } catch (error) {
-    // 7. Handle any Errors during the process
+    // 8. Handle any Errors during the process
     handleUploadError(error, res);
   }
 } 

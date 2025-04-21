@@ -1,17 +1,25 @@
-export interface Batch {
-  id: string
-  name: string
-  timestamp: Date
-  status: 'uploading' | 'extracting' | 'annotating' | 'preview' | 'done'
-  analysisType: string
-  performance?: {
-    masterPromptRuntime: number
-    totalInferenceTime: number
-    detectedElementsCount: number
+ export interface Batch {
+
+ batch_id: number;
+  batch_name: string;
+  batch_created_at: string; // TIMESTAMPTZ
+  batch_status: 'uploading' | 'extracting' | 'annotating' | 'validating' | 'done';
+  batch_analysis_type: 'Usability Audit' | 'Conversion Analysis' | 'UI Categorization';
+  batch_master_prompt_runtime?: number | null; // NUMERIC
+  batch_total_inference_time?: number | null; // NUMERIC
+  batch_detected_elements_count?: number | null; // INTEGER
+  batch_input_token_count?: number | null; // BIGINT
+  batch_output_token_count?: number | null; // BIGINT
+  batch_total_cost?: number | null; // NUMERIC
+  batch_description?: string | null;
   }
+<<<<<<< HEAD
   images: {
     id: string
     name: string
     url: string
   }[]
 } 
+=======
+  
+>>>>>>> a740c39b44c7df74e0f74adf33b768a412f17cdd

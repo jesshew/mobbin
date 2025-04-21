@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { STATUS_BADGE_CONFIG } from "./constants";
 import { Loader2, Zap, Pencil, Eye, CheckCircle } from "lucide-react";
-import type { Batch } from "@/types/batch";
+import type { Batch } from "@/types/batch_v1";
 
 const iconComponents = {
   Loader2,

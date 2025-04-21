@@ -1,4 +1,4 @@
-import type { Batch } from "@/types/batch";
+import type { Batch } from "@/types/batch_v1";
 
 interface PerformanceStatsProps {
   performance: Batch["performance"];

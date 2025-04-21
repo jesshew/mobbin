@@ -25,13 +25,12 @@ export const uploadImageBatch = async (
     const uploadResponse = await fetch(API_ENDPOINTS.UPLOAD, {
       method: 'POST',
       body: batchFormData,
+      body: batchFormData,
     });
 
-    const responseData = await uploadResponse.json();
-    
-    // Handle unsuccessful uploads
-    if (!uploadResponse.ok) {
-      throw new Error(responseData.error || 'Image batch upload failed');
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Upload failed');
     }
 
     // Log the response data

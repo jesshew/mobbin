@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { BarChart } from "lucide-react";
-import type { Batch } from "@/types/batch";
+import type { Batch } from "@/types/batch_v1";
 
 interface PerformanceTooltipProps {
   performance: Batch["performance"];
