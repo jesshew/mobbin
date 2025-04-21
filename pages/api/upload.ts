@@ -6,9 +6,9 @@ import formidable, { File, Fields } from 'formidable'
 // import { uploadImageToStorage } from '@/lib/storage' // Removed, handled by ScreenshotProcessor
 import { supabase } from '@/lib/supabase'
 import { SupabaseClient } from '@supabase/supabase-js'
-// Import the new services
-import { ScreenshotProcessor } from '@/lib/services/ScreenshotProcessor';
-import { BatchProcessingService } from '@/lib/services/BatchProcessingService';
+// Import the new services using relative paths
+import { ScreenshotProcessor } from '../../lib/services/ScreenshotProcessor';
+import { BatchProcessingService } from '../../lib/services/BatchProcessingService';
 
 // Keep ProcessedImage interface ONLY if still needed by parseFormData or other parts.
 // If not, it can be removed as ScreenshotProcessor encapsulates its own processing details.
