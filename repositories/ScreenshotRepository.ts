@@ -1,6 +1,6 @@
 import { SupabaseClient } from '@supabase/supabase-js';
-import { DatabaseService } from '../lib/services/DatabaseService';
-import { Screenshot } from '../types/Screenshot';
+import { DatabaseService } from '@/lib/services/DatabaseService';
+import { Screenshot } from '@/types/Screenshot';
 
 export class ScreenshotRepository {
   private db: SupabaseClient;

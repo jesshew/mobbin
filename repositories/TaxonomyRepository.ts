@@ -1,6 +1,6 @@
 import { SupabaseClient } from '@supabase/supabase-js';
-import { DatabaseService } from '../lib/services/DatabaseService';
-import { Taxonomy } from '../types/Taxonomy';
+import { DatabaseService } from '@/lib/services/DatabaseService';
+import { Taxonomy } from '@/types/Taxonomy'; 
 
 export class TaxonomyRepository {
   private db: SupabaseClient;

@@ -7,8 +7,8 @@ import formidable, { File, Fields } from 'formidable'
 import { supabase } from '@/lib/supabase'
 import { SupabaseClient } from '@supabase/supabase-js'
 // Import the new services
-import { ScreenshotProcessor } from '@/lib/services/screenshotProcessor';
-import { BatchProcessingService } from '@/lib/services/batchProcessingService';
+import { ScreenshotProcessor } from '@/lib/services/ScreenshotProcessor';
+import { BatchProcessingService } from '@/lib/services/BatchProcessingService';
 
 // Keep ProcessedImage interface ONLY if still needed by parseFormData or other parts.
 // If not, it can be removed as ScreenshotProcessor encapsulates its own processing details.
@@ -107,8 +107,6 @@ async function createBatchRecord(
 }
 
 // Removed processAndSaveImages function - logic replaced by direct calls to ScreenshotProcessor
-
-
 // Removed updateBatchStatus function - BatchProcessingService handles status updates post-upload
 
 
