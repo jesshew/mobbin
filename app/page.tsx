@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { UploadInterface } from "@/components/upload-interface"
 import { AnnotationEditor } from "@/components/annotation-editor"
-import type { Batch } from "@/types/batch"
+import type { Batch } from "@/types/batch_v1"
 import { useBatchManagement } from "@/hooks/use-batch-management"
 
 export default function Home() {

@@ -3,7 +3,7 @@
 
 import useSWR from 'swr'
 import Image from 'next/image'
-import type { Batch } from '@/types/batch'
+import type { Batch } from '@/types/batch_v1'
 
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 

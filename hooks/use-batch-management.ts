@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useSWR from 'swr';
 import { API_ENDPOINTS, DEFAULT_BATCH_NAME_PREFIX } from '@/lib/constants';
-import type { Batch } from '@/types/batch';
+import type { Batch } from '@/types/batch_v1';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
