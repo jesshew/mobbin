@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { supabase } from '@/lib/supabase'
 import { PostgrestError } from '@supabase/supabase-js'
-import { SUPABASE_BUCKET_NAME } from '../../config'
+import { SUPABASE_BUCKET_NAME } from '@/config'
 // --- Constants ---
 const BATCH_TABLE = 'batch'
-// const SCREENSHOT_TABLE = 'screenshot'
+const SCREENSHOT_TABLE = 'screenshot'
 const SCREENSHOT_BUCKET = SUPABASE_BUCKET_NAME || 'v4'
 const SIGNED_URL_EXPIRY_SECONDS = 3600 // 1 hour
 
