@@ -1,6 +1,6 @@
 import { SupabaseClient } from '@supabase/supabase-js';
-import { DatabaseService } from '../lib/services/DatabaseService';
-import { Component } from '../types/Component';
+import { DatabaseService } from '@/lib/services/DatabaseService';
+import { Component } from '@/types/Component';
 
 export class ComponentRepository {
   private db: SupabaseClient;

@@ -1,6 +1,6 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { DatabaseService } from '../lib/services/DatabaseService';
-import { Batch } from '../types/batch';
+import { Batch } from '../types/Batch';
 
 export class BatchRepository {
   private db: SupabaseClient;
