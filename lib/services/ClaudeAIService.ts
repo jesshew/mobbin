@@ -41,7 +41,7 @@ export async function callClaudeVisionModel(
     const response = await anthropic.messages.create({
       model: VISION_MODEL_CLAUDE,
       max_tokens: 1000, // tweak as needed
-      messages,
+      messages: messages as Anthropic.MessageParam[],
     });
 
     const endTime = Date.now();

@@ -3,7 +3,8 @@ import { SupabaseClient } from '@supabase/supabase-js';
 // import { StorageService } from './StorageService'; // Import StorageService
 // import { DatabaseService } from './DatabaseService'; // Assuming DatabaseService might be needed elsewhere or for StorageService instantiation
 import { generateSignedUrls, getScreenshotPath, getSignedUrls } from '@/lib/supabaseUtils';
-
+import { extract_component_from_image } from '@/lib/services/OpenAIService';
+import { callClaudeVisionModel } from '@/lib/services/ClaudeAIService';
 // Placeholder for future extractor services
 interface Extractor {
   extract(screenshot: any): Promise<void>; // Define a more specific screenshot type later
@@ -45,69 +46,91 @@ export class BatchProcessingService {
    */
   public async start(batchId: number): Promise<void> {
     console.log(`[Batch ${batchId}] Starting processing...`);
-
     try {
-      // 1. Update batch status to 'extracting'
       await this.updateBatchStatus(batchId, 'extracting');
-      console.log(`[Batch ${batchId}] Status set to extracting.`);
-
-      // 2. Load all screenshots for the batch
-      const screenshots: Screenshot[] = await this.getBatchScreenshots(batchId);
+  
+      const screenshots = await this.loadScreenshots(batchId);
       console.log(`[Batch ${batchId}] Found ${screenshots.length} screenshots.`);
-
-      // 3. Get signed URLs for all screenshots
-      const filePaths = screenshots
-        .map(s => getScreenshotPath(s.screenshot_file_url))
-        .filter((path): path is string => path !== null); // Filter out any null paths
-
-      if (filePaths.length !== screenshots.length) {
-          console.warn(`[Batch ${batchId}] Could not extract paths for all screenshots. Proceeding with ${filePaths.length} valid paths.`);
-      }
-
-      let signedUrls: Map<string, string> = new Map(); // Initialize here
-      if (filePaths.length > 0) {
-          try {
-              signedUrls = await getSignedUrls(this.supabaseClient, filePaths); // Utilize fetchSignedUrls method
-              console.log(`[Batch ${batchId}] Fetched signed URLs:`, signedUrls);
-          } catch (urlError) {
-              console.error(`[Batch ${batchId}] Failed to get signed URLs:`, urlError);
-              // Decide if processing should continue without URLs or fail the batch
-              // For now, log the error and continue, but the signedUrls object will be empty/incomplete
-          }
-      } else {
-           console.log(`[Batch ${batchId}] No valid file paths found to fetch signed URLs.`);
-      }
-
-      // 4. Attach signed URLs to screenshot objects
-      if (signedUrls && signedUrls.size > 0) {
-          screenshots.forEach(s => {
-              const path = getScreenshotPath(s.screenshot_file_url);
-              if (path && signedUrls.has(path)) {
-                  s.screenshot_signed_url = signedUrls.get(path);
-                  s.screenshot_bucket_path = path;
-                  // Optional: Log the attachment
-                  // console.log(`[Batch ${batchId}] Attached signed URL to screenshot ${s.screenshot_id}: ${s.screenshot_signed_url}`);
-              }
-          });
-          console.log(`[Batch ${batchId}] Attached signed URLs to ${signedUrls.size} screenshots.`);
-      }
-
+  
+      await this.processSignedUrls(batchId, screenshots);
+  
       console.log(`[Batch ${batchId}] Screenshots with signed URLs:`, screenshots);
+  
+      // Extract the first screenshot with a signed URL
+      const firstScreenshotWithSignedUrl = screenshots.find(s => s.screenshot_signed_url);
+      if (firstScreenshotWithSignedUrl) {
+        const signed_url = firstScreenshotWithSignedUrl.screenshot_signed_url;
+        // console.log(`CALLING OPENAI [Batch ${batchId}] Signed URL:`, signed_url);
+        const result = await extract_component_from_image(signed_url);
+        console.log(`[Batch ${batchId}] First screenshot with signed URL:`, firstScreenshotWithSignedUrl);
+      } 
 
-      // 5. Update batch status to 'annotating' (or 'completed' if no more stages)
+
       await this.updateBatchStatus(batchId, 'annotating');
       console.log(`[Batch ${batchId}] Processing complete. Status set to annotating.`);
-
     } catch (error) {
-      console.error(`[Batch ${batchId}] Error during batch processing:`, error);
-      try {
-        await this.updateBatchStatus(batchId, 'processing_failed');
-        console.error(`[Batch ${batchId}] Status set to processing_failed.`);
-      } catch (statusUpdateError) {
-        console.error(`[Batch ${batchId}] Failed to update status to processing_failed:`, statusUpdateError);
-      }
+      await this.handleProcessingError(batchId, error);
     }
   }
+  
+  private async loadScreenshots(batchId: number): Promise<Screenshot[]> {
+    const screenshots = await this.getBatchScreenshots(batchId);
+    return screenshots;
+  }
+  
+  private async processSignedUrls(batchId: number, screenshots: Screenshot[]): Promise<void> {
+    // 1. Derive bucket paths
+    const filePaths = screenshots
+      .map(s => getScreenshotPath(s.screenshot_file_url))
+      .filter((p): p is string => p !== null);
+  
+    if (filePaths.length !== screenshots.length) {
+      console.warn(
+        `[Batch ${batchId}] ${screenshots.length - filePaths.length} invalid paths dropped.`
+      );
+    }
+    if (filePaths.length === 0) {
+      console.log(`[Batch ${batchId}] No valid file paths found. Skipping signed URL fetch.`);
+      return;
+    }
+  
+    // 2. Fetch signed URLs
+    let signedUrls = new Map<string, string>();
+    try {
+      signedUrls = await getSignedUrls(this.supabaseClient, filePaths);
+      // console.log(`[Batch ${batchId}] Fetched signed URLs:`, signedUrls);
+    } catch (urlError) {
+      console.error(`[Batch ${batchId}] Failed to get signed URLs:`, urlError);
+    }
+  
+    // 3. Attach to screenshots
+    if (signedUrls.size > 0) {
+      screenshots.forEach(s => {
+        const path = getScreenshotPath(s.screenshot_file_url);
+        if (path && signedUrls.has(path)) {
+          s.screenshot_signed_url = signedUrls.get(path)!;
+          s.screenshot_bucket_path = path;
+        }
+      });
+      console.log(
+        `[Batch ${batchId}] Attached signed URLs to ${signedUrls.size} screenshots.`
+      );
+    }
+  }
+  
+  private async handleProcessingError(batchId: number, error: unknown): Promise<void> {
+    console.error(`[Batch ${batchId}] Error during batch processing:`, error);
+    try {
+      await this.updateBatchStatus(batchId, 'failed');
+      console.error(`[Batch ${batchId}] Status set to failed.`);
+    } catch (statusError) {
+      console.error(
+        `[Batch ${batchId}] Failed to update status to failed:`,
+        statusError
+      );
+    }
+  }
+  
 
   /**
    * Updates the status of a batch in the database.
@@ -122,9 +145,11 @@ export class BatchProcessingService {
 
     if (error) {
       console.error(`[Batch ${batchId}] Supabase batch status update error to '${status}':`, error);
-      throw new Error(`Failed to update batch ${batchId} status to ${status}.`);
+      // throw new Error(`Failed to update batch ${batchId} status to ${status}.`);
     }
   }
+
+
 
   /**
    * Fetches all screenshot records for a given batch ID.
@@ -140,7 +165,7 @@ export class BatchProcessingService {
 
     if (error) {
       console.error(`[Batch ${batchId}] Supabase screenshot fetch error:`, error);
-      throw new Error(`Failed to fetch screenshots for batch ${batchId}.`);
+      // throw new Error(`Failed to fetch screenshots for batch ${batchId}.`);
     }
 
     // Explicitly cast data to Screenshot[] after checking for null/undefined

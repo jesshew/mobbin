@@ -144,7 +144,7 @@ export async function getSignedUrls(
         if (cacheEntry && cacheEntry.expiresAt > currentTime) {
             // Cache hit and not expired
             signedUrlMap.set(path, cacheEntry.signedUrl);
-            console.log(`Cache hit for path: ${path}`); // Optional: for debugging
+            // console.log(`Cache hit for path: ${path}`); // Optional: for debugging
         } else {
             // Cache miss or expired
             pathsToFetch.push(path);
