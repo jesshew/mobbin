@@ -1,13 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { supabase } from '@/lib/supabase'
 import { PostgrestError } from '@supabase/supabase-js'
-import { SUPABASE_BUCKET_NAME } from '@/config'
-import { generateSignedUrls } from '@/lib/supabaseUtils'
+// import { SUPABASE_BUCKET_NAME } from '@/config'
+import { getScreenshotPath,getSignedUrls } from '@/lib/supabaseUtils'
 
 // --- Constants ---
 const BATCH_TABLE = 'batch'
 const SCREENSHOT_TABLE = 'screenshot'
-const SCREENSHOT_BUCKET = SUPABASE_BUCKET_NAME || 'v4'
+// const SCREENSHOT_BUCKET = SUPABASE_BUCKET_NAME || 'v4'
 const SIGNED_URL_EXPIRY_SECONDS = 3600 // 1 hour
 
 const ERROR_METHOD_NOT_ALLOWED = 'Method not allowed'
@@ -96,33 +96,33 @@ async function fetchBatchesFromSupabase(): Promise<BatchData[]> {
 /**
  * Extracts the storage path from a Supabase screenshot URL.
  */
-function getScreenshotPath(url: string): string {
-  console.log('Extracting storage path from screenshot URL:', url);
-  try {
-    const parsedUrl = new URL(url);
-    console.log('Parsed URL:', parsedUrl);
-    // Example path: /storage/v1/object/public/screenshot/batch_123/image.jpg
-    // We need the part after the bucket name: batch_123/image.jpg
-    const pathParts = parsedUrl.pathname.split('/');
-    console.log('Path parts:', pathParts);
-    const bucketNameIndex = pathParts.findIndex(part => part === SCREENSHOT_BUCKET);
-    console.log('Bucket name index:', bucketNameIndex);
+// function getScreenshotPath(url: string): string {
+//   console.log('Extracting storage path from screenshot URL:', url);
+//   try {
+//     const parsedUrl = new URL(url);
+//     console.log('Parsed URL:', parsedUrl);
+//     // Example path: /storage/v1/object/public/screenshot/batch_123/image.jpg
+//     // We need the part after the bucket name: batch_123/image.jpg
+//     const pathParts = parsedUrl.pathname.split('/');
+//     console.log('Path parts:', pathParts);
+//     const bucketNameIndex = pathParts.findIndex(part => part === SCREENSHOT_BUCKET);
+//     console.log('Bucket name index:', bucketNameIndex);
 
-    if (bucketNameIndex === -1 || bucketNameIndex + 1 >= pathParts.length) {
-      console.error(`Bucket '${SCREENSHOT_BUCKET}' not found or path is incomplete in URL: ${url}`);
-      throw new Error(`Invalid screenshot URL format: ${url}`);
-    }
-    // Join the parts after the bucket name
-    const storagePath = pathParts.slice(bucketNameIndex + 1).join('/');
-    console.log('Extracted storage path:', storagePath);
-    return storagePath;
-  } catch (e) {
-    // Catch URL parsing errors as well
-    console.error(`Error parsing screenshot URL '${url}':`, e);
-    // Re-throw a more specific error or handle as needed
-    throw new Error(`Invalid screenshot URL format: ${url}`);
-  }
-}
+//     if (bucketNameIndex === -1 || bucketNameIndex + 1 >= pathParts.length) {
+//       console.error(`Bucket '${SCREENSHOT_BUCKET}' not found or path is incomplete in URL: ${url}`);
+//       throw new Error(`Invalid screenshot URL format: ${url}`);
+//     }
+//     // Join the parts after the bucket name
+//     const storagePath = pathParts.slice(bucketNameIndex + 1).join('/');
+//     console.log('Extracted storage path:', storagePath);
+//     return storagePath;
+//   } catch (e) {
+//     // Catch URL parsing errors as well
+//     console.error(`Error parsing screenshot URL '${url}':`, e);
+//     // Re-throw a more specific error or handle as needed
+//     throw new Error(`Invalid screenshot URL format: ${url}`);
+//   }
+// }
 
 /**
  * Transforms a raw batch object (matching SelectedBatchData) into the API response format.
@@ -143,11 +143,9 @@ async function enrichBatchWithSignedImages(batch: BatchData): Promise<EnrichedBa
   if (screenshotPaths.length > 0) {
     try {
       // Call the new utility function to generate signed URLs
-      const signedUrlMap = await generateSignedUrls(
+      const signedUrlMap = await getSignedUrls(
         supabase, // Pass the supabase client
-        SCREENSHOT_BUCKET,
         screenshotPaths,
-        SIGNED_URL_EXPIRY_SECONDS
       );
 
       // Transform screenshots using the generated map
