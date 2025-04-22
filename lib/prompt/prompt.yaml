@@ -1,0 +1,302 @@
+- prompt_name: extraction_prompt
+  prompt_description: Extract UI Components
+  prompt_body: |
+    Extract High-Level UI Components with Functional Metadata
+    You are given a UI screenshot from a mobile or web application.
+
+    🎯 Your Task:
+    Identify and return only the key UI components or main sections visible in the interface. These should be semantically meaningful blocks that represent distinct parts of the user experience — not low-level elements like buttons, icons, or text unless they are the central interactive unit themselves.
+
+    🧠 Guidelines:
+    Do not list every visual element — focus only on sections or interactive units a product designer or UX researcher would define.
+
+    Group smaller elements into their logical parent component (e.g., quantity controls, icons, labels → Cart Item).
+
+    Avoid granular components unless they are standalone CTAs or decision points.
+
+    Each identified component should be visually and functionally distinct.
+
+    🧾 Output Format: JSON List
+    For each top-level component, include the following fields:
+
+    component_name: A human-readable name for the section (e.g., "Cart Item", "Header", "Promocode Section")
+
+    description: A short, clear description of the section and what's visually included
+
+    impact_on_user_flow: A sentence describing the component's purpose or value in the overall experience
+
+    cta_type: If applicable, note if this section supports a Primary, Secondary, or Informational action
+
+    is_reused_in_other_screens: Boolean — is this component likely reused across the app?
+
+    likely_interaction_type: A list of expected user interactions (e.g., "tap", "scroll", "none")
+
+    flow_position: Where this component sits in the typical user journey (e.g., "Checkout - Cart Review")
+  prompt_sample_output: |
+    [
+      {
+        "component_name": "Cart Item",
+        "description": "Visual block showing product image, name, price, and quantity controls.",
+        "impact_on_user_flow": "Enables users to review and modify the items before purchase.",
+        "cta_type": "Secondary",
+        "is_reused_in_other_screens": true,
+        "likely_interaction_type": ["tap", "stepper"],
+        "flow_position": "Checkout - Cart Review"
+      },
+      {
+        "component_name": "Delivery Options",
+        "description": "Section showing available delivery choices with cost and selection state.",
+        "impact_on_user_flow": "Lets the user choose a preferred delivery method before checkout.",
+        "cta_type": "Primary",
+        "is_reused_in_other_screens": true,
+        "likely_interaction_type": ["tap (select radio)"],
+        "flow_position": "Checkout - Shipping Selection"
+      },
+      {
+        "component_name": "Promocode Section",
+        "description": "Input area for applying promotional codes with validation feedback.",
+        "impact_on_user_flow": "Allows discount application to influence purchase behavior.",
+        "cta_type": "Secondary",
+        "is_reused_in_other_screens": false,
+        "likely_interaction_type": ["tap", "keyboard input"],
+        "flow_position": "Checkout - Discount Application"
+      }
+    ]
+
+- prompt_name: extract_elements_prompt_v1
+  prompt_description: Hierarchical UI Analysis with Complete Coverage v1
+  prompt_body: |
+    Analyze the provided UI screenshot in combination with the given component list.
+    Your task is to detect and describe all key UI elements in the image, using the component list to guide semantic grouping, naming, and nesting.
+
+    📥 Inputs:
+    A UI screenshot
+
+    A list of component categories, such as:
+
+    Header Section (includes title "Top Up Receipt" with background confetti design)
+    Success Badge (includes checkmark icon inside a hexagon)
+    Top Up Confirmation Section (displays "Top Up Success" message and confirmation text)
+    Total Top Up Amount (displays the amount "$132.00")
+    Top Up Destination Card (includes card label "Wally Virtual Card", masked card number, and timestamp)
+    Primary Action Button (Done)
+    Secondary Action Link (Top up more money)
+
+    🧠 What to Do:
+    Map every visual component to its corresponding category or subcategory, based on content and context.
+
+    Create subcategories if they add clarity (e.g., "Top Up Destination Card > Card Label").
+
+    Include all visible elements, especially text labels, icons, buttons, and values — no matter how small.
+
+    Describe each component with these details:
+
+    Appearance: Shape, icon, color, text, visual style
+
+    Function: Purpose or expected user interaction
+
+    Positioning: Use screen regions (e.g., "centered near top", "bottom-right quadrant")
+
+    State: Selected, default, disabled, etc.
+
+    Interaction Type: Tappable, static, scrollable, etc.
+
+    Avoid redundancy — include no more than 1 to 2 visual anchors if necessary for clarity (e.g., "below '$132.00'").
+
+    🧾 Output Format:
+    Return a valid JSON object
+
+    Keys should represent the hierarchical path using > as a delimiter
+
+    Example: "Top Up Destination Card > Card Label"
+
+    Values should be rich descriptions of the visual component
+
+    Use a flat structure — no nested objects
+
+    No trailing commas
+
+    📌 Output Requirements:
+    Include all meaningful elements — especially text, values, and labels
+
+    Group logically using the provided categories
+
+    Add subcategories when appropriate
+
+    Keep descriptions precise and visual-model friendly
+
+    Use flat JSON (hierarchy via keys only)
+  prompt_sample_output: |
+    {
+      "Header Section > Title": "Bold white text reading 'Top Up Receipt', centered at the top of the screen with a colorful confetti background",
+      "Success Badge > Icon": "Hexagon-shaped container with a white checkmark icon inside, green background, centered below the title",
+      "Top Up Confirmation Section > Main Message": "Bold text 'Top Up Success', centered below the success badge",
+      "Top Up Confirmation Section > Subtext": "Gray text confirming transaction, reading 'Your money has been added to your card'",
+      "Total Top Up Amount > Value": "Large bold text '$132.00', centered and prominent near the middle of the screen",
+      "Top Up Destination Card > Card Label": "White text 'Wally Virtual Card' at the top of the destination card",
+      "Top Up Destination Card > Masked Card Number": "Text showing masked card '•••• 4568' below the card label",
+      "Top Up Destination Card > Timestamp": "Small gray text 'Today, 12:45 PM' at the bottom-right of the card",
+      "Primary Action Button > Label": "Full-width green button with white text 'Done' at the bottom of the screen, tappable",
+      "Secondary Action Link > Label": "Text link 'Top up more money' below the Done button, teal-colored and tappable"
+    }
+
+- prompt_name: extract_elements_prompt_v2
+  prompt_description: Hierarchical UI Analysis with Complete Coverage v2
+  prompt_body: |    
+    You are given a UI screenshot and a list of component categories.
+
+    Your task is to detect and describe all key UI elements in the image, mapping them into logical component groupings and subcategories where appropriate.
+
+    📥 Inputs:
+    A UI screenshot
+
+    A list of component categories, such as:
+
+    Cart Header (includes title "Cart, 3 items" and close/dismiss button)
+
+    Delivery Option - Standard (40–60 minutes, Free, with selection indicator)
+
+    Delivery Option - Express (15–25 minutes, $2.00, with lightning icon and selection indicator)
+
+    Cart Items (image, name, weight/volume, price, quantity controls)
+
+    Promocode Section (input field with applied code)
+
+    Order Summary Footer (total price and confirm button)
+
+    🧠 What to Do:
+    Identify and label all meaningful visual components, including:
+
+    Section titles and structural elements
+
+    Text labels and values (e.g., item names, prices, promo codes)
+
+    Icons and small indicators (e.g., close buttons, checkmarks, lightning bolts)
+
+    Buttons or interaction controls, no matter how small (e.g., plus/minus steppers, selection dots)
+
+    Decorative elements only if they communicate meaning (e.g., badges, icons, state indicators)
+
+    Group elements under appropriate parent categories and subcategories:
+
+    Use semantic hierarchy like "Cart Item - Gnocchi > Quantity Controls > Increase Button"
+
+    Add subcategories to clarify function or layout
+
+    Describe each element using:
+
+    Appearance: shape, icon, text, colors, visual styling
+
+    Function: purpose or expected behavior (e.g., increase quantity, confirm order)
+
+    Positioning: use simple visual references ("top-right", "below item title", "far right of row")
+
+    State: active, default, selected, applied, disabled
+
+    Interaction Type: tap, scroll, static, stepper, etc.
+
+    Anchor the description if needed, using 1–2 visual references, but do not make anchors the focus.
+
+    🧾 Output Format:
+    Return a valid flat JSON object
+
+    Each key represents a component path using > as a delimiter
+
+    Example: "Cart Item - Gnocchi > Quantity Controls > Increase Button"
+
+    Each value is a descriptive sentence capturing what the element is and does
+
+    No nested objects
+
+    No trailing commas
+
+  prompt_sample_output: |
+    {
+      "Cart Item - Gnocchi > Image": "Photo of a plated gnocchi dish with mushroom gravy, shown in a square image container on the far left of the cart item row, beside the item title.",
+      
+      "Cart Item - Gnocchi > Title": "Bold black text reading 'Gnocchi with mushroom gravy', positioned to the right of the dish image and above the price label.",
+      
+      "Cart Item - Gnocchi > Weight": "Gray text label displaying '230g', located directly beneath the title 'Gnocchi with mushroom gravy'.",
+      
+      "Cart Item - Gnocchi > Price": "Orange-colored text reading '$5.60', placed below the item title and to the left of the quantity controls.",
+      
+      "Cart Item - Gnocchi > Quantity Controls > Decrease Button": "Minus icon for decreasing the quantity of 'Gnocchi with mushroom gravy', located on the far left of the quantity controls row, immediately to the right of the '$5.60' price label.",
+
+      "Cart Item - Gnocchi > Quantity Controls > Count Display": "Centered numeric label showing '1' as the selected quantity for 'Gnocchi with mushroom gravy', placed between the minus and plus icons, to the right of the decrease button.",
+
+      "Cart Item - Gnocchi > Quantity Controls > Increase Button": "Plus icon for increasing the quantity of 'Gnocchi with mushroom gravy', positioned on the far right of the quantity controls row, immediately after the '1' quantity label."
+
+    } 
+
+- prompt_name: anchor_elements_prompt
+  prompt_description: Clarify UI Descriptions with Subtle Anchors
+  prompt_body: |
+    Rewrite each UI component description to improve clarity and spatial grounding using subtle visual anchors.
+    Your input includes:
+      - A UI screenshot
+      - A flat JSON list of UI components and their basic descriptions
+
+    Your task is to revise each description to:
+      - Clearly describe the visual component itself — including shape, icon type, text, and visual purpose
+      - Optionally include 1–2 subtle visual anchors (e.g., nearby labels or icons)
+      - Ensure anchors support locating the component but do not become the focus
+      - Keep anchor references subordinate, e.g., "below the label 'Netflix'", not "Netflix is above this"
+      - Avoid overly precise spatial phrases or coordinate-like descriptions
+
+    guidelines:
+      - Start by describing what the component is, including visual style and function
+      - Add up to 2 anchor references only if needed for disambiguation
+      - Place anchors after the main description
+      - Keep all descriptions friendly for vision-language models:
+          - Avoid layout jargon
+          - Avoid unnecessary nesting or abstraction
+      - Maintain flat JSON structure
+      - Do not change any keys — revise values only
+
+    examples:
+      - bad: "Transaction Item 3 > Date Time": "Gray text 'Aug 12, 07:25 PM' under 'Netflix'"
+        improved: "Transaction Item 3 > Date Time": "Gray timestamp reading 'Aug 12, 07:25 PM', displayed under the 'Netflix' merchant label"
+      - bad: "Header > Notification Icon": "Bell icon with green dot, opposite profile picture"
+        improved: "Header > Notification Icon": "Circular bell icon with a green dot inside, in the top-right corner, opposite the profile picture"
+      - bad: "Transaction Item 2 > Merchant Logo": "DKNY logo on left side, positioned below the Starbucks transaction"
+        improved: "Transaction Item 2 > Merchant Logo": "Circular icon displaying the DKNY logo on white background, beside the 'DKNY' merchant name"
+
+      - bad:     "Price Chart > Time Labels": "Gray time markers from '0am' to '7pm' running along the bottom edge of the chart, indicating the hourly breakdown",
+      - improved:   "Price Chart > Time Labels": "Gray time markers from '0am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm' running along the bottom edge of the chart, indicating the hourly breakdown",
+
+    output_format:
+      - type: flat_json
+      - keys: unchanged
+      - values: rewritten descriptions with optional anchors
+      - structure: flat
+
+  prompt_sample_output: |
+    {
+    
+    "Success Badge": "Orange hexagonal badge containing a centered white checkmark icon, positioned prominently in the upper portion of the white screen area, serving as the visual confirmation indicator.",
+    
+    "Top Up Confirmation Section > Title": "Bold black text 'Top Up Success' displayed in medium-large font",
+    
+    "Top Up Confirmation Section > Confirmation Text": "Light gray descriptive text reading 'Your top up has been successfully done.' centered horizontally below the 'Top Up Success' title.",
+    
+    "Total Top Up Amount > Label": "Light gray text 'Total Top Up' in small font, positioned centrally above the transaction amount.",
+    
+    "Total Top Up Amount > Value": "Large bold black text '$132.00' displayed prominently in the middle section of the receipt, showing the transaction amount with currency symbol and decimal points.",
+    
+    "Top Up Destination Card": "Off-white rectangular container with subtle rounded corners and light shadow effect, occupying the mid-lower portion of the screen, housing the recipient card information and details.",
+    
+    "Top Up Destination Card > Label": "Small gray text 'Top up destination' serving as a section header for the recipient information.",
+    
+    "Top Up Destination Card > Card Icon": "Small square icon containing the text 'Wally' on a light green background, positioned at the left edge inside the destination card container, representing the card provider.",
+    
+    "Top Up Destination Card > Card Name": "Bold black text 'Wally Virtual Card' displayed next to the Wally logo icon",
+    
+    "Top Up Destination Card > Card Number": "Light gray text '0318-1608-2105' displaying the card's identification number",
+    
+    "Top Up Destination Card > Timestamp": "Light gray text '3:02 PM' showing the transaction time, positioned next to a card number with a bullet point separator between them.",
+    
+    "Primary Action Button - Done": "Large mint green rectangular button with rounded corners with white text 'Done', positioned in the lower section of the screen",
+    
+    "Secondary Action Link - Top up more money": "Green text link 'Top up more money' in smaller font, centered horizontally below the Done button"
+    }
+

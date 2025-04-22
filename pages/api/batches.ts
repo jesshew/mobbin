@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { supabase } from '@/lib/supabase'
 import { PostgrestError } from '@supabase/supabase-js'
 import { SUPABASE_BUCKET_NAME } from '@/config'
+import { generateSignedUrls } from '@/lib/supabaseUtils'
 
 // --- Constants ---
 const BATCH_TABLE = 'batch'
@@ -96,19 +97,25 @@ async function fetchBatchesFromSupabase(): Promise<BatchData[]> {
  * Extracts the storage path from a Supabase screenshot URL.
  */
 function getScreenshotPath(url: string): string {
+  console.log('Extracting storage path from screenshot URL:', url);
   try {
     const parsedUrl = new URL(url);
+    console.log('Parsed URL:', parsedUrl);
     // Example path: /storage/v1/object/public/screenshot/batch_123/image.jpg
     // We need the part after the bucket name: batch_123/image.jpg
     const pathParts = parsedUrl.pathname.split('/');
+    console.log('Path parts:', pathParts);
     const bucketNameIndex = pathParts.findIndex(part => part === SCREENSHOT_BUCKET);
+    console.log('Bucket name index:', bucketNameIndex);
 
     if (bucketNameIndex === -1 || bucketNameIndex + 1 >= pathParts.length) {
       console.error(`Bucket '${SCREENSHOT_BUCKET}' not found or path is incomplete in URL: ${url}`);
       throw new Error(`Invalid screenshot URL format: ${url}`);
     }
     // Join the parts after the bucket name
-    return pathParts.slice(bucketNameIndex + 1).join('/');
+    const storagePath = pathParts.slice(bucketNameIndex + 1).join('/');
+    console.log('Extracted storage path:', storagePath);
+    return storagePath;
   } catch (e) {
     // Catch URL parsing errors as well
     console.error(`Error parsing screenshot URL '${url}':`, e);
@@ -129,69 +136,48 @@ async function enrichBatchWithSignedImages(batch: BatchData): Promise<EnrichedBa
     throw new Error(ERROR_INVALID_TIMESTAMP(batch.batch_created_at));
   }
 
-  const screenshotPaths = batch.screenshot.map(ss => getScreenshotPath(ss.screenshot_file_url));
-  const signedUrlMap: Map<string, string> = new Map();
   let signedImages: SignedImage[] = [];
+  const screenshotPaths = batch.screenshot.map(ss => getScreenshotPath(ss.screenshot_file_url));
 
-  // Only call createSignedUrls if there are paths to process
+  // Only generate signed URLs if there are paths to process
   if (screenshotPaths.length > 0) {
-    const { data: signedUrlsResult, error: bulkUrlError } = await supabase
-      .storage
-      .from(SCREENSHOT_BUCKET)
-      .createSignedUrls(screenshotPaths, SIGNED_URL_EXPIRY_SECONDS);
+    try {
+      // Call the new utility function to generate signed URLs
+      const signedUrlMap = await generateSignedUrls(
+        supabase, // Pass the supabase client
+        SCREENSHOT_BUCKET,
+        screenshotPaths,
+        SIGNED_URL_EXPIRY_SECONDS
+      );
 
-    if (bulkUrlError) {
-      console.error('Error generating signed URLs in bulk:', bulkUrlError);
-      throw new Error(ERROR_GENERATING_SIGNED_URL); // Throw a general error for the batch
-    }
+      // Transform screenshots using the generated map
+      signedImages = batch.screenshot.map(ss => {
+        const path = getScreenshotPath(ss.screenshot_file_url);
+        const signedUrl = signedUrlMap.get(path);
 
-    if (!signedUrlsResult) {
-        // Should not happen if error is null, but good practice
-        console.error('No data returned for signed URLs batch, but no error reported.');
+        if (!signedUrl) {
+          // This indicates an internal logic error if map generation was successful
+          console.error(`Internal error: Could not find mapped signed URL for path: ${path}.`);
+          // Throw an error as this shouldn't happen if generateSignedUrls succeeded
+          throw new Error(`Internal error: Signed URL missing for path ${path}`);
+        }
+
+        // Directly create the SignedImage object here
+        return {
+          id: ss.screenshot_id.toString(),
+          name: ss.screenshot_file_name,
+          url: signedUrl,
+        };
+      });
+    } catch (error) {
+        // Catch errors specifically from generateSignedUrls
+        console.error('Error generating signed URLs via utility function:', error);
+        // Re-throw or handle the error appropriately. Throwing a general error for the batch.
+        // The utility function already logs specific path errors.
         throw new Error(ERROR_GENERATING_SIGNED_URL);
     }
-
-    // Process the results and build the map, checking for individual errors
-    for (let i = 0; i < signedUrlsResult.length; i++) {
-        const item = signedUrlsResult[i];
-        const path = screenshotPaths[i]; // Get the corresponding original path
-
-        if (item.error) {
-             console.error(`Failed to generate signed URL for path: ${path}. Error: ${item.error}`);
-             // Throwing for the whole batch if any single URL fails.
-             // Alternatively, could skip the image or return partial data.
-             throw new Error(`${ERROR_GENERATING_SIGNED_URL} for path: ${path}`);
-        }
-
-        if (!item.signedUrl) {
-             // Handle cases where there's no error but also no URL (should be unlikely)
-             console.error(`No signed URL returned for path: ${path}, although no specific error was reported.`);
-             throw new Error(`${ERROR_GENERATING_SIGNED_URL} - missing URL for path: ${path}`);
-        }
-        // Map the original path to the signed URL
-        signedUrlMap.set(path, item.signedUrl);
-    }
-
-    // Transform screenshots using the generated map
-    signedImages = batch.screenshot.map(ss => {
-      const path = getScreenshotPath(ss.screenshot_file_url);
-      const signedUrl = signedUrlMap.get(path);
-
-      if (!signedUrl) {
-        // This indicates an internal logic error if map generation was successful
-        console.error(`Internal error: Could not find mapped signed URL for path: ${path}.`);
-         throw new Error(`Internal error: Signed URL missing for path ${path}`);
-      }
-
-      // Directly create the TransformedImage object here
-      return {
-        id: ss.screenshot_id.toString(),
-        name: ss.screenshot_file_name,
-        url: signedUrl,
-      };
-    });
   }
-  // If screenshotPaths was empty, images will remain an empty array, which is correct.
+  // If screenshotPaths was empty, signedImages will remain an empty array, which is correct.
 
   return {
     id: batch.batch_id.toString(),
@@ -222,8 +208,17 @@ async function getEnrichedBatches(): Promise<EnrichedBatch[]> {
 
 function handleBatchesError(error: unknown, res: NextApiResponse): void {
   console.error(ERROR_FETCHING_BATCHES, error);
+  // Check if the error message originates from the specific utility errors
   const message = error instanceof Error ? error.message : ERROR_FETCHING_BATCHES;
-  const statusCode = (message === ERROR_INVALID_TIMESTAMP('') || message === ERROR_GENERATING_SIGNED_URL) ? 400 : 500;
+  let statusCode = 500; // Default to internal server error
+
+  if (message.startsWith(ERROR_GENERATING_SIGNED_URL) || message.includes(ERROR_INVALID_TIMESTAMP(''))) {
+      statusCode = 400; // Bad request for URL generation issues or invalid timestamps
+  } else if (message === ERROR_FETCHING_BATCHES) {
+      statusCode = 500; // Stick to 500 for general fetch errors
+  }
+  // Add more specific status code handling if needed based on error types/messages
+
   res.status(statusCode).json({ error: message });
 }
 
