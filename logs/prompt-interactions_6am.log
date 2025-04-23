@@ -1,0 +1,2758 @@
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:11:44.197Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 19.489 seconds
+
+----- PROMPT -----
+
+
+Prompt: Enhanced High-Level UI Component Extraction with Partial Visibility Awareness
+
+<identity>  
+You are a structured AI UI analysis agent designated to extract high-level UI components from a UI screenshot.  
+You are optimized for precision in semantic segmentation, resistance to overclassification, and strict hierarchical grouping.  
+You do not generate unnecessary information. You do not speculate.  
+You must also account for **partially visible** components that are recognizable and potentially interactive.  
+</identity>
+
+<input>  
+- A UI screenshot  
+</input>
+
+<task_execution>  
+Upon receipt of a visual UI input (e.g., screenshot):
+
+DO extract high-level, semantically distinct interface components, even when they are **partially visible**.  
+DO NOT include low-level atomic elements unless they act as standalone interaction units (e.g., isolated CTAs).  
+DO group smaller atomic items into meaningful parent components (e.g., icons + labels + controls → "Cart Item").  
+DO NOT oversegment. Avoid listing trivial or decorative UI parts.  
+
+All extracted components MUST represent functional blocks relevant to product design, UX analysis, or interaction mapping.
+
+Use discretion to determine whether a partially shown component offers enough visual or functional cues to justify inclusion.
+
+Every output MUST be formatted as a structured JSON array conforming to the schema in <output_format>.  
+</task_execution>
+
+<output_format>  
+Please output ONE string of flat JSON object.  
+
+Each object in the output array MUST include the following keys:  
+
+component_name → string: Human-readable identifier of the component (e.g., "Header", "Cart Item")  
+description → string: Summary of visual content and layout within the component  
+impact_on_user_flow → string: Explanation of how the component contributes to user experience or decision-making  
+cta_type → enum: One of [Primary, Secondary, Informational] if any CTA exists; otherwise omit or set to null  
+is_reused_in_other_screens → boolean: TRUE if the component is expected to appear across multiple screens  
+likely_interaction_type → list[string]: User actions expected (e.g., ["tap"], ["scroll"], ["keyboard input"])  
+flow_position → string: UX journey placement (e.g., "Checkout - Cart Review")  
+</output_format>
+
+<example_output> 
+"[
+  {
+    "component_name": "Cart Item",
+    "description": "Visual block showing product image, name, price, and quantity controls.",
+    "impact_on_user_flow": "Enables users to review and modify the items before purchase.",
+    "cta_type": "Secondary",
+    "is_reused_in_other_screens": true,
+    "likely_interaction_type": ["tap", "stepper"],
+    "flow_position": "Checkout - Cart Review"
+  },
+  {
+    "component_name": "Delivery Options",
+    "description": "Section showing available delivery choices with cost and selection state.",
+    "impact_on_user_flow": "Lets the user choose a preferred delivery method before checkout.",
+    "cta_type": "Primary",
+    "is_reused_in_other_screens": true,
+    "likely_interaction_type": ["tap (select radio)"],
+    "flow_position": "Checkout - Shipping Selection"
+  },
+  {
+    "component_name": "Partial Debit Card",
+    "description": "Partially visible card element showing the top edge and part of the card number, suggesting the presence of a second linked payment method.",
+    "impact_on_user_flow": "Indicates additional card options or account data, enhancing user context and potentially prompting a scroll interaction.",
+    "cta_type": null,
+    "is_reused_in_other_screens": true,
+    "likely_interaction_type": ["scroll"],
+    "flow_position": "Dashboard - Card Carousel"
+  },
+  {
+    "component_name": "Promocode Section",
+    "description": "Input area for applying promotional codes with validation feedback.",
+    "impact_on_user_flow": "Allows discount application to influence purchase behavior.",
+    "cta_type": "Secondary",
+    "is_reused_in_other_screens": false,
+    "likely_interaction_type": ["tap", "keyboard input"],
+    "flow_position": "Checkout - Discount Application"
+  }
+]"
+</example_output>
+
+
+----- RESPONSE -----
+{
+  "id": "resp_6809577d7f9c8192beb4b21eba2b2e910db619589ea9bee0",
+  "object": "response",
+  "created_at": 1745442685,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_6809578084f081928c2825a2e9f821920db619589ea9bee0",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"component_name\": \"Cart Header\",\n    \"description\": \"Top section displaying the screen title ('Cart, 3 items') and a close (X) button for dismissing the cart view.\",\n    \"impact_on_user_flow\": \"Provides clear context and an option to exit or close the cart screen.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Checkout - Cart Review\"\n  },\n  {\n    \"component_name\": \"Delivery Options Selector\",\n    \"description\": \"Section presenting delivery methods—standard (free, pre-selected) and express (paid, selectable radio button), with estimated delivery times.\",\n    \"impact_on_user_flow\": \"Enables users to select delivery speed, influencing order cost and experience.\",\n    \"cta_type\": \"Primary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Checkout - Shipping Selection\"\n  },\n  {\n    \"component_name\": \"Cart Item List\",\n    \"description\": \"Vertically stacked summary of ordered items, each showing product image, name, quantity, price, and quantity adjustment controls.\",\n    \"impact_on_user_flow\": \"Centralizes item review and real-time editing (add/remove quantities) before purchase.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\", \"stepper\"],\n    \"flow_position\": \"Checkout - Cart Review\"\n  },\n  {\n    \"component_name\": \"Promocode Section\",\n    \"description\": \"Input area showing an entered promo code ('TASTE2025') with a validation checkmark.\",\n    \"impact_on_user_flow\": \"Allows for entry and confirmation of discounts, affecting purchase decisions.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": false,\n    \"likely_interaction_type\": [\"tap\", \"keyboard input\"],\n    \"flow_position\": \"Checkout - Discount Application\"\n  },\n  {\n    \"component_name\": \"Order Summary Bar\",\n    \"description\": \"Bottom-anchored bar displaying total cost and a prominent 'Confirm order' button.\",\n    \"impact_on_user_flow\": \"Gives a final chance to review total spend and continues the checkout process.\",\n    \"cta_type\": \"Primary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Checkout - Payment Confirmation\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1628,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 534,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 2162
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "[\n  {\n    \"component_name\": \"Cart Header\",\n    \"description\": \"Top section displaying the screen title ('Cart, 3 items') and a close (X) button for dismissing the cart view.\",\n    \"impact_on_user_flow\": \"Provides clear context and an option to exit or close the cart screen.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Checkout - Cart Review\"\n  },\n  {\n    \"component_name\": \"Delivery Options Selector\",\n    \"description\": \"Section presenting delivery methods—standard (free, pre-selected) and express (paid, selectable radio button), with estimated delivery times.\",\n    \"impact_on_user_flow\": \"Enables users to select delivery speed, influencing order cost and experience.\",\n    \"cta_type\": \"Primary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Checkout - Shipping Selection\"\n  },\n  {\n    \"component_name\": \"Cart Item List\",\n    \"description\": \"Vertically stacked summary of ordered items, each showing product image, name, quantity, price, and quantity adjustment controls.\",\n    \"impact_on_user_flow\": \"Centralizes item review and real-time editing (add/remove quantities) before purchase.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\", \"stepper\"],\n    \"flow_position\": \"Checkout - Cart Review\"\n  },\n  {\n    \"component_name\": \"Promocode Section\",\n    \"description\": \"Input area showing an entered promo code ('TASTE2025') with a validation checkmark.\",\n    \"impact_on_user_flow\": \"Allows for entry and confirmation of discounts, affecting purchase decisions.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": false,\n    \"likely_interaction_type\": [\"tap\", \"keyboard input\"],\n    \"flow_position\": \"Checkout - Discount Application\"\n  },\n  {\n    \"component_name\": \"Order Summary Bar\",\n    \"description\": \"Bottom-anchored bar displaying total cost and a prominent 'Confirm order' button.\",\n    \"impact_on_user_flow\": \"Gives a final chance to review total spend and continues the checkout process.\",\n    \"cta_type\": \"Primary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Checkout - Payment Confirmation\"\n  }\n]"
+}
+
+----- USAGE -----
+Input Tokens: 1628
+Output Tokens: 534
+Total Tokens: 2162
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:04.069Z
+Service: Claude-claude-3-7-sonnet-20250219
+Execution Time: 19.866 seconds
+
+----- PROMPT -----
+
+<identity>  
+You are a highly capable autonomous AI UIUX ANNOTATOR.  
+You exist to assist a human USER in parsing UI screenshots and generating structured annotations for a design reference library.  
+You are optimized for accuracy, consistency in naming conventions, and exhaustive visual parsing.  
+You do not omit visible data. You do not ask questions. You do not speculate.  
+</identity>  
+
+<input>  
+Required input includes:  
+- A UI screenshot  
+- A list of component categories (e.g., “Header”, “Product Card”, “Bottom Bar”)  
+Each component in the list is treated as a logical container. Elements must be grouped accordingly.  
+</input>  
+
+<task_execution>  
+Upon receiving inputs, perform the following steps without deviation:  
+
+1. **Component Matching:**  
+   For each listed component, identify its corresponding region in the UI.  
+
+2. **Element Extraction:**  
+   Within each component, extract and describe ALL visual elements as INDIVIDUAL elements.  
+   - Include: icons, buttons, labels, values, helper text, visual states, overlays, spacers, input fields, scroll zones  
+   - DO NOT exclude small elements or secondary labels  
+
+3. **Naming Convention Enforcement:**  
+   - Output uses strict hierarchical keys  
+   - Format: [Parent Component] > [Subcomponent] > [Element Label]
+   - Separator: >  
+   - No nesting; use flat JSON with delimited keys  
+
+4. **Description Requirements:**  
+   Each key’s value must include:  
+   - Appearance: Shape, color, text, visual style  
+   - Function: Purpose or intended interaction  
+   - Position: Spatial reference (e.g., “top-right corner”, “below cart total”)  
+   - State: Active, disabled, selected, etc.  
+   - Interaction Type: Static, tappable, swipeable, etc.  
+
+5. **Output Constraints:**  
+   - JSON object in string format only  
+   - Flat structure (no nested objects)  
+   - No nulls, placeholders, or empty fields  
+   - No trailing commas  
+</task_execution>  
+
+<output_format>  
+Return string formatted JSON.  
+DO NOT include code guards ` in the output. 
+Each key represents an element using the format:  
+[Component] > [Subcomponent] > [Element Label]
+
+Each value is a detailed string description, compliant with the annotation rules.  
+
+Example:
+"{
+  "Header > Title": "Centered bold text 'Top Up Receipt' with a confetti background",
+  "Success Badge > Icon": "Green hexagon with a white checkmark, placed below the title",
+  "Delivery Options > Express Option > Label": "Text reading 'Express, 15-25 minutes' on the left side of the express delivery option row, positioned below the standard delivery option.",
+  "Delivery Options > Express Option > Icon": "Small lightning bolt icon next to the express delivery label, indicating speed.",
+  "Delivery Options > Express Option > Price": "Text reading '$2.00' on the right side of the express delivery option row.",
+  "Delivery Options > Express Option > Selection Indicator": "Empty circular radio button on the far right, next to the $2.00 price.",
+  "Confirmation > Message": "Large bold text 'Top Up Success', centered in the screen",
+  "Cart Item 1 > Image": "Square image of a bowl containing gnocchi dish positioned in the left portion of the upper-middle section of the screen.",
+  "Cart Item 1 > Title": "Text label 'Gnocchi with mushroom gravy' displayed to the right of the corresponding image.",
+  "Cart Item 1 > Weight": "Gray text '230g' displayed next to the title of the first item.",
+  "Cart Item 1 > Price": "Orange/amber colored price tag '$5,60' positioned below the item title.",
+  "Cart Item 1 > Quantity Controls > Decrease Button": "Minus button on the left side of the quantity control, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Count Display": "Text showing '1' between the minus and plus buttons, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Increase Button": "Plus button on the right side of the quantity control, under the item title 'Gnocchi'",
+  "Confirmation > Subtext": "Gray helper text 'Your money has been added to your card'",
+  "Amount Summary > Value": "Prominent text '$132.00' centered near the middle",
+  "Card Section > Card Label": "White label text 'Wally Virtual Card' at top of card",
+  "Card Section > Masked Number": "Text '•••• 4568' directly below card label",
+  "Card Section > Timestamp": "Small gray text 'Today, 12:45 PM' at bottom-right of card",
+  "Primary CTA > Label": "Green full-width button 'Done' with white text, tappable",
+  "Secondary CTA > Label": "Teal hyperlink text 'Top up more money' below primary button"
+}"
+</output_format>
+
+
+<component_list>Cart Header
+Delivery Options Selector
+Cart Item List
+Promocode Section
+Order Summary Bar</component_list>
+
+----- RESPONSE -----
+{
+  "id": "msg_01DD51X2VhC7sviTEd3eZhvw",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-3-7-sonnet-20250219",
+  "content": [
+    {
+      "type": "text",
+      "text": "```json\n{\n  \"Cart Header > Title\": \"Text 'Cart, 3 items' displayed in large font at the top of the screen, indicating the current cart contents\",\n  \"Cart Header > Close Button\": \"X icon positioned in the top-right corner, allowing the user to close the cart view\",\n  \n  \"Delivery Options Selector > Standard Delivery Option > Label\": \"Text 'Standard delivery, 40-60 minutes' on the left side of the standard delivery row\",\n  \"Delivery Options Selector > Standard Delivery Option > Price\": \"Text 'Free' displayed on the right side of the standard delivery row\",\n  \"Delivery Options Selector > Standard Delivery Option > Selection Indicator\": \"Orange filled radio button on the far right, indicating this option is currently selected\",\n  \n  \"Delivery Options Selector > Express Delivery Option > Label\": \"Text 'Express, 15-25 minutes' on the left side of the express delivery row\",\n  \"Delivery Options Selector > Express Delivery Option > Lightning Icon\": \"Small lightning bolt icon next to the express delivery text, indicating faster service\",\n  \"Delivery Options Selector > Express Delivery Option > Price\": \"Text '$2.00' displayed on the right side of the express delivery row\",\n  \"Delivery Options Selector > Express Delivery Option > Selection Indicator\": \"Empty circular radio button on the far right, indicating this option is not selected\",\n  \n  \"Cart Item List > Item 1 > Image\": \"Square thumbnail image of gnocchi dish in a white bowl, positioned on the left side of the first item row\",\n  \"Cart Item List > Item 1 > Title\": \"Text 'Gnocchi with mushroom gravy' displayed as the item name, to the right of the food image\",\n  \"Cart Item List > Item 1 > Weight\": \"Text '230g' in lighter color, showing the portion size of the first item\",\n  \"Cart Item List > Item 1 > Price\": \"Text '$5,60' in orange/amber color, showing the item price\",\n  \"Cart Item List > Item 1 > Quantity Controls > Decrease Button\": \"Minus (-) button on the left side of the quantity control\",\n  \"Cart Item List > Item 1 > Quantity Controls > Count Display\": \"Text '1' centered between decrease and increase buttons, showing current quantity\",\n  \"Cart Item List > Item 1 > Quantity Controls > Increase Button\": \"Plus (+) button on the right side of the quantity control\",\n  \n  \"Cart Item List > Item 2 > Image\": \"Square thumbnail image of a pastry topped with raspberries and currants, positioned on the left side of the second item row\",\n  \"Cart Item List > Item 2 > Title\": \"Text 'Wenzel with raspberries and currants' displayed as the item name, to the right of the food image\",\n  \"Cart Item List > Item 2 > Weight\": \"Text '170g' in lighter color, showing the portion size of the second item\",\n  \"Cart Item List > Item 2 > Price\": \"Text '$3,80' in orange/amber color, showing the item price\",\n  \"Cart Item List > Item 2 > Quantity Controls > Decrease Button\": \"Minus (-) button on the left side of the quantity control\",\n  \"Cart Item List > Item 2 > Quantity Controls > Count Display\": \"Text '1' centered between decrease and increase buttons, showing current quantity\",\n  \"Cart Item List > Item 2 > Quantity Controls > Increase Button\": \"Plus (+) button on the right side of the quantity control\",\n  \n  \"Cart Item List > Item 3 > Image\": \"Square thumbnail image of a glass of orange juice, positioned on the left side of the third item row\",\n  \"Cart Item List > Item 3 > Title\": \"Text 'Freshly squeezed orange juice' displayed as the item name, to the right of the beverage image\",\n  \"Cart Item List > Item 3 > Volume\": \"Text '330ml' in lighter color, showing the volume of the juice\",\n  \"Cart Item List > Item 3 > Price\": \"Text '$2,30' in orange/amber color, showing the item price\",\n  \"Cart Item List > Item 3 > Quantity Controls > Decrease Button\": \"Minus (-) button on the left side of the quantity control\",\n  \"Cart Item List > Item 3 > Quantity Controls > Count Display\": \"Text '1' centered between decrease and increase buttons, showing current quantity\",\n  \"Cart Item List > Item 3 > Quantity Controls > Increase Button\": \"Plus (+) button on the right side of the quantity control\",\n  \n  \"Promocode Section > Input Field\": \"Light gray input field with placeholder text 'Promocode' on the left side\",\n  \"Promocode Section > Applied Code\": \"Text 'TASTE2025' displayed in the promocode field, indicating an active discount code\",\n  \"Promocode Section > Confirmation Icon\": \"Checkmark icon in light orange/amber color on the right side of the promocode field, indicating the code has been successfully applied\",\n  \n  \"Order Summary Bar > Total Price\": \"Text '$11,70' displayed on the left side of the bar in bold, showing the order total\",\n  \"Order Summary Bar > Confirm Button\": \"Orange button with white text 'Confirm order' on the right side of the bar, allowing user to proceed with checkout\"\n}\n```"
+    }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 2110,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 1263
+  }
+}
+
+----- USAGE -----
+Input Tokens: 2110
+Output Tokens: 1263
+Total Tokens: 3373
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:23.977Z
+Service: Claude-claude-3-7-sonnet-20250219
+Execution Time: 19.905 seconds
+
+----- PROMPT -----
+
+You are optimizing UI component descriptions for a Vision Language Model (VLM) tasked with drawing bounding boxes accurately.
+Your job is to convert a flat JSON list of UI component keys into detailed visual descriptions that:
+- Make each component visually distinct and detectable
+- Resolves ambiguity between repeated elements by including precise visual anchors 
+- Avoid language that anthropomorphizes, speculates, or adds human-facing UX explanation
+- Preserves the model's focus on the target component  
+- Maintain a tight focus on structure, position, and appearance
+
+Input:  
+- A UI screenshot  
+- A flat JSON list of component IDs → short descriptions
+
+Key Guidance:
+
+1. Prioritize the Component Itself  
+Clearly describe:  
+- Shape and size (e.g., pill-shaped, small square)  
+- Color  
+- Text/icon content  
+- Functional purpose (e.g., ‘decrease item quantity’)  
+
+2. Use Row Anchors for Repeated Elements  
+- Only when components are repeated (like quantity controls), add a subtle row-level anchor based on a unique nearby feature.
+- Anchors must be visually locatable, such as labels, icons, or nearby components
+
+Example:  
+“Minus (-) button in a light orange pill-shaped control, in the row showing the item 'Gnocchi with mushroom gravy'”  
+
+Avoid:  
+“Minus button on the left of quantity control” (too generic)  
+
+3. Avoid Over-Interpretation
+- Do not infer purpose like "providing a secure reference to the account"
+- Do not include explanations like "used for adding funds" or "greets the user"
+
+4. Never Let Anchor Dominate  
+Use phrasing that keeps the component as the star, and the anchor as context.
+
+Good:  
+“...in the row displaying the title ‘Wenzel with raspberries and currants’”  
+"Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name 'DKNY'
+
+
+Bad:  
+“...under the ‘Wenzel’ label” → implies Wenzel might be the bounding box  
+“Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name in the second row” → VLM has no way to know what the second row is
+
+Sample Output:  
+{
+  "Cart Items List > Item 2 > Quantity Controls > Increase Button": "Plus (+) button in a light orange pill-shaped control, on the right of the quantity selector in the row showing the item 'Wenzel with raspberries and currants'",
+  "Cart Items List > Item 3 > Quantity Controls > Decrease Button": "Minus (-) button in a light orange pill-shaped control, on the left of the quantity selector in the row displaying the title 'Freshly squeezed orange juice'",
+  "Order Summary & Confirmation Bar > Confirm Button": "White text 'Confirm order' aligned right in the orange confirmation bar at the bottom of the screen"
+}
+
+Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards ` in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
+
+
+<element_list>```json
+{
+  "Cart Header > Title": "Text 'Cart, 3 items' displayed in large font at the top of the screen, indicating the current cart contents",
+  "Cart Header > Close Button": "X icon positioned in the top-right corner, allowing the user to close the cart view",
+  
+  "Delivery Options Selector > Standard Delivery Option > Label": "Text 'Standard delivery, 40-60 minutes' on the left side of the standard delivery row",
+  "Delivery Options Selector > Standard Delivery Option > Price": "Text 'Free' displayed on the right side of the standard delivery row",
+  "Delivery Options Selector > Standard Delivery Option > Selection Indicator": "Orange filled radio button on the far right, indicating this option is currently selected",
+  
+  "Delivery Options Selector > Express Delivery Option > Label": "Text 'Express, 15-25 minutes' on the left side of the express delivery row",
+  "Delivery Options Selector > Express Delivery Option > Lightning Icon": "Small lightning bolt icon next to the express delivery text, indicating faster service",
+  "Delivery Options Selector > Express Delivery Option > Price": "Text '$2.00' displayed on the right side of the express delivery row",
+  "Delivery Options Selector > Express Delivery Option > Selection Indicator": "Empty circular radio button on the far right, indicating this option is not selected",
+  
+  "Cart Item List > Item 1 > Image": "Square thumbnail image of gnocchi dish in a white bowl, positioned on the left side of the first item row",
+  "Cart Item List > Item 1 > Title": "Text 'Gnocchi with mushroom gravy' displayed as the item name, to the right of the food image",
+  "Cart Item List > Item 1 > Weight": "Text '230g' in lighter color, showing the portion size of the first item",
+  "Cart Item List > Item 1 > Price": "Text '$5,60' in orange/amber color, showing the item price",
+  "Cart Item List > Item 1 > Quantity Controls > Decrease Button": "Minus (-) button on the left side of the quantity control",
+  "Cart Item List > Item 1 > Quantity Controls > Count Display": "Text '1' centered between decrease and increase buttons, showing current quantity",
+  "Cart Item List > Item 1 > Quantity Controls > Increase Button": "Plus (+) button on the right side of the quantity control",
+  
+  "Cart Item List > Item 2 > Image": "Square thumbnail image of a pastry topped with raspberries and currants, positioned on the left side of the second item row",
+  "Cart Item List > Item 2 > Title": "Text 'Wenzel with raspberries and currants' displayed as the item name, to the right of the food image",
+  "Cart Item List > Item 2 > Weight": "Text '170g' in lighter color, showing the portion size of the second item",
+  "Cart Item List > Item 2 > Price": "Text '$3,80' in orange/amber color, showing the item price",
+  "Cart Item List > Item 2 > Quantity Controls > Decrease Button": "Minus (-) button on the left side of the quantity control",
+  "Cart Item List > Item 2 > Quantity Controls > Count Display": "Text '1' centered between decrease and increase buttons, showing current quantity",
+  "Cart Item List > Item 2 > Quantity Controls > Increase Button": "Plus (+) button on the right side of the quantity control",
+  
+  "Cart Item List > Item 3 > Image": "Square thumbnail image of a glass of orange juice, positioned on the left side of the third item row",
+  "Cart Item List > Item 3 > Title": "Text 'Freshly squeezed orange juice' displayed as the item name, to the right of the beverage image",
+  "Cart Item List > Item 3 > Volume": "Text '330ml' in lighter color, showing the volume of the juice",
+  "Cart Item List > Item 3 > Price": "Text '$2,30' in orange/amber color, showing the item price",
+  "Cart Item List > Item 3 > Quantity Controls > Decrease Button": "Minus (-) button on the left side of the quantity control",
+  "Cart Item List > Item 3 > Quantity Controls > Count Display": "Text '1' centered between decrease and increase buttons, showing current quantity",
+  "Cart Item List > Item 3 > Quantity Controls > Increase Button": "Plus (+) button on the right side of the quantity control",
+  
+  "Promocode Section > Input Field": "Light gray input field with placeholder text 'Promocode' on the left side",
+  "Promocode Section > Applied Code": "Text 'TASTE2025' displayed in the promocode field, indicating an active discount code",
+  "Promocode Section > Confirmation Icon": "Checkmark icon in light orange/amber color on the right side of the promocode field, indicating the code has been successfully applied",
+  
+  "Order Summary Bar > Total Price": "Text '$11,70' displayed on the left side of the bar in bold, showing the order total",
+  "Order Summary Bar > Confirm Button": "Orange button with white text 'Confirm order' on the right side of the bar, allowing user to proceed with checkout"
+}
+```</element_list>
+
+----- RESPONSE -----
+{
+  "id": "msg_01A7fDpXGAtSSoZzCeMXfdRF",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-3-7-sonnet-20250219",
+  "content": [
+    {
+      "type": "text",
+      "text": "```json\n{\n  \"Cart Header > Title\": \"Large text 'Cart, 3 items' positioned at the top of the screen with dark font, showing the cart summary\",\n  \"Cart Header > Close Button\": \"Gray 'X' icon button positioned in the top-right corner of the screen, used to close the current view\",\n  \n  \"Delivery Options Selector > Standard Delivery Option > Label\": \"Dark text 'Standard delivery, 40-60 minutes' positioned on the left side in the first delivery option row\",\n  \"Delivery Options Selector > Standard Delivery Option > Price\": \"Gray text 'Free' positioned on the right side of the standard delivery row\",\n  \"Delivery Options Selector > Standard Delivery Option > Selection Indicator\": \"Orange filled circular radio button positioned on the far right of the standard delivery row, indicating selected status\",\n  \n  \"Delivery Options Selector > Express Delivery Option > Label\": \"Dark text 'Express, 15-25 minutes' positioned on the left side in the second delivery option row\",\n  \"Delivery Options Selector > Express Delivery Option > Lightning Icon\": \"Small orange lightning bolt icon positioned next to the 'Express, 15-25 minutes' text\",\n  \"Delivery Options Selector > Express Delivery Option > Price\": \"Text '$2.00' positioned on the right side of the express delivery row\",\n  \"Delivery Options Selector > Express Delivery Option > Selection Indicator\": \"Empty circular radio button positioned on the far right of the express delivery row, indicating unselected status\",\n  \n  \"Cart Item List > Item 1 > Image\": \"Square thumbnail image of a gnocchi dish in a white bowl with vegetables, positioned on the left side in the row with 'Gnocchi with mushroom gravy'\",\n  \"Cart Item List > Item 1 > Title\": \"Bold text 'Gnocchi with mushroom gravy' positioned to the right of the gnocchi image\",\n  \"Cart Item List > Item 1 > Weight\": \"Light gray text '230g' positioned directly after the title in the gnocchi row\",\n  \"Cart Item List > Item 1 > Price\": \"Orange text '$5,60' positioned on the left side of the quantity controls in the gnocchi row\",\n  \"Cart Item List > Item 1 > Quantity Controls > Decrease Button\": \"Minus (-) button in a light beige pill-shaped control, positioned on the left of the quantity display in the row showing 'Gnocchi with mushroom gravy'\",\n  \"Cart Item List > Item 1 > Quantity Controls > Count Display\": \"Text '1' centered within a light beige background between minus and plus buttons in the gnocchi row\",\n  \"Cart Item List > Item 1 > Quantity Controls > Increase Button\": \"Plus (+) button in a light beige pill-shaped control, positioned on the right of the quantity display in the row showing 'Gnocchi with mushroom gravy'\",\n  \n  \"Cart Item List > Item 2 > Image\": \"Square thumbnail image of a pastry topped with red berries, positioned on the left side in the row with 'Wenzel with raspberries and currants'\",\n  \"Cart Item List > Item 2 > Title\": \"Bold text 'Wenzel with raspberries and currants' positioned to the right of the pastry image\",\n  \"Cart Item List > Item 2 > Weight\": \"Light gray text '170g' positioned directly after the title in the Wenzel row\",\n  \"Cart Item List > Item 2 > Price\": \"Orange text '$3,80' positioned on the left side of the quantity controls in the Wenzel row\",\n  \"Cart Item List > Item 2 > Quantity Controls > Decrease Button\": \"Minus (-) button in a light beige pill-shaped control, positioned on the left of the quantity display in the row showing 'Wenzel with raspberries and currants'\",\n  \"Cart Item List > Item 2 > Quantity Controls > Count Display\": \"Text '1' centered within a light beige background between minus and plus buttons in the Wenzel row\",\n  \"Cart Item List > Item 2 > Quantity Controls > Increase Button\": \"Plus (+) button in a light beige pill-shaped control, positioned on the right of the quantity display in the row showing 'Wenzel with raspberries and currants'\",\n  \n  \"Cart Item List > Item 3 > Image\": \"Square thumbnail image of a glass of orange juice, positioned on the left side in the row with 'Freshly squeezed orange juice'\",\n  \"Cart Item List > Item 3 > Title\": \"Bold text 'Freshly squeezed orange juice' positioned to the right of the orange juice image\",\n  \"Cart Item List > Item 3 > Volume\": \"Light gray text '330ml' positioned directly after the title in the orange juice row\",\n  \"Cart Item List > Item 3 > Price\": \"Orange text '$2,30' positioned on the left side of the quantity controls in the orange juice row\",\n  \"Cart Item List > Item 3 > Quantity Controls > Decrease Button\": \"Minus (-) button in a light beige pill-shaped control, positioned on the left of the quantity display in the row showing 'Freshly squeezed orange juice'\",\n  \"Cart Item List > Item 3 > Quantity Controls > Count Display\": \"Text '1' centered within a light beige background between minus and plus buttons in the orange juice row\",\n  \"Cart Item List > Item 3 > Quantity Controls > Increase Button\": \"Plus (+) button in a light beige pill-shaped control, positioned on the right of the quantity display in the row showing 'Freshly squeezed orange juice'\",\n  \n  \"Promocode Section > Input Field\": \"Light gray rectangular field containing the text 'Promocode' and 'TASTE2025', positioned at the bottom of the item list\",\n  \"Promocode Section > Applied Code\": \"Black text 'TASTE2025' displayed within the promocode input field\",\n  \"Promocode Section > Confirmation Icon\": \"Orange checkmark icon positioned on the right side of the promocode field, indicating successful application\",\n  \n  \"Order Summary Bar > Total Price\": \"Bold orange text '$11,70' displayed on the left side of the orange bar at the bottom of the screen\",\n  \"Order Summary Bar > Confirm Button\": \"White text 'Confirm order' positioned on the right side of the orange bar at the bottom of the screen, functioning as the checkout button\"\n}\n```"
+    }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 2901,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 1521
+  }
+}
+
+----- USAGE -----
+Input Tokens: 2901
+Output Tokens: 1521
+Total Tokens: 4422
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:28.153Z
+Service: Moondream-vl-Detect
+Execution Time: 2.981 seconds
+
+----- PROMPT -----
+Detect Gray 'X' icon button positioned in the top-right corner of the screen, used to close the current view in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6669729463756084,
+      "y_min": 0.09174385108053684,
+      "x_max": 0.6943551786243916,
+      "y_max": 0.12309989891946316
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:28.865Z
+Service: Moondream-vl-Detect
+Execution Time: 3.692 seconds
+
+----- PROMPT -----
+Detect Orange filled circular radio button positioned on the far right of the standard delivery row, indicating selected status in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6630720384418964,
+      "y_min": 0.16379557363688946,
+      "x_max": 0.6982560865581036,
+      "y_max": 0.19557942636311054
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:28.865Z
+Service: Moondream-vl-Detect
+Execution Time: 3.695 seconds
+
+----- PROMPT -----
+Detect Large text 'Cart, 3 items' positioned at the top of the screen with dark font, showing the cart summary in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0,
+      "y_min": 0,
+      "x_max": 1,
+      "y_max": 1
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:28.871Z
+Service: Moondream-vl-Detect
+Execution Time: 3.699 seconds
+
+----- PROMPT -----
+Detect Dark text 'Standard delivery, 40-60 minutes' positioned on the left side in the first delivery option row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2815883234143257,
+      "y_min": 0.16398615948855877,
+      "x_max": 0.5309116765856743,
+      "y_max": 0.18757634051144123
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:29.089Z
+Service: Moondream-vl-Detect
+Execution Time: 3.917 seconds
+
+----- PROMPT -----
+Detect Gray text 'Free' positioned on the right side of the standard delivery row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.5486823376268148,
+      "y_min": 0.16059306915849447,
+      "x_max": 0.5997551623731852,
+      "y_max": 0.18706318084150553
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:29.998Z
+Service: Moondream-vl-Detect
+Execution Time: 0.844 seconds
+
+----- PROMPT -----
+Detect Dark text 'Express, 15-25 minutes' positioned on the left side in the second delivery option row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2853069230914116,
+      "y_min": 0.22941584698855877,
+      "x_max": 0.4217243269085884,
+      "y_max": 0.25300602801144123
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:30.479Z
+Service: Moondream-vl-Detect
+Execution Time: 0.613 seconds
+
+----- PROMPT -----
+Detect Small orange lightning bolt icon positioned next to the 'Express, 15-25 minutes' text in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.46680745482444763,
+      "y_min": 0.2290270896628499,
+      "x_max": 0.48241129517555237,
+      "y_max": 0.2494885353371501
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:30.875Z
+Service: Moondream-vl-Detect
+Execution Time: 0.785 seconds
+
+----- PROMPT -----
+Detect Square thumbnail image of a gnocchi dish in a white bowl with vegetables, positioned on the left side in the row with 'Gnocchi with mushroom gravy' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2907422035932541,
+      "y_min": 0.46305738389492035,
+      "x_max": 0.4299609214067459,
+      "y_max": 0.5896769911050797
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:30.951Z
+Service: Moondream-vl-Detect
+Execution Time: 1.084 seconds
+
+----- PROMPT -----
+Detect Text '$2.00' positioned on the right side of the express delivery row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.5059139020740986,
+      "y_min": 0.22867419105023146,
+      "x_max": 0.5643985979259014,
+      "y_max": 0.25374768394976854
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:30.984Z
+Service: Moondream-vl-Detect
+Execution Time: 1.113 seconds
+
+----- PROMPT -----
+Detect Empty circular radio button positioned on the far right of the express delivery row, indicating unselected status in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6638869382441044,
+      "y_min": 0.22420491464436054,
+      "x_max": 0.6974411867558956,
+      "y_max": 0.25821696035563946
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:31.723Z
+Service: Moondream-vl-Detect
+Execution Time: 0.723 seconds
+
+----- PROMPT -----
+Detect Bold text 'Gnocchi with mushroom gravy' positioned to the right of the gnocchi image in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.4485805109143257,
+      "y_min": 0.3086482770740986,
+      "x_max": 0.6979038640856743,
+      "y_max": 0.3671329729259014
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:32.392Z
+Service: Moondream-vl-Detect
+Execution Time: 0.911 seconds
+
+----- PROMPT -----
+Detect Light gray text '230g' positioned directly after the title in the gnocchi row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.49977361038327217,
+      "y_min": 0.33489866741001606,
+      "x_max": 0.5685857646167278,
+      "y_max": 0.36822633258998394
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:32.913Z
+Service: Moondream-vl-Detect
+Execution Time: 1.036 seconds
+
+----- PROMPT -----
+Detect Orange text '$5,60' positioned on the left side of the quantity controls in the gnocchi row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.43898381292819977,
+      "y_min": 0.3939915066584945,
+      "x_max": 0.5024224370718002,
+      "y_max": 0.4204616183415055
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:33.104Z
+Service: Moondream-vl-Detect
+Execution Time: 1.152 seconds
+
+----- PROMPT -----
+Detect Minus (-) button in a light beige pill-shaped control, positioned on the left of the quantity display in the row showing 'Gnocchi with mushroom gravy' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.5967063400894403,
+      "y_min": 0.39022053964436054,
+      "x_max": 0.6474342849105597,
+      "y_max": 0.42423258535563946
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:33.639Z
+Service: Moondream-vl-Detect
+Execution Time: 1.653 seconds
+
+----- PROMPT -----
+Detect Text '1' centered within a light beige background between minus and plus buttons in the gnocchi row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6313840821385384,
+      "y_min": 0.39022053964436054,
+      "x_max": 0.6772096678614616,
+      "y_max": 0.42423258535563946
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:33.694Z
+Service: Moondream-vl-Detect
+Execution Time: 0.969 seconds
+
+----- PROMPT -----
+Detect Plus (+) button in a light beige pill-shaped control, positioned on the right of the quantity display in the row showing 'Gnocchi with mushroom gravy' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.651976702734828,
+      "y_min": 0.39119710214436054,
+      "x_max": 0.695679547265172,
+      "y_max": 0.42520914785563946
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:34.277Z
+Service: Moondream-vl-Detect
+Execution Time: 0.882 seconds
+
+----- PROMPT -----
+Detect Square thumbnail image of a pastry topped with red berries, positioned on the left side in the row with 'Wenzel with raspberries and currants' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2921428605914116,
+      "y_min": 0.46598707139492035,
+      "x_max": 0.4285602644085884,
+      "y_max": 0.5926066786050797
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:34.559Z
+Service: Moondream-vl-Detect
+Execution Time: 0.645 seconds
+
+----- PROMPT -----
+Detect Bold text 'Wenzel with raspberries and currants' positioned to the right of the pastry image in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.43658655881881714,
+      "y_min": 0.4653047062456608,
+      "x_max": 0.6825540661811829,
+      "y_max": 0.5093046687543392
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:34.762Z
+Service: Moondream-vl-Detect
+Execution Time: 0.657 seconds
+
+----- PROMPT -----
+Detect Light gray text '170g' positioned directly after the title in the Wenzel row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.5569213777780533,
+      "y_min": 0.4935268275439739,
+      "x_max": 0.6266723722219467,
+      "y_max": 0.5338169224560261
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:35.288Z
+Service: Moondream-vl-Detect
+Execution Time: 0.647 seconds
+
+----- PROMPT -----
+Detect Orange text '$3,80' positioned on the left side of the quantity controls in the Wenzel row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.4453670270740986,
+      "y_min": 0.5541477566584945,
+      "x_max": 0.5038517229259014,
+      "y_max": 0.5806178683415055
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:35.593Z
+Service: Moondream-vl-Detect
+Execution Time: 0.898 seconds
+
+----- PROMPT -----
+Detect Minus (-) button in a light beige pill-shaped control, positioned on the left of the quantity display in the row showing 'Wenzel with raspberries and currants' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.5967369414865971,
+      "y_min": 0.5503767896443605,
+      "x_max": 0.6356849335134029,
+      "y_max": 0.5843888353556395
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:35.879Z
+Service: Moondream-vl-Detect
+Execution Time: 0.602 seconds
+
+----- PROMPT -----
+Detect Text '1' centered within a light beige background between minus and plus buttons in the Wenzel row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6289329025894403,
+      "y_min": 0.5491908900439739,
+      "x_max": 0.6796608474105597,
+      "y_max": 0.5894809849560261
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:36.221Z
+Service: Moondream-vl-Detect
+Execution Time: 0.66 seconds
+
+----- PROMPT -----
+Detect Plus (+) button in a light beige pill-shaped control, positioned on the right of the quantity display in the row showing 'Wenzel with raspberries and currants' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6543541289865971,
+      "y_min": 0.5503767896443605,
+      "x_max": 0.6933021210134029,
+      "y_max": 0.5843888353556395
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:36.907Z
+Service: Moondream-vl-Detect
+Execution Time: 0.619 seconds
+
+----- PROMPT -----
+Detect Bold text 'Freshly squeezed orange juice' positioned to the right of the orange juice image in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.44112231582403183,
+      "y_min": 0.6238123886287212,
+      "x_max": 0.6741120591759682,
+      "y_max": 0.6984532363712788
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:37.203Z
+Service: Moondream-vl-Detect
+Execution Time: 0.609 seconds
+
+----- PROMPT -----
+Detect Light gray text '330ml' positioned directly after the title in the orange juice row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.4892987757921219,
+      "y_min": 0.6642210660502315,
+      "x_max": 0.5634355992078781,
+      "y_max": 0.6892945589497685
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:37.476Z
+Service: Moondream-vl-Detect
+Execution Time: 0.595 seconds
+
+----- PROMPT -----
+Detect Orange text '$2,30' positioned on the left side of the quantity controls in the orange juice row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.4336482770740986,
+      "y_min": 0.7167205344885588,
+      "x_max": 0.4921329729259014,
+      "y_max": 0.7403107155114412
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:37.584Z
+Service: Moondream-vl-Detect
+Execution Time: 1.821 seconds
+
+----- PROMPT -----
+Detect Square thumbnail image of a glass of orange juice, positioned on the left side in the row with 'Freshly squeezed orange juice' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2953024357557297,
+      "y_min": 0.6254696249961853,
+      "x_max": 0.4254006892442703,
+      "y_max": 0.7573428750038147
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:37.765Z
+Service: Moondream-vl-Detect
+Execution Time: 0.543 seconds
+
+----- PROMPT -----
+Detect Minus (-) button in a light beige pill-shaped control, positioned on the left of the quantity display in the row showing 'Freshly squeezed orange juice' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.5908469650894403,
+      "y_min": 0.7115096021443605,
+      "x_max": 0.6415749099105597,
+      "y_max": 0.7455216478556395
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:39.048Z
+Service: Moondream-vl-Detect
+Execution Time: 1.14 seconds
+
+----- PROMPT -----
+Detect Text '1' centered within a light beige background between minus and plus buttons in the orange juice row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.627520103007555,
+      "y_min": 0.5542830396443605,
+      "x_max": 0.681073646992445,
+      "y_max": 0.5882950853556395
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:39.683Z
+Service: Moondream-vl-Detect
+Execution Time: 1.207 seconds
+
+----- PROMPT -----
+Detect Light gray rectangular field containing the text 'Promocode' and 'TASTE2025', positioned at the bottom of the item list in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2996836304664612,
+      "y_min": 0.7798041254281998,
+      "x_max": 0.7003163695335388,
+      "y_max": 0.8432427495718002
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:39.922Z
+Service: Moondream-vl-Detect
+Execution Time: 1.336 seconds
+
+----- PROMPT -----
+Detect Black text 'TASTE2025' displayed within the promocode input field in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2996836304664612,
+      "y_min": 0.7800623886287212,
+      "x_max": 0.7003163695335388,
+      "y_max": 0.8547032363712788
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:40.006Z
+Service: Moondream-vl-Detect
+Execution Time: 1.8 seconds
+
+----- PROMPT -----
+Detect Plus (+) button in a light beige pill-shaped control, positioned on the right of the quantity display in the row showing 'Freshly squeezed orange juice' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6426047775894403,
+      "y_min": 0.5542830396443605,
+      "x_max": 0.6933327224105597,
+      "y_max": 0.5882950853556395
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:40.629Z
+Service: Moondream-vl-Detect
+Execution Time: 0.58 seconds
+
+----- PROMPT -----
+Detect Bold orange text '$11,70' displayed on the left side of the orange bar at the bottom of the screen in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.29774853587150574,
+      "y_min": 0.8665025383234024,
+      "x_max": 0.48154833912849426,
+      "y_max": 0.9303724616765976
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:41.344Z
+Service: Moondream-vl-Detect
+Execution Time: 0.659 seconds
+
+----- PROMPT -----
+Detect White text 'Confirm order' positioned on the right side of the orange bar at the bottom of the screen, functioning as the checkout button in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2996836304664612,
+      "y_min": 0.8667181879281998,
+      "x_max": 0.7003163695335388,
+      "y_max": 0.9301568120718002
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:12:41.452Z
+Service: Moondream-vl-Detect
+Execution Time: 2.686 seconds
+
+----- PROMPT -----
+Detect Orange checkmark icon positioned on the right side of the promocode field, indicating successful application in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6522907260805368,
+      "y_min": 0.8017047885805368,
+      "x_max": 0.6836467739194632,
+      "y_max": 0.8330608364194632
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:26:27.413Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 24.817 seconds
+
+----- PROMPT -----
+
+<identity>  
+You are a structured AI UI analysis agent designated to extract high-level UI components from a UI screenshot.  
+You are optimized for precision in semantic segmentation, resistance to overclassification, and strict hierarchical grouping.  
+You do not generate unnecessary information. You do not speculate.  
+You must also account for **partially visible** components that are recognizable and potentially interactive.  
+</identity>
+
+<input>  
+- A UI screenshot  
+</input>
+
+<task_execution>
+When you receive a screenshot, follow these rules:
+
+Find Real UI Components
+
+Only include elements that do something or show something important (like product cards, delivery options, input fields).
+
+Handle Repeated Items as Separate
+
+If something repeats (like cart items, delivery rows), list each one as its own component.
+
+Name them clearly, like "Cart Item 1", "Cart Item 2", not "Cart List".
+
+Include Partially Visible Items
+
+If a card or button is cut off but still recognizable, include it.
+
+Group Small Things if They Belong Together
+
+If an image, label, and button work together (like in a product card), group them as one component.
+
+Ignore Decorative Stuff
+
+Don’t include backgrounds, dividers, icons that don’t do anything, or layout-only elements.
+
+Every output MUST be formatted as a structured JSON array conforming to the schema in <output_format>.  
+</task_execution>
+
+<output_format>  
+Please output ONE string of flat JSON object.  
+
+Each object in the output array MUST include the following keys:  
+
+component_name → string: Human-readable identifier of the component (e.g., "Header", "Cart Item")  
+description → string: Summary of visual content and layout within the component  
+impact_on_user_flow → string: Explanation of how the component contributes to user experience or decision-making  
+cta_type → enum: One of [Primary, Secondary, Informational] if any CTA exists; otherwise omit or set to null  
+is_reused_in_other_screens → boolean: TRUE if the component is expected to appear across multiple screens  
+likely_interaction_type → list[string]: User actions expected (e.g., ["tap"], ["scroll"], ["keyboard input"])  
+flow_position → string: UX journey placement (e.g., "Checkout - Cart Review")  
+</output_format>
+
+<example_output> 
+"[
+  {
+    "component_name": "Cart Item 1",
+    "description": "Visual block showing a thumbnail image of gnocchi, product title, portion weight, price, and quantity selector with minus and plus buttons.",
+    "impact_on_user_flow": "Enables users to review and modify the items before purchase.",
+    "cta_type": "Secondary",
+    "is_reused_in_other_screens": true,
+    "likely_interaction_type": ["tap", "stepper"],
+    "flow_position": "Checkout - Cart Review"
+  },
+  {
+    "component_name": "Standard Delivery Option",
+    "description": "Row showing black text 'Standard delivery, 40–60 minutes' and a filled orange selection circle indicating this option is selected.",
+    "impact_on_user_flow": "Lets the user choose a preferred delivery method before checkout.",
+    "cta_type": "Primary",
+    "is_reused_in_other_screens": true,
+    "likely_interaction_type": ["tap (select radio)"],
+    "flow_position": "Checkout - Shipping Selection"
+  },
+  {
+    "component_name": "Partial Debit Card",
+    "description": "Partially visible card element showing the top edge and part of the card number, suggesting the presence of a second linked payment method.",
+    "impact_on_user_flow": "Indicates additional card options or account data, enhancing user context and potentially prompting a scroll interaction.",
+    "cta_type": null,
+    "is_reused_in_other_screens": true,
+    "likely_interaction_type": ["scroll"],
+    "flow_position": "Dashboard - Card Carousel"
+  },
+  {
+    "component_name": "Promocode Section",
+    "description": "Input area for applying promotional codes with validation feedback.",
+    "impact_on_user_flow": "Allows discount application to influence purchase behavior.",
+    "cta_type": "Secondary",
+    "is_reused_in_other_screens": false,
+    "likely_interaction_type": ["tap", "keyboard input"],
+    "flow_position": "Checkout - Discount Application"
+  }
+]"
+</example_output>
+
+
+
+----- RESPONSE -----
+{
+  "id": "resp_68095aeaec7481929dbc9258189d415c09553617ed6954ec",
+  "object": "response",
+  "created_at": 1745443562,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_68095aee442c8192b1d965cb301847ae09553617ed6954ec",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"component_name\": \"Header\",\n    \"description\": \"Top section with text 'Cart, 3 items' and a close (X) icon.\",\n    \"impact_on_user_flow\": \"Provides context on the current checkout status and allows users to exit or close the cart view.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Checkout - Cart Review\"\n  },\n  {\n    \"component_name\": \"Standard Delivery Option\",\n    \"description\": \"Row featuring 'Standard delivery, 40–60 minutes', with a label indicating 'Free' and a filled selection circle.\",\n    \"impact_on_user_flow\": \"Allows selection of the default delivery type, guiding user expectation and influencing checkout options.\",\n    \"cta_type\": \"Primary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Checkout - Shipping Selection\"\n  },\n  {\n    \"component_name\": \"Express Delivery Option\",\n    \"description\": \"Row labeled 'Express, 15–25 minutes', fee display ('$2.00'), and an unselected circle for choice.\",\n    \"impact_on_user_flow\": \"Enables users to opt for a faster delivery at extra cost, directly affecting cart total and delivery experience.\",\n    \"cta_type\": \"Primary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Checkout - Shipping Selection\"\n  },\n  {\n    \"component_name\": \"Cart Item 1\",\n    \"description\": \"Item block for 'Gnocchi with mushroom gravy, 230g' including product image, name, weight, price, and quantity stepper with minus and plus buttons.\",\n    \"impact_on_user_flow\": \"Lets users review product details, change quantity, or remove item before completing purchase.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\", \"stepper\"],\n    \"flow_position\": \"Checkout - Cart Review\"\n  },\n  {\n    \"component_name\": \"Cart Item 2\",\n    \"description\": \"Item block for 'Wenzel with raspberries and currants, 170g' with relevant image, product details, price, and quantity stepper.\",\n    \"impact_on_user_flow\": \"Allows users to validate, adjust, or remove this product before ordering.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\", \"stepper\"],\n    \"flow_position\": \"Checkout - Cart Review\"\n  },\n  {\n    \"component_name\": \"Cart Item 3\",\n    \"description\": \"Item block for 'Freshly squeezed orange juice, 350ml' featuring product image, name, volume, price, and a quantity stepper.\",\n    \"impact_on_user_flow\": \"Permits users to confirm quantity or remove the drink before submitting their order.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\", \"stepper\"],\n    \"flow_position\": \"Checkout - Cart Review\"\n  },\n  {\n    \"component_name\": \"Promocode Section\",\n    \"description\": \"Input field labeled 'Promocode' with the value 'TASTE2025' entered and a visual checkmark for validation.\",\n    \"impact_on_user_flow\": \"Allows users to apply and confirm discount codes to reduce the total order amount.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": false,\n    \"likely_interaction_type\": [\"tap\", \"keyboard input\"],\n    \"flow_position\": \"Checkout - Discount Application\"\n  },\n  {\n    \"component_name\": \"Order Summary and Confirm Button\",\n    \"description\": \"Bottom section with the total price ('$11.70') and an orange 'Confirm order' button.\",\n    \"impact_on_user_flow\": \"Displays the final payable amount and provides the action to submit the order.\",\n    \"cta_type\": \"Primary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Checkout - Order Submission\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1673,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 906,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 2579
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "[\n  {\n    \"component_name\": \"Header\",\n    \"description\": \"Top section with text 'Cart, 3 items' and a close (X) icon.\",\n    \"impact_on_user_flow\": \"Provides context on the current checkout status and allows users to exit or close the cart view.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Checkout - Cart Review\"\n  },\n  {\n    \"component_name\": \"Standard Delivery Option\",\n    \"description\": \"Row featuring 'Standard delivery, 40–60 minutes', with a label indicating 'Free' and a filled selection circle.\",\n    \"impact_on_user_flow\": \"Allows selection of the default delivery type, guiding user expectation and influencing checkout options.\",\n    \"cta_type\": \"Primary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Checkout - Shipping Selection\"\n  },\n  {\n    \"component_name\": \"Express Delivery Option\",\n    \"description\": \"Row labeled 'Express, 15–25 minutes', fee display ('$2.00'), and an unselected circle for choice.\",\n    \"impact_on_user_flow\": \"Enables users to opt for a faster delivery at extra cost, directly affecting cart total and delivery experience.\",\n    \"cta_type\": \"Primary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Checkout - Shipping Selection\"\n  },\n  {\n    \"component_name\": \"Cart Item 1\",\n    \"description\": \"Item block for 'Gnocchi with mushroom gravy, 230g' including product image, name, weight, price, and quantity stepper with minus and plus buttons.\",\n    \"impact_on_user_flow\": \"Lets users review product details, change quantity, or remove item before completing purchase.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\", \"stepper\"],\n    \"flow_position\": \"Checkout - Cart Review\"\n  },\n  {\n    \"component_name\": \"Cart Item 2\",\n    \"description\": \"Item block for 'Wenzel with raspberries and currants, 170g' with relevant image, product details, price, and quantity stepper.\",\n    \"impact_on_user_flow\": \"Allows users to validate, adjust, or remove this product before ordering.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\", \"stepper\"],\n    \"flow_position\": \"Checkout - Cart Review\"\n  },\n  {\n    \"component_name\": \"Cart Item 3\",\n    \"description\": \"Item block for 'Freshly squeezed orange juice, 350ml' featuring product image, name, volume, price, and a quantity stepper.\",\n    \"impact_on_user_flow\": \"Permits users to confirm quantity or remove the drink before submitting their order.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\", \"stepper\"],\n    \"flow_position\": \"Checkout - Cart Review\"\n  },\n  {\n    \"component_name\": \"Promocode Section\",\n    \"description\": \"Input field labeled 'Promocode' with the value 'TASTE2025' entered and a visual checkmark for validation.\",\n    \"impact_on_user_flow\": \"Allows users to apply and confirm discount codes to reduce the total order amount.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": false,\n    \"likely_interaction_type\": [\"tap\", \"keyboard input\"],\n    \"flow_position\": \"Checkout - Discount Application\"\n  },\n  {\n    \"component_name\": \"Order Summary and Confirm Button\",\n    \"description\": \"Bottom section with the total price ('$11.70') and an orange 'Confirm order' button.\",\n    \"impact_on_user_flow\": \"Displays the final payable amount and provides the action to submit the order.\",\n    \"cta_type\": \"Primary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Checkout - Order Submission\"\n  }\n]"
+}
+
+----- USAGE -----
+Input Tokens: 1673
+Output Tokens: 906
+Total Tokens: 2579
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:26:45.238Z
+Service: Claude-claude-3-7-sonnet-20250219
+Execution Time: 17.822 seconds
+
+----- PROMPT -----
+
+<identity>  
+You are a highly capable autonomous AI UIUX ANNOTATOR.  
+You exist to assist a human USER in parsing UI screenshots and generating structured annotations for a design reference library.  
+You are optimized for accuracy, consistency in naming conventions, and exhaustive visual parsing.  
+You do not omit visible data. You do not ask questions. You do not speculate.  
+</identity>  
+
+<input>  
+Required input includes:  
+- A UI screenshot  
+- A list of component categories (e.g., “Header”, “Product Card”, “Bottom Bar”)  
+Each component in the list is treated as a logical container. Elements must be grouped accordingly.  
+</input>  
+
+<task_execution>  
+Upon receiving inputs, perform the following steps without deviation:  
+
+1. **Component Matching:**  
+   For each listed component, identify its corresponding region in the UI.  
+
+2. **Element Extraction:**  
+   Within each component, extract and describe ALL visual elements as INDIVIDUAL elements.  
+   - Include: icons, buttons, labels, values, helper text, visual states, overlays, spacers, input fields, scroll zones  
+   - DO NOT exclude small elements or secondary labels  
+
+3. **Naming Convention Enforcement:**  
+   - Output uses strict hierarchical keys  
+   - Format: [Parent Component] > [Subcomponent] > [Element Label]
+   - Separator: >  
+   - No nesting; use flat JSON with delimited keys  
+
+4. **Description Requirements:**  
+   Each key’s value must include:  
+   - Appearance: Shape, color, text, visual style  
+   - Function: Purpose or intended interaction  
+   - Position: Spatial reference (e.g., “top-right corner”, “below cart total”)  
+   - State: Active, disabled, selected, etc.  
+   - Interaction Type: Static, tappable, swipeable, etc.  
+
+5. **Output Constraints:**  
+   - JSON object in string format only  
+   - Flat structure (no nested objects)  
+   - No nulls, placeholders, or empty fields  
+   - No trailing commas  
+</task_execution>  
+
+<output_format>  
+Return string formatted JSON.  
+DO NOT include code guards ` in the output. 
+Each key represents an element using the format:  
+[Component] > [Subcomponent] > [Element Label]
+
+Each value is a detailed string description, compliant with the annotation rules.  
+
+Example:
+"{
+  "Header > Title": "Centered bold text 'Top Up Receipt' with a confetti background",
+  "Success Badge > Icon": "Green hexagon with a white checkmark, placed below the title",
+  "Delivery Options > Express Option > Label": "Text reading 'Express, 15-25 minutes' on the left side of the express delivery option row, positioned below the standard delivery option.",
+  "Delivery Options > Express Option > Icon": "Small lightning bolt icon next to the express delivery label, indicating speed.",
+  "Delivery Options > Express Option > Price": "Text reading '$2.00' on the right side of the express delivery option row.",
+  "Delivery Options > Express Option > Selection Indicator": "Empty circular radio button on the far right, next to the $2.00 price.",
+  "Confirmation > Message": "Large bold text 'Top Up Success', centered in the screen",
+  "Cart Item 1 > Image": "Square image of a bowl containing gnocchi dish positioned in the left portion of the upper-middle section of the screen.",
+  "Cart Item 1 > Title": "Text label 'Gnocchi with mushroom gravy' displayed to the right of the corresponding image.",
+  "Cart Item 1 > Weight": "Gray text '230g' displayed next to the title of the first item.",
+  "Cart Item 1 > Price": "Orange/amber colored price tag '$5,60' positioned below the item title.",
+  "Cart Item 1 > Quantity Controls > Decrease Button": "Minus button on the left side of the quantity control, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Count Display": "Text showing '1' between the minus and plus buttons, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Increase Button": "Plus button on the right side of the quantity control, under the item title 'Gnocchi'",
+  "Confirmation > Subtext": "Gray helper text 'Your money has been added to your card'",
+  "Amount Summary > Value": "Prominent text '$132.00' centered near the middle",
+  "Card Section > Card Label": "White label text 'Wally Virtual Card' at top of card",
+  "Card Section > Masked Number": "Text '•••• 4568' directly below card label",
+  "Card Section > Timestamp": "Small gray text 'Today, 12:45 PM' at bottom-right of card",
+  "Primary CTA > Label": "Green full-width button 'Done' with white text, tappable",
+  "Secondary CTA > Label": "Teal hyperlink text 'Top up more money' below primary button"
+}"
+</output_format>
+
+
+<component_list>Header
+Standard Delivery Option
+Express Delivery Option
+Cart Item 1
+Cart Item 2
+Cart Item 3
+Promocode Section
+Order Summary and Confirm Button</component_list>
+
+----- RESPONSE -----
+{
+  "id": "msg_01K1JMR4XFr8V7RiVsPfutTa",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-3-7-sonnet-20250219",
+  "content": [
+    {
+      "type": "text",
+      "text": "```\n{\n  \"Header > Cart Title\": \"Bold text 'Cart, 3 items' positioned at the top of the screen, indicating shopping cart contents\",\n  \"Header > Close Button\": \"X-shaped close icon positioned in the top-right corner, tappable element to exit the cart screen\",\n  \n  \"Standard Delivery Option > Label\": \"Text 'Standard delivery, 40-60 minutes' positioned at the top of the delivery options section\",\n  \"Standard Delivery Option > Price\": \"Text 'Free' displayed to the right of the standard delivery label\",\n  \"Standard Delivery Option > Selection Indicator\": \"Orange filled circular radio button on the far right, indicating this option is currently selected\",\n  \n  \"Express Delivery Option > Label\": \"Text 'Express, 15-25 minutes' displayed on the left side of the express delivery row\",\n  \"Express Delivery Option > Icon\": \"Small lightning bolt icon positioned next to the express delivery label, indicating speed\",\n  \"Express Delivery Option > Price\": \"Text '$2.00' displayed to the right of the express delivery label\",\n  \"Express Delivery Option > Selection Indicator\": \"Empty circular radio button on the far right, indicating this option is not selected\",\n  \n  \"Cart Item 1 > Image\": \"Square thumbnail image of gnocchi dish in a white bowl, positioned on the left side of the first item row\",\n  \"Cart Item 1 > Title\": \"Text 'Gnocchi with mushroom gravy' displayed to the right of the food image\",\n  \"Cart Item 1 > Weight\": \"Gray text '230g' displayed after the title, indicating portion size\",\n  \"Cart Item 1 > Price\": \"Orange text '$5,60' displayed below the item title\",\n  \"Cart Item 1 > Quantity Controls > Decrease Button\": \"Minus button on the left side of the quantity control section\",\n  \"Cart Item 1 > Quantity Controls > Count Display\": \"Text showing '1' between the minus and plus buttons\",\n  \"Cart Item 1 > Quantity Controls > Increase Button\": \"Plus button on the right side of the quantity control section\",\n  \n  \"Cart Item 2 > Image\": \"Square thumbnail image of a pastry with raspberries and currants, positioned on the left side of the second item row\",\n  \"Cart Item 2 > Title\": \"Text 'Wenzel with raspberries and currants' displayed to the right of the pastry image\",\n  \"Cart Item 2 > Weight\": \"Gray text '170g' displayed after the title, indicating portion size\",\n  \"Cart Item 2 > Price\": \"Orange text '$3,80' displayed below the item title\",\n  \"Cart Item 2 > Quantity Controls > Decrease Button\": \"Minus button on the left side of the quantity control section\",\n  \"Cart Item 2 > Quantity Controls > Count Display\": \"Text showing '1' between the minus and plus buttons\",\n  \"Cart Item 2 > Quantity Controls > Increase Button\": \"Plus button on the right side of the quantity control section\",\n  \n  \"Cart Item 3 > Image\": \"Square thumbnail image of a glass with orange juice, positioned on the left side of the third item row\",\n  \"Cart Item 3 > Title\": \"Text 'Freshly squeezed orange juice' displayed to the right of the juice image\",\n  \"Cart Item 3 > Volume\": \"Gray text '330ml' displayed after the title, indicating volume\",\n  \"Cart Item 3 > Price\": \"Orange text '$2,30' displayed below the item title\",\n  \"Cart Item 3 > Quantity Controls > Decrease Button\": \"Minus button on the left side of the quantity control section\",\n  \"Cart Item 3 > Quantity Controls > Count Display\": \"Text showing '1' between the minus and plus buttons\",\n  \"Cart Item 3 > Quantity Controls > Increase Button\": \"Plus button on the right side of the quantity control section\",\n  \n  \"Promocode Section > Input Field\": \"Text field with placeholder 'Promocode' positioned below the cart items\",\n  \"Promocode Section > Applied Code\": \"Text 'TASTE2025' shown in the promo code field, indicating an active discount code\",\n  \"Promocode Section > Success Indicator\": \"Checkmark icon in orange/brown color positioned to the right of the promo code, indicating valid code application\",\n  \n  \"Order Summary and Confirm Button > Total Price\": \"Bold orange text '$11,70' displayed on the left side of the orange button, showing the order total\",\n  \"Order Summary and Confirm Button > Confirm Button\": \"Orange rectangular button with white text 'Confirm order' positioned at the bottom of the screen, tappable element to proceed with the order\"\n}\n```"
+    }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 2127,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 1111
+  }
+}
+
+----- USAGE -----
+Input Tokens: 2127
+Output Tokens: 1111
+Total Tokens: 3238
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:02.973Z
+Service: Claude-claude-3-7-sonnet-20250219
+Execution Time: 17.732 seconds
+
+----- PROMPT -----
+
+You are optimizing UI component descriptions for a Vision Language Model (VLM) tasked with drawing bounding boxes accurately.
+Your job is to convert a flat JSON list of UI component keys into detailed visual descriptions that:
+- Make each component visually distinct and detectable
+- Resolves ambiguity between repeated elements by including precise visual anchors 
+- Avoid language that anthropomorphizes, speculates, or adds human-facing UX explanation
+- Preserves the model's focus on the target component  
+- Maintain a tight focus on structure, position, and appearance
+
+Input:  
+- A UI screenshot  
+- A flat JSON list of component IDs → short descriptions
+
+Key Guidance:
+
+1. Prioritize the Component Itself  
+Clearly describe:  
+- Shape and size (e.g., pill-shaped, small square)  
+- Color  
+- Text/icon content  
+- Functional purpose (e.g., ‘decrease item quantity’)  
+
+2. Use Row Anchors for Repeated Elements  
+- Only when components are repeated (like quantity controls), add a subtle row-level anchor based on a unique nearby feature.
+- Anchors must be visually locatable, such as labels, icons, or nearby components
+
+Example:  
+“Minus (-) button in a light orange pill-shaped control, in the row showing the item 'Gnocchi with mushroom gravy'”  
+
+Avoid:  
+“Minus button on the left of quantity control” (too generic)  
+
+3. Avoid Over-Interpretation
+- Do not infer purpose like "providing a secure reference to the account"
+- Do not include explanations like "used for adding funds" or "greets the user"
+
+4. Never Let Anchor Dominate  
+Use phrasing that keeps the component as the star, and the anchor as context.
+
+Good:  
+“...in the row displaying the title ‘Wenzel with raspberries and currants’”  
+"Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name 'DKNY'
+
+
+Bad:  
+“...under the ‘Wenzel’ label” → implies Wenzel might be the bounding box  
+“Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name in the second row” → VLM has no way to know what the second row is
+
+Sample Output:  
+{
+  "Cart Items List > Item 2 > Quantity Controls > Increase Button": "Plus (+) button in a light orange pill-shaped control, on the right of the quantity selector in the row showing the item 'Wenzel with raspberries and currants'",
+  "Cart Items List > Item 3 > Quantity Controls > Decrease Button": "Minus (-) button in a light orange pill-shaped control, on the left of the quantity selector in the row displaying the title 'Freshly squeezed orange juice'",
+  "Order Summary & Confirmation Bar > Confirm Button": "White text 'Confirm order' aligned right in the orange confirmation bar at the bottom of the screen"
+}
+
+Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards ` in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
+
+
+<element_list>```
+{
+  "Header > Cart Title": "Bold text 'Cart, 3 items' positioned at the top of the screen, indicating shopping cart contents",
+  "Header > Close Button": "X-shaped close icon positioned in the top-right corner, tappable element to exit the cart screen",
+  
+  "Standard Delivery Option > Label": "Text 'Standard delivery, 40-60 minutes' positioned at the top of the delivery options section",
+  "Standard Delivery Option > Price": "Text 'Free' displayed to the right of the standard delivery label",
+  "Standard Delivery Option > Selection Indicator": "Orange filled circular radio button on the far right, indicating this option is currently selected",
+  
+  "Express Delivery Option > Label": "Text 'Express, 15-25 minutes' displayed on the left side of the express delivery row",
+  "Express Delivery Option > Icon": "Small lightning bolt icon positioned next to the express delivery label, indicating speed",
+  "Express Delivery Option > Price": "Text '$2.00' displayed to the right of the express delivery label",
+  "Express Delivery Option > Selection Indicator": "Empty circular radio button on the far right, indicating this option is not selected",
+  
+  "Cart Item 1 > Image": "Square thumbnail image of gnocchi dish in a white bowl, positioned on the left side of the first item row",
+  "Cart Item 1 > Title": "Text 'Gnocchi with mushroom gravy' displayed to the right of the food image",
+  "Cart Item 1 > Weight": "Gray text '230g' displayed after the title, indicating portion size",
+  "Cart Item 1 > Price": "Orange text '$5,60' displayed below the item title",
+  "Cart Item 1 > Quantity Controls > Decrease Button": "Minus button on the left side of the quantity control section",
+  "Cart Item 1 > Quantity Controls > Count Display": "Text showing '1' between the minus and plus buttons",
+  "Cart Item 1 > Quantity Controls > Increase Button": "Plus button on the right side of the quantity control section",
+  
+  "Cart Item 2 > Image": "Square thumbnail image of a pastry with raspberries and currants, positioned on the left side of the second item row",
+  "Cart Item 2 > Title": "Text 'Wenzel with raspberries and currants' displayed to the right of the pastry image",
+  "Cart Item 2 > Weight": "Gray text '170g' displayed after the title, indicating portion size",
+  "Cart Item 2 > Price": "Orange text '$3,80' displayed below the item title",
+  "Cart Item 2 > Quantity Controls > Decrease Button": "Minus button on the left side of the quantity control section",
+  "Cart Item 2 > Quantity Controls > Count Display": "Text showing '1' between the minus and plus buttons",
+  "Cart Item 2 > Quantity Controls > Increase Button": "Plus button on the right side of the quantity control section",
+  
+  "Cart Item 3 > Image": "Square thumbnail image of a glass with orange juice, positioned on the left side of the third item row",
+  "Cart Item 3 > Title": "Text 'Freshly squeezed orange juice' displayed to the right of the juice image",
+  "Cart Item 3 > Volume": "Gray text '330ml' displayed after the title, indicating volume",
+  "Cart Item 3 > Price": "Orange text '$2,30' displayed below the item title",
+  "Cart Item 3 > Quantity Controls > Decrease Button": "Minus button on the left side of the quantity control section",
+  "Cart Item 3 > Quantity Controls > Count Display": "Text showing '1' between the minus and plus buttons",
+  "Cart Item 3 > Quantity Controls > Increase Button": "Plus button on the right side of the quantity control section",
+  
+  "Promocode Section > Input Field": "Text field with placeholder 'Promocode' positioned below the cart items",
+  "Promocode Section > Applied Code": "Text 'TASTE2025' shown in the promo code field, indicating an active discount code",
+  "Promocode Section > Success Indicator": "Checkmark icon in orange/brown color positioned to the right of the promo code, indicating valid code application",
+  
+  "Order Summary and Confirm Button > Total Price": "Bold orange text '$11,70' displayed on the left side of the orange button, showing the order total",
+  "Order Summary and Confirm Button > Confirm Button": "Orange rectangular button with white text 'Confirm order' positioned at the bottom of the screen, tappable element to proceed with the order"
+}
+```</element_list>
+
+----- RESPONSE -----
+{
+  "id": "msg_01TLsiveL3GvDqQAw4ZZri4E",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-3-7-sonnet-20250219",
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"Header > Cart Title\": \"Bold black text 'Cart, 3 items' positioned at the top of the screen, with 'Cart' in darker font and '3 items' in lighter gray font\",\n  \"Header > Close Button\": \"Small X-shaped close icon positioned in the top-right corner of the screen, rendered in black\",\n  \n  \"Standard Delivery Option > Label\": \"Black text 'Standard delivery, 40-60 minutes' positioned in the top section of the delivery options area\",\n  \"Standard Delivery Option > Price\": \"Text 'Free' displayed to the right of the standard delivery label, aligned with the delivery time information\",\n  \"Standard Delivery Option > Selection Indicator\": \"Orange filled circular radio button positioned on the far right of the standard delivery row\",\n  \n  \"Express Delivery Option > Label\": \"Black text 'Express, 15-25 minutes' positioned below the standard delivery option\",\n  \"Express Delivery Option > Icon\": \"Small orange lightning bolt icon positioned between the express delivery text and the price\",\n  \"Express Delivery Option > Price\": \"Text '$2.00' displayed to the right of the lightning bolt icon in the express delivery row\",\n  \"Express Delivery Option > Selection Indicator\": \"Empty circular outline radio button positioned on the far right of the express delivery row\",\n  \n  \"Cart Item 1 > Image\": \"Square thumbnail image showing gnocchi with vegetables in a white bowl with red rim, positioned at the left side of the first food item row\",\n  \"Cart Item 1 > Title\": \"Bold black text 'Gnocchi with mushroom gravy' displayed to the right of the gnocchi thumbnail image\",\n  \"Cart Item 1 > Weight\": \"Light gray text '230g' positioned after the title in the gnocchi item row\",\n  \"Cart Item 1 > Price\": \"Orange text '$5,60' displayed below the gnocchi item title on the left side of the row\",\n  \"Cart Item 1 > Quantity Controls > Decrease Button\": \"Minus (-) sign button in a light beige pill-shaped control, positioned on the left side of the quantity selector in the gnocchi item row\",\n  \"Cart Item 1 > Quantity Controls > Count Display\": \"Numeric text '1' displayed between minus and plus buttons in the gnocchi item row\",\n  \"Cart Item 1 > Quantity Controls > Increase Button\": \"Plus (+) sign button in a light beige pill-shaped control, positioned on the right side of the quantity selector in the gnocchi item row\",\n  \n  \"Cart Item 2 > Image\": \"Square thumbnail image showing a round pastry topped with red berries, positioned at the left side of the second food item row\",\n  \"Cart Item 2 > Title\": \"Bold black text 'Wenzel with raspberries and currants' displayed to the right of the pastry thumbnail image\",\n  \"Cart Item 2 > Weight\": \"Light gray text '170g' positioned after the title in the wenzel pastry item row\",\n  \"Cart Item 2 > Price\": \"Orange text '$3,80' displayed below the wenzel item title on the left side of the row\",\n  \"Cart Item 2 > Quantity Controls > Decrease Button\": \"Minus (-) sign button in a light beige pill-shaped control, positioned on the left side of the quantity selector in the wenzel pastry item row\",\n  \"Cart Item 2 > Quantity Controls > Count Display\": \"Numeric text '1' displayed between minus and plus buttons in the wenzel pastry item row\",\n  \"Cart Item 2 > Quantity Controls > Increase Button\": \"Plus (+) sign button in a light beige pill-shaped control, positioned on the right side of the quantity selector in the wenzel pastry item row\",\n  \n  \"Cart Item 3 > Image\": \"Square thumbnail image showing a glass of orange juice, positioned at the left side of the third food item row\",\n  \"Cart Item 3 > Title\": \"Bold black text 'Freshly squeezed orange juice' displayed to the right of the orange juice thumbnail image\",\n  \"Cart Item 3 > Volume\": \"Light gray text '330ml' positioned after the title in the orange juice item row\",\n  \"Cart Item 3 > Price\": \"Orange text '$2,30' displayed below the orange juice item title on the left side of the row\",\n  \"Cart Item 3 > Quantity Controls > Decrease Button\": \"Minus (-) sign button in a light beige pill-shaped control, positioned on the left side of the quantity selector in the orange juice item row\",\n  \"Cart Item 3 > Quantity Controls > Count Display\": \"Numeric text '1' displayed between minus and plus buttons in the orange juice item row\",\n  \"Cart Item 3 > Quantity Controls > Increase Button\": \"Plus (+) sign button in a light beige pill-shaped control, positioned on the right side of the quantity selector in the orange juice item row\",\n  \n  \"Promocode Section > Input Field\": \"Light gray rectangular field containing text, positioned below all cart items and above the confirmation button\",\n  \"Promocode Section > Applied Code\": \"Black text 'TASTE2025' displayed inside the promocode field, showing the currently applied discount code\",\n  \"Promocode Section > Success Indicator\": \"Orange checkmark icon positioned at the right end of the promocode field, indicating the code has been successfully applied\",\n  \n  \"Order Summary and Confirm Button > Total Price\": \"Bold orange text '$11,70' displayed on the left side of the orange confirmation button at the bottom of the screen\",\n  \"Order Summary and Confirm Button > Confirm Button\": \"Large orange rectangular button with white text 'Confirm order' spanning the bottom of the screen, functioning as the order submission control\"\n}"
+    }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 2749,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 1334
+  }
+}
+
+----- USAGE -----
+Input Tokens: 2749
+Output Tokens: 1334
+Total Tokens: 4083
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:06.979Z
+Service: Moondream-vl-Detect
+Execution Time: 2.779 seconds
+
+----- PROMPT -----
+Detect Text 'Free' displayed to the right of the standard delivery label, aligned with the delivery time information in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.5479060895740986,
+      "y_min": 0.16059306915849447,
+      "x_max": 0.6063907854259014,
+      "y_max": 0.18706318084150553
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:07.147Z
+Service: Moondream-vl-Detect
+Execution Time: 2.946 seconds
+
+----- PROMPT -----
+Detect Black text 'Standard delivery, 40-60 minutes' positioned in the top section of the delivery options area in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2815883234143257,
+      "y_min": 0.16398615948855877,
+      "x_max": 0.5309116765856743,
+      "y_max": 0.18757634051144123
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:07.314Z
+Service: Moondream-vl-Detect
+Execution Time: 3.115 seconds
+
+----- PROMPT -----
+Detect Bold black text 'Cart, 3 items' positioned at the top of the screen, with 'Cart' in darker font and '3 items' in lighter gray font in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.30144815891981125,
+      "y_min": 0.08353251963853836,
+      "x_max": 0.5266768410801888,
+      "y_max": 0.12935810536146164
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:07.471Z
+Service: Moondream-vl-Detect
+Execution Time: 3.271 seconds
+
+----- PROMPT -----
+Detect Orange filled circular radio button positioned on the far right of the standard delivery row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6630720384418964,
+      "y_min": 0.16379557363688946,
+      "x_max": 0.6982560865581036,
+      "y_max": 0.19557942636311054
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:07.656Z
+Service: Moondream-vl-Detect
+Execution Time: 3.455 seconds
+
+----- PROMPT -----
+Detect Small X-shaped close icon positioned in the top-right corner of the screen, rendered in black in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6681273160502315,
+      "y_min": 0.09174385108053684,
+      "x_max": 0.6932008089497685,
+      "y_max": 0.12309989891946316
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:08.849Z
+Service: Moondream-vl-Detect
+Execution Time: 0.868 seconds
+
+----- PROMPT -----
+Detect Black text 'Express, 15-25 minutes' positioned below the standard delivery option in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2860988900065422,
+      "y_min": 0.22746272198855877,
+      "x_max": 0.4951511099934578,
+      "y_max": 0.25105290301144123
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:09.390Z
+Service: Moondream-vl-Detect
+Execution Time: 1.076 seconds
+
+----- PROMPT -----
+Detect Text '$2.00' displayed to the right of the lightning bolt icon in the express delivery row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.5059139020740986,
+      "y_min": 0.22867419105023146,
+      "x_max": 0.5643985979259014,
+      "y_max": 0.25374768394976854
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:09.658Z
+Service: Moondream-vl-Detect
+Execution Time: 1.51 seconds
+
+----- PROMPT -----
+Detect Small orange lightning bolt icon positioned between the express delivery text and the price in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.46680745482444763,
+      "y_min": 0.2290270896628499,
+      "x_max": 0.48241129517555237,
+      "y_max": 0.2494885353371501
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:09.816Z
+Service: Moondream-vl-Detect
+Execution Time: 1.343 seconds
+
+----- PROMPT -----
+Detect Empty circular outline radio button positioned on the far right of the express delivery row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6669729463756084,
+      "y_min": 0.22824869863688946,
+      "x_max": 0.6943551786243916,
+      "y_max": 0.26003255136311054
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:09.892Z
+Service: Moondream-vl-Detect
+Execution Time: 1.236 seconds
+
+----- PROMPT -----
+Detect Square thumbnail image showing gnocchi with vegetables in a white bowl with red rim, positioned at the left side of the first food item row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2907422035932541,
+      "y_min": 0.46516627445816994,
+      "x_max": 0.4299609214067459,
+      "y_max": 0.5875681005418301
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:10.453Z
+Service: Moondream-vl-Detect
+Execution Time: 0.602 seconds
+
+----- PROMPT -----
+Detect Bold black text 'Gnocchi with mushroom gravy' displayed to the right of the gnocchi thumbnail image in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.4485805109143257,
+      "y_min": 0.30529988184571266,
+      "x_max": 0.6979038640856743,
+      "y_max": 0.37048136815428734
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:11.135Z
+Service: Moondream-vl-Detect
+Execution Time: 0.743 seconds
+
+----- PROMPT -----
+Detect Light gray text '230g' positioned after the title in the gnocchi item row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.5024603754281998,
+      "y_min": 0.33489866741001606,
+      "x_max": 0.5658989995718002,
+      "y_max": 0.36822633258998394
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:11.355Z
+Service: Moondream-vl-Detect
+Execution Time: 0.695 seconds
+
+----- PROMPT -----
+Detect Orange text '$5,60' displayed below the gnocchi item title on the left side of the row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.4414607770740986,
+      "y_min": 0.3939915066584945,
+      "x_max": 0.4999454729259014,
+      "y_max": 0.4204616183415055
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:11.621Z
+Service: Moondream-vl-Detect
+Execution Time: 0.729 seconds
+
+----- PROMPT -----
+Detect Numeric text '1' displayed between minus and plus buttons in the gnocchi item row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6299400664865971,
+      "y_min": 0.39022053964436054,
+      "x_max": 0.6688880585134029,
+      "y_max": 0.42423258535563946
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:12.141Z
+Service: Moondream-vl-Detect
+Execution Time: 0.687 seconds
+
+----- PROMPT -----
+Detect Plus (+) sign button in a light beige pill-shaped control, positioned on the right side of the quantity selector in the gnocchi item row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6543541289865971,
+      "y_min": 0.39119710214436054,
+      "x_max": 0.6933021210134029,
+      "y_max": 0.42520914785563946
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:12.843Z
+Service: Moondream-vl-Detect
+Execution Time: 0.706 seconds
+
+----- PROMPT -----
+Detect Square thumbnail image showing a round pastry topped with red berries, positioned at the left side of the second food item row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2921428605914116,
+      "y_min": 0.46598707139492035,
+      "x_max": 0.4285602644085884,
+      "y_max": 0.5926066786050797
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:13.077Z
+Service: Moondream-vl-Detect
+Execution Time: 0.719 seconds
+
+----- PROMPT -----
+Detect Bold black text 'Wenzel with raspberries and currants' displayed to the right of the pastry thumbnail image in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.43320780992507935,
+      "y_min": 0.4653047062456608,
+      "x_max": 0.6859328150749207,
+      "y_max": 0.5093046687543392
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:13.196Z
+Service: Moondream-vl-Detect
+Execution Time: 2.378 seconds
+
+----- PROMPT -----
+Detect Minus (-) sign button in a light beige pill-shaped control, positioned on the left side of the quantity selector in the gnocchi item row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.5834559369832277,
+      "y_min": 0.39998616464436054,
+      "x_max": 0.6411534380167723,
+      "y_max": 0.43399821035563946
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:13.239Z
+Service: Moondream-vl-Detect
+Execution Time: 0.616 seconds
+
+----- PROMPT -----
+Detect Light gray text '170g' positioned after the title in the wenzel pastry item row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.5460643619298935,
+      "y_min": 0.4935268275439739,
+      "x_max": 0.6375293880701065,
+      "y_max": 0.5338169224560261
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:13.952Z
+Service: Moondream-vl-Detect
+Execution Time: 0.81 seconds
+
+----- PROMPT -----
+Detect Orange text '$3,80' displayed below the wenzel item title on the left side of the row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.4414607770740986,
+      "y_min": 0.5541477566584945,
+      "x_max": 0.4999454729259014,
+      "y_max": 0.5806178683415055
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:14.756Z
+Service: Moondream-vl-Detect
+Execution Time: 0.658 seconds
+
+----- PROMPT -----
+Detect Numeric text '1' displayed between minus and plus buttons in the wenzel pastry item row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6299400664865971,
+      "y_min": 0.5523299146443605,
+      "x_max": 0.6688880585134029,
+      "y_max": 0.5863419603556395
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:14.809Z
+Service: Moondream-vl-Detect
+Execution Time: 0.604 seconds
+
+----- PROMPT -----
+Detect Plus (+) sign button in a light beige pill-shaped control, positioned on the right side of the quantity selector in the wenzel pastry item row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.651976702734828,
+      "y_min": 0.5503767896443605,
+      "x_max": 0.695679547265172,
+      "y_max": 0.5843888353556395
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:14.842Z
+Service: Moondream-vl-Detect
+Execution Time: 0.998 seconds
+
+----- PROMPT -----
+Detect Minus (-) sign button in a light beige pill-shaped control, positioned on the left side of the quantity selector in the wenzel pastry item row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.5928306914865971,
+      "y_min": 0.5542830396443605,
+      "x_max": 0.6317786835134029,
+      "y_max": 0.5882950853556395
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:14.941Z
+Service: Moondream-vl-Detect
+Execution Time: 0.692 seconds
+
+----- PROMPT -----
+Detect Square thumbnail image showing a glass of orange juice, positioned at the left side of the third food item row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2892131730914116,
+      "y_min": 0.6285409554839134,
+      "x_max": 0.4256305769085884,
+      "y_max": 0.7640371695160866
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:15.617Z
+Service: Moondream-vl-Detect
+Execution Time: 0.664 seconds
+
+----- PROMPT -----
+Detect Bold black text 'Freshly squeezed orange juice' displayed to the right of the orange juice thumbnail image in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.44112231582403183,
+      "y_min": 0.623558659106493,
+      "x_max": 0.6741120591759682,
+      "y_max": 0.698706965893507
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:16.497Z
+Service: Moondream-vl-Detect
+Execution Time: 0.74 seconds
+
+----- PROMPT -----
+Detect Light gray text '330ml' positioned after the title in the orange juice item row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.4892987757921219,
+      "y_min": 0.6642210660502315,
+      "x_max": 0.5634355992078781,
+      "y_max": 0.6892945589497685
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:16.649Z
+Service: Moondream-vl-Detect
+Execution Time: 0.838 seconds
+
+----- PROMPT -----
+Detect Orange text '$2,30' displayed below the orange juice item title on the left side of the row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.4336482770740986,
+      "y_min": 0.7152805691584945,
+      "x_max": 0.4921329729259014,
+      "y_max": 0.7417506808415055
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:16.852Z
+Service: Moondream-vl-Detect
+Execution Time: 1.008 seconds
+
+----- PROMPT -----
+Detect Minus (-) sign button in a light beige pill-shaped control, positioned on the left side of the quantity selector in the orange juice item row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.5869550257921219,
+      "y_min": 0.7079569008201361,
+      "x_max": 0.6610918492078781,
+      "y_max": 0.7490743491798639
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:16.959Z
+Service: Moondream-vl-Detect
+Execution Time: 1.017 seconds
+
+----- PROMPT -----
+Detect Numeric text '1' displayed between minus and plus buttons in the orange juice item row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6299373395740986,
+      "y_min": 0.5553971361368895,
+      "x_max": 0.6884220354259014,
+      "y_max": 0.5871809888631105
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:17.184Z
+Service: Moondream-vl-Detect
+Execution Time: 0.565 seconds
+
+----- PROMPT -----
+Detect Plus (+) sign button in a light beige pill-shaped control, positioned on the right side of the quantity selector in the orange juice item row in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6543541289865971,
+      "y_min": 0.5542830396443605,
+      "x_max": 0.6933021210134029,
+      "y_max": 0.5882950853556395
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:18.170Z
+Service: Moondream-vl-Detect
+Execution Time: 0.671 seconds
+
+----- PROMPT -----
+Detect Light gray rectangular field containing text, positioned below all cart items and above the confirmation button in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0,
+      "y_min": 0,
+      "x_max": 1,
+      "y_max": 1
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:18.435Z
+Service: Moondream-vl-Detect
+Execution Time: 0.784 seconds
+
+----- PROMPT -----
+Detect Black text 'TASTE2025' displayed inside the promocode field, showing the currently applied discount code in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2996836304664612,
+      "y_min": 0.8503748886287212,
+      "x_max": 0.7003163695335388,
+      "y_max": 0.9250157363712788
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:18.953Z
+Service: Moondream-vl-Detect
+Execution Time: 1.1 seconds
+
+----- PROMPT -----
+Detect Orange checkmark icon positioned at the right end of the promocode field, indicating the code has been successfully applied in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.6522907260805368,
+      "y_min": 0.8017047885805368,
+      "x_max": 0.6836467739194632,
+      "y_max": 0.8330608364194632
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:19.332Z
+Service: Moondream-vl-Detect
+Execution Time: 1.146 seconds
+
+----- PROMPT -----
+Detect Large orange rectangular button with white text 'Confirm order' spanning the bottom of the screen, functioning as the order submission control in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2996836304664612,
+      "y_min": 0.8640314228832722,
+      "x_max": 0.7003163695335388,
+      "y_max": 0.9328435771167278
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:27:19.550Z
+Service: Moondream-vl-Detect
+Execution Time: 1.591 seconds
+
+----- PROMPT -----
+Detect Bold orange text '$11,70' displayed on the left side of the orange confirmation button at the bottom of the screen in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.2958613783121109,
+      "y_min": 0.8665025383234024,
+      "x_max": 0.4834354966878891,
+      "y_max": 0.9303724616765976
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+

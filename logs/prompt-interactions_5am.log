@@ -1,0 +1,1575 @@
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:29:52.518Z
+Service: Moondream-vl-Detect
+Execution Time: 3.12 seconds
+
+----- PROMPT -----
+Detect Large text 'Choco croissant' followed by weight '110g' in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0,"y_min":0,"x_max":1,"y_max":1}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:29:55.139Z
+Service: Moondream-vl-Detect
+Execution Time: 1.618 seconds
+
+----- PROMPT -----
+Detect Orange heart icon in the top-right corner of the screen, allowing users to save this item as a favorite. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6720335660502315,"y_min":0.08832744415849447,"x_max":0.6971070589497685,"y_max":0.11479755584150553}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:29:56.784Z
+Service: Moondream-vl-Detect
+Execution Time: 0.643 seconds
+
+----- PROMPT -----
+Detect Left-pointing arrow in the top-left corner, allowing navigation back to the previous screen. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.30274318624287844,"y_min":0.08588447608053684,"x_max":0.32225681375712156,"y_max":0.11724052391946316}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:29:58.502Z
+Service: Moondream-vl-Detect
+Execution Time: 0.716 seconds
+
+----- PROMPT -----
+Detect High-quality photo of a chocolate-covered croissant on a light background, showing the pastry's flaky layers and chocolate glaze. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.30503979325294495,"y_min":0.13206548988819122,"x_max":0.694960206747055,"y_max":0.3542626351118088}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:00.257Z
+Service: Moondream-vl-Detect
+Execution Time: 0.753 seconds
+
+----- PROMPT -----
+Detect Text '460 kcal' in the bottom-right corner of the image area, indicating the calorie content of the product. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6198907978832722,"y_min":0.40812678448855877,"x_max":0.6887029521167278,"y_max":0.43171696551144123}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:01.958Z
+Service: Moondream-vl-Detect
+Execution Time: 0.698 seconds
+
+----- PROMPT -----
+Detect Detailed text listing all ingredients: 'chicken eggs, flour, milk 3.2%, butter, water, dark chocolate 54-55%, melange, white sugar, cocoa powder, salt, vanillin.', positioned below the product title. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.2927810251712799,"y_min":0.5300623886287212,"x_max":0.7072189748287201,"y_max":0.6047032363712788}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:03.637Z
+Service: Moondream-vl-Detect
+Execution Time: 0.676 seconds
+
+----- PROMPT -----
+Detect Small square image of a latte in a glass cup, positioned in the left suggestion slot. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.3009319230914116,"y_min":0.6623392701148987,"x_max":0.4373493269085884,"y_max":0.8025044798851013}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:05.346Z
+Service: Moondream-vl-Detect
+Execution Time: 0.707 seconds
+
+----- PROMPT -----
+Detect Text 'Latte' below the latte image, identifying the beverage option. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.30114929750561714,"y_min":0.8146116910502315,"x_max":0.35119445249438286,"y_max":0.8396851839497685}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:06.996Z
+Service: Moondream-vl-Detect
+Execution Time: 0.647 seconds
+
+----- PROMPT -----
+Detect Text '$2.00' below the latte title, showing the price of the latte. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.3038717359304428,"y_min":0.8378142844885588,"x_max":0.3484720140695572,"y_max":0.8614044655114412}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:08.773Z
+Service: Moondream-vl-Detect
+Execution Time: 0.776 seconds
+
+----- PROMPT -----
+Detect Orange circular button with a plus sign, positioned in the top-right corner of the latte suggestion card, allowing users to add this item. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.39371670968830585,"y_min":0.6714705396443605,"x_max":0.42659579031169415,"y_max":0.7054825853556395},{"x_min":0.5508315060287714,"y_min":0.6695174146443605,"x_max":0.5839341189712286,"y_max":0.7035294603556395},{"x_min":0.7003900203853846,"y_min":0.6680190060287714,"x_max":0.7292974796146154,"y_max":0.7011216189712286}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:10.402Z
+Service: Moondream-vl-Detect
+Execution Time: 0.628 seconds
+
+----- PROMPT -----
+Detect Small square image of a red tea drink in a glass, positioned in the middle suggestion slot. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.4542522355914116,"y_min":0.6656503304839134,"x_max":0.5906696394085884,"y_max":0.8011465445160866}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:12.110Z
+Service: Moondream-vl-Detect
+Execution Time: 0.706 seconds
+
+----- PROMPT -----
+Detect Text 'Nordic tea' below the tea image, identifying the beverage option. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.45269157737493515,"y_min":0.8102799486368895,"x_max":0.5473084226250648,"y_max":0.8420638013631105}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:14.749Z
+Service: Moondream-vl-Detect
+Execution Time: 1.638 seconds
+
+----- PROMPT -----
+Detect Text '$1.80' below the Nordic tea title, showing the price of the tea. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.4492623955011368,"y_min":0.8280486594885588,"x_max":0.5194876044988632,"y_max":0.8516388405114412}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:16.637Z
+Service: Moondream-vl-Detect
+Execution Time: 0.886 seconds
+
+----- PROMPT -----
+Detect Orange circular button with a plus sign, positioned in the top-right corner of the Nordic tea suggestion card, allowing users to add this item. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.5400963164865971,"y_min":0.6725846361368895,"x_max":0.5790443085134029,"y_max":0.7043684888631105},{"x_min":0.4004408810287714,"y_min":0.6714705396443605,"x_max":0.4335434939712286,"y_max":0.7054825853556395},{"x_min":0.6955072078853846,"y_min":0.6699721310287714,"x_max":0.7244146671146154,"y_max":0.7030747439712286}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:18.925Z
+Service: Moondream-vl-Detect
+Execution Time: 1.287 seconds
+
+----- PROMPT -----
+Detect Small square image of a matcha latte in a glass, positioned in the right suggestion slot. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.5988025292754173,"y_min":0.6655856445431709,"x_max":0.7195568457245827,"y_max":0.7992581054568291}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:20.644Z
+Service: Moondream-vl-Detect
+Execution Time: 0.717 seconds
+
+----- PROMPT -----
+Detect Text 'Matcha latte' below the matcha latte image, identifying the beverage option. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.5978751331567764,"y_min":0.8060268275439739,"x_max":0.7107186168432236,"y_max":0.8463169224560261}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:22.482Z
+Service: Moondream-vl-Detect
+Execution Time: 0.838 seconds
+
+----- PROMPT -----
+Detect Text '$1.95' below the matcha latte title, showing the price of the matcha latte. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.5986594650894403,"y_min":0.8378142844885588,"x_max":0.6493874099105597,"y_max":0.8614044655114412}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:24.693Z
+Service: Moondream-vl-Detect
+Execution Time: 1.21 seconds
+
+----- PROMPT -----
+Detect Orange circular button with a plus sign, positioned in the top-right corner of the matcha latte suggestion card, allowing users to add this item. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6768150664865971,"y_min":0.6663783900439739,"x_max":0.7157630585134029,"y_max":0.7066684849560261},{"x_min":0.5486846305429935,"y_min":0.6663783900439739,"x_max":0.5860809944570065,"y_max":0.7066684849560261},{"x_min":0.39623045921325684,"y_min":0.6673549525439739,"x_max":0.43189454078674316,"y_max":0.7076450474560261}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:26.381Z
+Service: Moondream-vl-Detect
+Execution Time: 0.687 seconds
+
+----- PROMPT -----
+Detect Bold text '$5.90' on the left side of the bar, showing the current total price for the choco croissant. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.3118617609143257,"y_min":0.8891328312456608,"x_max":0.5611851140856743,"y_max":0.9331327937543392}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:28.171Z
+Service: Moondream-vl-Detect
+Execution Time: 0.789 seconds
+
+----- PROMPT -----
+Detect Orange rectangular button with white text 'Add to cart' occupying most of the bottom bar, allowing users to add the product to their shopping cart. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.3037143349647522,"y_min":0.8738283663988113,"x_max":0.6962856650352478,"y_max":0.9445310086011887}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:30:29.936Z
+Service: Moondream-vl-Detect
+Execution Time: 0.762 seconds
+
+----- PROMPT -----
+Detect Full-width orange bar at the bottom of the screen containing the price and add to cart button, creating a prominent call to action. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.3037143349647522,"y_min":0.8695126175880432,"x_max":0.6962856650352478,"y_max":0.9488467574119568}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:31:15.456Z
+Service: Moondream-vl-Detect
+Execution Time: 2.558 seconds
+
+----- PROMPT -----
+Detect Large text 'Choco croissant' followed by weight '110g' in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0,"y_min":0,"x_max":1,"y_max":1}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:31:18.022Z
+Service: Moondream-vl-Detect
+Execution Time: 1.564 seconds
+
+----- PROMPT -----
+Detect Orange heart icon in the top-right corner of the screen, allowing users to save this item as a favorite. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6720335660502315,"y_min":0.08832744415849447,"x_max":0.6971070589497685,"y_max":0.11479755584150553}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:31:44.344Z
+Service: Moondream-vl-Detect
+Execution Time: 2.818 seconds
+
+----- PROMPT -----
+Detect Large text 'Choco croissant' followed by weight '110g' in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0,"y_min":0,"x_max":1,"y_max":1}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:31:46.184Z
+Service: Moondream-vl-Detect
+Execution Time: 0.839 seconds
+
+----- PROMPT -----
+Detect Orange heart icon in the top-right corner of the screen, allowing users to save this item as a favorite. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6720335660502315,"y_min":0.08832744415849447,"x_max":0.6971070589497685,"y_max":0.11479755584150553}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:31:47.790Z
+Service: Moondream-vl-Detect
+Execution Time: 0.605 seconds
+
+----- PROMPT -----
+Detect Left-pointing arrow in the top-left corner, allowing navigation back to the previous screen. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.30274318624287844,"y_min":0.08588447608053684,"x_max":0.32225681375712156,"y_max":0.11724052391946316}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:31:49.456Z
+Service: Moondream-vl-Detect
+Execution Time: 0.665 seconds
+
+----- PROMPT -----
+Detect High-quality photo of a chocolate-covered croissant on a light background, showing the pastry's flaky layers and chocolate glaze. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.30503979325294495,"y_min":0.13206548988819122,"x_max":0.694960206747055,"y_max":0.3542626351118088}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:31:51.273Z
+Service: Moondream-vl-Detect
+Execution Time: 0.816 seconds
+
+----- PROMPT -----
+Detect Text '460 kcal' in the bottom-right corner of the image area, indicating the calorie content of the product. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6198907978832722,"y_min":0.40812678448855877,"x_max":0.6887029521167278,"y_max":0.43171696551144123}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:31:52.852Z
+Service: Moondream-vl-Detect
+Execution Time: 0.577 seconds
+
+----- PROMPT -----
+Detect Detailed text listing all ingredients: 'chicken eggs, flour, milk 3.2%, butter, water, dark chocolate 54-55%, melange, white sugar, cocoa powder, salt, vanillin.', positioned below the product title. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.2927810251712799,"y_min":0.5300623886287212,"x_max":0.7072189748287201,"y_max":0.6047032363712788}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:34:34.775Z
+Service: Moondream-vl-Detect
+Execution Time: 1.748 seconds
+
+----- PROMPT -----
+Detect Large text 'Choco croissant' followed by weight '110g' in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0,"y_min":0,"x_max":1,"y_max":1}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:34:36.565Z
+Service: Moondream-vl-Detect
+Execution Time: 0.786 seconds
+
+----- PROMPT -----
+Detect Orange heart icon in the top-right corner of the screen, allowing users to save this item as a favorite. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6720335660502315,"y_min":0.08832744415849447,"x_max":0.6971070589497685,"y_max":0.11479755584150553}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:34:38.687Z
+Service: Moondream-vl-Detect
+Execution Time: 1.121 seconds
+
+----- PROMPT -----
+Detect Left-pointing arrow in the top-left corner, allowing navigation back to the previous screen. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.30274318624287844,"y_min":0.08588447608053684,"x_max":0.32225681375712156,"y_max":0.11724052391946316}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:34:40.386Z
+Service: Moondream-vl-Detect
+Execution Time: 0.698 seconds
+
+----- PROMPT -----
+Detect High-quality photo of a chocolate-covered croissant on a light background, showing the pastry's flaky layers and chocolate glaze. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.29718171060085297,"y_min":0.13649152219295502,"x_max":0.671568289399147,"y_max":0.349836602807045}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:34:42.011Z
+Service: Moondream-vl-Detect
+Execution Time: 0.624 seconds
+
+----- PROMPT -----
+Detect Text '460 kcal' in the bottom-right corner of the image area, indicating the calorie content of the product. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6198907978832722,"y_min":0.40812678448855877,"x_max":0.6887029521167278,"y_max":0.43171696551144123}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:34:44.060Z
+Service: Moondream-vl-Detect
+Execution Time: 1.047 seconds
+
+----- PROMPT -----
+Detect Detailed text listing all ingredients: 'chicken eggs, flour, milk 3.2%, butter, water, dark chocolate 54-55%, melange, white sugar, cocoa powder, salt, vanillin.', positioned below the product title. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.2927810251712799,"y_min":0.5300623886287212,"x_max":0.7072189748287201,"y_max":0.6047032363712788}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:42:59.918Z
+Service: Moondream-vl-Detect
+Execution Time: 2.254 seconds
+
+----- PROMPT -----
+Detect Orange heart icon in the top-right corner of the screen, allowing users to save this item as a favorite. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6720335660502315,"y_min":0.08832744415849447,"x_max":0.6971070589497685,"y_max":0.11479755584150553}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:43:00.501Z
+Service: Moondream-vl-Detect
+Execution Time: 2.838 seconds
+
+----- PROMPT -----
+Detect Large text 'Choco croissant' followed by weight '110g' in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0,"y_min":0,"x_max":1,"y_max":1}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:43:00.673Z
+Service: Moondream-vl-Detect
+Execution Time: 3.009 seconds
+
+----- PROMPT -----
+Detect Text '460 kcal' in the bottom-right corner of the image area, indicating the calorie content of the product. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6198907978832722,"y_min":0.40812678448855877,"x_max":0.6887029521167278,"y_max":0.43171696551144123}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:43:00.673Z
+Service: Moondream-vl-Detect
+Execution Time: 3.009 seconds
+
+----- PROMPT -----
+Detect High-quality photo of a chocolate-covered croissant on a light background, showing the pastry's flaky layers and chocolate glaze. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.29718171060085297,"y_min":0.13649152219295502,"x_max":0.671568289399147,"y_max":0.349836602807045}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:43:00.674Z
+Service: Moondream-vl-Detect
+Execution Time: 3.01 seconds
+
+----- PROMPT -----
+Detect Left-pointing arrow in the top-left corner, allowing navigation back to the previous screen. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.30274318624287844,"y_min":0.08588447608053684,"x_max":0.32225681375712156,"y_max":0.11724052391946316}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:43:01.825Z
+Service: Moondream-vl-Detect
+Execution Time: 0.905 seconds
+
+----- PROMPT -----
+Detect Detailed text listing all ingredients: 'chicken eggs, flour, milk 3.2%, butter, water, dark chocolate 54-55%, melange, white sugar, cocoa powder, salt, vanillin.', positioned below the product title. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.2927810251712799,"y_min":0.5300623886287212,"x_max":0.7072189748287201,"y_max":0.6047032363712788}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:59:00.936Z
+Service: Moondream-vl-Detect
+Execution Time: 1.508 seconds
+
+----- PROMPT -----
+Detect Left-pointing arrow in the top-left corner, allowing navigation back to the previous screen. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.64981157053262,"y_min":0.6534788785502315,"x_max":0.66854780446738,"y_max":0.6785523714497685}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:59:00.999Z
+Service: Moondream-vl-Detect
+Execution Time: 1.573 seconds
+
+----- PROMPT -----
+Detect Large text 'Choco croissant' followed by weight '110g' in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.29137222468852997,"y_min":0,"x_max":0.70862777531147,"y_max":1}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:59:02.157Z
+Service: Moondream-vl-Detect
+Execution Time: 2.73 seconds
+
+----- PROMPT -----
+Detect High-quality photo of a chocolate-covered croissant on a light background, showing the pastry's flaky layers and chocolate glaze. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0,"y_min":0,"x_max":1,"y_max":1}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:59:02.361Z
+Service: Moondream-vl-Detect
+Execution Time: 2.934 seconds
+
+----- PROMPT -----
+Detect Orange heart icon in the top-right corner of the screen, allowing users to save this item as a favorite. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6104060895740986,"y_min":0.23160387855023146,"x_max":0.6688907854259014,"y_max":0.25667737144976854}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:59:02.409Z
+Service: Moondream-vl-Detect
+Execution Time: 2.982 seconds
+
+----- PROMPT -----
+Detect Text '460 kcal' in the bottom-right corner of the image area, indicating the calorie content of the product. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0,"y_min":0,"x_max":1,"y_max":1}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:59:02.634Z
+Service: Moondream-vl-Detect
+Execution Time: 0.698 seconds
+
+----- PROMPT -----
+Detect Detailed text listing all ingredients: 'chicken eggs, flour, milk 3.2%, butter, water, dark chocolate 54-55%, melange, white sugar, cocoa powder, salt, vanillin.', positioned below the product title. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.30503979325294495,"y_min":0.5282620154321194,"x_max":0.694960206747055,"y_max":0.6143161095678806}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:00:46.481Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 13.446 seconds
+
+----- PROMPT -----
+
+
+Prompt: Enhanced High-Level UI Component Extraction with Partial Visibility Awareness
+
+<identity>  
+You are a structured AI UI analysis agent designated to extract high-level UI components from a UI screenshot.  
+You are optimized for precision in semantic segmentation, resistance to overclassification, and strict hierarchical grouping.  
+You do not generate unnecessary information. You do not speculate.  
+You must also account for **partially visible** components that are recognizable and potentially interactive.  
+</identity>
+
+<input>  
+- A UI screenshot  
+</input>
+
+<task_execution>  
+Upon receipt of a visual UI input (e.g., screenshot):
+
+DO extract high-level, semantically distinct interface components, even when they are **partially visible**.  
+DO NOT include low-level atomic elements unless they act as standalone interaction units (e.g., isolated CTAs).  
+DO group smaller atomic items into meaningful parent components (e.g., icons + labels + controls → "Cart Item").  
+DO NOT oversegment. Avoid listing trivial or decorative UI parts.  
+
+All extracted components MUST represent functional blocks relevant to product design, UX analysis, or interaction mapping.
+
+Use discretion to determine whether a partially shown component offers enough visual or functional cues to justify inclusion.
+
+Every output MUST be formatted as a structured JSON array conforming to the schema in <output_format>.  
+</task_execution>
+
+<output_format>  
+Please output ONE string of flat JSON object.  
+
+Each object in the output array MUST include the following keys:  
+
+component_name → string: Human-readable identifier of the component (e.g., "Header", "Cart Item")  
+description → string: Summary of visual content and layout within the component  
+impact_on_user_flow → string: Explanation of how the component contributes to user experience or decision-making  
+cta_type → enum: One of [Primary, Secondary, Informational] if any CTA exists; otherwise omit or set to null  
+is_reused_in_other_screens → boolean: TRUE if the component is expected to appear across multiple screens  
+likely_interaction_type → list[string]: User actions expected (e.g., ["tap"], ["scroll"], ["keyboard input"])  
+flow_position → string: UX journey placement (e.g., "Checkout - Cart Review")  
+</output_format>
+
+<example_output> 
+"[
+  {
+    "component_name": "Cart Item",
+    "description": "Visual block showing product image, name, price, and quantity controls.",
+    "impact_on_user_flow": "Enables users to review and modify the items before purchase.",
+    "cta_type": "Secondary",
+    "is_reused_in_other_screens": true,
+    "likely_interaction_type": ["tap", "stepper"],
+    "flow_position": "Checkout - Cart Review"
+  },
+  {
+    "component_name": "Delivery Options",
+    "description": "Section showing available delivery choices with cost and selection state.",
+    "impact_on_user_flow": "Lets the user choose a preferred delivery method before checkout.",
+    "cta_type": "Primary",
+    "is_reused_in_other_screens": true,
+    "likely_interaction_type": ["tap (select radio)"],
+    "flow_position": "Checkout - Shipping Selection"
+  },
+  {
+    "component_name": "Partial Debit Card",
+    "description": "Partially visible card element showing the top edge and part of the card number, suggesting the presence of a second linked payment method.",
+    "impact_on_user_flow": "Indicates additional card options or account data, enhancing user context and potentially prompting a scroll interaction.",
+    "cta_type": null,
+    "is_reused_in_other_screens": true,
+    "likely_interaction_type": ["scroll"],
+    "flow_position": "Dashboard - Card Carousel"
+  },
+  {
+    "component_name": "Promocode Section",
+    "description": "Input area for applying promotional codes with validation feedback.",
+    "impact_on_user_flow": "Allows discount application to influence purchase behavior.",
+    "cta_type": "Secondary",
+    "is_reused_in_other_screens": false,
+    "likely_interaction_type": ["tap", "keyboard input"],
+    "flow_position": "Checkout - Discount Application"
+  }
+]"
+</example_output>
+
+
+----- RESPONSE -----
+{"id":"resp_680954f1a6648192a8ab9e5a6a39bb5e0452f1657ddd910b","object":"response","created_at":1745442033,"status":"completed","error":null,"incomplete_details":null,"instructions":null,"max_output_tokens":null,"model":"gpt-4.1-2025-04-14","output":[{"id":"msg_680954f6ce248192b4509930b710f00b0452f1657ddd910b","type":"message","status":"completed","content":[{"type":"output_text","annotations":[],"text":"[\n  {\n    \"component_name\": \"User Profile Overview\",\n    \"description\": \"Section displaying user profile photo, name, and a summary chart of mood trends across the week with data labels such as 'Calm' and 'Happy'.\",\n    \"impact_on_user_flow\": \"Provides users with a quick summary of their emotional tracking, reinforcing engagement and self-reflection.\",\n    \"cta_type\": null,\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\", \"swipe\"],\n    \"flow_position\": \"Dashboard - Profile Overview\"\n  },\n  {\n    \"component_name\": \"Daily Motivation Card\",\n    \"description\": \"Prominent card with a motivational quote and an icon, visually separated from the rest with a dark background.\",\n    \"impact_on_user_flow\": \"Delivers daily inspiration, promoting positive user sentiment and returning engagement.\",\n    \"cta_type\": \"Informational\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Dashboard - Motivational Content\"\n  },\n  {\n    \"component_name\": \"Settings & Support Panel\",\n    \"description\": \"List block including navigational rows for 'Settings', 'Language', and 'FAQ', each row featuring an icon and a chevron to suggest further navigation.\",\n    \"impact_on_user_flow\": \"Centralizes access to configuration and support, allowing users to personalize their experience or seek help if needed.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Profile - User Preferences\"\n  },\n  {\n    \"component_name\": \"Bottom Navigation Bar\",\n    \"description\": \"Persistent footer bar containing five equally-spaced icons (Home, Playback, Bookmark, Profile) with labels, highlighting the 'Profile' tab as active.\",\n    \"impact_on_user_flow\": \"Facilitates fast navigation between major sections of the app, reducing friction and supporting efficient task switching.\",\n    \"cta_type\": null,\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Global Navigation\"\n  }\n]"}],"role":"assistant"}],"parallel_tool_calls":true,"previous_response_id":null,"reasoning":{"effort":null,"summary":null},"service_tier":"default","store":true,"temperature":1,"text":{"format":{"type":"text"}},"tool_choice":"auto","tools":[],"top_p":1,"truncation":"disabled","usage":{"input_tokens":1628,"input_tokens_details":{"cached_tokens":0},"output_tokens":463,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":2091},"user":null,"metadata":{},"output_text":"[\n  {\n    \"component_name\": \"User Profile Overview\",\n    \"description\": \"Section displaying user profile photo, name, and a summary chart of mood trends across the week with data labels such as 'Calm' and 'Happy'.\",\n    \"impact_on_user_flow\": \"Provides users with a quick summary of their emotional tracking, reinforcing engagement and self-reflection.\",\n    \"cta_type\": null,\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\", \"swipe\"],\n    \"flow_position\": \"Dashboard - Profile Overview\"\n  },\n  {\n    \"component_name\": \"Daily Motivation Card\",\n    \"description\": \"Prominent card with a motivational quote and an icon, visually separated from the rest with a dark background.\",\n    \"impact_on_user_flow\": \"Delivers daily inspiration, promoting positive user sentiment and returning engagement.\",\n    \"cta_type\": \"Informational\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Dashboard - Motivational Content\"\n  },\n  {\n    \"component_name\": \"Settings & Support Panel\",\n    \"description\": \"List block including navigational rows for 'Settings', 'Language', and 'FAQ', each row featuring an icon and a chevron to suggest further navigation.\",\n    \"impact_on_user_flow\": \"Centralizes access to configuration and support, allowing users to personalize their experience or seek help if needed.\",\n    \"cta_type\": \"Secondary\",\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Profile - User Preferences\"\n  },\n  {\n    \"component_name\": \"Bottom Navigation Bar\",\n    \"description\": \"Persistent footer bar containing five equally-spaced icons (Home, Playback, Bookmark, Profile) with labels, highlighting the 'Profile' tab as active.\",\n    \"impact_on_user_flow\": \"Facilitates fast navigation between major sections of the app, reducing friction and supporting efficient task switching.\",\n    \"cta_type\": null,\n    \"is_reused_in_other_screens\": true,\n    \"likely_interaction_type\": [\"tap\"],\n    \"flow_position\": \"Global Navigation\"\n  }\n]"}
+
+----- USAGE -----
+Input Tokens: 1628
+Output Tokens: 463
+Total Tokens: 2091
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:01.071Z
+Service: Claude-claude-3-7-sonnet-20250219
+Execution Time: 14.587 seconds
+
+----- PROMPT -----
+
+<identity>  
+You are a highly capable autonomous AI UIUX ANNOTATOR.  
+You exist to assist a human USER in parsing UI screenshots and generating structured annotations for a design reference library.  
+You are optimized for accuracy, consistency in naming conventions, and exhaustive visual parsing.  
+You do not omit visible data. You do not ask questions. You do not speculate.  
+</identity>  
+
+<input>  
+Required input includes:  
+- A UI screenshot  
+- A list of component categories (e.g., “Header”, “Product Card”, “Bottom Bar”)  
+Each component in the list is treated as a logical container. Elements must be grouped accordingly.  
+</input>  
+
+<task_execution>  
+Upon receiving inputs, perform the following steps without deviation:  
+
+1. **Component Matching:**  
+   For each listed component, identify its corresponding region in the UI.  
+
+2. **Element Extraction:**  
+   Within each component, extract and describe ALL visual elements as INDIVIDUAL elements.  
+   - Include: icons, buttons, labels, values, helper text, visual states, overlays, spacers, input fields, scroll zones  
+   - DO NOT exclude small elements or secondary labels  
+
+3. **Naming Convention Enforcement:**  
+   - Output uses strict hierarchical keys  
+   - Format: [Parent Component] > [Subcomponent] > [Element Label]
+   - Separator: >  
+   - No nesting; use flat JSON with delimited keys  
+
+4. **Description Requirements:**  
+   Each key’s value must include:  
+   - Appearance: Shape, color, text, visual style  
+   - Function: Purpose or intended interaction  
+   - Position: Spatial reference (e.g., “top-right corner”, “below cart total”)  
+   - State: Active, disabled, selected, etc.  
+   - Interaction Type: Static, tappable, swipeable, etc.  
+
+5. **Output Constraints:**  
+   - JSON object in string format only  
+   - Flat structure (no nested objects)  
+   - No nulls, placeholders, or empty fields  
+   - No trailing commas  
+</task_execution>  
+
+<output_format>  
+Return string formatted JSON.  
+DO NOT include code guards ` in the output. 
+Each key represents an element using the format:  
+[Component] > [Subcomponent] > [Element Label]
+
+Each value is a detailed string description, compliant with the annotation rules.  
+
+Example:
+"{
+  "Header > Title": "Centered bold text 'Top Up Receipt' with a confetti background",
+  "Success Badge > Icon": "Green hexagon with a white checkmark, placed below the title",
+  "Delivery Options > Express Option > Label": "Text reading 'Express, 15-25 minutes' on the left side of the express delivery option row, positioned below the standard delivery option.",
+  "Delivery Options > Express Option > Icon": "Small lightning bolt icon next to the express delivery label, indicating speed.",
+  "Delivery Options > Express Option > Price": "Text reading '$2.00' on the right side of the express delivery option row.",
+  "Delivery Options > Express Option > Selection Indicator": "Empty circular radio button on the far right, next to the $2.00 price.",
+  "Confirmation > Message": "Large bold text 'Top Up Success', centered in the screen",
+  "Cart Item 1 > Image": "Square image of a bowl containing gnocchi dish positioned in the left portion of the upper-middle section of the screen.",
+  "Cart Item 1 > Title": "Text label 'Gnocchi with mushroom gravy' displayed to the right of the corresponding image.",
+  "Cart Item 1 > Weight": "Gray text '230g' displayed next to the title of the first item.",
+  "Cart Item 1 > Price": "Orange/amber colored price tag '$5,60' positioned below the item title.",
+  "Cart Item 1 > Quantity Controls > Decrease Button": "Minus button on the left side of the quantity control, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Count Display": "Text showing '1' between the minus and plus buttons, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Increase Button": "Plus button on the right side of the quantity control, under the item title 'Gnocchi'",
+  "Confirmation > Subtext": "Gray helper text 'Your money has been added to your card'",
+  "Amount Summary > Value": "Prominent text '$132.00' centered near the middle",
+  "Card Section > Card Label": "White label text 'Wally Virtual Card' at top of card",
+  "Card Section > Masked Number": "Text '•••• 4568' directly below card label",
+  "Card Section > Timestamp": "Small gray text 'Today, 12:45 PM' at bottom-right of card",
+  "Primary CTA > Label": "Green full-width button 'Done' with white text, tappable",
+  "Secondary CTA > Label": "Teal hyperlink text 'Top up more money' below primary button"
+}"
+</output_format>
+
+
+<component_list>User Profile Overview
+Daily Motivation Card
+Settings & Support Panel
+Bottom Navigation Bar</component_list>
+
+----- RESPONSE -----
+{"id":"msg_017d9o1GLZ5DsnqRSQsLUGHH","type":"message","role":"assistant","model":"claude-3-7-sonnet-20250219","content":[{"type":"text","text":"```\n{\n  \"User Profile Overview > Profile Image\": \"A circular profile picture displayed at the top of the screen showing a person wearing dark clothing against a light background\",\n  \"User Profile Overview > Username\": \"Text displaying 'Paul Wilson' in black font, positioned below the profile image\",\n  \"User Profile Overview > Mood Indicator > Happy\": \"Pink labeled indicator 'Happy' positioned at the top right of the mood graph\",\n  \"User Profile Overview > Mood Indicator > Calm\": \"Green labeled indicator 'Calm' positioned at the middle left of the mood graph\",\n  \"User Profile Overview > Mood Graph\": \"A light blue line graph displaying mood trends across the week from Monday to Sunday, with notable peaks on Tuesday and Sunday\",\n  \"User Profile Overview > Day Labels\": \"Text labels showing abbreviated weekdays 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' positioned along the x-axis of the mood graph\",\n  \n  \"Daily Motivation Card > Container\": \"Dark rounded rectangle card with light blue quote icon on the left side, positioned in the middle section of the screen\",\n  \"Daily Motivation Card > Quote Icon\": \"Light blue quotation mark icon on the left side of the motivation card\",\n  \"Daily Motivation Card > Motivational Text\": \"White text reading 'Every day is a new opportunity for growth and positive change.' displayed within the dark card\",\n  \n  \"Settings & Support Panel > Settings Option > Icon\": \"Gear icon positioned to the left of the 'Settings' text\",\n  \"Settings & Support Panel > Settings Option > Label\": \"Text reading 'Settings' positioned in the lower section of the screen\",\n  \"Settings & Support Panel > Settings Option > Navigation Indicator\": \"Right-facing chevron icon indicating the option is tappable to navigate deeper\",\n  \"Settings & Support Panel > Language Option > Icon\": \"Globe or language-related icon positioned to the left of the 'Language' text\",\n  \"Settings & Support Panel > Language Option > Label\": \"Text reading 'Language' positioned below the Settings option\",\n  \"Settings & Support Panel > Language Option > Navigation Indicator\": \"Right-facing chevron icon indicating the option is tappable\",\n  \"Settings & Support Panel > FAQ Option > Icon\": \"Question mark or information icon positioned to the left of the 'FAQ' text\",\n  \"Settings & Support Panel > FAQ Option > Label\": \"Text reading 'FAQ' positioned at the bottom of the settings panel\",\n  \"Settings & Support Panel > FAQ Option > Navigation Indicator\": \"Right-facing chevron icon indicating the option is tappable\",\n  \n  \"Bottom Navigation Bar > Home Button\": \"House icon positioned on the far left of the bottom navigation bar, tappable navigation element\",\n  \"Bottom Navigation Bar > Play Button\": \"Triangle/play icon positioned in the middle-left of the bottom navigation bar, tappable navigation element\",\n  \"Bottom Navigation Bar > Book Button\": \"Book or document icon positioned in the middle-right of the bottom navigation bar, tappable navigation element\",\n  \"Bottom Navigation Bar > Profile Button\": \"Person icon inside a light blue rounded square indicating it's the active/selected tab, positioned on the right side of the bottom navigation bar\",\n  \"Bottom Navigation Bar > Profile Label\": \"Text reading 'Profile' displayed below the profile icon indicating the current screen\"\n}\n```"}],"stop_reason":"end_turn","stop_sequence":null,"usage":{"input_tokens":2106,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"output_tokens":766}}
+
+----- USAGE -----
+Input Tokens: 2106
+Output Tokens: 766
+Total Tokens: 2872
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:12.130Z
+Service: Claude-claude-3-7-sonnet-20250219
+Execution Time: 11.058 seconds
+
+----- PROMPT -----
+
+You are optimizing UI component descriptions for a Vision Language Model (VLM) tasked with drawing bounding boxes accurately.
+Your job is to convert a flat JSON list of UI component keys into detailed visual descriptions that:
+- Make each component visually distinct and detectable
+- Resolves ambiguity between repeated elements by including precise visual anchors 
+- Avoid language that anthropomorphizes, speculates, or adds human-facing UX explanation
+- Preserves the model's focus on the target component  
+- Maintain a tight focus on structure, position, and appearance
+
+Input:  
+- A UI screenshot  
+- A flat JSON list of component IDs → short descriptions
+
+Key Guidance:
+
+1. Prioritize the Component Itself  
+Clearly describe:  
+- Shape and size (e.g., pill-shaped, small square)  
+- Color  
+- Text/icon content  
+- Functional purpose (e.g., ‘decrease item quantity’)  
+
+2. Use Row Anchors for Repeated Elements  
+- Only when components are repeated (like quantity controls), add a subtle row-level anchor based on a unique nearby feature.
+- Anchors must be visually locatable, such as labels, icons, or nearby components
+
+Example:  
+“Minus (-) button in a light orange pill-shaped control, in the row showing the item 'Gnocchi with mushroom gravy'”  
+
+Avoid:  
+“Minus button on the left of quantity control” (too generic)  
+
+3. Avoid Over-Interpretation
+- Do not infer purpose like "providing a secure reference to the account"
+- Do not include explanations like "used for adding funds" or "greets the user"
+
+4. Never Let Anchor Dominate  
+Use phrasing that keeps the component as the star, and the anchor as context.
+
+Good:  
+“...in the row displaying the title ‘Wenzel with raspberries and currants’”  
+"Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name 'DKNY'
+
+
+Bad:  
+“...under the ‘Wenzel’ label” → implies Wenzel might be the bounding box  
+“Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name in the second row” → VLM has no way to know what the second row is
+
+Sample Output:  
+{
+  "Cart Items List > Item 2 > Quantity Controls > Increase Button": "Plus (+) button in a light orange pill-shaped control, on the right of the quantity selector in the row showing the item 'Wenzel with raspberries and currants'",
+  "Cart Items List > Item 3 > Quantity Controls > Decrease Button": "Minus (-) button in a light orange pill-shaped control, on the left of the quantity selector in the row displaying the title 'Freshly squeezed orange juice'",
+  "Order Summary & Confirmation Bar > Confirm Button": "White text 'Confirm order' aligned right in the orange confirmation bar at the bottom of the screen"
+}
+
+Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards ` in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
+
+
+<element_list>```
+{
+  "User Profile Overview > Profile Image": "A circular profile picture displayed at the top of the screen showing a person wearing dark clothing against a light background",
+  "User Profile Overview > Username": "Text displaying 'Paul Wilson' in black font, positioned below the profile image",
+  "User Profile Overview > Mood Indicator > Happy": "Pink labeled indicator 'Happy' positioned at the top right of the mood graph",
+  "User Profile Overview > Mood Indicator > Calm": "Green labeled indicator 'Calm' positioned at the middle left of the mood graph",
+  "User Profile Overview > Mood Graph": "A light blue line graph displaying mood trends across the week from Monday to Sunday, with notable peaks on Tuesday and Sunday",
+  "User Profile Overview > Day Labels": "Text labels showing abbreviated weekdays 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' positioned along the x-axis of the mood graph",
+  
+  "Daily Motivation Card > Container": "Dark rounded rectangle card with light blue quote icon on the left side, positioned in the middle section of the screen",
+  "Daily Motivation Card > Quote Icon": "Light blue quotation mark icon on the left side of the motivation card",
+  "Daily Motivation Card > Motivational Text": "White text reading 'Every day is a new opportunity for growth and positive change.' displayed within the dark card",
+  
+  "Settings & Support Panel > Settings Option > Icon": "Gear icon positioned to the left of the 'Settings' text",
+  "Settings & Support Panel > Settings Option > Label": "Text reading 'Settings' positioned in the lower section of the screen",
+  "Settings & Support Panel > Settings Option > Navigation Indicator": "Right-facing chevron icon indicating the option is tappable to navigate deeper",
+  "Settings & Support Panel > Language Option > Icon": "Globe or language-related icon positioned to the left of the 'Language' text",
+  "Settings & Support Panel > Language Option > Label": "Text reading 'Language' positioned below the Settings option",
+  "Settings & Support Panel > Language Option > Navigation Indicator": "Right-facing chevron icon indicating the option is tappable",
+  "Settings & Support Panel > FAQ Option > Icon": "Question mark or information icon positioned to the left of the 'FAQ' text",
+  "Settings & Support Panel > FAQ Option > Label": "Text reading 'FAQ' positioned at the bottom of the settings panel",
+  "Settings & Support Panel > FAQ Option > Navigation Indicator": "Right-facing chevron icon indicating the option is tappable",
+  
+  "Bottom Navigation Bar > Home Button": "House icon positioned on the far left of the bottom navigation bar, tappable navigation element",
+  "Bottom Navigation Bar > Play Button": "Triangle/play icon positioned in the middle-left of the bottom navigation bar, tappable navigation element",
+  "Bottom Navigation Bar > Book Button": "Book or document icon positioned in the middle-right of the bottom navigation bar, tappable navigation element",
+  "Bottom Navigation Bar > Profile Button": "Person icon inside a light blue rounded square indicating it's the active/selected tab, positioned on the right side of the bottom navigation bar",
+  "Bottom Navigation Bar > Profile Label": "Text reading 'Profile' displayed below the profile icon indicating the current screen"
+}
+```</element_list>
+
+----- RESPONSE -----
+{"id":"msg_017L3nruxh5HZrAR2tMCVYCB","type":"message","role":"assistant","model":"claude-3-7-sonnet-20250219","content":[{"type":"text","text":"{\n  \"User Profile Overview > Profile Image\": \"Circular profile picture at the top center of the screen showing a person in dark clothing against a light background\",\n  \"User Profile Overview > Username\": \"Bold black text 'Paul Wilson' centered below the profile image\",\n  \"User Profile Overview > Mood Indicator > Happy\": \"Pink text label 'Happy' positioned at the top right corner of the mood tracking graph\",\n  \"User Profile Overview > Mood Indicator > Calm\": \"Green text label 'Calm' positioned in the middle-left area of the mood tracking graph\",\n  \"User Profile Overview > Mood Graph\": \"Light blue area chart with line showing mood trends across weekdays, spanning the width of the screen with peaks on Tuesday and Sunday\",\n  \"User Profile Overview > Day Labels\": \"Row of abbreviated weekday text labels ('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun') positioned along the bottom of the mood graph\",\n  \n  \"Daily Motivation Card > Container\": \"Dark rounded rectangle card positioned between the mood graph and settings options, containing motivational text and quote icon\",\n  \"Daily Motivation Card > Quote Icon\": \"Small light blue quotation mark icon positioned on the left side within the dark motivation card\",\n  \"Daily Motivation Card > Motivational Text\": \"White text message 'Every day is a new opportunity for growth and positive change.' displayed within the dark motivation card\",\n  \n  \"Settings & Support Panel > Settings Option > Icon\": \"Gray gear/cog icon positioned on the left side of the Settings option row\",\n  \"Settings & Support Panel > Settings Option > Label\": \"Black text 'Settings' positioned to the right of the gear icon in the settings panel\",\n  \"Settings & Support Panel > Settings Option > Navigation Indicator\": \"Gray right-facing chevron arrow positioned at the far right of the Settings row\",\n  \"Settings & Support Panel > Language Option > Icon\": \"Gray globe icon positioned on the left side of the Language option row\",\n  \"Settings & Support Panel > Language Option > Label\": \"Black text 'Language' positioned to the right of the globe icon in the settings panel\",\n  \"Settings & Support Panel > Language Option > Navigation Indicator\": \"Gray right-facing chevron arrow positioned at the far right of the Language row\",\n  \"Settings & Support Panel > FAQ Option > Icon\": \"Gray gear or information icon positioned on the left side of the FAQ option row\",\n  \"Settings & Support Panel > FAQ Option > Label\": \"Black text 'FAQ' positioned to the right of the icon in the bottom section of the settings panel\",\n  \"Settings & Support Panel > FAQ Option > Navigation Indicator\": \"Gray right-facing chevron arrow positioned at the far right of the FAQ row\",\n  \n  \"Bottom Navigation Bar > Home Button\": \"House/home icon positioned at the leftmost position in the bottom navigation bar\",\n  \"Bottom Navigation Bar > Play Button\": \"Triangle/play icon positioned second from left in the bottom navigation bar\",\n  \"Bottom Navigation Bar > Book Button\": \"Book or document icon positioned third from left in the bottom navigation bar\",\n  \"Bottom Navigation Bar > Profile Button\": \"Person silhouette icon inside a light blue rounded square background positioned at the rightmost section of the bottom navigation bar\",\n  \"Bottom Navigation Bar > Profile Label\": \"Small gray text 'Profile' displayed below the highlighted profile icon in the bottom navigation bar\"\n}"}],"stop_reason":"end_turn","stop_sequence":null,"usage":{"input_tokens":2404,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"output_tokens":767}}
+
+----- USAGE -----
+Input Tokens: 2404
+Output Tokens: 767
+Total Tokens: 3171
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:16.032Z
+Service: Moondream-vl-Detect
+Execution Time: 2.825 seconds
+
+----- PROMPT -----
+Detect Green text label 'Calm' positioned in the middle-left area of the mood tracking graph in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0,"y_min":0.2759020896628499,"x_max":1,"y_max":0.2963635353371501}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:16.113Z
+Service: Moondream-vl-Detect
+Execution Time: 2.907 seconds
+
+----- PROMPT -----
+Detect Pink text label 'Happy' positioned at the top right corner of the mood tracking graph in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6105715557932854,"y_min":0.2275893185287714,"x_max":0.7077878192067146,"y_max":0.2606919314712286}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:16.227Z
+Service: Moondream-vl-Detect
+Execution Time: 3.021 seconds
+
+----- PROMPT -----
+Detect Bold black text 'Paul Wilson' centered below the profile image in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.4197467342019081,"y_min":0.20989866741001606,"x_max":0.5802532657980919,"y_max":0.24322633258998394}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:16.237Z
+Service: Moondream-vl-Detect
+Execution Time: 3.031 seconds
+
+----- PROMPT -----
+Detect Circular profile picture at the top center of the screen showing a person in dark clothing against a light background in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.4542674869298935,"y_min":0.09234510734677315,"x_max":0.5457325130701065,"y_max":0.18890489265322685}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:16.298Z
+Service: Moondream-vl-Detect
+Execution Time: 3.092 seconds
+
+----- PROMPT -----
+Detect Light blue area chart with line showing mood trends across weekdays, spanning the width of the screen with peaks on Tuesday and Sunday in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.29137222468852997,"y_min":0.26722999662160873,"x_max":0.70862777531147,"y_max":0.44370750337839127}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:18.027Z
+Service: Moondream-vl-Detect
+Execution Time: 0.995 seconds
+
+----- PROMPT -----
+Detect Row of abbreviated weekday text labels ('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun') positioned along the bottom of the mood graph in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.30503979325294495,"y_min":-0.0015651285648345947,"x_max":0.694960206747055,"y_max":0.9585963785648346}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:18.030Z
+Service: Moondream-vl-Detect
+Execution Time: 0.916 seconds
+
+----- PROMPT -----
+Detect Dark rounded rectangle card positioned between the mood graph and settings options, containing motivational text and quote icon in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.30503979325294495,"y_min":0.5086502023041248,"x_max":0.694960206747055,"y_max":0.6085372976958752}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:18.122Z
+Service: Moondream-vl-Detect
+Execution Time: 0.895 seconds
+
+----- PROMPT -----
+Detect Small light blue quotation mark icon positioned on the left side within the dark motivation card in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.3340389020740986,"y_min":0.5281380861997604,"x_max":0.3925235979259014,"y_max":0.5890494138002396}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:18.123Z
+Service: Moondream-vl-Detect
+Execution Time: 0.884 seconds
+
+----- PROMPT -----
+Detect White text message 'Every day is a new opportunity for growth and positive change.' displayed within the dark motivation card in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.3063563108444214,"y_min":0.5165432654321194,"x_max":0.6936436891555786,"y_max":0.6025973595678806}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:18.199Z
+Service: Moondream-vl-Detect
+Execution Time: 0.9 seconds
+
+----- PROMPT -----
+Detect Gray gear/cog icon positioned on the left side of the Settings option row in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.32427600398659706,"y_min":0.6478237025439739,"x_max":0.36322399601340294,"y_max":0.6881137974560261}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:19.580Z
+Service: Moondream-vl-Detect
+Execution Time: 0.551 seconds
+
+----- PROMPT -----
+Detect Black text 'Settings' positioned to the right of the gear icon in the settings panel in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.30503979325294495,"y_min":0.6381259150803089,"x_max":0.694960206747055,"y_max":0.6978115849196911}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:19.698Z
+Service: Moondream-vl-Detect
+Execution Time: 0.668 seconds
+
+----- PROMPT -----
+Detect Gray right-facing chevron arrow positioned at the far right of the Settings row in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.64981157053262,"y_min":0.6554320035502315,"x_max":0.66854780446738,"y_max":0.6805054964497685}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:19.762Z
+Service: Moondream-vl-Detect
+Execution Time: 0.638 seconds
+
+----- PROMPT -----
+Detect Black text 'Language' positioned to the right of the globe icon in the settings panel in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.3115340620279312,"y_min":0.6995100267231464,"x_max":0.6884659379720688,"y_max":0.7731462232768536}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:20.979Z
+Service: Moondream-vl-Detect
+Execution Time: 1.778 seconds
+
+----- PROMPT -----
+Detect Gray right-facing chevron arrow positioned at the far right of the Language row in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.64981157053262,"y_min":0.7218382535502315,"x_max":0.66854780446738,"y_max":0.7469117464497685}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:21.125Z
+Service: Moondream-vl-Detect
+Execution Time: 0.543 seconds
+
+----- PROMPT -----
+Detect Gray gear or information icon positioned on the left side of the FAQ option row in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.32818225398659706,"y_min":0.7919896962121129,"x_max":0.36713024601340294,"y_max":0.8212915537878871}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:21.142Z
+Service: Moondream-vl-Detect
+Execution Time: 2.018 seconds
+
+----- PROMPT -----
+Detect Gray globe icon positioned on the left side of the Language option row in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.32807197608053684,"y_min":0.7193221021443605,"x_max":0.35942802391946316,"y_max":0.7533341478556395}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:21.302Z
+Service: Moondream-vl-Detect
+Execution Time: 0.602 seconds
+
+----- PROMPT -----
+Detect Black text 'FAQ' positioned to the right of the icon in the bottom section of the settings panel in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.316573366522789,"y_min":0.7738681025803089,"x_max":0.683426633477211,"y_max":0.8335537724196911}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:21.427Z
+Service: Moondream-vl-Detect
+Execution Time: 0.663 seconds
+
+----- PROMPT -----
+Detect Gray right-facing chevron arrow positioned at the far right of the FAQ row in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.64981157053262,"y_min":0.7882445035502315,"x_max":0.66854780446738,"y_max":0.8133179964497685}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:22.527Z
+Service: Moondream-vl-Detect
+Execution Time: 0.548 seconds
+
+----- PROMPT -----
+Detect House/home icon positioned at the leftmost position in the bottom navigation bar in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.33208850398659706,"y_min":0.8841004483401775,"x_max":0.37103649601340294,"y_max":0.9283995516598225}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:22.645Z
+Service: Moondream-vl-Detect
+Execution Time: 0.518 seconds
+
+----- PROMPT -----
+Detect Triangle/play icon positioned second from left in the bottom navigation bar in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.4258357770740986,"y_min":0.8743150383234024,"x_max":0.4843204729259014,"y_max":0.9381849616765976}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:22.863Z
+Service: Moondream-vl-Detect
+Execution Time: 0.56 seconds
+
+----- PROMPT -----
+Detect Person silhouette icon inside a light blue rounded square background positioned at the rightmost section of the bottom navigation bar in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6299373395740986,"y_min":0.8785505406558514,"x_max":0.6884220354259014,"y_max":0.9339494593441486}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:23.365Z
+Service: Moondream-vl-Detect
+Execution Time: 1.221 seconds
+
+----- PROMPT -----
+Detect Book or document icon positioned third from left in the bottom navigation bar in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.5325946100056171,"y_min":0.8915990712121129,"x_max":0.5826397649943829,"y_max":0.9209009287878871}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T21:01:23.433Z
+Service: Moondream-vl-Detect
+Execution Time: 1.004 seconds
+
+----- PROMPT -----
+Detect Small gray text 'Profile' displayed below the highlighted profile icon in the bottom navigation bar in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6247736103832722,"y_min":0.8739665746688843,"x_max":0.6935857646167278,"y_max":0.9404865503311157}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+

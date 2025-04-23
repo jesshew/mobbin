@@ -54,7 +54,7 @@ Execution Time: ${entry.executionTimeMs / 1000} seconds
 ${entry.prompt}
 
 ----- RESPONSE -----
-${entry.response}
+${JSON.stringify(JSON.parse(entry.response), null, 2)}
 
 ----- USAGE -----
 ${tokenInfo}
