@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { PromptResult } from '../../types/PromptRunner'; // adjust path as needed
 import { EXTRACT_ELEMENTS_PROMPT_v2 } from '@/lib/prompt/prompts';
+import { logPromptInteraction } from '@/lib/logger';
 // Ensure your Claude API key is set in ENV
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -43,13 +44,27 @@ export async function callClaudeVisionModel(
 
   try {
     const response = await anthropic.messages.create({
-      model: VISION_MODEL_HAIKU,
+      // model: VISION_MODEL_HAIKU,
+      model: VISION_MODEL_CLAUDE,
       max_tokens: 8192, // tweak as needed
       messages: messages as Anthropic.MessageParam[],
     });
 
     const endTime = Date.now();
     const duration = endTime - startTime;
+    
+    // Log the interaction
+    logPromptInteraction(
+      `Claude-${VISION_MODEL_CLAUDE}`,
+      prompt,
+      JSON.stringify(response),
+      duration,
+      {
+        input: response?.usage?.input_tokens,
+        output: response?.usage?.output_tokens,
+        total: response?.usage?.input_tokens + response?.usage?.output_tokens
+      }
+    );
 
     return response;
 
@@ -106,6 +121,8 @@ function parseClaudeTextToJson(rawText: string): Record<string, string> {
     const cleanedText = rawText
       .replace(/,\s*}/g, '}')           // remove trailing commas
       .replace(/,\s*]/g, ']')           // remove trailing commas
+      .replace(/```json/g, '')           // remove ```json
+      .replace(/```/g, '')              // remove ```
       .replace(/\n/g, '');              // flatten into one line
 
     // Attempt to parse

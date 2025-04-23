@@ -17,7 +17,7 @@ export const BatchHeader = ({ batch, isExpanded, onToggle, onViewResults }: Batc
       <h3 className="font-medium">{batch.name}</h3>
       <div className="flex items-center gap-2">
         <StatusBadge status={batch.status} />
-        {batch.status === 'extracting' && (
+        {/* {batch.status === 'extracting' && (
           <Button 
             variant="outline" 
             size="default" 
@@ -30,7 +30,20 @@ export const BatchHeader = ({ batch, isExpanded, onToggle, onViewResults }: Batc
             <ExternalLink className="h-3 w-3" />
             <span className="text-xs">View Result</span>
           </Button>
-        )}
+        )} */}
+
+          <Button 
+            variant="outline" 
+            size="default" 
+            className="flex items-center gap-1 h-6 px-2"
+            onClick={(e) => {
+              e.stopPropagation();
+              onViewResults(batch.id);
+            }}
+          >
+            <ExternalLink className="h-3 w-3" />
+            <span className="text-xs">View Result</span>
+          </Button>   
         <Button 
           variant="ghost" 
           size="icon" 

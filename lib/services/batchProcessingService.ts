@@ -83,8 +83,8 @@ export class BatchProcessingService {
       } 
 
 
-      await this.updateBatchStatus(batchId, 'annotating');
-      console.log(`[Batch ${batchId}] Processing complete. Status set to annotating.`);
+      await this.updateBatchStatus(batchId, 'completed');
+      console.log(`[Batch ${batchId}] Processing complete. Status set to completed.`);
     } catch (error) {
       await this.handleProcessingError(batchId, error);
     }

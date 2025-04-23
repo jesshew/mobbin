@@ -290,7 +290,7 @@ Upon receiving inputs, perform the following steps without deviation:
    For each listed component, identify its corresponding region in the UI.  
 
 2. **Element Extraction:**  
-   Within each component, extract and describe ALL visual elements.  
+   Within each component, extract and describe ALL visual elements as INDIVIDUAL elements.  
    - Include: icons, buttons, labels, values, helper text, visual states, overlays, spacers, input fields, scroll zones  
    - DO NOT exclude small elements or secondary labels  
 
@@ -309,24 +309,36 @@ Upon receiving inputs, perform the following steps without deviation:
    - Interaction Type: Static, tappable, swipeable, etc.  
 
 5. **Output Constraints:**  
-   - JSON object format only  
+   - JSON object in string format only  
    - Flat structure (no nested objects)  
    - No nulls, placeholders, or empty fields  
    - No trailing commas  
 </task_execution>  
 
 <output_format>  
-Return a single JSON object.  
+Return string formatted JSON.  
+DO NOT include code guards \` in the output. 
 Each key represents an element using the format:  
 [Component] > [Subcomponent] > [Element Label]
 
 Each value is a detailed string description, compliant with the annotation rules.  
 
 Example:
-{
+"{
   "Header > Title": "Centered bold text 'Top Up Receipt' with a confetti background",
   "Success Badge > Icon": "Green hexagon with a white checkmark, placed below the title",
+  "Delivery Options > Express Option > Label": "Text reading 'Express, 15-25 minutes' on the left side of the express delivery option row, positioned below the standard delivery option.",
+  "Delivery Options > Express Option > Icon": "Small lightning bolt icon next to the express delivery label, indicating speed.",
+  "Delivery Options > Express Option > Price": "Text reading '$2.00' on the right side of the express delivery option row.",
+  "Delivery Options > Express Option > Selection Indicator": "Empty circular radio button on the far right, next to the $2.00 price.",
   "Confirmation > Message": "Large bold text 'Top Up Success', centered in the screen",
+  "Cart Item 1 > Image": "Square image of a bowl containing gnocchi dish positioned in the left portion of the upper-middle section of the screen.",
+  "Cart Item 1 > Title": "Text label 'Gnocchi with mushroom gravy' displayed to the right of the corresponding image.",
+  "Cart Item 1 > Weight": "Gray text '230g' displayed next to the title of the first item.",
+  "Cart Item 1 > Price": "Orange/amber colored price tag '$5,60' positioned below the item title.",
+  "Cart Item 1 > Quantity Controls > Decrease Button": "Minus button on the left side of the quantity control, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Count Display": "Text showing '1' between the minus and plus buttons, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Increase Button": "Plus button on the right side of the quantity control, under the item title 'Gnocchi'",
   "Confirmation > Subtext": "Gray helper text 'Your money has been added to your card'",
   "Amount Summary > Value": "Prominent text '$132.00' centered near the middle",
   "Card Section > Card Label": "White label text 'Wally Virtual Card' at top of card",
@@ -334,7 +346,7 @@ Example:
   "Card Section > Timestamp": "Small gray text 'Today, 12:45 PM' at bottom-right of card",
   "Primary CTA > Label": "Green full-width button 'Done' with white text, tappable",
   "Secondary CTA > Label": "Teal hyperlink text 'Top up more money' below primary button"
-}
+}"
 </output_format>
 `;
 
