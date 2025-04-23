@@ -1,0 +1,19 @@
+[
+    {
+        "id": "product_description___ingredients_list",
+        "label": "Product Description > Ingredients List",
+        "description": "Detailed text listing all ingredients: 'chicken eggs, flour, milk 3.2%, butter, water, dark chocolate 54-55%, melange, white sugar, cocoa powder, salt, vanillin.', positioned below the product title.",
+        "detections": [
+            {
+                "coordinates": {
+                    "x_min": 234,
+                    "y_min": 424,
+                    "x_max": 566,
+                    "y_max": 484
+                }
+            }
+        ],
+        "status": "Detected",
+        "error": null
+    }
+]

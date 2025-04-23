@@ -1,0 +1,242 @@
+[
+  {
+    "id": "add_to_order_suggestions___latte_option___image",
+    "label": "Add to Order Suggestions > Latte Option > Image",
+    "description": "Small square image of a latte in a glass cup, positioned in the left suggestion slot.",
+    "detections": [
+      {
+        "coordinates": {
+          "x_min": 241,
+          "y_min": 530,
+          "x_max": 350,
+          "y_max": 642
+        }
+      }
+    ],
+    "status": "Detected"
+  },
+  {
+    "id": "add_to_order_suggestions___latte_option___title",
+    "label": "Add to Order Suggestions > Latte Option > Title",
+    "description": "Text 'Latte' below the latte image, identifying the beverage option.",
+    "detections": [
+      {
+        "coordinates": {
+          "x_min": 241,
+          "y_min": 652,
+          "x_max": 281,
+          "y_max": 672
+        }
+      }
+    ],
+    "status": "Detected"
+  },
+  {
+    "id": "add_to_order_suggestions___latte_option___price",
+    "label": "Add to Order Suggestions > Latte Option > Price",
+    "description": "Text '$2.00' below the latte title, showing the price of the latte.",
+    "detections": [
+      {
+        "coordinates": {
+          "x_min": 243,
+          "y_min": 670,
+          "x_max": 279,
+          "y_max": 689
+        }
+      }
+    ],
+    "status": "Detected"
+  },
+  {
+    "id": "add_to_order_suggestions___latte_option___add_button",
+    "label": "Add to Order Suggestions > Latte Option > Add Button",
+    "description": "Orange circular button with a plus sign, positioned in the top-right corner of the latte suggestion card, allowing users to add this item.",
+    "detections": [
+      {
+        "coordinates": {
+          "x_min": 315,
+          "y_min": 537,
+          "x_max": 341,
+          "y_max": 564
+        }
+      },
+      {
+        "coordinates": {
+          "x_min": 441,
+          "y_min": 536,
+          "x_max": 467,
+          "y_max": 563
+        }
+      },
+      {
+        "coordinates": {
+          "x_min": 560,
+          "y_min": 534,
+          "x_max": 583,
+          "y_max": 561
+        }
+      }
+    ],
+    "status": "Detected"
+  },
+  {
+    "id": "add_to_order_suggestions___nordic_tea_option___image",
+    "label": "Add to Order Suggestions > Nordic Tea Option > Image",
+    "description": "Small square image of a red tea drink in a glass, positioned in the middle suggestion slot.",
+    "detections": [
+      {
+        "coordinates": {
+          "x_min": 363,
+          "y_min": 533,
+          "x_max": 473,
+          "y_max": 641
+        }
+      }
+    ],
+    "status": "Detected"
+  },
+  {
+    "id": "add_to_order_suggestions___nordic_tea_option___title",
+    "label": "Add to Order Suggestions > Nordic Tea Option > Title",
+    "description": "Text 'Nordic tea' below the tea image, identifying the beverage option.",
+    "detections": [
+      {
+        "coordinates": {
+          "x_min": 362,
+          "y_min": 648,
+          "x_max": 438,
+          "y_max": 674
+        }
+      }
+    ],
+    "status": "Detected"
+  },
+  {
+    "id": "add_to_order_suggestions___nordic_tea_option___price",
+    "label": "Add to Order Suggestions > Nordic Tea Option > Price",
+    "description": "Text '$1.80' below the Nordic tea title, showing the price of the tea.",
+    "detections": [
+      {
+        "coordinates": {
+          "x_min": 359,
+          "y_min": 662,
+          "x_max": 416,
+          "y_max": 681
+        }
+      }
+    ],
+    "status": "Detected"
+  },
+  {
+    "id": "add_to_order_suggestions___nordic_tea_option___add_button",
+    "label": "Add to Order Suggestions > Nordic Tea Option > Add Button",
+    "description": "Orange circular button with a plus sign, positioned in the top-right corner of the Nordic tea suggestion card, allowing users to add this item.",
+    "detections": [
+      {
+        "coordinates": {
+          "x_min": 432,
+          "y_min": 538,
+          "x_max": 463,
+          "y_max": 563
+        }
+      },
+      {
+        "coordinates": {
+          "x_min": 320,
+          "y_min": 537,
+          "x_max": 347,
+          "y_max": 564
+        }
+      },
+      {
+        "coordinates": {
+          "x_min": 556,
+          "y_min": 536,
+          "x_max": 580,
+          "y_max": 562
+        }
+      }
+    ],
+    "status": "Detected"
+  },
+  {
+    "id": "add_to_order_suggestions___matcha_latte_option___image",
+    "label": "Add to Order Suggestions > Matcha Latte Option > Image",
+    "description": "Small square image of a matcha latte in a glass, positioned in the right suggestion slot.",
+    "detections": [
+      {
+        "coordinates": {
+          "x_min": 479,
+          "y_min": 532,
+          "x_max": 576,
+          "y_max": 639
+        }
+      }
+    ],
+    "status": "Detected"
+  },
+  {
+    "id": "add_to_order_suggestions___matcha_latte_option___title",
+    "label": "Add to Order Suggestions > Matcha Latte Option > Title",
+    "description": "Text 'Matcha latte' below the matcha latte image, identifying the beverage option.",
+    "detections": [
+      {
+        "coordinates": {
+          "x_min": 478,
+          "y_min": 645,
+          "x_max": 569,
+          "y_max": 677
+        }
+      }
+    ],
+    "status": "Detected"
+  },
+  {
+    "id": "add_to_order_suggestions___matcha_latte_option___price",
+    "label": "Add to Order Suggestions > Matcha Latte Option > Price",
+    "description": "Text '$1.95' below the matcha latte title, showing the price of the matcha latte.",
+    "detections": [
+      {
+        "coordinates": {
+          "x_min": 479,
+          "y_min": 670,
+          "x_max": 520,
+          "y_max": 689
+        }
+      }
+    ],
+    "status": "Detected"
+  },
+  {
+    "id": "add_to_order_suggestions___matcha_latte_option___add_button",
+    "label": "Add to Order Suggestions > Matcha Latte Option > Add Button",
+    "description": "Orange circular button with a plus sign, positioned in the top-right corner of the matcha latte suggestion card, allowing users to add this item.",
+    "detections": [
+      {
+        "coordinates": {
+          "x_min": 541,
+          "y_min": 533,
+          "x_max": 573,
+          "y_max": 565
+        }
+      },
+      {
+        "coordinates": {
+          "x_min": 439,
+          "y_min": 533,
+          "x_max": 469,
+          "y_max": 565
+        }
+      },
+      {
+        "coordinates": {
+          "x_min": 317,
+          "y_min": 534,
+          "x_max": 346,
+          "y_max": 566
+        }
+      }
+    ],
+    "status": "Detected"
+  }
+]
