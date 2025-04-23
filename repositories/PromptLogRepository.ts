@@ -1,6 +1,6 @@
 import { SupabaseClient } from '@supabase/supabase-js';
-import { DatabaseService } from '../lib/services/DatabaseService';
-import { PromptLog } from '../types/PromptLog';
+import { DatabaseService } from '@/lib/services/DatabaseService';
+import { PromptLog } from '@/types/PromptLog';
 
 export class PromptLogRepository {
   private db: SupabaseClient;

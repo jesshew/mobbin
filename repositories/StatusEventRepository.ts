@@ -1,6 +1,6 @@
 import { SupabaseClient } from '@supabase/supabase-js';
-import { DatabaseService } from '../lib/services/DatabaseService';
-import { StatusEvent } from '../types/StatusEvent';
+import { DatabaseService } from '@/lib/services/DatabaseService';
+import { StatusEvent } from '@/types/StatusEvent';
 
 export class StatusEventRepository {
   private db: SupabaseClient;

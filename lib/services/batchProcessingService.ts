@@ -4,7 +4,8 @@ import { SupabaseClient } from '@supabase/supabase-js';
 // import { DatabaseService } from './DatabaseService'; // Assuming DatabaseService might be needed elsewhere or for StorageService instantiation
 import { generateSignedUrls, getScreenshotPath, getSignedUrls } from '@/lib/supabaseUtils';
 import { extract_component_from_image } from '@/lib/services/OpenAIService';
-import { callClaudeVisionModel } from '@/lib/services/ClaudeAIService';
+import { callClaudeVisionModel, extract_element_from_image } from '@/lib/services/ClaudeAIService';
+import { parseOutputText } from '@/lib/utils';
 // Placeholder for future extractor services
 interface Extractor {
   extract(screenshot: any): Promise<void>; // Define a more specific screenshot type later
@@ -19,8 +20,8 @@ interface Screenshot {
   screenshot_processing_status: string;
   screenshot_processing_time: string;
   screenshot_created_at: string;
-  screenshot_signed_url?: string;
-  screenshot_bucket_path?: string;
+  screenshot_signed_url?: string | null;
+  screenshot_bucket_path?: string | null;
 }
 
 
@@ -59,10 +60,26 @@ export class BatchProcessingService {
       // Extract the first screenshot with a signed URL
       const firstScreenshotWithSignedUrl = screenshots.find(s => s.screenshot_signed_url);
       if (firstScreenshotWithSignedUrl) {
-        const signed_url = firstScreenshotWithSignedUrl.screenshot_signed_url;
+        const signed_url: string = firstScreenshotWithSignedUrl.screenshot_signed_url || '';
         // console.log(`CALLING OPENAI [Batch ${batchId}] Signed URL:`, signed_url);
         const result = await extract_component_from_image(signed_url);
-        console.log(`[Batch ${batchId}] First screenshot with signed URL:`, firstScreenshotWithSignedUrl);
+        // console.log(`[Batch ${batchId}] First screenshot with signed URL:`, firstScreenshotWithSignedUrl);
+
+        const parsedComponents = result.parsedContent || [];
+       
+        // const usage = result.usage || { input_tokens: 0, output_tokens: 0, total_tokens: 0 };
+
+        // // Example: Log or store the parsed results and usage
+        // console.log("Parsed Components:", parsedComponents);
+        // console.log("Token Usage:", usage);
+
+        const componentSummaries = extractComponentSummaries(parsedComponents);
+        console.log("Component Summaries:", componentSummaries);
+
+        const element_result = await extract_element_from_image(signed_url, componentSummaries);
+        console.log("Element Result:", element_result);
+
+
       } 
 
 
@@ -172,3 +189,28 @@ export class BatchProcessingService {
     return (data as Screenshot[] | null) || [];
   }
 }
+
+// // Helper: Parse output_text safely
+// function parseOutputText(outputText: string): any[] {
+//   try {
+//     return JSON.parse(outputText);
+//   } catch (error) {
+//     console.error("Failed to parse output_text JSON:", error);
+//     return [];
+//   }
+// }
+
+// Helper: Extracts component name + description summary strings
+function extractComponentSummaries(components: any[]): string[] {
+  if (!Array.isArray(components)) {
+    console.warn("Expected an array of components");
+    return [];
+  }
+
+  return components
+    .filter(component => typeof component?.component_name === 'string' && typeof component?.description === 'string')
+    // .map(component => `${component.component_name}: ${component.description}`);
+    .map(component => `${component.component_name}`);
+}
+
+

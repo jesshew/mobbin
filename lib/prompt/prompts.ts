@@ -96,6 +96,8 @@ Every output MUST be formatted as a structured JSON array conforming to the sche
 </task_execution>
 
 <output_format>
+Please output ONE string of flat JSON object.
+
 Each object in the output array MUST include the following keys:
 
 component_name → string: Human-readable identifier of the component (e.g., "Header", "Cart Item")
@@ -113,8 +115,8 @@ likely_interaction_type → list[string]: User actions expected (e.g., ["tap"], 
 flow_position → string: UX journey placement (e.g., "Checkout - Cart Review")
 </output_format>
 
-<example_output>
-[
+<example_output> 
+"[
   {
     "component_name": "Cart Item",
     "description": "Visual block showing product image, name, price, and quantity controls.",
@@ -142,7 +144,7 @@ flow_position → string: UX journey placement (e.g., "Checkout - Cart Review")
     "likely_interaction_type": ["tap", "keyboard input"],
     "flow_position": "Checkout - Discount Application"
   }
-]
+]"
 </example_output>
 `
 export const EXTRACT_ELEMENTS_PROMPT_v0 = `
@@ -241,7 +243,7 @@ You are a meticulous UI/UX expert contributing to a design library. Identify and
 -- Interaction Type: Static, tappable, scrollable, etc.
 
 📌 Output Rules:
-- Output a flat JSON object — use key paths (> delimited) for hierarchy
+- Output a flat JSON STRING — use key paths (> delimited) for hierarchy
 - Describe all relevant UI elements (don’t skip small details)
 - Be precise, visual, and consistent in naming
 - No nested JSON, no trailing commas
