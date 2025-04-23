@@ -4,7 +4,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 // import { DatabaseService } from './DatabaseService'; // Assuming DatabaseService might be needed elsewhere or for StorageService instantiation
 import { generateSignedUrls, getScreenshotPath, getSignedUrls } from '@/lib/supabaseUtils';
 import { extract_component_from_image } from '@/lib/services/OpenAIService';
-import { callClaudeVisionModel, extract_element_from_image } from '@/lib/services/ClaudeAIService';
+import { extract_element_from_image, anchor_elements_from_image } from '@/lib/services/ClaudeAIService';
 import { parseOutputText } from '@/lib/utils';
 // Placeholder for future extractor services
 interface Extractor {
@@ -76,8 +76,11 @@ export class BatchProcessingService {
         const componentSummaries = extractComponentSummaries(parsedComponents);
         console.log("Component Summaries:", componentSummaries);
 
-        const element_result = await extract_element_from_image(signed_url, componentSummaries);
+        const element_result = await extract_element_from_image(signed_url, componentSummaries.join('\n'));
         console.log("Element Result:", element_result);
+
+        const anchor_result = await anchor_elements_from_image(signed_url, `${element_result.rawText}`);
+        console.log("Anchor Result:", anchor_result);
 
 
       } 

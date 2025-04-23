@@ -48,10 +48,10 @@ Total Tokens: ${entry.tokenUsage.total || 'N/A'}`
 ========== PROMPT INTERACTION LOG ==========
 Timestamp: ${entry.timestamp}
 Service: ${entry.serviceName}
-Execution Time: ${entry.executionTimeMs}ms
+Execution Time: ${entry.executionTimeMs / 1000} seconds
 
 ----- PROMPT -----
-${entry.prompt.slice(0, 100)}
+${entry.prompt}
 
 ----- RESPONSE -----
 ${entry.response}

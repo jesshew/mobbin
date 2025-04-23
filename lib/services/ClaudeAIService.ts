@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { PromptResult } from '../../types/PromptRunner'; // adjust path as needed
-import { EXTRACT_ELEMENTS_PROMPT_v2 } from '@/lib/prompt/prompts';
+import { EXTRACT_ELEMENTS_PROMPT_v2, ANCHOR_ELEMENTS_PROMPT_v0, ANCHOR_ELEMENTS_PROMPT_v1, ANCHOR_ELEMENTS_PROMPT_v2 } from '@/lib/prompt/prompts';
 import { logPromptInteraction } from '@/lib/logger';
 // Ensure your Claude API key is set in ENV
 const anthropic = new Anthropic({
@@ -96,17 +96,71 @@ export async function callClaudeVisionModel(
  * @returns A promise resolving to the structured PromptResult.
  * @throws Throws an error if the API call fails.
  */
-export async function extract_element_from_image(imageUrl : string, component_list : string[]) {
+// export async function extract_element_from_image(imageUrl : string, component_list : string[]) {
+export async function extract_element_from_image(imageUrl : string, component_list : string) {
   // Define the prompt for extraction
-  const prompt = EXTRACT_ELEMENTS_PROMPT_v2 + `\n\n<component_list>${component_list.join('\n')}</component_list>`;
+  // const prompt = EXTRACT_ELEMENTS_PROMPT_v2 + `\n\n<component_list>${component_list.join('\n')}</component_list>`;
+  const prompt = EXTRACT_ELEMENTS_PROMPT_v2 + `\n\n<component_list>${component_list}</component_list>`;
   const response = await callClaudeVisionModel(prompt, imageUrl);
 
   const { parsedContent, rawText, usage } = extractClaudeResponseData(response);
 
   // Call the OpenAI vision model with the prompt and image URL
-  return { parsedContent, usage };
+  return { parsedContent, rawText, usage };
 }
 
+/**
+ * Extracts anchor elements from an image using the Claude vision model.
+ *
+ * @param imageUrl The URL of the image to analyze.
+ * @param element_list The list of elements to guide the extraction.
+ * @returns A promise resolving to the structured PromptResult.
+ * @throws Throws an error if the API call fails.
+ */
+// export async function anchor_elements_from_image(imageUrl: string, element_list: string[]) {
+export async function anchor_elements_from_image(imageUrl: string, element_list: string) {
+  // Define the prompt for anchor extraction
+  // const prompt = ANCHOR_ELEMENTS_PROMPT_v0 + `\n\n<element_list>${element_list.join('\n')}</element_list>`;
+  // const prompt = ANCHOR_ELEMENTS_PROMPT_v0 + `\n\n<element_list>${element_list}</element_list>`;
+  // const prompt = ANCHOR_ELEMENTS_PROMPT_v1 + `\n\n<element_list>${element_list}</element_list>`;
+  const prompt = ANCHOR_ELEMENTS_PROMPT_v2 + `\n\n<element_list>${element_list}</element_list>`;
+  const response = await callClaudeVisionModel(prompt, imageUrl);
+
+  const { parsedContent, rawText, usage } = extractClaudeResponseData(response);
+
+  // Call the Claude vision model with the prompt and image URL
+  return { parsedContent, rawText,usage };
+}
+
+
+/**
+ * Cleans the raw text by removing unwanted formatting and normalizing it.
+ *
+ * @param rawText - The raw text string to clean.
+ * @returns Cleaned text as a single string.
+ */
+function cleanText(rawText: string): string {
+  // Remove extra line breaks and normalize formatting
+  return rawText
+    .replace(/,\s*}/g, '}')           // remove trailing commas
+    .replace(/,\s*]/g, ']')           // remove trailing commas
+    .replace(/```json/g, '')           // remove ```json
+    .replace(/```/g, '')              // remove ```
+    .replace(/\\/g, '');              // remove \
+    // .replace(/\n/g, '');              // flatten into one line
+}
+
+/**
+ * Cleans the raw text and returns a list of components.
+ *
+ * @param components - The array of components to filter and clean.
+ * @returns Array of cleaned strings in the format "component_name: description".
+ */
+function cleanTextToList(components: any[]): string[] {
+  return components
+    .filter(component => typeof component?.component_name === 'string' && typeof component?.description === 'string')
+    .map(component => `${component.component_name}: ${component.description}`);
+}
 
 /**
  * Helper: Parses Claude's text content into a JSON object safely.
@@ -117,14 +171,7 @@ export async function extract_element_from_image(imageUrl : string, component_li
  */
 function parseClaudeTextToJson(rawText: string): Record<string, string> {
   try {
-    // Remove extra line breaks and normalize formatting
-    const cleanedText = rawText
-      .replace(/,\s*}/g, '}')           // remove trailing commas
-      .replace(/,\s*]/g, ']')           // remove trailing commas
-      .replace(/```json/g, '')           // remove ```json
-      .replace(/```/g, '')              // remove ```
-      .replace(/\n/g, '');              // flatten into one line
-
+    const cleanedText = cleanText(rawText); // Use the new cleanText helper
     // Attempt to parse
     return JSON.parse(cleanedText);
   } catch (error) {
@@ -132,6 +179,8 @@ function parseClaudeTextToJson(rawText: string): Record<string, string> {
     return {};
   }
 }
+
+
 
 /**
  * Extracts structured content text and usage metadata from Claude's response.
@@ -162,3 +211,5 @@ export function extractClaudeResponseData(response: any): {
     usage,
   };
 }
+
+

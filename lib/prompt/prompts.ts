@@ -147,6 +147,92 @@ flow_position → string: UX journey placement (e.g., "Checkout - Cart Review")
 ]"
 </example_output>
 `
+
+export const EXTRACTION_PROMPT_v2 = `
+
+Prompt: Enhanced High-Level UI Component Extraction with Partial Visibility Awareness
+
+<identity>  
+You are a structured AI UI analysis agent designated to extract high-level UI components from a UI screenshot.  
+You are optimized for precision in semantic segmentation, resistance to overclassification, and strict hierarchical grouping.  
+You do not generate unnecessary information. You do not speculate.  
+You must also account for **partially visible** components that are recognizable and potentially interactive.  
+</identity>
+
+<input>  
+- A UI screenshot  
+</input>
+
+<task_execution>  
+Upon receipt of a visual UI input (e.g., screenshot):
+
+DO extract high-level, semantically distinct interface components, even when they are **partially visible**.  
+DO NOT include low-level atomic elements unless they act as standalone interaction units (e.g., isolated CTAs).  
+DO group smaller atomic items into meaningful parent components (e.g., icons + labels + controls → "Cart Item").  
+DO NOT oversegment. Avoid listing trivial or decorative UI parts.  
+
+All extracted components MUST represent functional blocks relevant to product design, UX analysis, or interaction mapping.
+
+Use discretion to determine whether a partially shown component offers enough visual or functional cues to justify inclusion.
+
+Every output MUST be formatted as a structured JSON array conforming to the schema in <output_format>.  
+</task_execution>
+
+<output_format>  
+Please output ONE string of flat JSON object.  
+
+Each object in the output array MUST include the following keys:  
+
+component_name → string: Human-readable identifier of the component (e.g., "Header", "Cart Item")  
+description → string: Summary of visual content and layout within the component  
+impact_on_user_flow → string: Explanation of how the component contributes to user experience or decision-making  
+cta_type → enum: One of [Primary, Secondary, Informational] if any CTA exists; otherwise omit or set to null  
+is_reused_in_other_screens → boolean: TRUE if the component is expected to appear across multiple screens  
+likely_interaction_type → list[string]: User actions expected (e.g., ["tap"], ["scroll"], ["keyboard input"])  
+flow_position → string: UX journey placement (e.g., "Checkout - Cart Review")  
+</output_format>
+
+<example_output> 
+"[
+  {
+    "component_name": "Cart Item",
+    "description": "Visual block showing product image, name, price, and quantity controls.",
+    "impact_on_user_flow": "Enables users to review and modify the items before purchase.",
+    "cta_type": "Secondary",
+    "is_reused_in_other_screens": true,
+    "likely_interaction_type": ["tap", "stepper"],
+    "flow_position": "Checkout - Cart Review"
+  },
+  {
+    "component_name": "Delivery Options",
+    "description": "Section showing available delivery choices with cost and selection state.",
+    "impact_on_user_flow": "Lets the user choose a preferred delivery method before checkout.",
+    "cta_type": "Primary",
+    "is_reused_in_other_screens": true,
+    "likely_interaction_type": ["tap (select radio)"],
+    "flow_position": "Checkout - Shipping Selection"
+  },
+  {
+    "component_name": "Partial Debit Card",
+    "description": "Partially visible card element showing the top edge and part of the card number, suggesting the presence of a second linked payment method.",
+    "impact_on_user_flow": "Indicates additional card options or account data, enhancing user context and potentially prompting a scroll interaction.",
+    "cta_type": null,
+    "is_reused_in_other_screens": true,
+    "likely_interaction_type": ["scroll"],
+    "flow_position": "Dashboard - Card Carousel"
+  },
+  {
+    "component_name": "Promocode Section",
+    "description": "Input area for applying promotional codes with validation feedback.",
+    "impact_on_user_flow": "Allows discount application to influence purchase behavior.",
+    "cta_type": "Secondary",
+    "is_reused_in_other_screens": false,
+    "likely_interaction_type": ["tap", "keyboard input"],
+    "flow_position": "Checkout - Discount Application"
+  }
+]"
+</example_output>
+`
 export const EXTRACT_ELEMENTS_PROMPT_v0 = `
     <instructions>
     Analyze the provided UI screenshot in combination with the given component list.
@@ -352,6 +438,8 @@ Example:
 
 export const ANCHOR_ELEMENTS_PROMPT_v0 = `
 You are responsible for rewriting visual component descriptions to optimize spatial and semantic clarity for downstream vision-language model performance.
+Your task is to produce a flat JSON list of UI components and their descriptions with subtle visual anchors.
+DO NOT include any other text or explanation in the output.
 
 Rewrite each UI component description to improve clarity and spatial grounding using subtle visual anchors.
     Your input includes:
@@ -387,12 +475,11 @@ Rewrite each UI component description to improve clarity and spatial grounding u
       - improved: "Price Chart > Time Labels": "Gray time markers from '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm' running along the bottom edge of the chart, indicating the hourly breakdown",
 
     output_format:
-      - type: flat_json
-      - keys: unchanged
-      - values: rewritten descriptions with optional anchors
-      - structure: flat
+    Return string formatted JSON and nothing else.
+    DO NOT include any other text or explanation in the output.
+    DO NOT include code guards \` in the output. 
 
-  prompt_sample_output: |
+  prompt_sample_output: "
     {
     "Delivery Options > Standard Delivery > Label": "Black text displaying 'Standard delivery, 40-60 minutes' in the delivery options section",
     "Delivery Options > Express Delivery > Icon": "Yellow lightning bolt icon, positioned to the left of the express delivery option",
@@ -400,6 +487,122 @@ Rewrite each UI component description to improve clarity and spatial grounding u
     "Cart Item 2 > Image": "Square photograph showing a pastry with red raspberries and dark currants, positioned next to product title 'Wenzel with raspberries and currants ",
     "Cart Item 2 > Weight": "Gray text showing '170g' next to the item name, 'Wenzel'",
     "Primary Action Button - Done": "Large mint green rectangular button with rounded corners with white text 'Done', positioned in the lower section of the screen",
-   }
+   }"
 
+`
+
+export const ANCHOR_ELEMENTS_PROMPT_v1 = `
+Generate Bounding Box Descriptions with Strong Target Focus + Selective Anchors
+You are given:
+* A UI screenshot
+* A flat JSON list of UI components, where each key represents a component (e.g., "Transaction Item 3 > Date Time"), and each value is a description.
+
+🎯 Objective:
+Improve each description so it is:
+* ✅ Detailed enough for a visual model to confidently detect the correct element
+* ✅ Clear in what the model should be drawing a bounding box around
+* ✅ Includes minimum 1 and maximum 2 useful positional or visual anchors, but only when necessary
+* ❌ Does not shift attention to the anchor element itself
+
+📌 Key Principles:
+1. Prioritize Clarity on the Target Element
+Start by clearly describing what the element is:
+* Shape (circular, rectangular)
+* Color (e.g., gray text, orange icon)
+* Content (e.g., text label, logo, icon type)
+* Contextual function (e.g., amount, timestamp, merchant)
+
+2. Add Anchors When Helpful — But Subtle
+Add one or two soft anchors only if:
+* The element is visually ambiguous (e.g., small icon or repeated style)
+* The content could be confused with another similar item
+🟡 When adding anchors:
+* Make sure the target stays the focus
+* Phrase anchors in a supporting way, e.g.,
+   * "…displaying the DKNY logo, next to the 'DKNY' text"
+   * "…showing '-$70.00', aligned to the right of the 'Netflix' row"
+🧪 Before & After Examples
+     - bad: "Transaction Item 3 > Date Time": "Gray text 'Aug 12, 07:25 PM' under 'Netflix'"
+     - improved: "Transaction Item 3 > Date Time": "Gray timestamp reading 'Aug 12, 07:25 PM', displayed under the 'Netflix' merchant label"
+     - bad: "Header > Notification Icon": "Bell icon with green dot, opposite profile picture"
+     - improved: "Header > Notification Icon": "Circular bell icon with a green dot inside, in the top-right corner, opposite the profile picture"
+     - bad: "Transaction Item 2 > Merchant Logo": "DKNY logo on left side, positioned below the Starbucks transaction"
+     - improved: "Transaction Item 2 > Merchant Logo": "Circular icon displaying the DKNY logo on white background, beside the 'DKNY' merchant name"
+     - bad: "Price Chart > Time Labels": "Gray time markers from '0am' to '7pm' running along the bottom edge of the chart, indicating the hourly breakdown",
+    - improved: "Price Chart > Time Labels": "Gray time markers from '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm' running along the bottom edge of the chart, indicating the hourly breakdown",
+
+  output_format:
+    Return string formatted JSON and nothing else.
+    DO NOT include any other text or explanation in the output.
+    DO NOT include code guards \` in the output. 
+
+  sample_output: "
+    {
+    "Delivery Options > Standard Delivery > Label": "Black text displaying 'Standard delivery, 40-60 minutes' in the delivery options section",
+    "Delivery Options > Express Delivery > Icon": "Yellow lightning bolt icon, positioned to the left of the express delivery option",
+    "Delivery Options > Express Delivery > Price": "Text showing '$2.00' aligned to the right of the express delivery option",
+    "Cart Item 2 > Image": "Square photograph showing a pastry with red raspberries and dark currants, positioned next to product title 'Wenzel with raspberries and currants ",
+    "Cart Item 2 > Weight": "Gray text showing '170g' next to the item name, 'Wenzel'",
+    "Primary Action Button - Done": "Large mint green rectangular button with rounded corners with white text 'Done', positioned in the lower section of the screen",
+   }"
+`
+
+export const ANCHOR_ELEMENTS_PROMPT_v2 = `
+Prompt: Advanced Bounding Box Descriptions for Repeated Components
+
+You are optimizing UI component descriptions for a Vision Language Model (VLM) tasked with drawing bounding boxes accurately.
+Your task is to produce a flat JSON list of UI components and their descriptions with subtle visual anchors.
+DO NOT include any other text or explanation in the output.
+
+Input:  
+- A UI screenshot  
+- A flat JSON list of component IDs → short descriptions
+
+Goal:  
+Transform each description into a detailed, visually-anchored, unambiguous instruction that:
+- Makes the target component visually distinct  
+- Uses visual or textual anchors only when necessary  
+- Preserves the model's focus on the target component  
+- Resolves ambiguity between repeated elements  
+
+Key Guidance:
+
+1. Prioritize the Component Itself  
+Clearly describe:  
+- Shape and size (e.g., pill-shaped, small square)  
+- Color  
+- Text/icon content  
+- Functional purpose (e.g., ‘decrease item quantity’)  
+
+2. Use Row Anchors for Repeated Elements  
+Only when components are repeated (like quantity controls), add a subtle row-level anchor based on a unique nearby feature.
+
+Example:  
+“Minus (-) button in a light orange pill-shaped control, in the row showing the item 'Gnocchi with mushroom gravy'”  
+
+Avoid:  
+“Minus button on the left of quantity control” (too generic)  
+
+3. Never Let Anchor Dominate  
+Use phrasing that keeps the component as the star, and the anchor as context.
+
+Good:  
+“...in the row displaying the title ‘Wenzel with raspberries and currants’”  
+
+Bad:  
+“...under the ‘Wenzel’ label” → implies Wenzel might be the bounding box  
+
+Sample Output:  
+{
+  "Cart Items List > Item 2 > Quantity Controls > Increase Button": "Plus (+) button in a light orange pill-shaped control, on the right of the quantity selector in the row showing the item 'Wenzel with raspberries and currants'",
+  "Cart Items List > Item 3 > Quantity Controls > Decrease Button": "Minus (-) button in a light orange pill-shaped control, on the left of the quantity selector in the row displaying the title 'Freshly squeezed orange juice'",
+  "Order Summary & Confirmation Bar > Confirm Button": "White text 'Confirm order' aligned right in the orange confirmation bar at the bottom of the screen"
+}
+
+Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards \` in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
 `
