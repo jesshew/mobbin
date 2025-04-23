@@ -736,3 +736,111 @@ Output Tokens: N/A
 Total Tokens: N/A
 ========== END OF ENTRY ==========
 
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:59:00.936Z
+Service: Moondream-vl-Detect
+Execution Time: 1.508 seconds
+
+----- PROMPT -----
+Detect Left-pointing arrow in the top-left corner, allowing navigation back to the previous screen. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.64981157053262,"y_min":0.6534788785502315,"x_max":0.66854780446738,"y_max":0.6785523714497685}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:59:00.999Z
+Service: Moondream-vl-Detect
+Execution Time: 1.573 seconds
+
+----- PROMPT -----
+Detect Large text 'Choco croissant' followed by weight '110g' in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.29137222468852997,"y_min":0,"x_max":0.70862777531147,"y_max":1}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:59:02.157Z
+Service: Moondream-vl-Detect
+Execution Time: 2.73 seconds
+
+----- PROMPT -----
+Detect High-quality photo of a chocolate-covered croissant on a light background, showing the pastry's flaky layers and chocolate glaze. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0,"y_min":0,"x_max":1,"y_max":1}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:59:02.361Z
+Service: Moondream-vl-Detect
+Execution Time: 2.934 seconds
+
+----- PROMPT -----
+Detect Orange heart icon in the top-right corner of the screen, allowing users to save this item as a favorite. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6104060895740986,"y_min":0.23160387855023146,"x_max":0.6688907854259014,"y_max":0.25667737144976854}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:59:02.409Z
+Service: Moondream-vl-Detect
+Execution Time: 2.982 seconds
+
+----- PROMPT -----
+Detect Text '460 kcal' in the bottom-right corner of the image area, indicating the calorie content of the product. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0,"y_min":0,"x_max":1,"y_max":1}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T20:59:02.634Z
+Service: Moondream-vl-Detect
+Execution Time: 0.698 seconds
+
+----- PROMPT -----
+Detect Detailed text listing all ingredients: 'chicken eggs, flour, milk 3.2%, butter, water, dark chocolate 54-55%, melange, white sugar, cocoa powder, salt, vanillin.', positioned below the product title. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.30503979325294495,"y_min":0.5282620154321194,"x_max":0.694960206747055,"y_max":0.6143161095678806}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
