@@ -6,9 +6,9 @@ import { generateSignedUrls, getScreenshotPath, getSignedUrls } from '@/lib/supa
 import { extract_component_from_image } from '@/lib/services/OpenAIService';
 import { extract_element_from_image, anchor_elements_from_image } from '@/lib/services/ClaudeAIService';
 import { parseOutputText } from '@/lib/utils';
-import { fetchScreenshotImageBlobs, fetchImageAsBase64 } from '@/lib/services/imageFetchingService';
+import { fetchScreenshotImageBlobs, fetchImageAsBase64, fetchScreenshotBuffers } from '@/lib/services/imageFetchingService';
 import { BatchProcessingScreenshot as Screenshot } from '@/types/BatchProcessingScreenshot';
-import { detectObjectsFromBase64 } from '@/lib/services/MoondreamVLService';
+import { detectObjectsFromBase64,detectObjectsFromBuffer } from '@/lib/services/MoondreamVLService';
 // import { detectObjectsFromBase64 } from '@/lib/services/MoondreamAIService';
 // Placeholder for future extractor services
 interface Extractor {
@@ -61,6 +61,10 @@ export class BatchProcessingService {
   
       await this.processSignedUrls(batchId, screenshots);
       console.log(`[Batch ${batchId}] Screenshots with signed URLs:`, screenshots);
+
+      // Fetch buffer data for all screenshots with signed URLs (for efficient processing)
+      await this.fetchScreenshotBuffers(screenshots);
+      console.log(`[Batch ${batchId}] Screenshots with buffer data prepared for processing`);
   
       // Fetch base64 representation for all screenshots with signed URLs
       await this.fetchScreenshotBase64(screenshots);
@@ -133,10 +137,13 @@ export class BatchProcessingService {
           'Recent Transactions List > KFC Transaction > Card Reference': "Small gray text '•••• 4568' indicating which card was used, positioned below the transaction amount."
         }
 
-        const first_parsedContent = anchor_result['User Profile Header > Profile Picture'];
+        const first_parsedContent = anchor_result['Recent Transactions List > View All Link'];
+
+        // const first_parsedContent = anchor_result.parsedContent[0];
+        
         
         // Use the first screenshot that has both blob and base64 representation
-        if (firstScreenshotWithSignedUrl.screenshot_image_base64) {
+        if (firstScreenshotWithSignedUrl.screenshot_image_buffer) {
           // // Method 1: Process with blob
           // const blobDetectionResult = await detectObjectsFromBlob(
           //   firstScreenshotWithSignedUrl.screenshot_image_blob, 
@@ -150,8 +157,8 @@ export class BatchProcessingService {
           //   first_parsedContent
           // );
 
-          const base64DetectionResult = await detectObjectsFromBase64(
-            firstScreenshotWithSignedUrl.screenshot_image_base64,
+          const base64DetectionResult = await detectObjectsFromBuffer(
+            firstScreenshotWithSignedUrl.screenshot_image_buffer,
             first_parsedContent
           );
 
@@ -293,6 +300,17 @@ export class BatchProcessingService {
       })
     );
     return results;
+  }
+
+  /**
+   * Fetches image data as ArrayBuffer for each screenshot with a valid signed URL
+   * @param screenshots Array of screenshot objects with screenshot_signed_url property
+   * @returns The same array of screenshots with screenshot_image_buffer property populated
+   */
+  public async fetchScreenshotBuffers(
+    screenshots: Screenshot[]
+  ): Promise<Screenshot[]> {
+    return fetchScreenshotBuffers(screenshots);
   }
 }
 
