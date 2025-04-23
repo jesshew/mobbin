@@ -5513,3 +5513,21 @@ Output Tokens: N/A
 Total Tokens: N/A
 ========== END OF ENTRY ==========
 
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-23T19:44:00.938Z
+Service: Moondream-vl-Detect
+Execution Time: 3.117 seconds
+
+----- PROMPT -----
+Detect Teal text 'View all' on the right side of the header, tappable to see the complete transaction history. in image
+
+----- RESPONSE -----
+{"objects":[{"x_min":0.6277604810893536,"y_min":0.5890257535502315,"x_max":0.7081770189106464,"y_max":0.6140992464497685}]}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+

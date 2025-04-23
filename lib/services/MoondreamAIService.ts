@@ -1,3 +1,5 @@
+// THIS DOES NOT WORK. DO NOT USE OR MODIFY.
+
 import { logPromptInteraction } from '@/lib/logger';
 import { MOON_DREAM_API_KEY } from '@/config';
 

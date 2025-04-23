@@ -6,30 +6,14 @@ import { generateSignedUrls, getScreenshotPath, getSignedUrls } from '@/lib/supa
 import { extract_component_from_image } from '@/lib/services/OpenAIService';
 import { extract_element_from_image, anchor_elements_from_image } from '@/lib/services/ClaudeAIService';
 import { parseOutputText } from '@/lib/utils';
-import { fetchScreenshotImageBlobs, fetchImageAsBase64, fetchScreenshotBuffers } from '@/lib/services/imageFetchingService';
+import { fetchScreenshotBuffers } from '@/lib/services/imageFetchingService';
 import { BatchProcessingScreenshot as Screenshot } from '@/types/BatchProcessingScreenshot';
-import { detectObjectsFromBase64,detectObjectsFromBuffer } from '@/lib/services/MoondreamVLService';
-// import { detectObjectsFromBase64 } from '@/lib/services/MoondreamAIService';
+import { detectObjectsFromBuffer } from '@/lib/services/MoondreamVLService';
+import { processAndSaveByCategory } from '@/lib/services/MoondreamDetectionService';
 // Placeholder for future extractor services
 interface Extractor {
   extract(screenshot: any): Promise<void>; // Define a more specific screenshot type later
 }
-
-// // Define a basic type for screenshots based on the sample data
-// export interface Screenshot {
-//   screenshot_id: number;
-//   batch_id: number;
-//   screenshot_file_name: string;
-//   screenshot_file_url: string; // URL like https://<...>/public/<bucket>/<path>
-//   screenshot_processing_status: string;
-//   screenshot_processing_time: string;
-//   screenshot_created_at: string;
-//   screenshot_signed_url?: string | null;
-//   screenshot_bucket_path?: string | null;
-//   screenshot_image_blob?: Blob | null;
-// }
-
-
 
 export class BatchProcessingService {
   private supabaseClient: SupabaseClient;
@@ -65,10 +49,6 @@ export class BatchProcessingService {
       // Fetch buffer data for all screenshots with signed URLs (for efficient processing)
       await this.fetchScreenshotBuffers(screenshots);
       console.log(`[Batch ${batchId}] Screenshots with buffer data prepared for processing`);
-  
-      // Fetch base64 representation for all screenshots with signed URLs
-      await this.fetchScreenshotBase64(screenshots);
-      console.log(`[Batch ${batchId}] Screenshots with base64 data prepared for processing`);
   
       // Process the first screenshot with a signed URL
       const firstScreenshotWithSignedUrl = screenshots.find(s => s.screenshot_signed_url);
@@ -141,21 +121,8 @@ export class BatchProcessingService {
 
         // const first_parsedContent = anchor_result.parsedContent[0];
         
-        
-        // Use the first screenshot that has both blob and base64 representation
         if (firstScreenshotWithSignedUrl.screenshot_image_buffer) {
-          // // Method 1: Process with blob
-          // const blobDetectionResult = await detectObjectsFromBlob(
-          //   firstScreenshotWithSignedUrl.screenshot_image_blob, 
-          //   first_parsedContent
-          // );
-          // console.log("Blob Detection Result:", blobDetectionResult);
-          
-          // // Method 2: Process with base64
-          // const base64DetectionResult = await detectObjectsFromBase64(
-          //   firstScreenshotWithSignedUrl.screenshot_image_base64,
-          //   first_parsedContent
-          // );
+
 
           const base64DetectionResult = await detectObjectsFromBuffer(
             firstScreenshotWithSignedUrl.screenshot_image_buffer,
@@ -169,7 +136,7 @@ export class BatchProcessingService {
         }
       }
 
-      await this.updateBatchStatus(batchId, 'completed');
+      await this.updateBatchStatus(batchId, 'done');
       console.log(`[Batch ${batchId}] Processing complete. Status set to completed.`);
     } catch (error) {
       await this.handleProcessingError(batchId, error);
@@ -275,32 +242,6 @@ export class BatchProcessingService {
     return (data as Screenshot[] | null) || [];
   }
 
-  /**
-   * Fetches image data for each screenshot with a valid signed URL and attaches it as a blob
-   * @param screenshots Array of screenshot objects with screenshot_signed_url property
-   * @returns The same array of screenshots with screenshot_image_blob property populated
-   */
-  public async fetchImageBlobs(screenshots: Screenshot[]): Promise<Screenshot[]> {
-    return fetchScreenshotImageBlobs(screenshots);
-  }
-
-  public async fetchScreenshotBase64(
-    screenshots: Screenshot[]
-  ): Promise<Screenshot[]> {
-    console.log(`Fetching Base64 for ${screenshots.length} screenshots…`);
-  
-    const results = await Promise.all(
-      screenshots.map(async (s) => {
-        if (!s.screenshot_signed_url) {
-          s.screenshot_image_base64 = null;
-          return s;
-        }
-        s.screenshot_image_base64 = await fetchImageAsBase64(s.screenshot_signed_url);
-        return s;
-      })
-    );
-    return results;
-  }
 
   /**
    * Fetches image data as ArrayBuffer for each screenshot with a valid signed URL
@@ -311,6 +252,50 @@ export class BatchProcessingService {
     screenshots: Screenshot[]
   ): Promise<Screenshot[]> {
     return fetchScreenshotBuffers(screenshots);
+  }
+
+  /**
+   * Processes batch screenshots with Moondream detection, grouping by label categories
+   * @param batchId The ID of the batch to process
+   * @param labels Object with labels and descriptions to detect
+   * @returns Promise resolving to the detection results
+   */
+  public async processWithMoondreamDetection(batchId: number, labels: Record<string, string>): Promise<any> {
+    console.log(`[Batch ${batchId}] Starting Moondream detection with ${Object.keys(labels).length} labels`);
+    
+    try {
+      await this.updateBatchStatus(batchId, 'detecting');
+
+      const screenshots = await this.loadScreenshots(batchId);
+      console.log(`[Batch ${batchId}] Found ${screenshots.length} screenshots.`);
+
+      await this.processSignedUrls(batchId, screenshots);
+      
+      // Fetch buffer data for all screenshots
+      await this.fetchScreenshotBuffers(screenshots);
+      
+      // Process the first screenshot with a buffer
+      const screenshotWithBuffer = screenshots.find(s => s.screenshot_image_buffer);
+      
+      if (screenshotWithBuffer && screenshotWithBuffer.screenshot_image_buffer) {
+        console.log(`[Batch ${batchId}] Processing screenshot ID ${screenshotWithBuffer.screenshot_id} with detection`);
+        
+        const result = await processAndSaveByCategory(
+          screenshotWithBuffer.screenshot_image_buffer, 
+          labels
+        );
+        
+        await this.updateBatchStatus(batchId, 'completed');
+        console.log(`[Batch ${batchId}] Moondream detection complete. Status set to completed.`);
+        
+        return result;
+      } else {
+        throw new Error('No screenshot with buffer data found');
+      }
+    } catch (error) {
+      await this.handleProcessingError(batchId, error);
+      throw error;
+    }
   }
 }
 
