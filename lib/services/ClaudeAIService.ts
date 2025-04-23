@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { PromptResult } from '../../types/PromptRunner'; // adjust path as needed
-import { EXTRACT_ELEMENTS_PROMPT_v2, ANCHOR_ELEMENTS_PROMPT_v0, ANCHOR_ELEMENTS_PROMPT_v1, ANCHOR_ELEMENTS_PROMPT_v2 } from '@/lib/prompt/prompts';
+import { EXTRACT_ELEMENTS_PROMPT_v2, ANCHOR_ELEMENTS_PROMPT_v0, ANCHOR_ELEMENTS_PROMPT_v1, ANCHOR_ELEMENTS_PROMPT_v2, EXTRACT_ELEMENTS_PROMPT_v3 } from '@/lib/prompt/prompts';
 import { logPromptInteraction } from '@/lib/logger';
 // Ensure your Claude API key is set in ENV
 const anthropic = new Anthropic({
@@ -123,7 +123,8 @@ export async function anchor_elements_from_image(imageUrl: string, element_list:
   // const prompt = ANCHOR_ELEMENTS_PROMPT_v0 + `\n\n<element_list>${element_list.join('\n')}</element_list>`;
   // const prompt = ANCHOR_ELEMENTS_PROMPT_v0 + `\n\n<element_list>${element_list}</element_list>`;
   // const prompt = ANCHOR_ELEMENTS_PROMPT_v1 + `\n\n<element_list>${element_list}</element_list>`;
-  const prompt = ANCHOR_ELEMENTS_PROMPT_v2 + `\n\n<element_list>${element_list}</element_list>`;
+  // const prompt = ANCHOR_ELEMENTS_PROMPT_v2 + `\n\n<element_list>${element_list}</element_list>`;
+  const prompt = EXTRACT_ELEMENTS_PROMPT_v3 + `\n\n<element_list>${element_list}</element_list>`;
   const response = await callClaudeVisionModel(prompt, imageUrl);
 
   const { parsedContent, rawText, usage } = extractClaudeResponseData(response);

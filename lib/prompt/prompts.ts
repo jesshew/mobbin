@@ -474,12 +474,7 @@ Rewrite each UI component description to improve clarity and spatial grounding u
       - bad: "Price Chart > Time Labels": "Gray time markers from '0am' to '7pm' running along the bottom edge of the chart, indicating the hourly breakdown",
       - improved: "Price Chart > Time Labels": "Gray time markers from '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm' running along the bottom edge of the chart, indicating the hourly breakdown",
 
-    output_format:
-    Return string formatted JSON and nothing else.
-    DO NOT include any other text or explanation in the output.
-    DO NOT include code guards \` in the output. 
-
-  prompt_sample_output: "
+  sample_output: "
     {
     "Delivery Options > Standard Delivery > Label": "Black text displaying 'Standard delivery, 40-60 minutes' in the delivery options section",
     "Delivery Options > Express Delivery > Icon": "Yellow lightning bolt icon, positioned to the left of the express delivery option",
@@ -489,6 +484,10 @@ Rewrite each UI component description to improve clarity and spatial grounding u
     "Primary Action Button - Done": "Large mint green rectangular button with rounded corners with white text 'Done', positioned in the lower section of the screen",
    }"
 
+   Output Requirements (IMPORTANT):  
+    - Return string formatted JSON
+    - DO NOT include any other text or explanation in the output.
+    - DO NOT include code guards \` in the output. 
 `
 
 export const ANCHOR_ELEMENTS_PROMPT_v1 = `
@@ -548,8 +547,6 @@ Add one or two soft anchors only if:
 `
 
 export const ANCHOR_ELEMENTS_PROMPT_v2 = `
-Prompt: Advanced Bounding Box Descriptions for Repeated Components
-
 You are optimizing UI component descriptions for a Vision Language Model (VLM) tasked with drawing bounding boxes accurately.
 Your task is to produce a flat JSON list of UI components and their descriptions with subtle visual anchors.
 DO NOT include any other text or explanation in the output.
@@ -591,6 +588,69 @@ Good:
 
 Bad:  
 “...under the ‘Wenzel’ label” → implies Wenzel might be the bounding box  
+
+Sample Output:  
+{
+  "Cart Items List > Item 2 > Quantity Controls > Increase Button": "Plus (+) button in a light orange pill-shaped control, on the right of the quantity selector in the row showing the item 'Wenzel with raspberries and currants'",
+  "Cart Items List > Item 3 > Quantity Controls > Decrease Button": "Minus (-) button in a light orange pill-shaped control, on the left of the quantity selector in the row displaying the title 'Freshly squeezed orange juice'",
+  "Order Summary & Confirmation Bar > Confirm Button": "White text 'Confirm order' aligned right in the orange confirmation bar at the bottom of the screen"
+}
+
+Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards \` in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
+`
+
+export const EXTRACT_ELEMENTS_PROMPT_v3 = `
+You are optimizing UI component descriptions for a Vision Language Model (VLM) tasked with drawing bounding boxes accurately.
+Your job is to convert a flat JSON list of UI component keys into detailed visual descriptions that:
+- Make each component visually distinct and detectable
+- Resolves ambiguity between repeated elements by including precise visual anchors 
+- Avoid language that anthropomorphizes, speculates, or adds human-facing UX explanation
+- Preserves the model's focus on the target component  
+- Maintain a tight focus on structure, position, and appearance
+
+Input:  
+- A UI screenshot  
+- A flat JSON list of component IDs → short descriptions
+
+Key Guidance:
+
+1. Prioritize the Component Itself  
+Clearly describe:  
+- Shape and size (e.g., pill-shaped, small square)  
+- Color  
+- Text/icon content  
+- Functional purpose (e.g., ‘decrease item quantity’)  
+
+2. Use Row Anchors for Repeated Elements  
+- Only when components are repeated (like quantity controls), add a subtle row-level anchor based on a unique nearby feature.
+- Anchors must be visually locatable, such as labels, icons, or nearby components
+
+Example:  
+“Minus (-) button in a light orange pill-shaped control, in the row showing the item 'Gnocchi with mushroom gravy'”  
+
+Avoid:  
+“Minus button on the left of quantity control” (too generic)  
+
+3. Avoid Over-Interpretation
+- Do not infer purpose like "providing a secure reference to the account"
+- Do not include explanations like "used for adding funds" or "greets the user"
+
+4. Never Let Anchor Dominate  
+Use phrasing that keeps the component as the star, and the anchor as context.
+
+Good:  
+“...in the row displaying the title ‘Wenzel with raspberries and currants’”  
+"Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name 'DKNY'
+
+
+Bad:  
+“...under the ‘Wenzel’ label” → implies Wenzel might be the bounding box  
+“Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name in the second row” → VLM has no way to know what the second row is
 
 Sample Output:  
 {
