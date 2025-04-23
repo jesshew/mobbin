@@ -75,69 +75,44 @@ export class BatchProcessingService {
         // const anchor_result = await anchor_elements_from_image(signed_url, `${element_result.rawText}`);
         // console.log("Anchor Result:", anchor_result.parsedContent);
 
-        const anchor_result = {
-          'User Profile Header > Profile Picture': 'Small circular profile image positioned in the top-left portion of the header, showing a portrait against a blue-tinted background.',
-          'User Profile Header > Greeting Text': "Gray text 'Welcome,' displayed above the user's name in the top section of the screen.",
-          'User Profile Header > User Name': "Bold black text 'Diane Cruz' showing the account holder's name, positioned below the greeting text.",
-          'User Profile Header > Notification Bell': 'Bell icon in the top-right corner, likely tappable to view notifications or alerts.',
-          'Account Balance Overview > Balance Label': "Gray text 'Balance' indicating the purpose of the displayed amount below, positioned in the upper portion of the screen.",
-          'Account Balance Overview > Balance Amount': "Large bold black text '$10,524.15' showing the current account balance, prominently displayed in the upper section.",
-          'Account Balance Overview > Add Button': 'Circular button with plus icon, positioned to the right of the balance amount, in a dark background.',
-          'Account Balance Overview > Transfer Button': 'Circular button with transfer/exchange icon, positioned at the far right of the balance row, with a dark background.',
-          'Active Debit Card > Card Container': 'Dark blue/black card with vertical striped pattern displaying card information, positioned in the middle section of the screen.',
-          'Active Debit Card > Card Balance': "White text '$4,556.15' showing the card's available balance, positioned in the upper-left portion of the card.",
-          'Active Debit Card > Card Type': "Small white text 'Debit Card' indicating the type of financial instrument, positioned in the lower-left section of the card.",
-          'Active Debit Card > Card Number': "Partially masked card number '•••• 4568' in white text, displayed at the bottom of the card.",
-          'Active Debit Card > Contactless Icon': 'Wireless/contactless payment icon displayed in the upper-right section of the card with vertical stripes.',
-          'Active Debit Card > Mastercard Logo': 'Small Mastercard logo in the lower-right corner of the card, showing the card network.',
-          'Partially Visible Debit Card > Card Edge': 'Light blue edge of what appears to be another debit card, partially visible on the right side of the screen.',
-          'Partially Visible Debit Card > Card Balance Partial': "Partially visible text '$2...' showing the beginning of a balance amount on the second card.",
-          'Partially Visible Debit Card > Card Label': "Partial text 'Deb...' visible, likely 'Debit Card' label on the secondary card.",
-          'Recent Transactions List > Section Header': "Bold black text 'Recent transactions' as a header for the transaction history section, positioned below the card displays.",
-          'Recent Transactions List > View All Link': "Teal text 'View all' on the right side of the header, tappable to see the complete transaction history.",
-          'Recent Transactions List > Starbucks Transaction > Merchant Logo': 'Starbucks logo (green circular icon) on the left side of the transaction row.',
-          'Recent Transactions List > Starbucks Transaction > Merchant Name': "Text 'Starbucks Coffee' identifying the merchant, positioned to the right of the Starbucks logo.",
-          'Recent Transactions List > Starbucks Transaction > Transaction Date': "Gray text 'Aug 24, 5:27 PM' showing the date and time of the purchase, positioned below the merchant name.",
-          'Recent Transactions List > Starbucks Transaction > Transaction Amount': "Black text '-$14.99' showing the amount spent, positioned on the right side of the transaction row.",
-          'Recent Transactions List > Starbucks Transaction > Card Reference': "Small gray text '•••• 4568' indicating which card was used, positioned below the transaction amount.",
-          'Recent Transactions List > DKNY Transaction > Merchant Logo': "DKNY logo (circular icon with 'DKNY' text) on the left side of the transaction row.",
-          'Recent Transactions List > DKNY Transaction > Merchant Name': "Text 'DKNY' identifying the merchant, positioned to the right of the DKNY logo.",
-          'Recent Transactions List > DKNY Transaction > Transaction Date': "Gray text 'Aug 20, 2:14 PM' showing the date and time of the purchase, positioned below the merchant name.",
-          'Recent Transactions List > DKNY Transaction > Transaction Amount': "Black text '-$40.00' showing the amount spent, positioned on the right side of the transaction row.",
-          'Recent Transactions List > DKNY Transaction > Card Reference': "Small gray text '•••• 0961' indicating which card was used, positioned below the transaction amount.",
-          'Recent Transactions List > Netflix Transaction > Merchant Logo': "Netflix logo (red rectangular icon with 'NETFLIX' text) on the left side of the transaction row.",
-          'Recent Transactions List > Netflix Transaction > Merchant Name': "Text 'Netflix' identifying the merchant, positioned to the right of the Netflix logo.",
-          'Recent Transactions List > Netflix Transaction > Transaction Date': "Gray text 'Aug 12, 07:25 PM' showing the date and time of the purchase, positioned below the merchant name.",
-          'Recent Transactions List > Netflix Transaction > Transaction Amount': "Black text '-$70.00' showing the amount spent, positioned on the right side of the transaction row.",
-          'Recent Transactions List > Netflix Transaction > Card Reference': "Small gray text '•••• 0961' indicating which card was used, positioned below the transaction amount.",
-          'Recent Transactions List > KFC Transaction > Merchant Logo': 'KFC logo (red circular icon with company branding) on the left side of the transaction row.',
-          'Recent Transactions List > KFC Transaction > Merchant Name': "Text 'KFC' identifying the merchant, positioned to the right of the KFC logo.",
-          'Recent Transactions List > KFC Transaction > Transaction Date': "Gray text 'Aug 06, 05:12 PM' showing the date and time of the purchase, positioned below the merchant name.",
-          'Recent Transactions List > KFC Transaction > Transaction Amount': "Black text '-$12.60' showing the amount spent, positioned on the right side of the transaction row.",
-          'Recent Transactions List > KFC Transaction > Card Reference': "Small gray text '•••• 4568' indicating which card was used, positioned below the transaction amount."
-        }
+        const anchor_result = {parsedContent: {
+          'Product Details Header > Title': "Large text 'Choco croissant' followed by weight '110g'",
+          'Product Details Header > Favorite Icon': 'Orange heart icon in the top-right corner of the screen, allowing users to save this item as a favorite.',
+          'Product Details Header > Back Button': 'Left-pointing arrow in the top-left corner, allowing navigation back to the previous screen.',
+          'Product Details Header > Image': "High-quality photo of a chocolate-covered croissant on a light background, showing the pastry's flaky layers and chocolate glaze.",
+          'Product Details Header > Calorie Information': "Text '460 kcal' in the bottom-right corner of the image area, indicating the calorie content of the product.",
+          'Product Description > Ingredients List': "Detailed text listing all ingredients: 'chicken eggs, flour, milk 3.2%, butter, water, dark chocolate 54-55%, melange, white sugar, cocoa powder, salt, vanillin.', positioned below the product title.",
+          'Add to Order Suggestions > Latte Option > Image': 'Small square image of a latte in a glass cup, positioned in the left suggestion slot.',
+          'Add to Order Suggestions > Latte Option > Title': "Text 'Latte' below the latte image, identifying the beverage option.",
+          'Add to Order Suggestions > Latte Option > Price': "Text '$2.00' below the latte title, showing the price of the latte.",
+          'Add to Order Suggestions > Latte Option > Add Button': 'Orange circular button with a plus sign, positioned in the top-right corner of the latte suggestion card, allowing users to add this item.',
+          'Add to Order Suggestions > Nordic Tea Option > Image': 'Small square image of a red tea drink in a glass, positioned in the middle suggestion slot.',
+          'Add to Order Suggestions > Nordic Tea Option > Title': "Text 'Nordic tea' below the tea image, identifying the beverage option.",
+          'Add to Order Suggestions > Nordic Tea Option > Price': "Text '$1.80' below the Nordic tea title, showing the price of the tea.",
+          'Add to Order Suggestions > Nordic Tea Option > Add Button': 'Orange circular button with a plus sign, positioned in the top-right corner of the Nordic tea suggestion card, allowing users to add this item.',
+          'Add to Order Suggestions > Matcha Latte Option > Image': 'Small square image of a matcha latte in a glass, positioned in the right suggestion slot.',
+          'Add to Order Suggestions > Matcha Latte Option > Title': "Text 'Matcha latte' below the matcha latte image, identifying the beverage option.",
+          'Add to Order Suggestions > Matcha Latte Option > Price': "Text '$1.95' below the matcha latte title, showing the price of the matcha latte.",
+          'Add to Order Suggestions > Matcha Latte Option > Add Button': 'Orange circular button with a plus sign, positioned in the top-right corner of the matcha latte suggestion card, allowing users to add this item.',
+          'Add to Cart Bar > Total Price': "Bold text '$5.90' on the left side of the bar, showing the current total price for the choco croissant.",
+          'Add to Cart Bar > Add to Cart Button': "Orange rectangular button with white text 'Add to cart' occupying most of the bottom bar, allowing users to add the product to their shopping cart.",
+          'Add to Cart Bar > Background': 'Full-width orange bar at the bottom of the screen containing the price and add to cart button, creating a prominent call to action.'
+        }}
 
-        const first_parsedContent = anchor_result['Recent Transactions List > View All Link'];
-
-        // const first_parsedContent = anchor_result.parsedContent[0];
+        // Use our new helper function to process the screenshots with labels
+        const annotation_result = await this.processScreenshotsWithLabels(
+          screenshots,
+          anchor_result.parsedContent
+        );
         
-        if (firstScreenshotWithSignedUrl.screenshot_image_buffer) {
-
-
-          const base64DetectionResult = await detectObjectsFromBuffer(
-            firstScreenshotWithSignedUrl.screenshot_image_buffer,
-            first_parsedContent
-          );
-
-
-          console.log("Detection Result:", base64DetectionResult);
-        } else {
-          console.warn(`[Batch ${batchId}] No base64 image data available for screenshot ID ${firstScreenshotWithSignedUrl.screenshot_id}`);
-        }
+        await this.updateBatchStatus(batchId, 'done');
+        console.log(`[Batch ${batchId}] Moondream detection complete. Status set to done.`);
+        
+        return annotation_result;
       }
 
       await this.updateBatchStatus(batchId, 'done');
-      console.log(`[Batch ${batchId}] Processing complete. Status set to completed.`);
+      console.log(`[Batch ${batchId}] Processing complete. Status set to done.`);
     } catch (error) {
       await this.handleProcessingError(batchId, error);
     }
@@ -264,7 +239,7 @@ export class BatchProcessingService {
     console.log(`[Batch ${batchId}] Starting Moondream detection with ${Object.keys(labels).length} labels`);
     
     try {
-      await this.updateBatchStatus(batchId, 'detecting');
+      await this.updateBatchStatus(batchId, 'annotating');
 
       const screenshots = await this.loadScreenshots(batchId);
       console.log(`[Batch ${batchId}] Found ${screenshots.length} screenshots.`);
@@ -296,6 +271,55 @@ export class BatchProcessingService {
       await this.handleProcessingError(batchId, error);
       throw error;
     }
+  }
+
+  /**
+   * Processes a single screenshot with Moondream detection using labels
+   * @param screenshot Screenshot object with image buffer
+   * @param labels Object with labels and descriptions
+   * @returns Promise resolving to the detection results
+   */
+  private async processScreenshotWithLabels(
+    screenshot: Screenshot,
+    labels: Record<string, string>
+  ): Promise<any> {
+    if (!screenshot.screenshot_image_buffer) {
+      throw new Error(`No buffer data available for screenshot ID ${screenshot.screenshot_id}`);
+    }
+    
+    console.log(`Processing screenshot ID ${screenshot.screenshot_id} with detection`);
+    
+    return processAndSaveByCategory(
+      screenshot.screenshot_image_buffer,
+      labels
+    );
+  }
+
+  /**
+   * Processes batch screenshots with Moondream detection using labels from anchored elements
+   * @param screenshots Array of screenshot objects with image buffers
+   * @param labels Object with labels and descriptions from anchor_result.parsedContent
+   * @returns Promise resolving to an array of detection results
+   */
+  public async processScreenshotsWithLabels(
+    screenshots: Screenshot[],
+    labels: Record<string, string>
+  ): Promise<any> {
+    // Filter screenshots to only those with buffers
+    const validScreenshots = screenshots.filter(s => s.screenshot_image_buffer);
+    
+    if (validScreenshots.length === 0) {
+      throw new Error('No screenshots with buffer data found');
+    }
+    
+    // Process just the first screenshot for now
+    const firstScreenshot = validScreenshots[0];
+    return this.processScreenshotWithLabels(firstScreenshot, labels);
+    
+    // For future implementation: process all screenshots in parallel
+    // return Promise.all(
+    //   validScreenshots.map(screenshot => this.processScreenshotWithLabels(screenshot, labels))
+    // );
   }
 }
 
