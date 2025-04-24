@@ -8,10 +8,13 @@ interface ElementDetectionItem {
     y_max: number;
   };
   status: 'Detected' | 'Not Detected' | 'Error' | 'Overwrite';
-  vlm_model: string; // Track which model provided the detection
-  element_inference_time: number; // Time taken for this specific element
+  // vlm_model: string; // Track which model provided the detection
+  element_inference_time?: number; // Time taken for this specific element
   accuracy_score?: number; // Optional: To be added later
-  suggested_coordinates?: { x_min: number; y_min: number; x_max: number; y_max: number }; // Optional: To be added later
+  suggested_coordinates?: { x_min: number; y_min: number; x_max: number; y_max: number };
+  hidden?: boolean;
+  explanation?: string;
+   // Optional: To be added later
 }
 
 interface ComponentDetectionResult {

@@ -89,11 +89,6 @@ export class BatchProcessingService {
         allDetectionResults
       );
       
-      // Hardcoded validation results as a temporary replacement
-      // const validatedResults = allDetectionResults;
-      
-      console.log(`[Batch ${batchId}] Stage 3: Completed with hardcoded validation results`);
-      
       // --- Stage 4: Persist Results ---
       await this.updateBatchStatus(batchId, ProcessStatus.DONE);
       console.log(`[Batch ${batchId}] Placeholder: Persisting ${validatedResults.length} component results...`);
