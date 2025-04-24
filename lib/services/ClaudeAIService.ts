@@ -24,7 +24,7 @@ export async function callClaudeVisionModel(
 // ): Promise<PromptResult> {
 ): Promise<any> {
   const startTime = Date.now();
-  console.log(`CALLING CLAUDE Signed URL: ${imageUrl}, prompt: ${prompt}`);
+  console.log(`CALLING CLAUDE Signed URL: ${imageUrl}, prompt: ${prompt.slice(0, 100)}`);
 
 
   // Build the Anthropic messages payload
@@ -166,14 +166,27 @@ function cleanTextToList(components: any[]): string[] {
 /**
  * Helper: Parses Claude's text content into a JSON object safely.
  * Handles common formatting quirks like trailing commas or line breaks.
+ * Searches for JSON content within the response text.
  *
  * @param rawText - Raw text string returned from Claude.
  * @returns Parsed JSON object.
  */
 function parseClaudeTextToJson(rawText: string): Record<string, string> {
   try {
-    const cleanedText = cleanText(rawText); // Use the new cleanText helper
-    // Attempt to parse
+    // Look for JSON pattern in the text - either within code blocks or standalone
+    const jsonRegex = /```(?:json)?\s*({[\s\S]*?})\s*```|({[\s\S]*})/;
+    const match = rawText.match(jsonRegex);
+    
+    let jsonContent = '';
+    if (match) {
+      // Use the first matched group that contains content
+      jsonContent = match[1] || match[2];
+    } else {
+      // Fall back to using the entire text
+      jsonContent = rawText;
+    }
+    
+    const cleanedText = cleanText(jsonContent);
     return JSON.parse(cleanedText);
   } catch (error) {
     console.error('Failed to parse Claude response as JSON:', error);
