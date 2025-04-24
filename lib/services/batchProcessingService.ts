@@ -3,13 +3,13 @@ import { SupabaseClient } from '@supabase/supabase-js';
 // import { StorageService } from './StorageService'; // Import StorageService
 // import { DatabaseService } from './DatabaseService'; // Assuming DatabaseService might be needed elsewhere or for StorageService instantiation
 import { generateSignedUrls, getScreenshotPath, getSignedUrls } from '@/lib/supabaseUtils';
-import { extract_component_from_image } from '@/lib/services/OpenAIService';
-import { extract_element_from_image, anchor_elements_from_image } from '@/lib/services/ClaudeAIService';
+import { extract_component_from_image } from '@/lib/services/ai/OpenAIService';
+import { extract_element_from_image, anchor_elements_from_image } from '@/lib/services/ai/ClaudeAIService';
 import { parseOutputText } from '@/lib/utils';
-import { fetchScreenshotBuffers } from '@/lib/services/imageFetchingService';
+import { fetchScreenshotBuffers } from '@/lib/services/imageServices/imageFetchingService';
 import { BatchProcessingScreenshot as Screenshot } from '@/types/BatchProcessingScreenshot';
-import { detectObjectsFromBuffer } from '@/lib/services/MoondreamVLService';
-import { processAndSaveByCategory } from '@/lib/services/MoondreamDetectionService';
+import { detectObjectsFromBuffer } from '@/lib/services/ai/MoondreamVLService';
+import { processAndSaveByCategory } from '@/lib/services/ai/MoondreamDetectionService';
 import type { ComponentDetectionResult } from '@/types/DetectionResult'; // Import the TS type
 import pLimit from 'p-limit';
 
