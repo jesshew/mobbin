@@ -7,6 +7,7 @@ import type { ComponentDetectionResult } from '@/types/DetectionResult';
 import pLimit from 'p-limit';
 import { AIExtractionService, Stage1Result } from '@/lib/services/ParallelExtractionService';
 import { ParallelMoondreamDetectionService } from '@/lib/services/ParallelAnnotationService';
+import { AccuracyValidationService } from '@/lib/services/AccuracyValidationService';
 import { EXTRACTION_CONCURRENCY, MOONDREAM_CONCURRENCY, ProcessStatus } from '@/lib/constants';
 
 
@@ -78,10 +79,25 @@ export class BatchProcessingService {
         stage1Results
       );
       
-      // --- Stage 3: Persist Results ---
+      // --- Stage 3: Accuracy Validation ---
+      await this.updateBatchStatus(batchId, ProcessStatus.VALIDATING);
+      console.log(`[Batch ${batchId}] Stage 3: Starting Accuracy Validation...`);
+      
+      // Use the AccuracyValidationService to validate bounding boxes
+      const validatedResults = await AccuracyValidationService.performAccuracyValidation(
+        batchId,
+        allDetectionResults
+      );
+      
+      // Hardcoded validation results as a temporary replacement
+      // const validatedResults = allDetectionResults;
+      
+      console.log(`[Batch ${batchId}] Stage 3: Completed with hardcoded validation results`);
+      
+      // --- Stage 4: Persist Results ---
       await this.updateBatchStatus(batchId, ProcessStatus.DONE);
-      console.log(`[Batch ${batchId}] Placeholder: Persisting ${allDetectionResults.length} component results...`);
-      // TODO: Implement persistence logic for `allDetectionResults`
+      console.log(`[Batch ${batchId}] Placeholder: Persisting ${validatedResults.length} component results...`);
+      // TODO: Implement persistence logic for `validatedResults`
       // 1. Upload unique annotated_image_objects to Storage
       // 2. Get public URLs
       // 3. Update ComponentDetectionResult objects

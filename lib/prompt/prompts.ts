@@ -1057,6 +1057,7 @@ Otherwise keep the original status value
 Return only the updated JSON array, preserving the original structure and adding these fields to each item.
 
 Example Output:
+"
 {
   "id": "transaction_item_1_gt_merchant_logo",
   "label": "Transaction Item 1 > Merchant Logo",
@@ -1077,5 +1078,12 @@ Example Output:
     "y_max": 860.0
   },
   "explanation": "Box had 19% extra padding and was misaligned; resized to tightly fit the logo."
-}
+}"
+
+  Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards \` or \`\`\`json in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
 `
