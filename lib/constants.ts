@@ -3,6 +3,25 @@ export const DEFAULT_BATCH_NAME_PREFIX = 'Batch_';
 export const EXTRACTION_CONCURRENCY = 5; // Concurrency limit for OpenAI/Claude calls
 export const MOONDREAM_CONCURRENCY = 10; // Limit concurrency for Moondream processing per batch
 
+export enum PromptLogType {
+  COMPONENT_EXTRACTION = 'component_extraction',
+  ELEMENT_EXTRACTION = 'element_extraction',
+  ANCHORING = 'anchoring',
+  VLM_LABELING = 'vlm_labeling',
+  ACCURACY_VALIDATION = 'accuracy_validation',
+}
+
+export enum ProcessStatus {
+  UPLOADING = 'uploading',
+  EXTRACTING = 'extracting',
+  ANNOTATING = 'annotating',
+  VALIDATING = 'validating',
+  DONE = 'done',
+  FAILED = 'failed',
+}
+
+
+
 export const API_ENDPOINTS = {
   BATCHES: '/api/batches',
   UPLOAD: '/api/upload',

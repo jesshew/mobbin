@@ -2,7 +2,7 @@
 
 import { PromptTrackingContext } from '@/lib/logger';
 import { MOON_DREAM_API_KEY } from '@/config';
-
+import { PromptLogType } from '@/lib/constants';
 /**
  * Interface for the detect API response
  */
@@ -99,7 +99,7 @@ export async function detectObjectsFromImage(
     // Log the interaction using the context with the measured duration
     await context.logPromptInteraction(
       'Moondream-Detect',
-      'vlm_labeling',
+      PromptLogType.VLM_LABELING,
       `Detect ${object} in image`,
       JSON.stringify(result),
       durationMs,
@@ -184,7 +184,7 @@ export async function detectObjectsFromBlob(
   // Log the interaction using the context with the measured duration
   await context.logPromptInteraction(
     'Moondream-Detect',
-    'vlm_labeling',
+    PromptLogType.VLM_LABELING,
     `Detect ${objectType} in blob`,
     JSON.stringify(result),
     durationMs,
@@ -263,7 +263,7 @@ export async function detectObjectsFromBase64(
   // Log the interaction using the context with the measured duration
   await context.logPromptInteraction(
     'Moondream-Detect',
-    'vlm_labeling',
+    PromptLogType.VLM_LABELING,
     `Detect ${objectType} in base64 image`,
     JSON.stringify(result),
     durationMs,

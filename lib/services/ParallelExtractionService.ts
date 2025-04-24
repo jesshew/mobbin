@@ -72,20 +72,20 @@ export class AIExtractionService {
           console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.1 : Extracting High-Level Components...`);
           const componentResult = await extract_component_from_image(signedUrl, context);
           const componentSummaries = this.extractComponentSummaries(componentResult.parsedContent || []);
-          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.1 : Component extraction complete. Found ${componentSummaries.length} Main Components.`);
+          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.1 Complete. Found ${componentSummaries.length} Main Components.`);
 
           // 2. Extract Elements based on Components using Claude
           // Elements are specific interactive parts informed by component context
           console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.2 : Extracting Detailed Elements...`);
           const elementResult = await extract_element_from_image(signedUrl, componentSummaries.join('\n'), context);
-          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.2 : Element extraction complete. Found ${elementResult.parsedContent.length} Detailed Elements.`);
+          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.2 Complete. Found ${elementResult.parsedContent.length} Detailed Elements.`);
 
           // 3. Anchor Elements based on Element Extraction
           // Anchors provide spatial reference points for Moondream to use later
           console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.3 : Optimising descriptions for VLM detection`);
           const anchorResult = await anchor_elements_from_image(signedUrl, `${elementResult.rawText}`, context);
           const anchorLabels: Record<string, string> = anchorResult.parsedContent || {};
-          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.3 : Optimisation complete. Found ${Object.keys(anchorLabels).length} labels.`);
+          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.3 Complete. Optimised ${Object.keys(anchorLabels).length} labels.`);
 
           if (Object.keys(anchorLabels).length === 0) {
             console.warn(`[Batch ${batchId}][Screenshot ${screenshotId}] No anchor labels generated. Moondream detection might be ineffective.`);

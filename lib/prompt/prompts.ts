@@ -937,3 +937,145 @@ Output Requirements (IMPORTANT):
 - Each key maps to a component ID  
 - Each value is a full, anchored description  
 `
+export const ANCHOR_ELEMENTS_PROMPT_v4 = `
+You are optimizing UI component descriptions for a Vision Language Model (VLM) tasked with drawing bounding boxes accurately.
+The expected output is a flat JSON string.
+DO NOT include any other text or explanation in the output.
+
+Your job is to convert a flat JSON list of UI component keys into detailed visual descriptions that:
+- Make each component visually distinct and detectable
+- Resolves ambiguity between repeated elements by including precise visual anchors 
+- Avoid language that anthropomorphizes, speculates, or adds human-facing UX explanation
+- Preserves the model's focus on the target component  
+- Maintain a tight focus on structure, position, and appearance
+
+Input:  
+- A UI screenshot  
+- A flat JSON list of component IDs → short descriptions
+
+Key Guidance:
+
+1. Prioritize the Component Itself  
+Clearly describe:  
+- Shape and size (e.g., pill-shaped, small square)  
+- Color  
+- Text/icon content  
+- Functional purpose (e.g., ‘decrease item quantity’)  
+
+2. Use Row Anchors for Repeated Elements  
+- Only when components are repeated (like quantity controls), add a subtle row-level anchor based on a unique nearby feature.
+- Anchors must be visually locatable, such as labels, icons, or nearby components
+
+Example (Correct):
+"Plus (+) icon in a light orange pill-shaped button, in the row showing the item titled 'Wenzel with raspberries and currants'"
+
+Avoid (Incorrect):
+"Plus button on the left of the first quantity control"
+"Below the second product title"
+
+3. Do Not Include Purpose or Human Interpretation
+- NEVER explain intent (e.g., "used to add funds", "leads to new screen", "indicating xxxxx" )
+- Only describe what is visually present and identifiable
+
+4. Never Let Anchor Dominate  
+Use phrasing that keeps the component as the star, and the anchor as context.
+
+Good:  
+“...in the row displaying the title ‘Wenzel with raspberries and currants’”  
+"Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name 'DKNY'
+
+
+Bad:  
+“...under the ‘Wenzel’ label” → implies Wenzel might be the bounding box  
+“Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name in the second row” → VLM has no way to know what the second row is
+
+5. Reinforce Priority of Text in Visually Dominant Contexts  
+- When a text label appears inside or near a button, dropdown, or image tile, **explicitly describe it as text** and clarify its role with nearby visual cues.
+- Always lead the description with the actual component (e.g., “black *LOCATION text*”, “bold *ITEM LABEL*”, etc.)
+- Avoid language that makes nearby UI elements the focus (like an image or button) sound like the primary component.
+
+**Good:**
+"Black text 'Matcha latte' shown as a label directly beneath the image of a green matcha drink, inside a white product tile"  
+"Black text 'Regent Street, 16' aligned left at the top of the screen, followed by a small gray dropdown arrow"
+
+**Bad:**
+"Black text 'Matcha latte' shown as a label directly beneath the image of a green matcha drink, inside a white product tile"  
+
+"Text below the image"  
+"Text at the top of the tile showing a pizza"  
+"'$5.90' on an orange button" → this leads to bounding the button, not the text
+
+
+<sample_output>
+"  
+{
+  "Cart Items List > Item 2 > Quantity Controls > Increase Button": "Plus (+) button in a light orange pill-shaped control, on the right of the quantity selector in the row showing the item 'Wenzel with raspberries and currants'",
+  "Cart Items List > Item 3 > Quantity Controls > Decrease Button": "Minus (-) button in a light orange pill-shaped control, on the left of the quantity selector in the row displaying the title 'Freshly squeezed orange juice'",
+  "Order Summary & Confirmation Bar > Confirm Button": "White text 'Confirm order' aligned right in the orange confirmation bar at the bottom of the screen"
+}"
+</sample_output>
+
+Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards \` in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
+`
+
+
+export const ACCURACY_VALIDATION_PROMPT_v0 = `
+You are an expert UI bounding box verifier and corrector.
+Your task is to evaluate and correct UI screenshot bounding box annotations.
+
+You are given:
+
+A UI image with pre-drawn bounding boxes.
+
+A JSON object describing each bounding box, including id, label, description, coordinates, and current status.
+
+Your job is to evaluate how accurately each bounding box matches the described UI element in the image and return an updated JSON object with these new fields added to each item:
+
+“accuracy”: A number from 0 to 100 estimating the visual and positional accuracy of the box.
+
+“hidden”:
+
+false if the box is accurate or a corrected version can be suggested
+
+true if the box is inaccurate and no reasonable correction can be made
+
+“suggested_coordinates”: Include only when accuracy is below 50% and correction is feasible. Format must match the original coordinates schema (x_min, y_min, x_max, y_max).
+
+“status”:
+
+Set to “Overwrite” if suggested_coordinates are provided
+
+Otherwise keep the original status value
+
+“explanation”: A concise reason explaining the score and if/how the box was corrected.
+
+Return only the updated JSON array, preserving the original structure and adding these fields to each item.
+
+Example Output:
+{
+  "id": "transaction_item_1_gt_merchant_logo",
+  "label": "Transaction Item 1 > Merchant Logo",
+  "description": "Circular logo showing the green and white Starbucks emblem...",
+  "coordinates": {
+    "x_min": 6.18,
+    "y_min": 795.20,
+    "x_max": 83.67,
+    "y_max": 870.49
+  },
+  "status": "Overwrite",
+  "accuracy": 46,
+  "hidden": false,
+  "suggested_coordinates": {
+    "x_min": 12.0,
+    "y_min": 800.0,
+    "x_max": 76.0,
+    "y_max": 860.0
+  },
+  "explanation": "Box had 19% extra padding and was misaligned; resized to tightly fit the logo."
+}
+`

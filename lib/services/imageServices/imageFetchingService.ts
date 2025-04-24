@@ -19,7 +19,7 @@ export async function fetchImageAsBuffer(imageUrl: string): Promise<Buffer | nul
     // Convert ArrayBuffer to Buffer
     const buffer = Buffer.from(arrayBuffer);
     
-    console.log(`Successfully fetched image buffer (${buffer.byteLength} bytes)`);
+    // console.log(`Successfully fetched image buffer (${buffer.byteLength} bytes)`);
     return buffer;
   } catch (err) {
     console.error("Error fetching image as buffer:", err);
@@ -33,7 +33,7 @@ export async function fetchImageAsBuffer(imageUrl: string): Promise<Buffer | nul
  * @returns The same array with screenshot_image_buffer property populated
  */
 export async function fetchScreenshotBuffers(screenshots: Screenshot[]): Promise<Screenshot[]> {
-  console.log(`Fetching image buffers for ${screenshots.length} screenshots...`);
+  // console.log(`Fetching image buffers for ${screenshots.length} screenshots...`);
   
   // Create an array of promises for fetching each image
   const fetchPromises = screenshots.map(async (screenshot) => {
@@ -64,7 +64,7 @@ export async function fetchScreenshotBuffers(screenshots: Screenshot[]): Promise
   
   // Log summary of results
   const successCount = updatedScreenshots.filter(s => s.screenshot_image_buffer !== null).length;
-  console.log(`Fetched ${successCount}/${screenshots.length} image buffers successfully`);
+  // console.log(`Fetched ${successCount}/${screenshots.length} image buffers successfully`);
   
   return updatedScreenshots;
 }

@@ -12,3 +12,20 @@ export const removeFileAtIndex = (files: File[], index: number): File[] => {
   newFiles.splice(index, 1);
   return newFiles;
 }; 
+
+/**
+ * Cleans the raw text by removing unwanted formatting and normalizing it.
+ *
+ * @param rawText - The raw text string to clean.
+ * @returns Cleaned text as a single string.
+ */
+export function cleanText(rawText: string): string {
+  // Remove extra line breaks and normalize formatting
+  return rawText
+    .replace(/,\s*}/g, '}')           // remove trailing commas
+    .replace(/,\s*]/g, ']')           // remove trailing commas
+    .replace(/```json/g, '')           // remove ```json
+    .replace(/```/g, '')              // remove ```
+    .replace(/\\/g, '');              // remove \
+    // .replace(/\n/g, '');              // flatten into one line
+}

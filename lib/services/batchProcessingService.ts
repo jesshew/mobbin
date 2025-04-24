@@ -7,7 +7,7 @@ import type { ComponentDetectionResult } from '@/types/DetectionResult';
 import pLimit from 'p-limit';
 import { AIExtractionService, Stage1Result } from '@/lib/services/ParallelExtractionService';
 import { ParallelMoondreamDetectionService } from '@/lib/services/ParallelAnnotationService';
-import { EXTRACTION_CONCURRENCY, MOONDREAM_CONCURRENCY } from '@/lib/constants';
+import { EXTRACTION_CONCURRENCY, MOONDREAM_CONCURRENCY, ProcessStatus } from '@/lib/constants';
 
 
 // --- Constants ---
@@ -30,7 +30,7 @@ export class BatchProcessingService {
    * @param batchId The ID of the batch to process.
    */
   public async start(batchId: number): Promise<void> {
-    console.log(`[Batch ${batchId}] Starting processing...`);
+    // console.log(`[Batch ${batchId}] Starting processing...`);
     // const initialStatus = 'processing'; // More generic starting status
     // await this.updateBatchStatus(batchId, initialStatus);
 
@@ -42,8 +42,8 @@ export class BatchProcessingService {
       }
 
       // --- Stage 1: Parallel AI Component/Element/Anchor Extraction ---
-      await this.updateBatchStatus(batchId, 'extracting');
-      console.log(`[Batch ${batchId}] Starting AI component/element/anchor extraction for ${screenshotsToProcess.length} screenshots with concurrency ${EXTRACTION_CONCURRENCY}...`);
+      await this.updateBatchStatus(batchId, ProcessStatus.EXTRACTING);
+      console.log(`[Batch ${batchId}] Begin Parallel Extraction on ${screenshotsToProcess.length} screenshots`);
       
       // Use the external AIExtractionService
       const stage1Results = await AIExtractionService.performAIExtraction(batchId, screenshotsToProcess);
@@ -62,14 +62,14 @@ export class BatchProcessingService {
       if (screenshotsForMoondream.length === 0) {
           console.warn(`[Batch ${batchId}] No screenshots successfully completed Stage 1. Cannot proceed to Moondream.`);
           // Consider the final status - potentially 'failed' or a specific 'extraction_failed' status
-          await this.updateBatchStatus(batchId, 'failed');
+          await this.updateBatchStatus(batchId, ProcessStatus.FAILED);
           return;
       }
       console.log(`[Batch ${batchId}] ${screenshotsForMoondream.length} screenshots proceeding to Stage 2 (Moondream).`);
 
       // --- Stage 2: Parallel Moondream Detection ---
-      await this.updateBatchStatus(batchId, 'annotating'); 
-      console.log(`[Batch ${batchId}] Starting Moondream detection for ${screenshotsForMoondream.length} screenshots with concurrency ${MOONDREAM_CONCURRENCY}...`);
+      await this.updateBatchStatus(batchId, ProcessStatus.ANNOTATING); 
+      // console.log(`[Batch ${batchId}] Starting Moondream detection for ${screenshotsForMoondream.length} screenshots with concurrency ${MOONDREAM_CONCURRENCY}...`);
       
       // Use the external ParallelMoondreamDetectionService
       const allDetectionResults = await ParallelMoondreamDetectionService.performMoondreamDetection(
@@ -78,10 +78,8 @@ export class BatchProcessingService {
         stage1Results
       );
       
-      console.log(`[Batch ${batchId}] Completed Stage 2 Moondream detection. Total component results generated: ${allDetectionResults.length}`);
-
       // --- Stage 3: Persist Results ---
-      await this.updateBatchStatus(batchId, 'done');
+      await this.updateBatchStatus(batchId, ProcessStatus.DONE);
       console.log(`[Batch ${batchId}] Placeholder: Persisting ${allDetectionResults.length} component results...`);
       // TODO: Implement persistence logic for `allDetectionResults`
       // 1. Upload unique annotated_image_objects to Storage
@@ -92,7 +90,7 @@ export class BatchProcessingService {
 
 
       // --- Finalize ---
-      await this.updateBatchStatus(batchId, 'done'); // Update status to 'done' after successful processing
+      await this.updateBatchStatus(batchId, ProcessStatus.DONE); // Update status to 'done' after successful processing
       console.log(`[Batch ${batchId}] Processing complete. Status set to done.`);
 
     } catch (error) {
@@ -111,18 +109,18 @@ export class BatchProcessingService {
     const screenshots = await this.loadScreenshots(batchId);
     if (screenshots.length === 0) {
       console.log(`[Batch ${batchId}] No screenshots found. Setting status to done.`);
-      await this.updateBatchStatus(batchId, 'done');
+      await this.updateBatchStatus(batchId, ProcessStatus.DONE);
       return [];
     }
     console.log(`[Batch ${batchId}] Found ${screenshots.length} screenshots.`);
 
     // Process signed URLs
     await this.processSignedUrls(batchId, screenshots);
-    console.log(`[Batch ${batchId}] Processed signed URLs.`);
+    // console.log(`[Batch ${batchId}] Processed signed URLs.`);
 
     // Fetch screenshot buffers
     await this.fetchScreenshotBuffers(screenshots);
-    console.log(`[Batch ${batchId}] Fetched screenshot buffers.`);
+    // console.log(`[Batch ${batchId}] Fetched screenshot buffers.`);
 
     // Filter screenshots that have both buffer and signed URL for processing
     const screenshotsToProcess = screenshots.filter(
@@ -132,10 +130,10 @@ export class BatchProcessingService {
     if (screenshotsToProcess.length === 0) {
       console.warn(`[Batch ${batchId}] No screenshots with image buffers and signed URLs found after fetching. Cannot proceed.`);
       // Decide status: 'failed' if buffers were expected, 'done' if URLs weren't generated?
-      await this.updateBatchStatus(batchId, 'failed');
+      await this.updateBatchStatus(batchId, ProcessStatus.FAILED);
       return [];
     }
-    console.log(`[Batch ${batchId}] ${screenshotsToProcess.length} screenshots eligible for processing.`);
+    // console.log(`[Batch ${batchId}] ${screenshotsToProcess.length} screenshots eligible for processing.`);
     
     return screenshotsToProcess;
   }
@@ -191,16 +189,14 @@ export class BatchProcessingService {
         s.screenshot_bucket_path = undefined;
       }
     });
-    console.log(
-      `[Batch ${batchId}] Attached signed URLs to ${attachedCount} out of ${screenshots.length} initial screenshots (${filePaths.length} valid paths attempted).`
-    );
+    // console.log(`[Batch ${batchId}] Attached signed URLs to ${attachedCount} out of ${screenshots.length} initial screenshots (${filePaths.length} valid paths attempted).`);
   }
 
 
   private async handleProcessingError(batchId: number, error: unknown): Promise<void> {
     console.error(`[Batch ${batchId}] Critical error during batch processing:`, error);
     try {
-      await this.updateBatchStatus(batchId, 'failed');
+      await this.updateBatchStatus(batchId, ProcessStatus.FAILED);
       console.error(`[Batch ${batchId}] Status set to failed.`);
     } catch (statusError) {
       console.error(

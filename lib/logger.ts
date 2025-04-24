@@ -6,6 +6,8 @@ import { supabase } from '@/lib/supabase';
 const LOG_DIR = process.env.LOG_DIR || 'logs';
 const LOG_FILE = 'prompt-interactions.log';
 
+import { PromptLogType } from '@/lib/constants';
+
 /**
  * Log entry structure for AI prompt interactions
  */
@@ -30,7 +32,7 @@ interface DbPromptLogEntry {
   screenshot_id?: number;
   component_id?: number;
   element_id?: number;
-  prompt_log_type: 'component_extraction' | 'element_extraction' | 'anchoring' | 'vlm_labeling' | 'accuracy_validation';
+  prompt_log_type: PromptLogType;
   prompt_log_model: string;
   prompt_log_input_tokens?: number;
   prompt_log_output_tokens?: number;
@@ -38,12 +40,9 @@ interface DbPromptLogEntry {
   prompt_log_duration: number;
   prompt_log_started_at?: string;
   prompt_log_completed_at?: string;
+  prompt_response?: string;
 }
 
-/**
- * Prompt log type enumeration
- */
-export type PromptLogType = 'component_extraction' | 'element_extraction' | 'anchoring' | 'vlm_labeling' | 'accuracy_validation';
 
 /**
  * Tracking context for AI service calls
@@ -115,7 +114,8 @@ export class PromptTrackingContext {
       prompt_log_output_tokens: tokenUsage?.output,
       prompt_log_cost: cost,
       prompt_log_duration: durationSecs,
-      prompt_log_started_at: startedAt
+      prompt_log_started_at: startedAt,
+      prompt_response: response
     });
   }
   
@@ -258,7 +258,8 @@ export async function logPromptToDatabase(logEntry: DbPromptLogEntry): Promise<v
         prompt_log_cost: logEntry.prompt_log_cost,
         prompt_log_duration: logEntry.prompt_log_duration,
         prompt_log_started_at: logEntry.prompt_log_started_at || new Date().toISOString(),
-        prompt_log_completed_at: logEntry.prompt_log_completed_at || completed_at
+        prompt_log_completed_at: logEntry.prompt_log_completed_at || new Date().toISOString(),
+        prompt_response: logEntry.prompt_response ? `"${logEntry.prompt_response}"` : null
       });
 
     if (error) {

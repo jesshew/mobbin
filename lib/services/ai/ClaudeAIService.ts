@@ -2,6 +2,8 @@ import Anthropic from '@anthropic-ai/sdk';
 import { PromptResult } from '../../../types/PromptRunner'; // adjust path as needed
 import { EXTRACT_ELEMENTS_PROMPT_v2, ANCHOR_ELEMENTS_PROMPT_v0, ANCHOR_ELEMENTS_PROMPT_v1, ANCHOR_ELEMENTS_PROMPT_v2, EXTRACT_ELEMENTS_PROMPT_v3, ANCHOR_ELEMENTS_PROMPT_v3 } from '@/lib/prompt/prompts';
 import { PromptTrackingContext } from '@/lib/logger';
+import { PromptLogType } from '@/lib/constants';
+import { cleanText } from '@/lib/file-utils'; 
 // Ensure your Claude API key is set in ENV
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -28,7 +30,7 @@ export async function callClaudeVisionModel(
   prompt: string,
   imageUrl: string | null,
   context: PromptTrackingContext,
-  promptType: 'element_extraction' | 'anchoring'
+  promptType: PromptLogType.ELEMENT_EXTRACTION | PromptLogType.ANCHORING
 ): Promise<any> {
   // Build the Anthropic messages payload
   const messages = [
@@ -111,7 +113,7 @@ export async function extract_element_from_image(
     prompt, 
     imageUrl, 
     context,
-    'element_extraction'
+    PromptLogType.ELEMENT_EXTRACTION
   );
 
   const { parsedContent, rawText, usage } = extractClaudeResponseData(response);
@@ -140,7 +142,7 @@ export async function anchor_elements_from_image(
     prompt, 
     imageUrl,
     context,
-    'anchoring'
+    PromptLogType.ANCHORING
   );
 
   const { parsedContent, rawText, usage } = extractClaudeResponseData(response);
@@ -149,22 +151,7 @@ export async function anchor_elements_from_image(
   return { parsedContent, rawText,usage };
 }
 
-/**
- * Cleans the raw text by removing unwanted formatting and normalizing it.
- *
- * @param rawText - The raw text string to clean.
- * @returns Cleaned text as a single string.
- */
-function cleanText(rawText: string): string {
-  // Remove extra line breaks and normalize formatting
-  return rawText
-    .replace(/,\s*}/g, '}')           // remove trailing commas
-    .replace(/,\s*]/g, ']')           // remove trailing commas
-    .replace(/```json/g, '')           // remove ```json
-    .replace(/```/g, '')              // remove ```
-    .replace(/\\/g, '');              // remove \
-    // .replace(/\n/g, '');              // flatten into one line
-}
+
 
 /**
  * Cleans the raw text and returns a list of components.
