@@ -10,15 +10,21 @@ import { fetchScreenshotBuffers } from '@/lib/services/imageFetchingService';
 import { BatchProcessingScreenshot as Screenshot } from '@/types/BatchProcessingScreenshot';
 import { detectObjectsFromBuffer } from '@/lib/services/MoondreamVLService';
 import { processAndSaveByCategory } from '@/lib/services/MoondreamDetectionService';
+import type { ComponentDetectionResult } from '@/types/DetectionResult'; // Import the TS type
+import pLimit from 'p-limit';
+
 // Placeholder for future extractor services
 interface Extractor {
   extract(screenshot: any): Promise<void>; // Define a more specific screenshot type later
 }
 
+// --- Constants ---
+const MOONDREAM_CONCURRENCY = 3; // Limit concurrency for Moondream processing per batch
+
 export class BatchProcessingService {
   private supabaseClient: SupabaseClient;
   // private databaseService: DatabaseService; // Add DatabaseService property
-  // private storageService: StorageService; 
+  // private storageService: StorageService;
   private extractors: Extractor[];
 
   // Update constructor to accept StorageService
@@ -39,81 +45,120 @@ export class BatchProcessingService {
     console.log(`[Batch ${batchId}] Starting processing...`);
     try {
       await this.updateBatchStatus(batchId, 'extracting');
-  
+
       const screenshots = await this.loadScreenshots(batchId);
+      if (screenshots.length === 0) {
+        console.log(`[Batch ${batchId}] No screenshots found. Setting status to done.`);
+        await this.updateBatchStatus(batchId, 'done');
+        return;
+      }
       console.log(`[Batch ${batchId}] Found ${screenshots.length} screenshots.`);
-  
+
       await this.processSignedUrls(batchId, screenshots);
-      console.log(`[Batch ${batchId}] Screenshots with signed URLs:`, screenshots);
+      console.log(`[Batch ${batchId}] Processed signed URLs.`);
 
       // Fetch buffer data for all screenshots with signed URLs (for efficient processing)
       await this.fetchScreenshotBuffers(screenshots);
-      console.log(`[Batch ${batchId}] Screenshots with buffer data prepared for processing`);
-  
-      // Process the first screenshot with a signed URL
-      const firstScreenshotWithSignedUrl = screenshots.find(s => s.screenshot_signed_url);
-      if (firstScreenshotWithSignedUrl) {
-        const signed_url: string = firstScreenshotWithSignedUrl.screenshot_signed_url || '';
-        console.log(`CALLING OPENAI [Batch ${batchId}] Signed URL:`, signed_url);
-        const result = await extract_component_from_image(signed_url);
-        console.log(`[Batch ${batchId}] First screenshot with signed URL:`, firstScreenshotWithSignedUrl);
+      console.log(`[Batch ${batchId}] Fetched screenshot buffers.`);
 
-        const parsedComponents = result.parsedContent || [];
-       
-        const usage = result.usage || { input_tokens: 0, output_tokens: 0, total_tokens: 0 };
-
-        // Example: Log or store the parsed results and usage
-        console.log("Parsed Components:", parsedComponents);
-        console.log("Token Usage:", usage);
-
-        const componentSummaries = extractComponentSummaries(parsedComponents);
-        console.log("Component Summaries:", componentSummaries);
-
-        const element_result = await extract_element_from_image(signed_url, componentSummaries.join('\n'));
-        console.log("Element Result:", element_result);
-
-        const anchor_result = await anchor_elements_from_image(signed_url, `${element_result.rawText}`);
-        console.log("Anchor Result:", anchor_result.parsedContent);
-
-        // const anchor_result = {parsedContent: {
-        //   'Product Details Header > Title': "Large text 'Choco croissant' followed by weight '110g'",
-        //   'Product Details Header > Favorite Icon': 'Orange heart icon in the top-right corner of the screen, allowing users to save this item as a favorite.',
-        //   'Product Details Header > Back Button': 'Left-pointing arrow in the top-left corner, allowing navigation back to the previous screen.',
-        //   'Product Details Header > Image': "High-quality photo of a chocolate-covered croissant on a light background, showing the pastry's flaky layers and chocolate glaze.",
-        //   'Product Details Header > Calorie Information': "Text '460 kcal' in the bottom-right corner of the image area, indicating the calorie content of the product.",
-        //   'Product Description > Ingredients List': "Detailed text listing all ingredients: 'chicken eggs, flour, milk 3.2%, butter, water, dark chocolate 54-55%, melange, white sugar, cocoa powder, salt, vanillin.', positioned below the product title.",
-        //   // 'Add to Order Suggestions > Latte Option > Image': 'Small square image of a latte in a glass cup, positioned in the left suggestion slot.',
-        //   // 'Add to Order Suggestions > Latte Option > Title': "Text 'Latte' below the latte image, identifying the beverage option.",
-        //   // 'Add to Order Suggestions > Latte Option > Price': "Text '$2.00' below the latte title, showing the price of the latte.",
-        //   // 'Add to Order Suggestions > Latte Option > Add Button': 'Orange circular button with a plus sign, positioned in the top-right corner of the latte suggestion card, allowing users to add this item.',
-        //   // 'Add to Order Suggestions > Nordic Tea Option > Image': 'Small square image of a red tea drink in a glass, positioned in the middle suggestion slot.',
-        //   // 'Add to Order Suggestions > Nordic Tea Option > Title': "Text 'Nordic tea' below the tea image, identifying the beverage option.",
-        //   // 'Add to Order Suggestions > Nordic Tea Option > Price': "Text '$1.80' below the Nordic tea title, showing the price of the tea.",
-        //   // 'Add to Order Suggestions > Nordic Tea Option > Add Button': 'Orange circular button with a plus sign, positioned in the top-right corner of the Nordic tea suggestion card, allowing users to add this item.',
-        //   // 'Add to Order Suggestions > Matcha Latte Option > Image': 'Small square image of a matcha latte in a glass, positioned in the right suggestion slot.',
-        //   // 'Add to Order Suggestions > Matcha Latte Option > Title': "Text 'Matcha latte' below the matcha latte image, identifying the beverage option.",
-        //   // 'Add to Order Suggestions > Matcha Latte Option > Price': "Text '$1.95' below the matcha latte title, showing the price of the matcha latte.",
-        //   // 'Add to Order Suggestions > Matcha Latte Option > Add Button': 'Orange circular button with a plus sign, positioned in the top-right corner of the matcha latte suggestion card, allowing users to add this item.',
-        //   // 'Add to Cart Bar > Total Price': "Bold text '$5.90' on the left side of the bar, showing the current total price for the choco croissant.",
-        //   // 'Add to Cart Bar > Add to Cart Button': "Orange rectangular button with white text 'Add to cart' occupying most of the bottom bar, allowing users to add the product to their shopping cart.",
-        //   // 'Add to Cart Bar > Background': 'Full-width orange bar at the bottom of the screen containing the price and add to cart button, creating a prominent call to action.'
-        // }}
-
-        // Use our new helper function to process the screenshots with labels
-        const annotation_result = await this.processScreenshotsWithLabels(
-          screenshots,
-          anchor_result.parsedContent
-        );
-        
-        await this.updateBatchStatus(batchId, 'done');
-        console.log(`[Batch ${batchId}] Moondream detection complete. Status set to done.`);
-        
-        return annotation_result;
+      // --- Stage 1: OpenAI/Claude Extraction (only on the first screenshot for now) ---
+      const firstScreenshotWithBuffer = screenshots.find(s => s.screenshot_image_buffer);
+      if (!firstScreenshotWithBuffer || !firstScreenshotWithBuffer.screenshot_signed_url) {
+        console.error(`[Batch ${batchId}] No suitable first screenshot found for initial AI extraction. Aborting.`);
+        await this.updateBatchStatus(batchId, 'failed');
+        return;
       }
 
-      await this.updateBatchStatus(batchId, 'done');
+      console.log(`[Batch ${batchId}] Starting AI component/element extraction on screenshot ${firstScreenshotWithBuffer.screenshot_id}...`);
+      const signed_url: string = firstScreenshotWithBuffer.screenshot_signed_url;
+      const componentResult = await extract_component_from_image(signed_url);
+      const componentSummaries = this.extractComponentSummaries(componentResult.parsedContent || []);
+      console.log(`[Batch ${batchId}] Component extraction complete. Found ${componentSummaries.length} component summaries.`);
+
+      const elementResult = await extract_element_from_image(signed_url, componentSummaries.join('\n'));
+      console.log(`[Batch ${batchId}] Element extraction complete.`);
+
+      const anchorResult = await anchor_elements_from_image(signed_url, `${elementResult.rawText}`);
+      const anchorLabels: Record<string, string> = anchorResult.parsedContent || {};
+      console.log(`[Batch ${batchId}] Anchoring complete. Found ${Object.keys(anchorLabels).length} anchor labels.`);
+
+      if (Object.keys(anchorLabels).length === 0) {
+        console.warn(`[Batch ${batchId}] No anchor labels generated. Moondream detection might be ineffective. Proceeding cautiously.`);
+        // Decide if we should fail the batch here or continue
+        // For now, continue but update status to reflect potential issue
+        await this.updateBatchStatus(batchId, 'annotating_no_labels');
+      } else {
+        await this.updateBatchStatus(batchId, 'annotating');
+      }
+
+      // --- Stage 2: Moondream Detection (Iterate over all screenshots) ---
+      const screenshotsToProcess = screenshots.filter(s => s.screenshot_image_buffer);
+      if (screenshotsToProcess.length === 0) {
+        console.warn(`[Batch ${batchId}] No screenshots with image buffers found after fetching. Cannot proceed with Moondream.`);
+        await this.updateBatchStatus(batchId, 'failed'); // Or 'done' if extracting was the only goal?
+        return;
+      }
+
+      console.log(`[Batch ${batchId}] Starting Moondream detection for ${screenshotsToProcess.length} screenshots with concurrency ${MOONDREAM_CONCURRENCY}...`);
+      const limit = pLimit(MOONDREAM_CONCURRENCY);
+      const allDetectionResults: ComponentDetectionResult[] = []; // Array to store all results
+
+      const detectionPromises = screenshotsToProcess.map(screenshot =>
+        limit(async () => {
+          try {
+            console.log(`[Batch ${batchId}] Moondream processing screenshot ${screenshot.screenshot_id}...`);
+            // Ensure buffer exists before calling
+            if (!screenshot.screenshot_image_buffer) {
+                console.warn(`[Batch ${batchId}] Screenshot ${screenshot.screenshot_id} missing buffer unexpectedly. Skipping Moondream.`);
+                return []; // Return empty array for this screenshot
+            }
+            const results: ComponentDetectionResult[] = await processAndSaveByCategory(
+              screenshot.screenshot_id,
+              screenshot.screenshot_image_buffer,
+              anchorLabels // Use the labels derived from the first screenshot for all others
+            );
+            console.log(`[Batch ${batchId}] Finished Moondream for screenshot ${screenshot.screenshot_id}. Results count: ${results.length}`);
+            return results;
+          } catch (error) {
+              console.error(`[Batch ${batchId}] Error processing screenshot ${screenshot.screenshot_id} with Moondream:`, error);
+              return []; // Return empty array on error for this screenshot
+          }
+        })
+      );
+
+      const settledResults = await Promise.allSettled(detectionPromises);
+
+      settledResults.forEach(result => {
+          if (result.status === 'fulfilled' && Array.isArray(result.value)) {
+              allDetectionResults.push(...result.value);
+          } else if (result.status === 'rejected') {
+              // Log the rejection reason, already logged inside the promise but maybe add context
+              console.error(`[Batch ${batchId}] A Moondream detection task failed:`, result.reason);
+          }
+      });
+
+      console.log(`[Batch ${batchId}] Completed Moondream detection for all applicable screenshots. Total component results generated: ${allDetectionResults.length}`);
+      // console.log(` \nDEBUG: ${JSON.stringify(allDetectionResults, null, 2)}`);
+      // --- Stage 3: Persist Results (Placeholder for now) ---
+      // TODO: Implement logic to:
+      // 1. Upload each unique annotated_image_object from allDetectionResults to Supabase Storage
+      // 2. Get the public URL for each uploaded image
+      // 3. Update the corresponding annotated_image_url in each ComponentDetectionResult
+      // 4. Save ComponentDetectionResult metadata (screenshot_id, component_name, url, description, status, time) to a 'component_detection' table
+      // 5. Save each ElementDetectionItem (label, description, box, status, time, model, component_detection_id) to an 'element_detection' table
+
+      console.log(`[Batch ${batchId}] Placeholder: Need to upload ${allDetectionResults.length} component results and their elements to DB/Storage.`);
+      // Example logging of collected data:
+      // allDetectionResults.forEach(compResult => {
+      //   console.log(`  Component: ${compResult.component_name} for Screenshot ${compResult.screenshot_id}, Status: ${compResult.detection_status}, Elements: ${compResult.elements.length}, Has Buffer: ${!!compResult.annotated_image_object}`);
+      // });
+
+      // --- Finalize ---
+      await this.updateBatchStatus(batchId, 'done'); // Update status to 'done' after processing
       console.log(`[Batch ${batchId}] Processing complete. Status set to done.`);
+
     } catch (error) {
+      // Catch errors from initial setup or major steps (AI extraction)
       await this.handleProcessingError(batchId, error);
     }
   }
@@ -230,96 +275,19 @@ export class BatchProcessingService {
   }
 
   /**
-   * Processes batch screenshots with Moondream detection, grouping by label categories
-   * @param batchId The ID of the batch to process
-   * @param labels Object with labels and descriptions to detect
-   * @returns Promise resolving to the detection results
+   * Helper function to get component summaries (moved from bottom of file)
+   * @param components Array of components from AI extraction
+   * @returns Array of component summary strings
    */
-  public async processWithMoondreamDetection(batchId: number, labels: Record<string, string>): Promise<any> {
-    console.log(`[Batch ${batchId}] Starting Moondream detection with ${Object.keys(labels).length} labels`);
-    
-    try {
-      await this.updateBatchStatus(batchId, 'annotating');
-
-      const screenshots = await this.loadScreenshots(batchId);
-      console.log(`[Batch ${batchId}] Found ${screenshots.length} screenshots.`);
-
-      await this.processSignedUrls(batchId, screenshots);
-      
-      // Fetch buffer data for all screenshots
-      await this.fetchScreenshotBuffers(screenshots);
-      
-      // Process the first screenshot with a buffer
-      const screenshotWithBuffer = screenshots.find(s => s.screenshot_image_buffer);
-      
-      if (screenshotWithBuffer && screenshotWithBuffer.screenshot_image_buffer) {
-        console.log(`[Batch ${batchId}] Processing screenshot ID ${screenshotWithBuffer.screenshot_id} with detection`);
-        
-        const result = await processAndSaveByCategory(
-          screenshotWithBuffer.screenshot_image_buffer, 
-          labels
-        );
-        
-        await this.updateBatchStatus(batchId, 'completed');
-        console.log(`[Batch ${batchId}] Moondream detection complete. Status set to completed.`);
-        
-        return result;
-      } else {
-        throw new Error('No screenshot with buffer data found');
-      }
-    } catch (error) {
-      await this.handleProcessingError(batchId, error);
-      throw error;
+  private extractComponentSummaries(components: any[]): string[] {
+    if (!Array.isArray(components)) {
+      console.warn("Expected an array of components, received:", typeof components);
+      return [];
     }
-  }
-
-  /**
-   * Processes a single screenshot with Moondream detection using labels
-   * @param screenshot Screenshot object with image buffer
-   * @param labels Object with labels and descriptions
-   * @returns Promise resolving to the detection results
-   */
-  private async processScreenshotWithLabels(
-    screenshot: Screenshot,
-    labels: Record<string, string>
-  ): Promise<any> {
-    if (!screenshot.screenshot_image_buffer) {
-      throw new Error(`No buffer data available for screenshot ID ${screenshot.screenshot_id}`);
-    }
-    
-    console.log(`Processing screenshot ID ${screenshot.screenshot_id} with detection`);
-    
-    return processAndSaveByCategory(
-      screenshot.screenshot_image_buffer,
-      labels
-    );
-  }
-
-  /**
-   * Processes batch screenshots with Moondream detection using labels from anchored elements
-   * @param screenshots Array of screenshot objects with image buffers
-   * @param labels Object with labels and descriptions from anchor_result.parsedContent
-   * @returns Promise resolving to an array of detection results
-   */
-  public async processScreenshotsWithLabels(
-    screenshots: Screenshot[],
-    labels: Record<string, string>
-  ): Promise<any> {
-    // Filter screenshots to only those with buffers
-    const validScreenshots = screenshots.filter(s => s.screenshot_image_buffer);
-    
-    if (validScreenshots.length === 0) {
-      throw new Error('No screenshots with buffer data found');
-    }
-    
-    // Process just the first screenshot for now
-    const firstScreenshot = validScreenshots[0];
-    return this.processScreenshotWithLabels(firstScreenshot, labels);
-    
-    // For future implementation: process all screenshots in parallel
-    // return Promise.all(
-    //   validScreenshots.map(screenshot => this.processScreenshotWithLabels(screenshot, labels))
-    // );
+  
+    return components
+      .filter(component => typeof component?.component_name === 'string' && typeof component?.description === 'string')
+      .map(component => `${component.component_name}`); // Just using name now
   }
 }
 
@@ -334,18 +302,5 @@ export class BatchProcessingService {
 //     return [];
 //   }
 // }
-
-// Helper: Extracts component name + description summary strings
-function extractComponentSummaries(components: any[]): string[] {
-  if (!Array.isArray(components)) {
-    console.warn("Expected an array of components");
-    return [];
-  }
-
-  return components
-    .filter(component => typeof component?.component_name === 'string' && typeof component?.description === 'string')
-    // .map(component => `${component.component_name}: ${component.description}`);
-    .map(component => `${component.component_name}`);
-}
 
 
