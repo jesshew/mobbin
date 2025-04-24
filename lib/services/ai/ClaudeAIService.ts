@@ -24,7 +24,7 @@ export async function callClaudeVisionModel(
 // ): Promise<PromptResult> {
 ): Promise<any> {
   const startTime = Date.now();
-  console.log(`CALLING CLAUDE Signed URL: ${imageUrl}, prompt: ${prompt.slice(0, 100)}`);
+  // console.log(`CALLING CLAUDE Signed URL: ${imageUrl}, prompt: ${prompt.slice(0, 100)}`);
 
 
   // Build the Anthropic messages payload
