@@ -1,6 +1,6 @@
 // THIS DOES NOT WORK. DO NOT USE OR MODIFY.
 
-import { logPromptInteraction } from '@/lib/logger';
+import { PromptTrackingContext } from '@/lib/logger';
 import { MOON_DREAM_API_KEY } from '@/config';
 
 /**
@@ -55,19 +55,18 @@ export async function fetchImageFromUrl(imageUrl: string): Promise<Blob> {
  * 
  * @param imageUrl - URL of the image to analyze
  * @param object - The object type to detect (e.g., "person", "car", "face")
+ * @param context - The tracking context containing batch, screenshot, and component IDs
  * @returns A promise resolving to the detection response
  */
 export async function detectObjectsFromImage(
   imageUrl: string,
-  object: string
+  object: string,
+  context: PromptTrackingContext
 ): Promise<DetectResponse> {
-  const startTime = Date.now();
   console.log(`CALLING MOONDREAM API: Object=${object}, ImageURL=${imageUrl}`);
 
   // Fetch the image data from URL
   const imageBlob = await fetchImageFromUrl(imageUrl);
-
-  
 
   // Create form data with image and object parameters
   const formData = new FormData();
@@ -75,6 +74,9 @@ export async function detectObjectsFromImage(
   formData.append('object', object);
 
   try {
+    // Start timing right before the API call
+    const startTime = Date.now();
+    
     const response = await fetch('https://api.moondream.ai/v1/detect', {
       method: 'POST',
       headers: {
@@ -89,17 +91,20 @@ export async function detectObjectsFromImage(
     }
 
     const result = await response.json() as DetectResponse;
+    
+    // End timing right after the API call finishes
     const endTime = Date.now();
-    const duration = endTime - startTime;
-
-    // Log the interaction
-    logPromptInteraction(
+    const durationMs = endTime - startTime;
+    
+    // Log the interaction using the context with the measured duration
+    await context.logPromptInteraction(
       'Moondream-Detect',
+      'vlm_labeling',
       `Detect ${object} in image`,
       JSON.stringify(result),
-      duration,
+      durationMs,
+      // Moondream doesn't provide token usage, so we leave these undefined
       {
-        // Moondream doesn't provide token usage, so we leave these undefined
         input: undefined,
         output: undefined,
         total: undefined
@@ -143,54 +148,64 @@ export function normalizedToPixelCoordinates(
  *
  * @param imageBlob  – Image data as a Blob
  * @param objectType – The object type to detect (e.g. "person", "car", "face")
+ * @param context - The tracking context containing batch, screenshot, and component IDs
  */
 export async function detectObjectsFromBlob(
-    imageBlob: Blob,
-    objectType: string
-  ): Promise<DetectResponse> {
-    const startTime = Date.now();
-    console.log(`CALLING MOONDREAM API: Object=${objectType}, Blob input`);
+  imageBlob: Blob,
+  objectType: string,
+  context: PromptTrackingContext
+): Promise<DetectResponse> {
+  console.log(`CALLING MOONDREAM API: Object=${objectType}, Blob input`);
+
+  const formData = new FormData();
+  formData.append('image', imageBlob);
+  formData.append('object', objectType);
+
+  // Start timing right before the API call
+  const startTime = Date.now();
   
-    const formData = new FormData();
-    formData.append('image', imageBlob);
-    formData.append('object', objectType);
-  
-    const resp = await fetch('https://api.moondream.ai/v1/detect', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${MOON_DREAM_API_KEY}` },
-      body: formData
-    });
-  
-    if (!resp.ok) {
-      const txt = await resp.text();
-      throw new Error(`Moondream API error (${resp.status}): ${txt}`);
-    }
-  
-    const result = (await resp.json()) as DetectResponse;
-    const duration = Date.now() - startTime;
-  
-    logPromptInteraction(
-      'Moondream-Detect',
-      `Detect ${objectType} in blob`,
-      JSON.stringify(result),
-      duration,
-      { input: undefined, output: undefined, total: undefined }
-    );
-  
-    return result;
+  const resp = await fetch('https://api.moondream.ai/v1/detect', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${MOON_DREAM_API_KEY}` },
+    body: formData
+  });
+
+  if (!resp.ok) {
+    const txt = await resp.text();
+    throw new Error(`Moondream API error (${resp.status}): ${txt}`);
   }
+
+  const result = (await resp.json()) as DetectResponse;
+  
+  // End timing right after the API call finishes
+  const endTime = Date.now();
+  const durationMs = endTime - startTime;
+
+  // Log the interaction using the context with the measured duration
+  await context.logPromptInteraction(
+    'Moondream-Detect',
+    'vlm_labeling',
+    `Detect ${objectType} in blob`,
+    JSON.stringify(result),
+    durationMs,
+    { input: undefined, output: undefined, total: undefined }
+  );
+
+  return result;
+}
 
 /**
  * Detect objects in a base64 encoded image via Moondream API.
  *
  * @param imageBase64 – Image data as a base64 string with data URI prefix
  * @param objectType – The object type to detect (e.g. "person", "car", "face")
+ * @param context - The tracking context containing batch, screenshot, and component IDs
  */
 export async function detectObjectsFromBase64(
   imageBase64: string,
-  objectType: string
+  objectType: string,
+  context: PromptTrackingContext
 ): Promise<DetectResponse> {
-  const startTime = Date.now();
   if (!MOON_DREAM_API_KEY) {
     console.error('[Moondream] MOON_DREAM_API_KEY is undefined – check your environment variables.');
     throw new Error(
@@ -223,6 +238,9 @@ export async function detectObjectsFromBase64(
   formData.append('image_url', blob);
   formData.append('object', objectType);
 
+  // Start timing right before the API call
+  const startTime = Date.now();
+  
   const resp = await fetch('https://api.moondream.ai/v1/detect', {
     method: 'POST',
     headers: { 
@@ -237,13 +255,18 @@ export async function detectObjectsFromBase64(
   }
 
   const result = (await resp.json()) as DetectResponse;
-  const duration = Date.now() - startTime;
+  
+  // End timing right after the API call finishes
+  const endTime = Date.now();
+  const durationMs = endTime - startTime;
 
-  logPromptInteraction(
+  // Log the interaction using the context with the measured duration
+  await context.logPromptInteraction(
     'Moondream-Detect',
+    'vlm_labeling',
     `Detect ${objectType} in base64 image`,
     JSON.stringify(result),
-    duration,
+    durationMs,
     { input: undefined, output: undefined, total: undefined }
   );
 

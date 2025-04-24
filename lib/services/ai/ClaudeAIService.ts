@@ -1,7 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { PromptResult } from '../../../types/PromptRunner'; // adjust path as needed
 import { EXTRACT_ELEMENTS_PROMPT_v2, ANCHOR_ELEMENTS_PROMPT_v0, ANCHOR_ELEMENTS_PROMPT_v1, ANCHOR_ELEMENTS_PROMPT_v2, EXTRACT_ELEMENTS_PROMPT_v3, ANCHOR_ELEMENTS_PROMPT_v3 } from '@/lib/prompt/prompts';
-import { logPromptInteraction } from '@/lib/logger';
+import { PromptTrackingContext } from '@/lib/logger';
 // Ensure your Claude API key is set in ENV
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -11,22 +11,25 @@ const anthropic = new Anthropic({
 const VISION_MODEL_CLAUDE = 'claude-3-7-sonnet-20250219';
 const VISION_MODEL_HAIKU = 'claude-3-5-haiku-20241022';
 
+// Constants for token cost calculation (update with actual costs)
+const CLAUDE_INPUT_TOKEN_COST = 0.000015; // example cost per input token
+const CLAUDE_OUTPUT_TOKEN_COST = 0.000060; // example cost per output token
+
 /**
  * Calls the Claude vision-capable model with a text prompt and optional image URL.
  *
  * @param prompt   - The text prompt to send.
  * @param imageUrl - Optional URL of an image for the model to analyze.
+ * @param context  - The tracking context containing batch, screenshot, and other IDs
+ * @param promptType - The type of prompt being processed.
  * @returns        - A structured PromptResult containing the response, timing, and token usage.
  */
 export async function callClaudeVisionModel(
   prompt: string,
-  imageUrl: string | null
-// ): Promise<PromptResult> {
+  imageUrl: string | null,
+  context: PromptTrackingContext,
+  promptType: 'element_extraction' | 'anchoring'
 ): Promise<any> {
-  const startTime = Date.now();
-  // console.log(`CALLING CLAUDE Signed URL: ${imageUrl}, prompt: ${prompt.slice(0, 100)}`);
-
-
   // Build the Anthropic messages payload
   const messages = [
     {
@@ -43,42 +46,41 @@ export async function callClaudeVisionModel(
   ];
 
   try {
+    // Start timing right before the API call
+    const startTime = Date.now();
+    
     const response = await anthropic.messages.create({
       // model: VISION_MODEL_HAIKU,
       model: VISION_MODEL_CLAUDE,
       max_tokens: 8192, // tweak as needed
       messages: messages as Anthropic.MessageParam[],
     });
-
-    const endTime = Date.now();
-    const duration = endTime - startTime;
     
-    // Log the interaction
-    logPromptInteraction(
+    // End timing right after the API call
+    const endTime = Date.now();
+    const durationMs = endTime - startTime;
+
+    // Extract usage data
+    const inputTokens = response?.usage?.input_tokens || 0;
+    const outputTokens = response?.usage?.output_tokens || 0;
+    
+    // Log the interaction using the context with the measured duration
+    await context.logPromptInteraction(
       `Claude-${VISION_MODEL_CLAUDE}`,
+      promptType,
       prompt,
       JSON.stringify(response),
-      duration,
+      durationMs,
       {
-        input: response?.usage?.input_tokens,
-        output: response?.usage?.output_tokens,
-        total: response?.usage?.input_tokens + response?.usage?.output_tokens
-      }
+        input: inputTokens,
+        output: outputTokens,
+        total: inputTokens + outputTokens
+      },
+      CLAUDE_INPUT_TOKEN_COST,
+      CLAUDE_OUTPUT_TOKEN_COST
     );
 
     return response;
-
-    // Extract content and usage (if available)
-    // const responseContent = (response as any).completion ?? '';
-    // const inputTokens   = (response as any).usage?.prompt_tokens;
-    // const outputTokens  = (response as any).usage?.completion_tokens;
-
-    // return {
-    //   response: responseContent,
-    //   duration,
-    //   inputTokens,
-    //   outputTokens,
-    // };
   } catch (err) {
     console.error('Error calling Claude Vision Model:', err);
     throw new Error(
@@ -93,15 +95,24 @@ export async function callClaudeVisionModel(
  * Extracts components from an image using the OpenAI vision model.
  *
  * @param imageUrl The URL of the image to analyze.
+ * @param component_list The list of components to guide the extraction.
+ * @param context The tracking context containing batch, screenshot, and other IDs
  * @returns A promise resolving to the structured PromptResult.
  * @throws Throws an error if the API call fails.
  */
-// export async function extract_element_from_image(imageUrl : string, component_list : string[]) {
-export async function extract_element_from_image(imageUrl : string, component_list : string) {
+export async function extract_element_from_image(
+  imageUrl: string, 
+  component_list: string,
+  context: PromptTrackingContext
+) {
   // Define the prompt for extraction
-  // const prompt = EXTRACT_ELEMENTS_PROMPT_v2 + `\n\n<component_list>${component_list.join('\n')}</component_list>`;
   const prompt = EXTRACT_ELEMENTS_PROMPT_v2 + `\n\n<component_list>${component_list}</component_list>`;
-  const response = await callClaudeVisionModel(prompt, imageUrl);
+  const response = await callClaudeVisionModel(
+    prompt, 
+    imageUrl, 
+    context,
+    'element_extraction'
+  );
 
   const { parsedContent, rawText, usage } = extractClaudeResponseData(response);
 
@@ -114,25 +125,29 @@ export async function extract_element_from_image(imageUrl : string, component_li
  *
  * @param imageUrl The URL of the image to analyze.
  * @param element_list The list of elements to guide the extraction.
+ * @param context The tracking context containing batch, screenshot, and other IDs
  * @returns A promise resolving to the structured PromptResult.
  * @throws Throws an error if the API call fails.
  */
-// export async function anchor_elements_from_image(imageUrl: string, element_list: string[]) {
-export async function anchor_elements_from_image(imageUrl: string, element_list: string) {
+export async function anchor_elements_from_image(
+  imageUrl: string, 
+  element_list: string,
+  context: PromptTrackingContext
+) {
   // Define the prompt for anchor extraction
-  // const prompt = ANCHOR_ELEMENTS_PROMPT_v0 + `\n\n<element_list>${element_list.join('\n')}</element_list>`;
-  // const prompt = ANCHOR_ELEMENTS_PROMPT_v0 + `\n\n<element_list>${element_list}</element_list>`;
-  // const prompt = ANCHOR_ELEMENTS_PROMPT_v1 + `\n\n<element_list>${element_list}</element_list>`;
-  // const prompt = ANCHOR_ELEMENTS_PROMPT_v2 + `\n\n<element_list>${element_list}</element_list>`;
   const prompt = ANCHOR_ELEMENTS_PROMPT_v3 + `\n\n<element_list>${element_list}</element_list>`;
-  const response = await callClaudeVisionModel(prompt, imageUrl);
+  const response = await callClaudeVisionModel(
+    prompt, 
+    imageUrl,
+    context,
+    'anchoring'
+  );
 
   const { parsedContent, rawText, usage } = extractClaudeResponseData(response);
 
   // Call the Claude vision model with the prompt and image URL
   return { parsedContent, rawText,usage };
 }
-
 
 /**
  * Cleans the raw text by removing unwanted formatting and normalizing it.
@@ -193,8 +208,6 @@ function parseClaudeTextToJson(rawText: string): Record<string, string> {
     return {};
   }
 }
-
-
 
 /**
  * Extracts structured content text and usage metadata from Claude's response.

@@ -3,6 +3,7 @@ import { extract_component_from_image } from '@/lib/services/ai/OpenAIService';
 import { extract_element_from_image, anchor_elements_from_image } from '@/lib/services/ai/ClaudeAIService';
 import pLimit from 'p-limit';
 import { EXTRACTION_CONCURRENCY } from '@/lib/constants';
+import { createScreenshotTrackingContext, PromptTrackingContext } from '@/lib/logger';
 
 // --- Types for intermediate results ---
 export interface Stage1Result {
@@ -62,26 +63,29 @@ export class AIExtractionService {
         const signedUrl = screenshot.screenshot_signed_url!; // We filtered for this previously
         console.log(`[Batch ${batchId}] Stage 1: Processing screenshot ${screenshotId}...`);
 
+        // Create a tracking context for this screenshot
+        const context = createScreenshotTrackingContext(batchId, screenshotId);
+
         try {
           // 1. Extract Components using OpenAI vision capabilities
           // Components represent high-level UI patterns (forms, cards, etc.)
-          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Extracting High-Level Components...`);
-          const componentResult = await extract_component_from_image(signedUrl);
+          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.1 : Extracting High-Level Components...`);
+          const componentResult = await extract_component_from_image(signedUrl, context);
           const componentSummaries = this.extractComponentSummaries(componentResult.parsedContent || []);
-          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Component extraction complete. Found ${componentSummaries.length} Main Components.`);
+          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.1 : Component extraction complete. Found ${componentSummaries.length} Main Components.`);
 
           // 2. Extract Elements based on Components using Claude
           // Elements are specific interactive parts informed by component context
-          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Extracting Detailed Elements...`);
-          const elementResult = await extract_element_from_image(signedUrl, componentSummaries.join('\n'));
-          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Element extraction complete. Found ${elementResult.parsedContent.length} Detailed Elements.`);
+          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.2 : Extracting Detailed Elements...`);
+          const elementResult = await extract_element_from_image(signedUrl, componentSummaries.join('\n'), context);
+          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.2 : Element extraction complete. Found ${elementResult.parsedContent.length} Detailed Elements.`);
 
           // 3. Anchor Elements based on Element Extraction
           // Anchors provide spatial reference points for Moondream to use later
-          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Optimising descriptions for VLM detection`);
-          const anchorResult = await anchor_elements_from_image(signedUrl, `${elementResult.rawText}`);
+          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.3 : Optimising descriptions for VLM detection`);
+          const anchorResult = await anchor_elements_from_image(signedUrl, `${elementResult.rawText}`, context);
           const anchorLabels: Record<string, string> = anchorResult.parsedContent || {};
-          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Optimisation complete. Found ${Object.keys(anchorLabels).length} labels.`);
+          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.3 : Optimisation complete. Found ${Object.keys(anchorLabels).length} labels.`);
 
           if (Object.keys(anchorLabels).length === 0) {
             console.warn(`[Batch ${batchId}][Screenshot ${screenshotId}] No anchor labels generated. Moondream detection might be ineffective.`);
@@ -93,10 +97,10 @@ export class AIExtractionService {
             elementResultRawText: elementResult.rawText || '',
             anchorLabels,
           });
-          console.log(`[Batch ${batchId}] Stage 1: Successfully processed screenshot ${screenshotId}. Found ${componentSummaries.length} Main Components, ${elementResult.parsedContent.length} Detailed Elements, ${Object.keys(anchorLabels).length} Optimised Labels.`);
+          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}]Successfully processed screenshot ${screenshotId}. Found ${componentSummaries.length} Main Components, ${elementResult.parsedContent.length} Detailed Elements, ${Object.keys(anchorLabels).length} Optimised Labels.`);
 
         } catch (error) {
-          console.error(`[Batch ${batchId}] Stage 1: Error processing screenshot ${screenshotId}:`, error);
+          console.error(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.4 : Error processing screenshot ${screenshotId}:`, error);
           // Store error information for reporting and later filtering
           // This resilience allows the process to continue with successfully processed screenshots
           stage1Results.set(screenshotId, {

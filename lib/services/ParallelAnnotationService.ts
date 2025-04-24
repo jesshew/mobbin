@@ -5,6 +5,7 @@ import { Stage1Result } from '@/lib/services/ParallelExtractionService';
 import { processAndSaveByCategory } from '@/lib/services/ai/MoondreamDetectionService';
 import pLimit from 'p-limit';
 import { MOONDREAM_CONCURRENCY } from '@/lib/constants';
+import { createScreenshotTrackingContext } from '@/lib/logger';
 
  
 /**
@@ -64,6 +65,7 @@ export class ParallelMoondreamDetectionService {
     // Initialize parallel detection tasks with controlled concurrency
     const detectionPromises = screenshots.map(screenshot =>
       moondreamLimit(async () => {
+        // const context = createScreenshotTrackingContext(batchId, screenshot.screenshot_id);
         const screenshotId = screenshot.screenshot_id;
         // We know buffer exists because it passed the initial filter
         const buffer = screenshot.screenshot_image_buffer!;
@@ -79,7 +81,8 @@ export class ParallelMoondreamDetectionService {
           const results: ComponentDetectionResult[] = await processAndSaveByCategory(
             screenshotId,
             buffer,
-            anchorLabels // Use the labels derived specific to this screenshot
+            anchorLabels, // Use the labels derived specific to this screenshot
+            batchId
           );
           console.log(`[Batch ${batchId}] Stage 2: Finished Moondream labelling for screenshot ${screenshotId}. Results count: ${results.length}`);
           return results; // Return results for this screenshot

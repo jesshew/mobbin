@@ -8,6 +8,8 @@ import pLimit from 'p-limit';
 import { AIExtractionService, Stage1Result } from '@/lib/services/ParallelExtractionService';
 import { ParallelMoondreamDetectionService } from '@/lib/services/ParallelAnnotationService';
 import { EXTRACTION_CONCURRENCY, MOONDREAM_CONCURRENCY } from '@/lib/constants';
+
+
 // --- Constants ---
 // const EXTRACTION_CONCURRENCY = 5; // Concurrency limit for OpenAI/Claude calls
 // const MOONDREAM_CONCURRENCY = 5; // Limit concurrency for Moondream processing per batch
@@ -29,8 +31,8 @@ export class BatchProcessingService {
    */
   public async start(batchId: number): Promise<void> {
     console.log(`[Batch ${batchId}] Starting processing...`);
-    const initialStatus = 'processing'; // More generic starting status
-    await this.updateBatchStatus(batchId, initialStatus);
+    // const initialStatus = 'processing'; // More generic starting status
+    // await this.updateBatchStatus(batchId, initialStatus);
 
     try {
       // --- Setup 0: Load Screenshots, URLs, Buffers ---
@@ -79,7 +81,7 @@ export class BatchProcessingService {
       console.log(`[Batch ${batchId}] Completed Stage 2 Moondream detection. Total component results generated: ${allDetectionResults.length}`);
 
       // --- Stage 3: Persist Results ---
-      await this.updateBatchStatus(batchId, 'saving_results');
+      await this.updateBatchStatus(batchId, 'done');
       console.log(`[Batch ${batchId}] Placeholder: Persisting ${allDetectionResults.length} component results...`);
       // TODO: Implement persistence logic for `allDetectionResults`
       // 1. Upload unique annotated_image_objects to Storage
