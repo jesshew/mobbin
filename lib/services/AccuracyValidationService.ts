@@ -144,35 +144,35 @@ export class AccuracyValidationService {
           
           // Re-render the component's image with updated bounding boxes
           // Use original image if available, otherwise fall back to annotated image
-          const sourceImageBuffer = component.original_image_object
-          if (!sourceImageBuffer) {
-            console.error(`[Batch ${batchId}] Stage 3: No image buffer available for component ${component.component_name}`);
-            return component;
-          }
-          const updatedImageBuffer = await this.regenerateAnnotatedImage(
-            sourceImageBuffer,
-            component.elements
-          );
+        //   const sourceImageBuffer = component.original_image_object
+        //   if (!sourceImageBuffer) {
+        //     console.error(`[Batch ${batchId}] Stage 3: No image buffer available for component ${component.component_name}`);
+        //     return component;
+        //   }
+        //   const updatedImageBuffer = await this.regenerateAnnotatedImage(
+        //     sourceImageBuffer,
+        //     component.elements
+        //   );
           
-          // Update the component with the new image buffer
-          if (updatedImageBuffer) {
-            component.annotated_image_object = updatedImageBuffer;
+        //   // Update the component with the new image buffer
+        //   if (updatedImageBuffer) {
+        //     component.annotated_image_object = updatedImageBuffer;
 
-            // Save the re-annotated image to the batch output directory
-            if (batchOutputDir) {
-              try {
-                const normalizedName = component.component_name.replace(/\s+/g,'_').toLowerCase();
-                await saveAnnotatedImageDebug(
-                  updatedImageBuffer,
-                  component.component_name,
-                  batchOutputDir
-                );
-                console.log(`[Batch ${batchId}] Saved re-annotated image for component '${component.component_name}' to ${batchOutputDir}`);
-              } catch (e) {
-                console.error(`Failed saving re-annotated image for ${component.component_name}:`, e);
-              }
-            }
-          }
+        //     // Save the re-annotated image to the batch output directory
+        //     if (batchOutputDir) {
+        //       try {
+        //         const normalizedName = component.component_name.replace(/\s+/g,'_').toLowerCase();
+        //         await saveAnnotatedImageDebug(
+        //           updatedImageBuffer,
+        //           component.component_name,
+        //           batchOutputDir
+        //         );
+        //         console.log(`[Batch ${batchId}] Saved re-annotated image for component '${component.component_name}' to ${batchOutputDir}`);
+        //       } catch (e) {
+        //         console.error(`Failed saving re-annotated image for ${component.component_name}:`, e);
+        //       }
+        //     }
+        //   }
           console.log(`[Batch ${batchId}] Stage 3: Completed validation for component ${component.component_name}`);
           
           return component;

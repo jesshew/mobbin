@@ -48,7 +48,6 @@ export class BatchProcessingService {
       
       // Use the external AIExtractionService
       const stage1Results = await AIExtractionService.performAIExtraction(batchId, screenshotsToProcess);
-      
       // Filter out screenshots that failed Stage 1 before proceeding to Stage 2
       const successfulScreenshotIds = new Set(
           Array.from(stage1Results.entries())
@@ -88,6 +87,9 @@ export class BatchProcessingService {
         batchId,
         allDetectionResults
       );
+      console.log(`[Batch ${batchId}] Stage 1: Extraction complete. Results ${JSON.stringify(stage1Results, null, 2)}\n`);
+
+      console.log(`[Batch ${batchId}] Stage 3: Accuracy Validation complete. Results:`,   validatedResults);
       
       // --- Stage 4: Persist Results ---
       await this.updateBatchStatus(batchId, ProcessStatus.DONE);
