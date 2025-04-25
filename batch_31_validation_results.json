@@ -1,0 +1,915 @@
+[
+  {
+    "screenshot_id": 41,
+    "component_name": "Chat List > Chat 4",
+    "original_image_object": "[Buffer data omitted: 39937 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 183441 bytes]",
+    "component_description": "Detection results for Chat List > Chat 4",
+    "detection_status": "success",
+    "inference_time": 3.7439999999999998,
+    "elements": [
+      {
+        "label": "Chat List > Chat 4 > Profile Picture",
+        "description": "Circular profile picture showing a person wearing a cap, positioned on the left side of the 'Soham Henry' chat entry",
+        "bounding_box": {
+          "x_min": 238,
+          "y_min": 503,
+          "x_max": 302,
+          "y_max": 572
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.794,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Bounding box closely fits the circular profile picture with slight extra padding at the bottom."
+      },
+      {
+        "label": "Chat List > Chat 4 > Name",
+        "description": "Text 'Soham Henry' in bold black font positioned in the fourth chat entry",
+        "bounding_box": {
+          "x_min": 299,
+          "y_min": 506,
+          "x_max": 501,
+          "y_max": 545
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.485,
+        "error": null,
+        "accuracy_score": 85,
+        "hidden": false,
+        "explanation": "Box covers both the name and the verified badge; some extra width but almost all of the text is inside the box."
+      },
+      {
+        "label": "Chat List > Chat 4 > Verified Badge",
+        "description": "Small blue triangle symbol next to the name 'Soham Henry'",
+        "bounding_box": {
+          "x_min": 460,
+          "y_min": 516,
+          "x_max": 475,
+          "y_max": 532
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.485,
+        "error": null,
+        "accuracy_score": 35,
+        "hidden": false,
+        "explanation": "Original box is far to the left; suggested box tightly wraps the blue badge.",
+        "suggested_coordinates": {
+          "x_min": 489,
+          "y_min": 516,
+          "x_max": 507,
+          "y_max": 537
+        }
+      },
+      {
+        "label": "Chat List > Chat 4 > Sender Indicator",
+        "description": "Text 'Me:' in gray font below the name 'Soham Henry'",
+        "bounding_box": {
+          "x_min": 299,
+          "y_min": 509,
+          "x_max": 501,
+          "y_max": 542
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.602,
+        "error": null,
+        "accuracy_score": 45,
+        "hidden": false,
+        "explanation": "Box is much too large, covering the whole second row (message, not just 'Me:'); adjusted to just enclose the 'Me:' text.",
+        "suggested_coordinates": {
+          "x_min": 303,
+          "y_min": 547,
+          "x_max": 350,
+          "y_max": 567
+        }
+      },
+      {
+        "label": "Chat List > Chat 4 > Message",
+        "description": "Text 'Bro, just fuck off' in gray font next to 'Me:' in the 'Soham Henry' chat entry",
+        "bounding_box": {
+          "x_min": 299,
+          "y_min": 508,
+          "x_max": 501,
+          "y_max": 543
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.446,
+        "error": null,
+        "accuracy_score": 44,
+        "hidden": false,
+        "explanation": "Original box captures too much, including 'Me:'; corrected to just cover the message text.",
+        "suggested_coordinates": {
+          "x_min": 350,
+          "y_min": 547,
+          "x_max": 495,
+          "y_max": 567
+        }
+      },
+      {
+        "label": "Chat List > Chat 4 > Timestamp",
+        "description": "Time indicator '8:30' in gray font positioned at the top-right of the 'Soham Henry' chat entry",
+        "bounding_box": {
+          "x_min": 515,
+          "y_min": 509,
+          "x_max": 558,
+          "y_max": 534
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.496,
+        "error": null,
+        "accuracy_score": 87,
+        "hidden": false,
+        "explanation": "Box fits the '8:30' timestamp text closely with slight right-side padding."
+      },
+      {
+        "label": "Chat List > Chat 4 > Read Receipt",
+        "description": "Blue double checkmark icon positioned at the bottom-right of the 'Soham Henry' chat entry",
+        "bounding_box": {
+          "x_min": 458,
+          "y_min": 516,
+          "x_max": 473,
+          "y_max": 532
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.436,
+        "error": null,
+        "accuracy_score": 23,
+        "hidden": true,
+        "explanation": "Box points to the area near the badge, not the bottom right; no checkmark icon is visible for this entry."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 41,
+    "component_name": "Chat List > Chat 2",
+    "original_image_object": "[Buffer data omitted: 39937 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 183983 bytes]",
+    "component_description": "Detection results for Chat List > Chat 2",
+    "detection_status": "success",
+    "inference_time": 4.323,
+    "elements": [
+      {
+        "label": "Chat List > Chat 2 > Profile Picture",
+        "description": "Circular profile picture with a pink background positioned on the left side of the 'Calvin Flores' chat entry",
+        "bounding_box": {
+          "x_min": 231,
+          "y_min": 310,
+          "x_max": 310,
+          "y_max": 377
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.737,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Bounding box tightly frames the circular profile picture, with slight extra padding at the top and bottom. Alignment is mostly accurate."
+      },
+      {
+        "label": "Chat List > Chat 2 > Name",
+        "description": "Text 'Calvin Flores' in bold black font positioned in the second chat entry",
+        "bounding_box": {
+          "x_min": 278,
+          "y_min": 316,
+          "x_max": 522,
+          "y_max": 356
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.722,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Box correctly frames the name text with just enough horizontal and vertical padding. Fit is accurate."
+      },
+      {
+        "label": "Chat List > Chat 2 > Message",
+        "description": "Text 'Hi, bro! Come to my house!' in gray font below the name 'Calvin Flores'",
+        "bounding_box": {
+          "x_min": 295,
+          "y_min": 327,
+          "x_max": 505,
+          "y_max": 375
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.489,
+        "error": null,
+        "accuracy_score": 65,
+        "hidden": false,
+        "explanation": "Box includes both the message and a small part of the name above, so the upper bound is 10-12px high. A more precise lower bound would avoid overlapping the name."
+      },
+      {
+        "label": "Chat List > Chat 2 > Timestamp",
+        "description": "Time indicator '15:13' in gray font positioned at the top-right of the 'Calvin Flores' chat entry",
+        "bounding_box": {
+          "x_min": 521,
+          "y_min": 321,
+          "x_max": 552,
+          "y_max": 346
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.729,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box is tight with correct horizontal and vertical alignment, closely matching the timestamp."
+      },
+      {
+        "label": "Chat List > Chat 2 > Message Count",
+        "description": "Blue circle with white number '1' positioned at the bottom-right of the 'Calvin Flores' chat entry",
+        "bounding_box": {
+          "x_min": 527,
+          "y_min": 341,
+          "x_max": 553,
+          "y_max": 366
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.718,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Box tightly and accurately frames the blue circle with the message count."
+      },
+      {
+        "label": "Chat List > Chat 2 > Online Indicator",
+        "description": "Small blue dot at the bottom-right of the profile picture in the 'Calvin Flores' chat entry",
+        "bounding_box": {
+          "x_min": 524,
+          "y_min": 341,
+          "x_max": 544,
+          "y_max": 366
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.928,
+        "error": null,
+        "accuracy_score": 10,
+        "hidden": false,
+        "explanation": "Box is drawn much too far right, on the message count, not the online indicator which is a small blue dot overlapping the bottom-right of the profile picture. Coordinates corrected to cover the true indicator.",
+        "suggested_coordinates": {
+          "x_min": 294,
+          "y_min": 361,
+          "x_max": 313,
+          "y_max": 377
+        }
+      }
+    ]
+  },
+  {
+    "screenshot_id": 41,
+    "component_name": "Tab Filter Bar",
+    "original_image_object": "[Buffer data omitted: 39937 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 182946 bytes]",
+    "component_description": "Detection results for Tab Filter Bar",
+    "detection_status": "success",
+    "inference_time": 9.459999999999999,
+    "elements": [
+      {
+        "label": "Tab Filter Bar > All Tab",
+        "description": "Text label 'All' shown in black on a white background, positioned on the left side of the filter bar",
+        "bounding_box": {
+          "x_min": 250,
+          "y_min": 133,
+          "x_max": 281,
+          "y_max": 175
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.878,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Bounding box tightly fits the 'All' text and background with only 1-2 pixels of extra padding on the sides. Shape and location are appropriate."
+      },
+      {
+        "label": "Tab Filter Bar > Important Tab",
+        "description": "Text label 'Important' shown in white on a blue pill-shaped button background, positioned in the center-left of the filter bar",
+        "bounding_box": {
+          "x_min": 302,
+          "y_min": 132,
+          "x_max": 417,
+          "y_max": 176
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.408,
+        "error": null,
+        "accuracy_score": 98,
+        "hidden": false,
+        "explanation": "Box closely matches the blue pill-shaped background including text and padding. Coverage and alignment are visually excellent."
+      },
+      {
+        "label": "Tab Filter Bar > Unread Tab",
+        "description": "Text label 'Unread' shown in black on a white background, positioned in the center-right of the filter bar",
+        "bounding_box": {
+          "x_min": 442,
+          "y_min": 132,
+          "x_max": 515,
+          "y_max": 174
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.697,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Bounding box tightly fits the 'Unread' tab and its white background with minimal excess on top, bottom, and sides."
+      },
+      {
+        "label": "Tab Filter Bar > Read Tab",
+        "description": "Text label 'Read' shown in black on a white background, positioned on the right side of the filter bar",
+        "bounding_box": {
+          "x_min": 531,
+          "y_min": 137,
+          "x_max": 577,
+          "y_max": 170
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.477,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Bounding box closely and accurately frames the 'Read' label and its background. Padding and alignment are well-matched."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 41,
+    "component_name": "Chat List > Chat 3",
+    "original_image_object": "[Buffer data omitted: 39937 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 182090 bytes]",
+    "component_description": "Detection results for Chat List > Chat 3",
+    "detection_status": "success",
+    "inference_time": 1.5019999999999998,
+    "elements": [
+      {
+        "label": "Chat List > Chat 3 > Message Fragment",
+        "description": "Text '...ring me?' visible in the partial chat entry with timestamp '15:13'",
+        "bounding_box": {
+          "x_min": 213,
+          "y_min": 444,
+          "x_max": 274,
+          "y_max": 464
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.439,
+        "error": null,
+        "accuracy_score": 63,
+        "hidden": false,
+        "explanation": "Box captures most of the message fragment text but is slightly too high and wide, including excess whitespace on the right."
+      },
+      {
+        "label": "Chat List > Chat 3 > Message Count",
+        "description": "Blue pill-shaped indicator with white number '164' positioned at the right of the partial chat entry",
+        "bounding_box": {
+          "x_min": 291,
+          "y_min": 440,
+          "x_max": 332,
+          "y_max": 468
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.576,
+        "error": null,
+        "accuracy_score": 88,
+        "hidden": false,
+        "explanation": "Box tightly fits the pill-shaped indicator and the number. Only minor excess on the right, but overall highly accurate."
+      },
+      {
+        "label": "Chat List > Chat 3 > Timestamp",
+        "description": "Time indicator '15:13' in gray font positioned next to the message fragment '...ring me?'",
+        "bounding_box": {
+          "x_min": 288,
+          "y_min": 419,
+          "x_max": 335,
+          "y_max": 442
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.487,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Bounding box closely matches and tightly fits the '15:13' timestamp. Minimal adjustment needed."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 41,
+    "component_name": "Top Navigation Bar",
+    "original_image_object": "[Buffer data omitted: 39937 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 182735 bytes]",
+    "component_description": "Detection results for Top Navigation Bar",
+    "detection_status": "success",
+    "inference_time": 7.87,
+    "elements": [
+      {
+        "label": "Top Navigation Bar > App Title",
+        "description": "Blue text 'Telegram' positioned at the top-left of the navigation bar",
+        "bounding_box": {
+          "x_min": 233,
+          "y_min": 70,
+          "x_max": 349,
+          "y_max": 102
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.805,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Box tightly frames the Telegram title text with minor padding; near-perfect alignment."
+      },
+      {
+        "label": "Top Navigation Bar > Add Button",
+        "description": "Blue plus icon positioned at the top-right area of the navigation bar",
+        "bounding_box": {
+          "x_min": 433,
+          "y_min": 73,
+          "x_max": 474,
+          "y_max": 98
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.844,
+        "error": null,
+        "accuracy_score": 47,
+        "hidden": false,
+        "explanation": "Box was shifted too far right and included the search icon; corrected to tightly enclose the plus icon only.",
+        "suggested_coordinates": {
+          "x_min": 381,
+          "y_min": 74,
+          "x_max": 412,
+          "y_max": 98
+        }
+      },
+      {
+        "label": "Top Navigation Bar > Search Button",
+        "description": "Blue magnifying glass icon positioned at the top-right area, next to the plus icon",
+        "bounding_box": {
+          "x_min": 433,
+          "y_min": 73,
+          "x_max": 474,
+          "y_max": 98
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.836,
+        "error": null,
+        "accuracy_score": 52,
+        "hidden": false,
+        "explanation": "Current box contains both the plus and search icons; corrected to fit only the magnifying glass icon.",
+        "suggested_coordinates": {
+          "x_min": 423,
+          "y_min": 75,
+          "x_max": 454,
+          "y_max": 98
+        }
+      },
+      {
+        "label": "Top Navigation Bar > Menu Button",
+        "description": "Blue three horizontal lines icon (hamburger menu) positioned at the far right of the navigation bar",
+        "bounding_box": {
+          "x_min": 524,
+          "y_min": 73,
+          "x_max": 555,
+          "y_max": 98
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.385,
+        "error": null,
+        "accuracy_score": 90,
+        "hidden": false,
+        "explanation": "Box closely fits the menu/hamburger icon at the far right with minimal extra space; accurate."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 41,
+    "component_name": "Chat List > Chat 1",
+    "original_image_object": "[Buffer data omitted: 39937 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 184221 bytes]",
+    "component_description": "Detection results for Chat List > Chat 1",
+    "detection_status": "success",
+    "inference_time": 8.88,
+    "elements": [
+      {
+        "label": "Chat List > Chat 1 > Profile Picture",
+        "description": "Circular profile picture with a pink background containing a portrait, positioned on the left side of the first chat entry",
+        "bounding_box": {
+          "x_min": 231,
+          "y_min": 214,
+          "x_max": 310,
+          "y_max": 283
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.694,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Bounding box very tightly frames the circular profile image with minimal excess space."
+      },
+      {
+        "label": "Chat List > Chat 1 > Name",
+        "description": "Text 'Theresa Webb' in bold black font positioned to the right of the profile picture in the first chat entry",
+        "bounding_box": {
+          "x_min": 310,
+          "y_min": 222,
+          "x_max": 490,
+          "y_max": 265
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.695,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Box encompasses the name text accurately, with a slight over-extension to the right but full coverage."
+      },
+      {
+        "label": "Chat List > Chat 1 > Verified Badge",
+        "description": "Small blue triangle symbol next to the name 'Theresa Webb', in the first chat entry",
+        "bounding_box": {
+          "x_min": 455,
+          "y_min": 229,
+          "x_max": 480,
+          "y_max": 246
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.964,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box closely and appropriately frames the blue verified badge next to the name."
+      },
+      {
+        "label": "Chat List > Chat 1 > Message",
+        "description": "Text 'Why did you do that?' in gray font below the name 'Theresa Webb'",
+        "bounding_box": {
+          "x_min": 319,
+          "y_min": 252,
+          "x_max": 481,
+          "y_max": 271
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.878,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Box accurately covers the gray message text line with excellent alignment."
+      },
+      {
+        "label": "Chat List > Chat 1 > Timestamp",
+        "description": "Time indicator '15:20' in gray font positioned at the top-right of the chat entry with 'Theresa Webb'",
+        "bounding_box": {
+          "x_min": 511,
+          "y_min": 223,
+          "x_max": 558,
+          "y_max": 250
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.759,
+        "error": null,
+        "accuracy_score": 91,
+        "hidden": false,
+        "explanation": "Bounding box fits the timestamp text well, fully contains and isn't oversized."
+      },
+      {
+        "label": "Chat List > Chat 1 > Message Count",
+        "description": "Blue circle with white number '2' positioned at the bottom-right of the chat entry with 'Theresa Webb'",
+        "bounding_box": {
+          "x_min": 524,
+          "y_min": 248,
+          "x_max": 551,
+          "y_max": 271
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.89,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Box is well-centered on the blue circle and tightly frames the unread message counter."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 41,
+    "component_name": "Chat List > Chat 6",
+    "original_image_object": "[Buffer data omitted: 39937 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 183191 bytes]",
+    "component_description": "Detection results for Chat List > Chat 6",
+    "detection_status": "success",
+    "inference_time": 2.1710000000000003,
+    "elements": [
+      {
+        "label": "Chat List > Chat 6 > Profile Picture",
+        "description": "Circular profile picture positioned on the left side of the 'Brother' chat entry",
+        "bounding_box": {
+          "x_min": 240,
+          "y_min": 698,
+          "x_max": 310,
+          "y_max": 763
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.45,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Box tightly fits the circular profile picture with only minor excess space at the top and bottom."
+      },
+      {
+        "label": "Chat List > Chat 6 > Name",
+        "description": "Text 'Brother' in bold black font positioned in the sixth chat entry",
+        "bounding_box": {
+          "x_min": 321,
+          "y_min": 704,
+          "x_max": 394,
+          "y_max": 731
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.434,
+        "error": null,
+        "accuracy_score": 98,
+        "hidden": false,
+        "explanation": "Box closely fits the 'Brother' text with accurate alignment."
+      },
+      {
+        "label": "Chat List > Chat 6 > Message",
+        "description": "Text 'Ok. Good day!' in gray font below the name 'Brother'",
+        "bounding_box": {
+          "x_min": 362,
+          "y_min": 732,
+          "x_max": 438,
+          "y_max": 750
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.803,
+        "error": null,
+        "accuracy_score": 86,
+        "hidden": false,
+        "explanation": "Box contains the whole message text but has slight extra padding on the right."
+      },
+      {
+        "label": "Chat List > Chat 6 > Timestamp",
+        "description": "Text 'Yesterday' in gray font positioned at the top-right of the 'Brother' chat entry",
+        "bounding_box": {
+          "x_min": 483,
+          "y_min": 707,
+          "x_max": 553,
+          "y_max": 727
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.484,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box fits the 'Yesterday' text well, with minimal excess on the right."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 41,
+    "component_name": "Chat List > Chat 5",
+    "original_image_object": "[Buffer data omitted: 39937 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 186593 bytes]",
+    "component_description": "Detection results for Chat List > Chat 5",
+    "detection_status": "success",
+    "inference_time": 4.194999999999999,
+    "elements": [
+      {
+        "label": "Chat List > Chat 5 > Profile Picture",
+        "description": "Circular profile picture positioned on the left side of the 'Mother' chat entry",
+        "bounding_box": {
+          "x_min": 234,
+          "y_min": 601,
+          "x_max": 307,
+          "y_max": 670
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.47,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Bounding box tightly frames the circular profile picture with only slight extra padding at the top and right."
+      },
+      {
+        "label": "Chat List > Chat 5 > Name",
+        "description": "Text 'Mother' with a red heart emoji in bold black font in the fifth chat entry",
+        "bounding_box": {
+          "x_min": 278,
+          "y_min": 515,
+          "x_max": 522,
+          "y_max": 738
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.721,
+        "error": null,
+        "accuracy_score": 38,
+        "hidden": false,
+        "explanation": "Original box is far too large vertically and horizontally, covering unrelated areas. Corrected to tightly fit the name text.",
+        "suggested_coordinates": {
+          "x_min": 315,
+          "y_min": 608,
+          "x_max": 445,
+          "y_max": 637
+        }
+      },
+      {
+        "label": "Chat List > Chat 5 > Sender Indicator",
+        "description": "Text 'Me:' in gray font below the name 'Mother'",
+        "bounding_box": {
+          "x_min": 298,
+          "y_min": 615,
+          "x_max": 502,
+          "y_max": 649
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.478,
+        "error": null,
+        "accuracy_score": 40,
+        "hidden": false,
+        "explanation": "Original box covers the whole message line instead of just 'Me:'. Corrected to tightly cover only the sender indicator.",
+        "suggested_coordinates": {
+          "x_min": 315,
+          "y_min": 637,
+          "x_max": 355,
+          "y_max": 655
+        }
+      },
+      {
+        "label": "Chat List > Chat 5 > Message",
+        "description": "Text 'Yes, of course come, ...' in gray font next to 'Me:' in the 'Mother' chat entry",
+        "bounding_box": {
+          "x_min": 298,
+          "y_min": 621,
+          "x_max": 502,
+          "y_max": 670
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.611,
+        "error": null,
+        "accuracy_score": 45,
+        "hidden": false,
+        "explanation": "Box was broad and partially overlapped with 'Me:'. Tightened to only include the actual message text.",
+        "suggested_coordinates": {
+          "x_min": 357,
+          "y_min": 641,
+          "x_max": 468,
+          "y_max": 659
+        }
+      },
+      {
+        "label": "Chat List > Chat 5 > Timestamp",
+        "description": "Time indicator '7:20' in gray font positioned at the top-right of the 'Mother' chat entry",
+        "bounding_box": {
+          "x_min": 514,
+          "y_min": 609,
+          "x_max": 555,
+          "y_max": 632
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.989,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Timestamp box is well-placed and closely frames the '7:20' time, with minimal extra space."
+      },
+      {
+        "label": "Chat List > Chat 5 > Read Receipt",
+        "description": "Blue double checkmark icon positioned at the bottom-right of the 'Mother' chat entry",
+        "bounding_box": {
+          "x_min": 458,
+          "y_min": 516,
+          "x_max": 473,
+          "y_max": 532
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.465,
+        "error": null,
+        "accuracy_score": 0,
+        "hidden": true,
+        "explanation": "Box is placed over the top-right of the Soham Henry row, not the Mother chat entry. No relevant icon detected at this spot in the Mother row."
+      },
+      {
+        "label": "Chat List > Chat 5 > Online Indicator",
+        "description": "Small blue dot at the bottom-right of the profile picture in the 'Mother' chat entry",
+        "bounding_box": {
+          "x_min": 524,
+          "y_min": 542,
+          "x_max": 544,
+          "y_max": 558
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.461,
+        "error": null,
+        "accuracy_score": 0,
+        "hidden": true,
+        "explanation": "Box is placed far from the profile picture position; no blue dot detected here for the 'Mother' entry. Not salvageable."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 41,
+    "component_name": "Chat Action Toolbar",
+    "original_image_object": "[Buffer data omitted: 39937 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 182196 bytes]",
+    "component_description": "Detection results for Chat Action Toolbar",
+    "detection_status": "success",
+    "inference_time": 1.517,
+    "elements": [
+      {
+        "label": "Chat Action Toolbar > Bookmark Button",
+        "description": "Blue bookmark icon on a blue background positioned on the left side of the action toolbar at the bottom of the screen",
+        "bounding_box": {
+          "x_min": 390,
+          "y_min": 422,
+          "x_max": 410,
+          "y_max": 466
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.509,
+        "error": null,
+        "accuracy_score": 42,
+        "hidden": false,
+        "explanation": "Original box was too wide and slightly offset left, missing part of the blue button background. Adjusted to better fit the bookmark icon's blue button.",
+        "suggested_coordinates": {
+          "x_min": 395,
+          "y_min": 432,
+          "x_max": 410,
+          "y_max": 466
+        }
+      },
+      {
+        "label": "Chat Action Toolbar > Check Button",
+        "description": "Blue checkmark icon on a blue background positioned in the center of the action toolbar at the bottom of the screen",
+        "bounding_box": {
+          "x_min": 460,
+          "y_min": 516,
+          "x_max": 475,
+          "y_max": 532
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.486,
+        "error": null,
+        "accuracy_score": 38,
+        "hidden": false,
+        "explanation": "Original box was misplaced below the action toolbar, not around the checkmark icon. Moved and resized bounding box to cover the correct position and size of the center blue check button.",
+        "suggested_coordinates": {
+          "x_min": 442,
+          "y_min": 425,
+          "x_max": 463,
+          "y_max": 467
+        }
+      },
+      {
+        "label": "Chat Action Toolbar > Delete Button",
+        "description": "Blue trash bin icon on a blue background positioned on the right side of the action toolbar at the bottom of the screen",
+        "bounding_box": {
+          "x_min": 504,
+          "y_min": 415,
+          "x_max": 551,
+          "y_max": 468
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.522,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Box accurately surrounds the blue delete button and icon with slight excess padding; overall correct and needs no correction."
+      }
+    ]
+  }
+]

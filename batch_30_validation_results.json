@@ -1,0 +1,529 @@
+[
+  {
+    "screenshot_id": 40,
+    "component_name": "Power-Ups Section > Streak Freeze",
+    "original_image_object": "[Buffer data omitted: 31221 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 120991 bytes]",
+    "component_description": "Detection results for Power-Ups Section > Streak Freeze",
+    "detection_status": "success",
+    "inference_time": 2.434,
+    "elements": [
+      {
+        "label": "Power-Ups Section > Streak Freeze > Icon",
+        "description": "Light blue ice crystal or frozen droplet icon positioned at the left side of the first power-up row",
+        "bounding_box": {
+          "x_min": 258,
+          "y_min": 178,
+          "x_max": 311,
+          "y_max": 250
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.482,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Bounding box tightly encloses the ice crystal icon with minimal excess space and good alignment."
+      },
+      {
+        "label": "Power-Ups Section > Streak Freeze > Title",
+        "description": "Bold black text 'Streak Freeze' to the right of the ice crystal icon",
+        "bounding_box": {
+          "x_min": 326,
+          "y_min": 184,
+          "x_max": 474,
+          "y_max": 202
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.544,
+        "error": null,
+        "accuracy_score": 90,
+        "hidden": false,
+        "explanation": "Bounding box properly contains the 'Streak Freeze' title, with only slight excess space at the right."
+      },
+      {
+        "label": "Power-Ups Section > Streak Freeze > Description",
+        "description": "Gray text describing functionality that reads 'Streak Freeze allows your streak to remain in place for one full day of inactivity'",
+        "bounding_box": {
+          "x_min": 316,
+          "y_min": 205,
+          "x_max": 551,
+          "y_max": 265
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.457,
+        "error": null,
+        "accuracy_score": 88,
+        "hidden": false,
+        "explanation": "Box accurately covers the entire description text, with a small amount of padding above and below."
+      },
+      {
+        "label": "Power-Ups Section > Streak Freeze > Status Indicator",
+        "description": "Small green pill-shaped badge with white text '2/2 EQUIPPED' indicating full usage of this power-up",
+        "bounding_box": {
+          "x_min": 337,
+          "y_min": 285,
+          "x_max": 438,
+          "y_max": 304
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.463,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Bounding box closely fits the pill badge and its text, showing high accuracy."
+      },
+      {
+        "label": "Power-Ups Section > Streak Freeze > Equipped Button",
+        "description": "Light gray pill-shaped button with lighter gray text 'EQUIPPED' indicating this power-up is currently active",
+        "bounding_box": {
+          "x_min": 339,
+          "y_min": 321,
+          "x_max": 427,
+          "y_max": 357
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.488,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Box tightly frames the 'EQUIPPED' button with excellent horizontal and vertical fitting."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 40,
+    "component_name": "App Header Bar > Status Bar",
+    "original_image_object": "[Buffer data omitted: 31221 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 117048 bytes]",
+    "component_description": "Detection results for App Header Bar > Status Bar",
+    "detection_status": "success",
+    "inference_time": 9.964,
+    "elements": [
+      {
+        "label": "App Header Bar > Status Bar > Time",
+        "description": "White text '9:41' displayed in the top-left corner of the screen against the green header background",
+        "bounding_box": {
+          "x_min": 253,
+          "y_min": 28,
+          "x_max": 287,
+          "y_max": 42
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.477,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Bounding box tightly and accurately encloses the '9:41' text with minimal extra padding."
+      },
+      {
+        "label": "App Header Bar > Status Bar > Network Indicator",
+        "description": "White cellular signal strength icon positioned in the top-right area of the screen",
+        "bounding_box": {
+          "x_min": 489,
+          "y_min": 29,
+          "x_max": 529,
+          "y_max": 41
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.507,
+        "error": null,
+        "accuracy_score": 62,
+        "hidden": false,
+        "explanation": "Original box is too wide and partially overlaps other status icons; suggested box more tightly fits the cellular icon.",
+        "suggested_coordinates": {
+          "x_min": 495,
+          "y_min": 29,
+          "x_max": 510,
+          "y_max": 40
+        }
+      },
+      {
+        "label": "App Header Bar > Status Bar > WiFi Indicator",
+        "description": "White WiFi signal icon positioned in the top-right area of the screen, between the network indicator and battery icon",
+        "bounding_box": {
+          "x_min": 490,
+          "y_min": 29,
+          "x_max": 533,
+          "y_max": 41
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.494,
+        "error": null,
+        "accuracy_score": 40,
+        "hidden": false,
+        "explanation": "Original box covers multiple status icons; suggested coordinates tightly fit only the WiFi indicator.",
+        "suggested_coordinates": {
+          "x_min": 513,
+          "y_min": 29,
+          "x_max": 523,
+          "y_max": 40
+        }
+      },
+      {
+        "label": "App Header Bar > Status Bar > Battery Indicator",
+        "description": "White battery icon showing full charge positioned at the far top-right corner of the screen",
+        "bounding_box": {
+          "x_min": 522,
+          "y_min": 30,
+          "x_max": 547,
+          "y_max": 40
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.486,
+        "error": null,
+        "accuracy_score": 86,
+        "hidden": false,
+        "explanation": "Box accurately encloses the battery icon with only minor excess width."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 40,
+    "component_name": "App Header Bar",
+    "original_image_object": "[Buffer data omitted: 31221 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 119353 bytes]",
+    "component_description": "Detection results for App Header Bar",
+    "detection_status": "success",
+    "inference_time": 4.363,
+    "elements": [
+      {
+        "label": "App Header Bar > Progress Bar",
+        "description": "Bright green horizontal bar spanning the full width at the top of the screen, containing the app's counters and indicators",
+        "bounding_box": {
+          "x_min": 233,
+          "y_min": 8,
+          "x_max": 567,
+          "y_max": 102
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.503,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Bounding box matches the header bar almost perfectly, only minor pixel overhang at the bottom."
+      },
+      {
+        "label": "App Header Bar > Fire Token Counter",
+        "description": "Flame icon with the number '1' in white, positioned on the left side of the green header bar",
+        "bounding_box": {
+          "x_min": 323,
+          "y_min": 59,
+          "x_max": 364,
+          "y_max": 84
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.463,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box accurately frames the fire token counter, slight extra padding on the bottom/right but very close fit."
+      },
+      {
+        "label": "App Header Bar > Gem Counter",
+        "description": "Blue hexagonal gem icon with '505' in white text, centered in the green header bar",
+        "bounding_box": {
+          "x_min": 404,
+          "y_min": 56,
+          "x_max": 464,
+          "y_max": 83
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.944,
+        "error": null,
+        "accuracy_score": 98,
+        "hidden": false,
+        "explanation": "Bounding box very tightly fits the gem counter, minimal excess space; nearly perfect annotation."
+      },
+      {
+        "label": "App Header Bar > Hearts Counter",
+        "description": "Red heart icon with infinity symbol (∞) in white, positioned on the right side of the green header bar",
+        "bounding_box": {
+          "x_min": 511,
+          "y_min": 56,
+          "x_max": 558,
+          "y_max": 83
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.453,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Box accurately includes the heart icon and the infinity symbol, with slight right-side padding."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 40,
+    "component_name": "Power-Ups Section > Double or Nothing",
+    "original_image_object": "[Buffer data omitted: 31221 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 134946 bytes]",
+    "component_description": "Detection results for Power-Ups Section > Double or Nothing",
+    "detection_status": "success",
+    "inference_time": 1.887,
+    "elements": [
+      {
+        "label": "Power-Ups Section > Double or Nothing > Icon",
+        "description": "Orange calendar-like icon with flame decoration and the number '7' inside, positioned at the left of the second power-up row",
+        "bounding_box": {
+          "x_min": 254,
+          "y_min": 386,
+          "x_max": 318,
+          "y_max": 455
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.475,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Bounding box tightly encompasses the orange calendar icon with the '7', with only a minor margin misalignment at the bottom right edge."
+      },
+      {
+        "label": "Power-Ups Section > Double or Nothing > Title",
+        "description": "Bold black text 'Double or Nothing' to the right of the calendar icon",
+        "bounding_box": {
+          "x_min": 0,
+          "y_min": 0,
+          "x_max": 800,
+          "y_max": 800
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.467,
+        "error": null,
+        "accuracy_score": 8,
+        "hidden": false,
+        "explanation": "Box covers the entire app window instead of the small title text. Tightened box around the 'Double or Nothing' text.",
+        "suggested_coordinates": {
+          "x_min": 330,
+          "y_min": 389,
+          "x_max": 542,
+          "y_max": 419
+        }
+      },
+      {
+        "label": "Power-Ups Section > Double or Nothing > Description",
+        "description": "Gray text explaining 'Double your 50 gem wager by maintaining a 7 day streak' below the title",
+        "bounding_box": {
+          "x_min": 278,
+          "y_min": 429,
+          "x_max": 522,
+          "y_max": 454
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.452,
+        "error": null,
+        "accuracy_score": 90,
+        "hidden": false,
+        "explanation": "Box accurately spans the multi-line gray description text, with correct top and bottom alignment. Left margin could be closer but is sufficiently accurate."
+      },
+      {
+        "label": "Power-Ups Section > Double or Nothing > Purchase Button",
+        "description": "White pill-shaped button with text 'GET FOR:' and a blue gem icon with '50' indicating the purchase cost",
+        "bounding_box": {
+          "x_min": 334,
+          "y_min": 482,
+          "x_max": 466,
+          "y_max": 514
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.493,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Bounding box closely frames the button, text, and icon with only minor top-bottom excess padding."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 40,
+    "component_name": "Power-Ups Section",
+    "original_image_object": "[Buffer data omitted: 31221 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 137371 bytes]",
+    "component_description": "Detection results for Power-Ups Section",
+    "detection_status": "success",
+    "inference_time": 1.366,
+    "elements": [
+      {
+        "label": "Power-Ups Section > Title",
+        "description": "Bold black text 'Power-Ups' at the top of the white content area below the green header",
+        "bounding_box": {
+          "x_min": 0,
+          "y_min": 0,
+          "x_max": 800,
+          "y_max": 800
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.444,
+        "error": null,
+        "accuracy_score": 30,
+        "hidden": false,
+        "explanation": "Original box covered almost the entire screen, not just the title text. Suggested a tight box around the label for accurate coverage.",
+        "suggested_coordinates": {
+          "x_min": 35,
+          "y_min": 114,
+          "x_max": 315,
+          "y_max": 162
+        }
+      },
+      {
+        "label": "Power-Ups Section > Divider Line",
+        "description": "Thin horizontal gray line spanning the width of the screen below the 'Power-Ups' title",
+        "bounding_box": {
+          "x_min": 233,
+          "y_min": -19,
+          "x_max": 567,
+          "y_max": 781
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.441,
+        "error": null,
+        "accuracy_score": 20,
+        "hidden": false,
+        "explanation": "Box was vertically offset and far too tall; suggested a much thinner and accurately placed bounding box over the gray divider line.",
+        "suggested_coordinates": {
+          "x_min": 28,
+          "y_min": 208,
+          "x_max": 763,
+          "y_max": 220
+        }
+      },
+      {
+        "label": "Power-Ups Section > Divider Line 2",
+        "description": "Thin horizontal gray line separating the Streak Freeze power-up from the Double or Nothing power-up below",
+        "bounding_box": {
+          "x_min": 233,
+          "y_min": 365,
+          "x_max": 567,
+          "y_max": 383
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.481,
+        "error": null,
+        "accuracy_score": 36,
+        "hidden": false,
+        "explanation": "Original box was centered but too short and limited in width; corrected to span the actual divider line's width and height.",
+        "suggested_coordinates": {
+          "x_min": 28,
+          "y_min": 412,
+          "x_max": 763,
+          "y_max": 424
+        }
+      }
+    ]
+  },
+  {
+    "screenshot_id": 40,
+    "component_name": "Bottom Navigation Bar",
+    "original_image_object": "[Buffer data omitted: 31221 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 118899 bytes]",
+    "component_description": "Detection results for Bottom Navigation Bar",
+    "detection_status": "success",
+    "inference_time": 3.0940000000000003,
+    "elements": [
+      {
+        "label": "Bottom Navigation Bar > Home Button",
+        "description": "Yellow house icon in the bottom navigation bar, positioned at the far left",
+        "bounding_box": {
+          "x_min": 245,
+          "y_min": 725,
+          "x_max": 291,
+          "y_max": 764
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.49,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Bounding box closely fits the house icon, only minor padding present."
+      },
+      {
+        "label": "Bottom Navigation Bar > Shield Button",
+        "description": "Yellow shield or badge icon in the bottom navigation bar, second position from the left",
+        "bounding_box": {
+          "x_min": 316,
+          "y_min": 726,
+          "x_max": 347,
+          "y_max": 762
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.489,
+        "error": null,
+        "accuracy_score": 98,
+        "hidden": false,
+        "explanation": "Box is tightly placed around the shield icon with minimal excess space."
+      },
+      {
+        "label": "Bottom Navigation Bar > Treasure Chest Button",
+        "description": "Brown treasure chest icon centered in the bottom navigation bar",
+        "bounding_box": {
+          "x_min": 377,
+          "y_min": 723,
+          "x_max": 423,
+          "y_max": 764
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.194,
+        "error": null,
+        "accuracy_score": 98,
+        "hidden": false,
+        "explanation": "Bounding box accurately centers and frames the treasure chest icon."
+      },
+      {
+        "label": "Bottom Navigation Bar > Profile Button",
+        "description": "Red and white bookmark or flag icon in the bottom navigation bar, second position from the right",
+        "bounding_box": {
+          "x_min": 448,
+          "y_min": 718,
+          "x_max": 494,
+          "y_max": 766
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.439,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Box fits the profile/bookmark icon almost exactly, very little wasted space."
+      },
+      {
+        "label": "Bottom Navigation Bar > Character Button",
+        "description": "Purple character icon positioned at the far right of the bottom navigation bar",
+        "bounding_box": {
+          "x_min": 515,
+          "y_min": 724,
+          "x_max": 557,
+          "y_max": 765
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.482,
+        "error": null,
+        "accuracy_score": 98,
+        "hidden": false,
+        "explanation": "Box is very well aligned with the character icon, minimal padding."
+      }
+    ]
+  }
+]

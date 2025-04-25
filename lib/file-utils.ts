@@ -26,6 +26,6 @@ export function cleanText(rawText: string): string {
     .replace(/,\s*]/g, ']')           // remove trailing commas
     .replace(/```json/g, '')           // remove ```json
     .replace(/```/g, '')              // remove ```
-    .replace(/\\/g, '');              // remove \
+    // .replace(/\\/g, '');              // remove \
     // .replace(/\n/g, '');              // flatten into one line
 }

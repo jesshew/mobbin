@@ -69,6 +69,8 @@ export class ParallelMoondreamDetectionService {
         const screenshotId = screenshot.screenshot_id;
         // We know buffer exists because it passed the initial filter
         const buffer = screenshot.screenshot_image_buffer!;
+        // Get screenshot signed URL for audit/debugging
+        const screenshotUrl = screenshot.screenshot_signed_url || '';  // Use empty string as fallback if undefined
         // We know stage 1 results exist because we filtered for successful ones
         const stage1Data = stage1Results.get(screenshotId)!;
         const anchorLabels = stage1Data.anchorLabels;
@@ -82,7 +84,8 @@ export class ParallelMoondreamDetectionService {
             screenshotId,
             buffer,
             anchorLabels, // Use the labels derived specific to this screenshot
-            batchId
+            batchId,
+            screenshotUrl // Pass screenshot URL for storage in component results
           );
           console.log(`[Batch ${batchId}] Stage 2: Finished Moondream labelling for screenshot ${screenshotId}. Results count: ${results.length}`);
           return results; // Return results for this screenshot

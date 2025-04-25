@@ -7,8 +7,10 @@ import type { ComponentDetectionResult } from '@/types/DetectionResult';
 import pLimit from 'p-limit';
 import { AIExtractionService, Stage1Result } from '@/lib/services/ParallelExtractionService';
 import { ParallelMoondreamDetectionService } from '@/lib/services/ParallelAnnotationService';
+import { AccuracyValidationService } from '@/lib/services/AccuracyValidationService';
+import { MetadataExtractionService } from '@/lib/services/MetadataExtractionService';
 import { EXTRACTION_CONCURRENCY, MOONDREAM_CONCURRENCY, ProcessStatus } from '@/lib/constants';
-
+import fs from 'fs';
 
 // --- Constants ---
 // const EXTRACTION_CONCURRENCY = 5; // Concurrency limit for OpenAI/Claude calls
@@ -47,7 +49,6 @@ export class BatchProcessingService {
       
       // Use the external AIExtractionService
       const stage1Results = await AIExtractionService.performAIExtraction(batchId, screenshotsToProcess);
-      
       // Filter out screenshots that failed Stage 1 before proceeding to Stage 2
       const successfulScreenshotIds = new Set(
           Array.from(stage1Results.entries())
@@ -78,10 +79,63 @@ export class BatchProcessingService {
         stage1Results
       );
       
-      // --- Stage 3: Persist Results ---
-      await this.updateBatchStatus(batchId, ProcessStatus.DONE);
-      console.log(`[Batch ${batchId}] Placeholder: Persisting ${allDetectionResults.length} component results...`);
-      // TODO: Implement persistence logic for `allDetectionResults`
+      // --- Stage 3: Accuracy Validation ---
+      await this.updateBatchStatus(batchId, ProcessStatus.VALIDATING);
+      console.log(`[Batch ${batchId}] Stage 3: Starting Accuracy Validation...`);
+      
+      // Use the AccuracyValidationService to validate bounding boxes
+      const validatedResults = await AccuracyValidationService.performAccuracyValidation(
+        batchId,
+        allDetectionResults
+      );
+      console.log(`[Batch ${batchId}] Stage 3: Accuracy Validation complete.`);
+
+      const replacer = (key: string, value: any) => {
+        if ((key === 'annotated_image_object' || key === 'original_image_object') && value && value.type === 'Buffer') {
+          // Check for the structure { type: 'Buffer', data: [...] } which is how Buffers might appear after certain operations
+          // Or check if it's an actual Buffer instance
+           return `[Buffer data omitted: ${value.data ? value.data.length : 'N/A'} bytes]`;
+        } else if (Buffer.isBuffer(value)) {
+           // Catch actual Buffer instances if the above check doesn't apply
+           return `[Buffer data omitted: ${value.length} bytes]`;
+        }
+        return value; // Keep other values as they are
+      };
+
+      fs.writeFileSync(`batch_${batchId}_validation_results.json`, JSON.stringify(validatedResults, replacer, 2));
+      console.log(`[Batch ${batchId}] Stage 3: Accuracy Validation complete. ${JSON.stringify(validatedResults, replacer, 2)}`);
+     
+      
+      // --- Stage 4: Metadata Extraction ---
+      // await this.updateBatchStatus(batchId, ProcessStatus.EXTRACTING);
+      console.log(`[Batch ${batchId}] Stage 4: Starting Metadata Extraction...`);
+      
+      // Use the MetadataExtractionService to extract metadata from the validated results
+      const enrichedResults = await MetadataExtractionService.performMetadataExtraction(
+        batchId,
+        validatedResults
+      );
+      console.log(`[Batch ${batchId}] Stage 4: Metadata Extraction complete.`);
+
+      // Write the full results to a file for debugging
+  
+
+      // Use JSON.stringify with the replacer for readable output, omitting buffer data
+     fs.writeFileSync(`batch_${batchId}_final_results.json`, JSON.stringify(enrichedResults, replacer, 2));
+
+      // --- Stage 4: Metadata Extraction ---
+
+      // Use the MetadataExtractionService to extract metadata from the validated results
+      // extract 
+
+
+
+
+
+      // Keep status as DONE for now, persistence logic is TBD
+      await this.updateBatchStatus(batchId, ProcessStatus.DONE); 
+      console.log(`[Batch ${batchId}] Placeholder: Persisting ${validatedResults.length} component results...`);
+      // TODO: Implement persistence logic for `validatedResults`
       // 1. Upload unique annotated_image_objects to Storage
       // 2. Get public URLs
       // 3. Update ComponentDetectionResult objects
