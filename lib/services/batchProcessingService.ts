@@ -8,6 +8,7 @@ import pLimit from 'p-limit';
 import { AIExtractionService, Stage1Result } from '@/lib/services/ParallelExtractionService';
 import { ParallelMoondreamDetectionService } from '@/lib/services/ParallelAnnotationService';
 import { AccuracyValidationService } from '@/lib/services/AccuracyValidationService';
+import { MetadataExtractionService } from '@/lib/services/MetadataExtractionService';
 import { EXTRACTION_CONCURRENCY, MOONDREAM_CONCURRENCY, ProcessStatus } from '@/lib/constants';
 import fs from 'fs';
 
@@ -87,10 +88,8 @@ export class BatchProcessingService {
         batchId,
         allDetectionResults
       );
-      console.log(`[Batch ${batchId}] Stage 1: Extraction complete. Results ${JSON.stringify(stage1Results, null, 2)}
-`);
+      console.log(`[Batch ${batchId}] Stage 3: Accuracy Validation complete.`);
 
-      // Replacer function to omit Buffer data during stringification
       const replacer = (key: string, value: any) => {
         if ((key === 'annotated_image_object' || key === 'original_image_object') && value && value.type === 'Buffer') {
           // Check for the structure { type: 'Buffer', data: [...] } which is how Buffers might appear after certain operations
@@ -103,11 +102,36 @@ export class BatchProcessingService {
         return value; // Keep other values as they are
       };
 
-      // Use JSON.stringify with the replacer for readable output, omitting buffer data
       fs.writeFileSync(`batch_${batchId}_validation_results.json`, JSON.stringify(validatedResults, replacer, 2));
       console.log(`[Batch ${batchId}] Stage 3: Accuracy Validation complete. ${JSON.stringify(validatedResults, replacer, 2)}`);
+     
       
-      // --- Stage 4: Persist Results ---
+      // --- Stage 4: Metadata Extraction ---
+      // await this.updateBatchStatus(batchId, ProcessStatus.EXTRACTING);
+      console.log(`[Batch ${batchId}] Stage 4: Starting Metadata Extraction...`);
+      
+      // Use the MetadataExtractionService to extract metadata from the validated results
+      const enrichedResults = await MetadataExtractionService.performMetadataExtraction(
+        batchId,
+        validatedResults
+      );
+      console.log(`[Batch ${batchId}] Stage 4: Metadata Extraction complete.`);
+
+      // Write the full results to a file for debugging
+  
+
+      // Use JSON.stringify with the replacer for readable output, omitting buffer data
+     fs.writeFileSync(`batch_${batchId}_final_results.json`, JSON.stringify(enrichedResults, replacer, 2));
+
+      // --- Stage 4: Metadata Extraction ---
+
+      // Use the MetadataExtractionService to extract metadata from the validated results
+      // extract 
+
+
+
+
+
       // Keep status as DONE for now, persistence logic is TBD
       await this.updateBatchStatus(batchId, ProcessStatus.DONE); 
       console.log(`[Batch ${batchId}] Placeholder: Persisting ${validatedResults.length} component results...`);

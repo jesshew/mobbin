@@ -24,9 +24,11 @@
         "error": null,
         "accuracy_score": 94,
         "hidden": false,
-        "explanation": "Bounding box closely matches the text element, with only minimal extra vertical and horizontal padding."
+        "explanation": "Bounding box closely matches the text element, with only minimal extra vertical and horizontal padding.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Header\",\"facetTags\":[\"title\",\"instruction\",\"centered\",\"bold\",\"reminder\",\"goal\",\"visual hierarchy\",\"engagement\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static header—no interaction\"},\"userFlowImpact\":\"Grabs user attention and clearly communicates the purpose of the prompt to nudge toward action.\"}"
       }
-    ]
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Modal Dialog\",\"facetTags\":[\"reminders\",\"goal-setting\",\"engagement\",\"modal\",\"notifications\",\"focus\",\"blocking\",\"mobile\",\"attention\",\"habit-building\"],\"states\":[\"default\",\"active\",\"dismissed\"],\"interaction\":{\"on_show\":\"displays reminder and notification permission request\",\"on_dismiss\":\"closes modal without enabling reminders\"},\"userFlowImpact\":\"Interrupts user flow to encourage enabling daily reminders, increasing engagement and goal retention.\"}"
   },
   {
     "screenshot_id": 38,
@@ -53,7 +55,8 @@
         "error": null,
         "accuracy_score": 94,
         "hidden": false,
-        "explanation": "Bounding box is well-aligned around the time text with minimal extra space, showing high accuracy."
+        "explanation": "Bounding box is well-aligned around the time text with minimal extra space, showing high accuracy.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Label\",\"facetTags\":[\"time display\",\"system info\",\"page header\",\"utility\",\"static\",\"contextual\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—displays the current time, no user interaction.\"},\"userFlowImpact\":\"Enables users to quickly check the current time while preserving context without leaving the app.\"}"
       },
       {
         "label": "Page Header > Status Bar > Connectivity Icons",
@@ -70,7 +73,8 @@
         "error": null,
         "accuracy_score": 90,
         "hidden": false,
-        "explanation": "Box effectively covers the connectivity icons with slight extra padding but remains precise and correct."
+        "explanation": "Box effectively covers the connectivity icons with slight extra padding but remains precise and correct.",
+        "element_metadata_extraction": "{\"patternName\":\"Status Icon Set\",\"facetTags\":[\"connectivity\",\"signal indicator\",\"Wi-Fi\",\"status display\",\"system state\",\"awareness\",\"visual indicator\"],\"states\":[\"connected\",\"disconnected\",\"searching\",\"airplane mode\"],\"interaction\":{\"none\":\"Informational icons only—no direct interaction.\"},\"userFlowImpact\":\"Keeps users informed about their network status, influencing their expectations for connectivity-dependent actions.\"}"
       },
       {
         "label": "Page Header > Status Bar > Battery Icon",
@@ -87,9 +91,11 @@
         "error": null,
         "accuracy_score": 85,
         "hidden": false,
-        "explanation": "Box closely frames the battery icon but includes minor adjacent space; overall, fit is visually appropriate."
+        "explanation": "Box closely frames the battery icon but includes minor adjacent space; overall, fit is visually appropriate.",
+        "element_metadata_extraction": "{\"patternName\":\"Status Icon\",\"facetTags\":[\"battery\",\"power level\",\"status indicator\",\"system feedback\",\"visual cue\",\"awareness\"],\"states\":[\"charged\",\"charging\",\"low battery\",\"medium battery\",\"full battery\"],\"interaction\":{\"none\":\"Static status indicator—no interactive events.\"},\"userFlowImpact\":\"Provides immediate visibility of device power, enabling users to respond if charging is needed during app use.\"}"
       }
-    ]
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Status Bar\",\"facetTags\":[\"system UI\",\"information display\",\"mobile\",\"page header\",\"status indicators\",\"context awareness\",\"utility\",\"recurrence\",\"non-interactive\"],\"states\":[\"default\",\"low battery\",\"no signal\",\"airplane mode\",\"charging\",\"connected\",\"disconnected\"],\"interaction\":{\"none\":\"This component serves informational purposes only and is not directly interactive.\"},\"userFlowImpact\":\"Keeps the user continuously aware of device status without interrupting the primary app flow.\"}"
   },
   {
     "screenshot_id": 38,
@@ -116,7 +122,8 @@
         "error": null,
         "accuracy_score": 92,
         "hidden": false,
-        "explanation": "The bounding box tightly fits the back arrow in the top-left corner with minimal excess area. High alignment with the described element."
+        "explanation": "The bounding box tightly fits the back arrow in the top-left corner with minimal excess area. High alignment with the described element.",
+        "element_metadata_extraction": "{\"patternName\":\"Icon Button\",\"facetTags\":[\"navigation\",\"back\",\"action\",\"mobile\",\"UX affordance\",\"left-aligned\",\"gesture\",\"contextual\"],\"states\":[\"default\",\"pressed\",\"disabled\"],\"interaction\":{\"on_tap\":\"navigates to previous screen\"},\"userFlowImpact\":\"Enables users to easily backtrack or exit the current flow, increasing navigational confidence.\"}"
       },
       {
         "label": "Page Header > Navigation > Progress Bar",
@@ -133,9 +140,11 @@
         "error": null,
         "accuracy_score": 88,
         "hidden": false,
-        "explanation": "Box accurately contains the yellow horizontal progress bar with slight extra padding on the right but overall correct in size and position."
+        "explanation": "Box accurately contains the yellow horizontal progress bar with slight extra padding on the right but overall correct in size and position.",
+        "element_metadata_extraction": "{\"patternName\":\"Progress Bar\",\"facetTags\":[\"progress\",\"feedback\",\"completion\",\"linear\",\"visual indicator\",\"guidance\",\"step indicator\",\"status\",\"onboarding\"],\"states\":[\"default\",\"in_progress\",\"complete\"],\"interaction\":{\"none\":\"Static indicator—no interaction\"},\"userFlowImpact\":\"Visually communicates user’s advancement, setting clear expectations for flow completion.\"}"
       }
-    ]
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Page Header\",\"facetTags\":[\"navigation\",\"progress\",\"mobile\",\"wayfinding\",\"contextual\",\"orientation\",\"status\",\"onboarding\",\"UI chrome\",\"flow control\"],\"states\":[\"default\",\"scrolled\",\"with_progress\",\"without_progress\"],\"interaction\":{\"on_back_button_tap\":\"returns user to previous screen\",\"none\":\"Page header and progress bar themselves are not directly interactive\"},\"userFlowImpact\":\"Orients users at the top of the page, providing backward navigation and indicating progress to guide expectations.\"}"
   },
   {
     "screenshot_id": 38,
@@ -162,7 +171,8 @@
         "error": null,
         "accuracy_score": 83,
         "hidden": false,
-        "explanation": "Box tightly covers the green owl character with minor extra coverage toward the right to include the bell; fairly accurate for the mascot."
+        "explanation": "Box tightly covers the green owl character with minor extra coverage toward the right to include the bell; fairly accurate for the mascot.",
+        "element_metadata_extraction": "{\"patternName\":\"Mascot Illustration\",\"facetTags\":[\"mascot\",\"brand\",\"visual-cue\",\"attention\",\"emotion\",\"friendly\",\"guidance\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static image—no user interaction\"},\"userFlowImpact\":\"Builds trust and draws users into the reminder prompt by humanizing the experience.\"}"
       },
       {
         "label": "Goal Reminder Prompt > Mascot > Bell Icon",
@@ -185,7 +195,8 @@
           "y_min": 315,
           "x_max": 444,
           "y_max": 352
-        }
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Visual Notification Symbol\",\"facetTags\":[\"icon\",\"notification\",\"cue\",\"reminder\",\"symbol\",\"visual-aid\",\"status\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static symbol—no user interaction\"},\"userFlowImpact\":\"Visually reinforces the goal reminder purpose and primes users for notification-related actions.\"}"
       },
       {
         "label": "Goal Reminder Prompt > Mascot > Speech Bubble",
@@ -202,9 +213,11 @@
         "error": null,
         "accuracy_score": 91,
         "hidden": false,
-        "explanation": "Box captures nearly all of the speech bubble and text with only a minimal margin on the left side; highly accurate."
+        "explanation": "Box captures nearly all of the speech bubble and text with only a minimal margin on the left side; highly accurate.",
+        "element_metadata_extraction": "{\"patternName\":\"Speech Bubble\",\"facetTags\":[\"speech\",\"text-callout\",\"instruction\",\"contextual-tip\",\"onboarding\",\"prompt\",\"motivational\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static text—no user interaction\"},\"userFlowImpact\":\"Delivers a supportive, explanatory message to lower user hesitation and reinforce intent.\"}"
       }
-    ]
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Onboarding Illustration\",\"facetTags\":[\"goal-setting\",\"onboarding\",\"reminder\",\"engagement\",\"visual-aid\",\"reward\",\"encouragement\",\"mobile\",\"education\",\"motivation\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static visual—no direct interaction\"},\"userFlowImpact\":\"Captures user attention and creates a friendly context for enabling goal notifications.\"}"
   },
   {
     "screenshot_id": 38,
@@ -231,9 +244,11 @@
         "error": null,
         "accuracy_score": 96,
         "hidden": false,
-        "explanation": "Bounding box tightly surrounds the 'CONTINUE' button with only minimal padding on the sides. Very accurate."
+        "explanation": "Bounding box tightly surrounds the 'CONTINUE' button with only minimal padding on the sides. Very accurate.",
+        "element_metadata_extraction": "{\"patternName\":\"Action Button\",\"facetTags\":[\"tap\",\"confirmation\",\"progress\",\"bottom bar\",\"prominent\",\"mobile\",\"fixed\",\"interaction\"],\"states\":[\"default\",\"pressed\",\"disabled\",\"focused\"],\"interaction\":{\"on_tap\":\"submits the current state and proceeds to the following screen\",\"on_press\":\"displays pressed visual state\"},\"userFlowImpact\":\"Prominently nudges the user to confirm their choice and move forward in the process.\"}"
       }
-    ]
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Primary Button\",\"facetTags\":[\"action\",\"call to action\",\"progression\",\"footer\",\"confirmation\",\"touch\",\"mobile\",\"visible\",\"engagement\",\"navigation\"],\"states\":[\"default\",\"pressed\",\"disabled\",\"focused\"],\"interaction\":{\"on_tap\":\"advances the user to the next step in the flow\",\"on_press\":\"provides visual feedback and prepares to trigger action\"},\"userFlowImpact\":\"Guides the user forward through the flow by clearly presenting a next-step action that is always visible.\"}"
   },
   {
     "screenshot_id": 38,
@@ -266,7 +281,8 @@
           "y_min": 385,
           "x_max": 610,
           "y_max": 675
-        }
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Dialog Container\",\"facetTags\":[\"container\",\"modal\",\"focus\",\"card\",\"permission\",\"web\",\"foreground\",\"layout\"],\"states\":[\"default\",\"focused\"],\"interaction\":{\"none\":\"Static structural element—no direct interaction\"},\"userFlowImpact\":\"Frames the dialog content, visually focusing user attention for the permission choice.\"}"
       },
       {
         "label": "Notification Permission Dialog > App Icon",
@@ -283,7 +299,8 @@
         "error": null,
         "accuracy_score": 97,
         "hidden": false,
-        "explanation": "Box tightly frames the app icon with only slight extra margin at the top and bottom."
+        "explanation": "Box tightly frames the app icon with only slight extra margin at the top and bottom.",
+        "element_metadata_extraction": "{\"patternName\":\"App/Brand Icon\",\"facetTags\":[\"icon\",\"branding\",\"visual identifier\",\"context\",\"static\",\"decorative\",\"modal\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static visual element—no interaction\"},\"userFlowImpact\":\"Helps users quickly recognize the source of the notification request.\"}"
       },
       {
         "label": "Notification Permission Dialog > Message",
@@ -300,7 +317,8 @@
         "error": null,
         "accuracy_score": 96,
         "hidden": false,
-        "explanation": "The box closely fits the central notification permission message, with minor horizontal padding."
+        "explanation": "The box closely fits the central notification permission message, with minor horizontal padding.",
+        "element_metadata_extraction": "{\"patternName\":\"Dialog Message Text\",\"facetTags\":[\"text\",\"instruction\",\"content\",\"description\",\"primary message\",\"permission\",\"web\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Informs the user about the permission being requested, clarifying the action needed.\"}"
       },
       {
         "label": "Notification Permission Dialog > Additional Info",
@@ -317,7 +335,8 @@
         "error": null,
         "accuracy_score": 90,
         "hidden": false,
-        "explanation": "Box fits the small gray 'website preferences' text with minor overhang right and left."
+        "explanation": "Box fits the small gray 'website preferences' text with minor overhang right and left.",
+        "element_metadata_extraction": "{\"patternName\":\"Helper Text\",\"facetTags\":[\"helper text\",\"supporting information\",\"explanation\",\"settings\",\"secondary text\",\"context\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static informational element\"},\"userFlowImpact\":\"Provides additional context about where notification settings can be changed, supporting informed choices.\"}"
       },
       {
         "label": "Notification Permission Dialog > Block Button",
@@ -334,7 +353,8 @@
         "error": null,
         "accuracy_score": 95,
         "hidden": false,
-        "explanation": "Box tightly frames the 'BLOCK' button, horizontally and vertically."
+        "explanation": "Box tightly frames the 'BLOCK' button, horizontally and vertically.",
+        "element_metadata_extraction": "{\"patternName\":\"Secondary Button\",\"facetTags\":[\"button\",\"action\",\"secondary\",\"block\",\"deny\",\"control\",\"CTA\",\"modal\"],\"states\":[\"default\",\"hover\",\"pressed\",\"focused\",\"disabled\"],\"interaction\":{\"on_click\":\"registers the user's choice to block notifications\"},\"userFlowImpact\":\"Lets users actively opt out of notifications, reinforcing control and respect for privacy.\"}"
       },
       {
         "label": "Notification Permission Dialog > Allow Button",
@@ -351,7 +371,8 @@
         "error": null,
         "accuracy_score": 96,
         "hidden": false,
-        "explanation": "Box snugly captures 'ALLOW' button with almost no unnecessary padding."
+        "explanation": "Box snugly captures 'ALLOW' button with almost no unnecessary padding.",
+        "element_metadata_extraction": "{\"patternName\":\"Primary Button\",\"facetTags\":[\"button\",\"action\",\"primary\",\"allow\",\"grant permission\",\"CTA\",\"modal\",\"confirm\"],\"states\":[\"default\",\"hover\",\"pressed\",\"focused\",\"disabled\"],\"interaction\":{\"on_click\":\"registers the user's choice to allow notifications\"},\"userFlowImpact\":\"Encourages users to opt in for notifications, driving ongoing engagement.\"}"
       },
       {
         "label": "Notification Permission Dialog > Indicator Arrow",
@@ -368,8 +389,10 @@
         "error": null,
         "accuracy_score": 93,
         "hidden": false,
-        "explanation": "Box fits the blue arrow below the dialog accurately, containing the full icon."
+        "explanation": "Box fits the blue arrow below the dialog accurately, containing the full icon.",
+        "element_metadata_extraction": "{\"patternName\":\"Directional Arrow Indicator\",\"facetTags\":[\"indicator\",\"visual cue\",\"arrow\",\"navigation\",\"focus\",\"modal\",\"contextual\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static visual indicator—no direct interaction\"},\"userFlowImpact\":\"Signals the contextual relationship between the dialog and subsequent user flow, guiding attention downward.\"}"
       }
-    ]
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Modal Dialog\",\"facetTags\":[\"notification\",\"permission\",\"web\",\"modal\",\"prompt\",\"privacy\",\"onboarding\",\"decision point\",\"user control\",\"responsive\"],\"states\":[\"default\",\"focused\",\"dimmed\",\"dismissed\"],\"interaction\":{\"on_open\":\"presents notification permission choices\",\"on_close\":\"dismisses permission dialog\",\"on_block_click\":\"submits user's choice to block notifications\",\"on_allow_click\":\"submits user's choice to allow notifications\"},\"userFlowImpact\":\"Guides the user in making a clear privacy-related choice, impacting ongoing engagement and communication.\"}"
   }
 ]

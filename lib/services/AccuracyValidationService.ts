@@ -51,11 +51,11 @@ export class AccuracyValidationService {
     
     // Create a single output directory for all re-annotated images in this batch
     let batchOutputDir: string | null = null;
-    if (process.env.SAVE_DEBUG_FILES === 'true') {
-      batchOutputDir = `mobbin_validated_batch_${batchId}_${new Date().toISOString().replace(/[:.-]/g,'')}`;
-      await fs.promises.mkdir(batchOutputDir, { recursive: true });
-      console.log(`[Batch ${batchId}] Created output directory for all validated images: ${batchOutputDir}`);
-    }
+    // if (process.env.SAVE_DEBUG_FILES === 'true') {
+    //   batchOutputDir = `mobbin_validated_batch_${batchId}_${new Date().toISOString().replace(/[:.-]/g,'')}`;
+    //   await fs.promises.mkdir(batchOutputDir, { recursive: true });
+    //   console.log(`[Batch ${batchId}] Created output directory for all validated images: ${batchOutputDir}`);
+    // }
     
     // Create a concurrency limiter
     const validationLimit = pLimit(VALIDATION_CONCURRENCY);
