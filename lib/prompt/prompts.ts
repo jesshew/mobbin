@@ -481,6 +481,64 @@ Ignore Decorative Stuff
 </example_output>
 `
 
+export const EXTRACTION_PROMPT_v6 = `
+    Extract High-Level UI Components with Functional Metadata
+
+    <instructions>
+    You are given a UI screenshot from a mobile or web application.
+
+    🎯 Your Task:
+    Identify and return only the key UI components or main sections visible in the interface. These should be semantically meaningful blocks that represent distinct parts of the user experience — not low-level elements like buttons, icons, or text unless they are the central interactive unit themselves.
+
+    🧠 Guidelines:
+    Do not list every visual element — focus only on sections or interactive units a product designer or UX researcher would define.
+
+    Group smaller elements into their logical parent component (e.g., quantity controls, icons, labels → Cart Item).
+
+    Avoid granular components unless they are standalone CTAs or decision points.
+
+    Include Partially Visible Items
+    - If a card or button is cut off but still recognizable, include it.
+    - Group Small Things if They Belong Together
+    - If an image, label, and button work together (like in a product card), group them as one component.
+
+    Ignore Decorative Stuff
+    - Don’t include backgrounds, dividers, icons that don’t do anything, or layout-only elements.
+
+    Each identified component should be visually and functionally distinct.
+
+    🧾 Output Format: JSON List
+    For each top-level component, include the following fields:
+
+    component_name: A human-readable name for the section (e.g., "Cart Item", "Header", "Promocode Section")
+
+    description: A short, clear description of the section and what's visually included
+
+    </instructions>
+
+    <sample_output> 
+    [
+      {
+        "component_name": "Cart Item List",
+        "description": "Visual block showing product image, name, price, and quantity controls.",
+      },
+      {
+        "component_name": "Delivery Options",
+        "description": "Section showing available delivery choices with cost and selection state.",
+      },
+      {
+        "component_name": "Promocode Section",
+        "description": "Input area for applying promotional codes with validation feedback.",
+      },
+      {
+    "component_name": "Partial Debit Card",
+    "description": "Partially visible card element showing the top edge and part of the card number, suggesting the presence of a second linked payment method."
+    }
+    ]
+    </sample_output>
+    `;
+
+
 
 export const EXTRACT_ELEMENTS_PROMPT_v0 = `
     <instructions>

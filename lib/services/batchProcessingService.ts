@@ -9,7 +9,7 @@ import { AIExtractionService, Stage1Result } from '@/lib/services/ParallelExtrac
 import { ParallelMoondreamDetectionService } from '@/lib/services/ParallelAnnotationService';
 import { AccuracyValidationService } from '@/lib/services/AccuracyValidationService';
 import { EXTRACTION_CONCURRENCY, MOONDREAM_CONCURRENCY, ProcessStatus } from '@/lib/constants';
-
+import fs from 'fs';
 
 // --- Constants ---
 // const EXTRACTION_CONCURRENCY = 5; // Concurrency limit for OpenAI/Claude calls
@@ -87,12 +87,29 @@ export class BatchProcessingService {
         batchId,
         allDetectionResults
       );
-      console.log(`[Batch ${batchId}] Stage 1: Extraction complete. Results ${JSON.stringify(stage1Results, null, 2)}\n`);
+      console.log(`[Batch ${batchId}] Stage 1: Extraction complete. Results ${JSON.stringify(stage1Results, null, 2)}
+`);
 
-      console.log(`[Batch ${batchId}] Stage 3: Accuracy Validation complete. Results:`,   validatedResults);
+      // Replacer function to omit Buffer data during stringification
+      const replacer = (key: string, value: any) => {
+        if ((key === 'annotated_image_object' || key === 'original_image_object') && value && value.type === 'Buffer') {
+          // Check for the structure { type: 'Buffer', data: [...] } which is how Buffers might appear after certain operations
+          // Or check if it's an actual Buffer instance
+           return `[Buffer data omitted: ${value.data ? value.data.length : 'N/A'} bytes]`;
+        } else if (Buffer.isBuffer(value)) {
+           // Catch actual Buffer instances if the above check doesn't apply
+           return `[Buffer data omitted: ${value.length} bytes]`;
+        }
+        return value; // Keep other values as they are
+      };
+
+      // Use JSON.stringify with the replacer for readable output, omitting buffer data
+      fs.writeFileSync(`batch_${batchId}_validation_results.json`, JSON.stringify(validatedResults, replacer, 2));
+      console.log(`[Batch ${batchId}] Stage 3: Accuracy Validation complete. ${JSON.stringify(validatedResults, replacer, 2)}`);
       
       // --- Stage 4: Persist Results ---
-      await this.updateBatchStatus(batchId, ProcessStatus.DONE);
+      // Keep status as DONE for now, persistence logic is TBD
+      await this.updateBatchStatus(batchId, ProcessStatus.DONE); 
       console.log(`[Batch ${batchId}] Placeholder: Persisting ${validatedResults.length} component results...`);
       // TODO: Implement persistence logic for `validatedResults`
       // 1. Upload unique annotated_image_objects to Storage

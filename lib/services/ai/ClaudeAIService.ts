@@ -151,8 +151,6 @@ export async function anchor_elements_from_image(
   return { parsedContent, rawText,usage };
 }
 
-
-
 /**
  * Cleans the raw text and returns a list of components.
  *
@@ -169,30 +167,63 @@ function cleanTextToList(components: any[]): string[] {
  * Helper: Parses Claude's text content into a JSON object safely.
  * Handles common formatting quirks like trailing commas or line breaks.
  * Searches for JSON content within the response text.
+ * It attempts to clean the extracted text before parsing.
  *
  * @param rawText - Raw text string returned from Claude.
- * @returns Parsed JSON object.
+ * @returns Parsed JSON object, or an empty object if parsing fails.
  */
-function parseClaudeTextToJson(rawText: string): Record<string, string> {
+function parseClaudeTextToJson(rawText: string): Record<string, any> {
+  console.log('Attempting to parse Claude response as JSON');
+  let jsonContent = '';
+  
   try {
     // Look for JSON pattern in the text - either within code blocks or standalone
     const jsonRegex = /```(?:json)?\s*({[\s\S]*?})\s*```|({[\s\S]*})/;
     const match = rawText.match(jsonRegex);
-    
-    let jsonContent = '';
+
     if (match) {
       // Use the first matched group that contains content
       jsonContent = match[1] || match[2];
+      console.log('Extracted potential JSON content:', jsonContent);
     } else {
-      // Fall back to using the entire text
+      console.log('No JSON match found within ``` markers or as standalone object, trying entire text.');
+      // Fall back to using the entire text if no specific JSON block is found
       jsonContent = rawText;
     }
+
+    // --- Enhanced Cleaning ---
+    // 1. Basic cleaning (from file-utils, potentially redundant but safe)
+    let cleanedText = cleanText(jsonContent); 
     
-    const cleanedText = cleanText(jsonContent);
+    // 2. Remove leading/trailing whitespace
+    cleanedText = cleanedText.trim();
+
+    // 3. Attempt to fix common JSON issues (e.g., unescaped newlines within strings)
+    // Note: This is a heuristic and might not cover all cases.
+    // It replaces literal newlines only if they seem to be inside string values
+    // (i.e., preceded by a non-backslash character and followed by a quote).
+    // This is complex to get perfect with regex, a more robust solution might involve
+    // a more sophisticated parser or sequential processing.
+    // cleanedText = cleanedText.replace(/([^\\])\\n"/g, '$1\\\\n"'); // Example: try to fix unescaped newlines
+
+    // More aggressive cleaning: remove control characters except for \t, \n, \r, \f within strings
+    cleanedText = cleanedText.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
+
+
+    // 4. Final attempt to remove trailing commas before closing brace/bracket
+    cleanedText = cleanedText.replace(/,\s*([}\]])/g, '$1');
+
+    console.log('Cleaned JSON content for parsing:', cleanedText);
+    
+    // --- Parsing ---
     return JSON.parse(cleanedText);
+
   } catch (error) {
-    console.error('Failed to parse Claude response as JSON:', error);
-    return {};
+    console.error('Failed to parse Claude response as JSON even after cleaning.', error);
+    console.error('Original rawText:', rawText);
+    console.error('Content attempted for parsing:', jsonContent); // Log the extracted part
+    // Return empty object on failure to prevent downstream errors
+    return {}; 
   }
 }
 
@@ -203,7 +234,7 @@ function parseClaudeTextToJson(rawText: string): Record<string, string> {
  * @returns Object containing parsed text content and usage details.
  */
 export function extractClaudeResponseData(response: any): {
-  parsedContent: Record<string, string>,
+  parsedContent: Record<string, any>,
   rawText: string,
   usage: {
     input_tokens?: number,
@@ -211,6 +242,7 @@ export function extractClaudeResponseData(response: any): {
   }
 } {
   const rawText = response?.content?.find((item: any) => item.type === 'text')?.text ?? '';
+  console.log('returned from claude rawText', rawText);
 
   const parsedContent = parseClaudeTextToJson(rawText);
 

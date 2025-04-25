@@ -1,0 +1,273 @@
+[
+  {
+    "screenshot_id": 38,
+    "component_name": "Header Progress Bar",
+    "original_image_object": "[Buffer data omitted: 33244 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 122990 bytes]",
+    "component_description": "Detection results for Header Progress Bar",
+    "detection_status": "success",
+    "inference_time": 4.537,
+    "elements": [
+      {
+        "label": "Header Progress Bar > Status Indicator",
+        "description": "Yellow horizontal progress bar at the top of the screen, positioned directly under the phone status bar",
+        "bounding_box": {
+          "x_min": 255,
+          "y_min": 52,
+          "x_max": 573,
+          "y_max": 66
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.745,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box tightly fits the yellow progress bar horizontally and vertically, with only 1-2 pixel excess at the left. Good alignment overall."
+      },
+      {
+        "label": "Header Progress Bar > Back Button",
+        "description": "Gray left-pointing arrow icon positioned at the left side of the header area, below the status bar",
+        "bounding_box": {
+          "x_min": 227,
+          "y_min": 48,
+          "x_max": 252,
+          "y_max": 69
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.792,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Box closely fits the gray back arrow icon. Minimal space around the icon; accurate size and placement for the described element."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 38,
+    "component_name": "Continue Button",
+    "original_image_object": "[Buffer data omitted: 33244 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 123933 bytes]",
+    "component_description": "Detection results for Continue Button",
+    "detection_status": "success",
+    "inference_time": 0.487,
+    "elements": [
+      {
+        "label": "Continue Button > Button",
+        "description": "Large green rectangular button with rounded corners and white text 'CONTINUE' at the bottom of the screen",
+        "bounding_box": {
+          "x_min": 239,
+          "y_min": 686,
+          "x_max": 561,
+          "y_max": 737
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.487,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Bounding box closely matches the visible button's position and size, with only a minor excess on the right edge. No correction necessary."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 38,
+    "component_name": "Reminder Prompt",
+    "original_image_object": "[Buffer data omitted: 33244 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 132023 bytes]",
+    "component_description": "Detection results for Reminder Prompt",
+    "detection_status": "success",
+    "inference_time": 6.07,
+    "elements": [
+      {
+        "label": "Reminder Prompt > Title",
+        "description": "Bold gray text 'Get a daily reminder to meet your goal' centered in the upper portion of the screen",
+        "bounding_box": {
+          "x_min": 247,
+          "y_min": 174,
+          "x_max": 553,
+          "y_max": 255
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.467,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Bounding box closely fits the title text, with minimal padding above and below. Very accurate."
+      },
+      {
+        "label": "Reminder Prompt > Duolingo Mascot",
+        "description": "Green cartoon owl character holding a yellow bell, positioned in the middle section of the screen",
+        "bounding_box": {
+          "x_min": 245,
+          "y_min": 303,
+          "x_max": 434,
+          "y_max": 403
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.86,
+        "error": null,
+        "accuracy_score": 85,
+        "hidden": false,
+        "explanation": "Bounding box accurately covers the owl mascot and bell, with a slight omission of the owl's left wing, but otherwise fits well."
+      },
+      {
+        "label": "Reminder Prompt > Speech Bubble",
+        "description": "White speech bubble with text 'Just in case you forget!' next to the green owl character",
+        "bounding_box": {
+          "x_min": 432,
+          "y_min": 322,
+          "x_max": 567,
+          "y_max": 374
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.743,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Bounding box tightly fits the speech bubble and the text, closely matching the element's shape and placement."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 38,
+    "component_name": "Notification Permission Card",
+    "original_image_object": "[Buffer data omitted: 33244 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 128021 bytes]",
+    "component_description": "Detection results for Notification Permission Card",
+    "detection_status": "success",
+    "inference_time": 4.73,
+    "elements": [
+      {
+        "label": "Notification Permission Card > Container",
+        "description": "White rectangular card with rounded corners containing the notification permission request, positioned in the middle of the screen",
+        "bounding_box": {
+          "x_min": 237,
+          "y_min": 398,
+          "x_max": 495,
+          "y_max": 643
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.656,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Bounding box very closely follows the card's edges with minimal excess gutter, only a couple of pixels extra at bottom and sides."
+      },
+      {
+        "label": "Notification Permission Card > App Icon",
+        "description": "Small green square icon with cartoon eyes, positioned at the left side within the notification card",
+        "bounding_box": {
+          "x_min": 336,
+          "y_min": 422,
+          "x_max": 383,
+          "y_max": 466
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.703,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Box tightly frames the app icon, matching the element position and size; extra margin is minimal."
+      },
+      {
+        "label": "Notification Permission Card > Message",
+        "description": "Text stating 'The website \"duolingo.com\" would like to send you notifications in Notification Center.' centered in the card",
+        "bounding_box": {
+          "x_min": 248,
+          "y_min": 482,
+          "x_max": 483,
+          "y_max": 513
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.897,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box accurately covers the full message text, with minor horizontal extension to the left not affecting inclusion."
+      },
+      {
+        "label": "Notification Permission Card > Helper Text",
+        "description": "Small gray text 'Notifications can be changed in Safari Website preferences.' at the bottom of the notification card",
+        "bounding_box": {
+          "x_min": 244,
+          "y_min": 527,
+          "x_max": 556,
+          "y_max": 570
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.821,
+        "error": null,
+        "accuracy_score": 48,
+        "hidden": false,
+        "explanation": "Annotated box is much wider than the actual helper text and too tall. Suggested box more tightly encloses the visible helper line.",
+        "suggested_coordinates": {
+          "x_min": 265,
+          "y_min": 538,
+          "x_max": 470,
+          "y_max": 558
+        }
+      },
+      {
+        "label": "Notification Permission Card > Block Button",
+        "description": "Gray rectangular button with text 'BLOCK' on the lower left side of the notification card",
+        "bounding_box": {
+          "x_min": 254,
+          "y_min": 588,
+          "x_max": 356,
+          "y_max": 625
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.482,
+        "error": null,
+        "accuracy_score": 90,
+        "hidden": false,
+        "explanation": "Box closely frames the 'BLOCK' button; both vertical and horizontal fit are correct, with only slight overreach."
+      },
+      {
+        "label": "Notification Permission Card > Allow Button",
+        "description": "Blue rectangular button with white text 'ALLOW' on the lower right side of the notification card",
+        "bounding_box": {
+          "x_min": 363,
+          "y_min": 588,
+          "x_max": 465,
+          "y_max": 622
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.432,
+        "error": null,
+        "accuracy_score": 91,
+        "hidden": false,
+        "explanation": "Box covers the 'ALLOW' button well, closely matching the actual UI element's boundaries."
+      },
+      {
+        "label": "Notification Permission Card > Direction Indicator",
+        "description": "Light blue upward-pointing arrow below the notification card",
+        "bounding_box": {
+          "x_min": 407,
+          "y_min": 645,
+          "x_max": 422,
+          "y_max": 668
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.739,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box frames the blue arrow with only minimal, visually negligible padding."
+      }
+    ]
+  }
+]
