@@ -13,6 +13,7 @@ import { AnnotationCanvas } from "../components/annotation/annotation-canvas"
 import { AnnotationHeader } from "../components/annotation/annotation-header"
 import { BoundingBox } from "@/types/annotation"
 import { useAnnotationState } from "../hooks/use-annotation-state"
+import { PanelFooterActions } from "./control-panel/panel-footer-actions"
 
 // Mock data for demonstration purposes
 const mockBoundingBoxes = [
@@ -208,19 +209,34 @@ export function AnnotationEditor({ image, onBack, onNextImage, onPreviousImage }
           onSave={handleSave}
         />
 
-        <div className="flex-1 overflow-auto bg-muted/30 p-2 sm:p-4 relative">
+        <div className="flex-1 bg-muted/30 p-2 sm:p-4 relative flex flex-col">
           {isImageLoading && (
             <div className="absolute inset-0 flex items-center justify-center bg-background/80 z-10">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
           )}
-          <AnnotationCanvas
-            imageState={imageState}
-            boxControls={boxControls}
-            labelEditing={labelEditing}
-            interactionHandlers={interactionHandlers}
-            isMobile={false}
-          />
+          <div className="flex-1 h-[80%] flex items-center justify-center">
+            <div className="max-w-full max-h-full">
+              <AnnotationCanvas
+                imageState={{
+                  ...imageState,
+                  scale: Math.min(scale, 1) // Ensure image never scales up beyond original size
+                }}
+                boxControls={boxControls}
+                labelEditing={labelEditing}
+                interactionHandlers={interactionHandlers}
+                isMobile={false}
+              />
+            </div>
+          </div>
+          <div className="sticky bottom-0 bg-background shadow-md z-10 mt-auto">
+            <PanelFooterActions
+              onSave={handleSave}
+              onExport={()=>{}}
+              onPreviousImage={onPreviousImage}
+              onNextImage={onNextImage}
+            />
+          </div>
         </div>
 
         {/* Mobile panel toggle button - commented out

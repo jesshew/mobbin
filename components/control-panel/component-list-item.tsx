@@ -36,40 +36,58 @@ export function ComponentListItem({
   return (
     <Card className="mb-4 overflow-hidden">
       <CardContent className="p-0">
-        <div 
-          className="flex items-center justify-between cursor-pointer p-4"
+        {/* Header Section */}
+        {/* 
+          Improved header layout for clarity and reduced clutter.
+          - Clear separation of name, tags, and summary info.
+          - More whitespace, less crowding.
+          - "Expand" button visually separated.
+        */}
+        <div
+          className="flex items-center justify-between p-4 border-b cursor-pointer group hover:bg-muted/30 transition"
           onClick={() => setIsExpanded(prev => !prev)}
         >
-          <div className="space-y-1 max-w-[80%]">
-            <div className="font-medium text-base break-words">{component.component_name}</div>
-            {userFlowImpact && !isExpanded && (
-              <div className="text-xs text-muted-foreground truncate">
+          {/* Main info area */}
+          <div className="flex flex-col flex-1 min-w-0">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="font-medium text-base truncate">{component.component_name}</span>
+              {facetTags.length > 0 && !isExpanded && (
+                <TagList tags={facetTags} maxDisplay={2} className="ml-2" />
+              )}
+            </div>
+            {userFlowImpact && (
+              <div className="text-xs text-muted-foreground mt-1 overflow-hidden max-w-full">
                 {userFlowImpact}
               </div>
             )}
-            {!isExpanded && facetTags.length > 0 && (
-              <TagList tags={facetTags} maxDisplay={2} className="mt-1" />
-            )}
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs bg-muted/50 px-2 py-1 rounded-full">
-              {component.elements.length} elements
+
+          {/* Right-side summary and expand/collapse */}
+          <div className="flex items-center gap-3 flex-shrink-0 ml-4">
+            <span className="text-xs bg-muted/60 px-2 py-1 rounded-full font-medium text-muted-foreground">
+              {component.elements.length} {component.elements.length === 1 ? "element" : "elements"}
             </span>
             <Button
               variant="ghost"
               size="icon"
-              className="h-7 w-7 flex-shrink-0"
+              className="h-8 w-8 flex-shrink-0 border border-transparent group-hover:border-muted-foreground/20"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsExpanded(prev => !prev);
               }}
               title={isExpanded ? "Collapse Component Details" : "Expand Component Details"}
+              tabIndex={0}
             >
-              {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              {isExpanded ? (
+                <ChevronUp className="h-5 w-5 text-muted-foreground" />
+              ) : (
+                <ChevronDown className="h-5 w-5 text-muted-foreground" />
+              )}
             </Button>
           </div>
         </div>
 
+        {/* Expanded Section */}
         <AnimatePresence>
           {isExpanded && (
             <motion.div
@@ -79,7 +97,7 @@ export function ComponentListItem({
               transition={{ duration: 0.2 }}
               className="overflow-hidden"
             >
-              <div className="px-4 pb-4 space-y-4">
+              <div className="px-4 pb-4 ">
                 <div className="border-t pt-4"></div>
                 
                 {/* Component Metadata Section */}
@@ -87,7 +105,7 @@ export function ComponentListItem({
                   <Button
                     variant="outline"
                     size="sm"
-                    className="mb-3 text-xs h-8 px-3 flex items-center gap-2"
+                    className="mb-3 text-xs h-8 px-3 flex items-center gap-2 w-full" // Make button take up max width
                     onClick={() => setIsMetadataExpanded(prev => !prev)}
                   >
                     <Info className="h-3.5 w-3.5" />
@@ -188,7 +206,6 @@ function getAccuracyColor(score: number) {
   return "bg-red-100 text-red-800";
 }
 
-
 function ElementListItem({
   element,
   onSelect,
@@ -196,7 +213,6 @@ function ElementListItem({
   isHovered,
   onHover,
 }: ElementListItemProps) {
-  // Extract metadata from element
   const metadata = parseMetadata(element.element_metadata_extraction);
   const patternName = metadata.patternName;
   const facetTags = metadata.facetTags || [];
@@ -227,45 +243,45 @@ function ElementListItem({
       onMouseEnter={() => onHover(element.element_id)}
       onMouseLeave={() => onHover(null)}
     >
-      <div className="flex items-center justify-between cursor-pointer" onClick={() => setIsExpanded((v) => !v)}>
-        <div className="max-w-[70%] flex items-center gap-2">
-          <div className="font-medium text-sm truncate">{element.label.split(" > ").pop()}</div>
-          <div className={`ml-2 px-2 py-0.5 rounded-full font-bold text-xs shadow ${getAccuracyColor(element.accuracy_score)}`}
-            title={`Accuracy: ${element.accuracy_score}%`}>
-            {element.accuracy_score}%
+      {/* Header Section */}
+      <div className="flex items-center justify-between cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
+        {/* Left side with element title and score */}
+        <div className="overflow-hidden pr-2" style={{ width: "calc(100% - 40px)" }}>
+          <div className="flex items-center gap-2">
+            <span className="font-medium text-sm truncate">{element.label.split(" > ").pop()}</span>
+            <div 
+              className={`inline-block px-2 py-0.5 rounded-full text-xs font-bold ${getAccuracyColor(element.accuracy_score)}`}
+              title={`Accuracy: ${element.accuracy_score}%`}
+            >
+              {element.accuracy_score}%
+            </div>
           </div>
+          {/* {metadata.userFlowImpact && (
+              <div className="text-xs text-muted-foreground mt-1 overflow-hidden max-w-full">
+                {metadata.userFlowImpact}
+              </div>
+            )} */}
         </div>
-        <div className="flex gap-1 items-center">
-          {/* <Button
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7"
-            onClick={(e) => {
-              e.stopPropagation();
-              onSelect(element);
-            }}
-            title="View Element"
-          >
-            <Eye className="h-4 w-4" />
-          </Button> */}
-          <Button
-            variant="ghost" 
-            size="icon"
-            className="h-7 w-7"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsExpanded((v) => !v);
-            }}
-            title={isExpanded ? "Collapse" : "Expand"}
-          >
-            {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-          </Button>
-        </div>
+        
+        {/* Toggle button */}
+        <Button
+          variant="ghost" 
+          size="icon"
+          className="h-7 w-7"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsExpanded(!isExpanded);
+          }}
+          title={isExpanded ? "Collapse" : "Expand"}
+        >
+          {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+        </Button>
       </div>
+
+      {/* Expanded Content */}
       {isExpanded && (
         <div className="mt-3 p-3 rounded-md bg-muted/40 space-y-6 border border-muted-foreground/10">
-
-          {/* --- Description & User Flow Impact Section --- */}
+          {/* Purpose Section */}
           {(element.description || metadata.userFlowImpact) && (
             <div>
               <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-2">Element Purpose</div>
@@ -285,9 +301,11 @@ function ElementListItem({
               </div>
             </div>
           )}
+
           {/* Divider */}
           <div className="border-t border-muted-foreground/10" />
-          {/* --- Element Behavior Specification Section --- */}
+          
+          {/* Specification Section */}
           <div>
             <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-2">Element Behavior Specification</div>
             <div className="space-y-4">
@@ -327,6 +345,7 @@ function ElementListItem({
               )}
             </div>
           </div>
+          
           {/* Bounding Box Information */}
           <div>
             <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-2">Bounding Box</div>

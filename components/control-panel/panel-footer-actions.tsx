@@ -26,14 +26,14 @@ export function PanelFooterActions({
           <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </div>
-      <Button className="w-full mb-2" onClick={onSave}>
+      {/* <Button className="w-full mb-2" onClick={onSave}>
         <Save className="mr-2 h-4 w-4" />
         Save Changes
       </Button>
       <Button className="w-full" variant="secondary" onClick={onExport}>
         <Download className="mr-2 h-4 w-4" />
         Export Annotations
-      </Button>
+      </Button> */}
     </div>
   )
 } 

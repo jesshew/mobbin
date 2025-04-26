@@ -1,16 +1,45 @@
 "use client"
 
-import { useState, useMemo } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState, useMemo, useEffect } from "react"
 import { ControlPanelHeader } from "@/components/control-panel/control-panel-header"
-import { ElementList } from "@/components/control-panel/element-list"
-import { ElementEditor } from "@/components/control-panel/element-editor"
-import { SummaryPanel } from "@/components/control-panel/summary-panel"
-import { PanelFooterActions } from "@/components/control-panel/panel-footer-actions"
+// import { PanelFooterActions } from "@/components/control-panel/panel-footer-actions"
 import { BoundingBox, Component, Element } from "@/types/annotation"
 import { useControlPanelState } from "@/hooks/use-box-interaction"
 import { ComponentList } from "@/components/control-panel/component-list"
 import { elementToBoundingBox } from "@/utils/component-converter"
+import { sampleComponents } from "@/mock/sample-components"
+import { Layers, Box, Cpu } from "lucide-react"
+
+// Helper function to convert BoundingBox to Element
+const boundingBoxToElement = (box: BoundingBox): Element => {
+  return {
+    element_id: box.id,
+    label: box.textLabel || "",
+    description: box.description || "",
+    bounding_box: {
+      x_min: box.x,
+      y_min: box.y,
+      x_max: box.x + box.width,
+      y_max: box.y + box.height
+    },
+    status: "Detected",
+    element_inference_time: box.inferenceTime,
+    accuracy_score: box.accuracy_score || 90,
+    hidden: false,
+    explanation: "",
+    element_metadata_extraction: box.patternName ? JSON.stringify({
+      patternName: box.patternName,
+      facetTags: box.facetTags || [],
+      states: box.states || [],
+      userFlowImpact: box.userFlowImpact || ""
+    }) : ""
+  };
+};
+
+// Helper function to calculate total inference time from components
+const calculateTotalInferenceTime = (components: Component[]): number => {
+  return components.reduce((total, component) => total + component.inference_time, 0);
+};
 
 interface ControlPanelProps {
   boundingBoxes?: BoundingBox[]
@@ -36,11 +65,12 @@ interface ControlPanelProps {
     setEditingLabelText: (text: string) => void
     updateLabelAndFinishEditing: () => void
   }
+  isLoading?: boolean
 }
 
 export function ControlPanel({
   boundingBoxes = [],
-  components = [],
+  components = sampleComponents,
   selectedBox = null,
   selectedElement = null,
   onBoxSelect = () => {},
@@ -48,18 +78,22 @@ export function ControlPanel({
   onBoxUpdate = () => {},
   onBoxDelete = () => {},
   onElementDelete = () => {},
-  masterPromptRuntime,
-  onSave,
+  masterPromptRuntime = 0,
+  onSave = () => {},
   onNextImage,
   onPreviousImage,
   isMobile = false,
   onBoxDeselect = () => {},
   onElementDeselect = () => {},
-  editingLabelState,
+  editingLabelState = {
+    editingLabelId: null,
+    editingLabelText: "",
+    setEditingLabelId: () => {},
+    setEditingLabelText: () => {},
+    updateLabelAndFinishEditing: () => {}
+  },
+  isLoading = false,
 }: ControlPanelProps) {
-  // Determine if we're using the new Component/Element structure
-  const isNewFormat = components.length > 0;
-  
   // Use the hook for UI state management
   const {
     activeTab,
@@ -68,16 +102,27 @@ export function ControlPanel({
     setHoveredBoxId,
     view,
     setView,
-    totalInferenceTime
+    totalInferenceTime: hookInferenceTime
   } = useControlPanelState(boundingBoxes);
+  
+  // Calculate total inference time from components
+  const totalInferenceTime = calculateTotalInferenceTime(components);
+    
+  // State management for tabs
+  const [activeTabState, setActiveTabState] = useState("elements");
+  
+  // Auto-select the first component when loading
+  useEffect(() => {
+    if (!selectedElement && components.length > 0 && components[0].elements.length > 0) {
+      onElementSelect(components[0].elements[0]);
+    }
+  }, [components, selectedElement, onElementSelect]);
   
   // For components structure, track element IDs
   const [hoveredElementId, setHoveredElementId] = useState<number | null>(null);
   
-  // Total count of elements or boxes
-  const totalElementCount = isNewFormat 
-    ? components.reduce((count, comp) => count + comp.elements.length, 0)
-    : boundingBoxes.length;
+  // Total count of elements
+  const totalElementCount = components.reduce((count, comp) => count + comp.elements.length, 0);
   
   // Selected item to display in editor
   const selectedItem = selectedElement || selectedBox;
@@ -106,17 +151,11 @@ export function ControlPanel({
   };
 
   const handleExportAnnotations = () => {
-    const annotationData = isNewFormat 
-      ? {
-          masterPromptRuntime,
-          totalInferenceTime,
-          components
-        }
-      : {
-          masterPromptRuntime,
-          totalInferenceTime,
-          elements: boundingBoxes,
-        };
+    const annotationData = {
+      masterPromptRuntime,
+      totalInferenceTime,
+      components
+    };
 
     const dataStr = JSON.stringify(annotationData, null, 2);
     const dataUri = "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
@@ -127,76 +166,29 @@ export function ControlPanel({
     linkElement.click();
   };
 
-  // Mobile view uses tabs
-  if (isMobile) {
+  // If we're explicitly loading, show a loading state
+  if (isLoading) {
     return (
-      <div className="flex flex-col h-full overflow-y-auto">
-        <Tabs defaultValue="elements" value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="px-4 pt-4 border-b sticky top-0 bg-background z-10">
-            <TabsList className="w-full grid grid-cols-3">
-              <TabsTrigger value="elements">{isNewFormat ? "Components" : "Elements"}</TabsTrigger>
-              <TabsTrigger value="editor">Editor</TabsTrigger>
-              <TabsTrigger value="summary">Summary</TabsTrigger>
-            </TabsList>
+      <div className="flex flex-col h-full overflow-y-auto p-4">
+        <div className="text-center py-8">
+          <div className="animate-pulse">
+            <div className="h-4 bg-muted rounded w-3/4 mx-auto mb-4"></div>
+            <div className="h-3 bg-muted rounded w-1/2 mx-auto mb-8"></div>
+            
+            <div className="space-y-3">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="border rounded-md p-4">
+                  <div className="h-4 bg-muted rounded w-1/3 mb-2"></div>
+                  <div className="h-3 bg-muted rounded w-full"></div>
+                </div>
+              ))}
+            </div>
           </div>
-
-          <TabsContent value="elements" className="mt-0 p-0">
-            {isNewFormat ? (
-              <ComponentList
-                components={components}
-                hoveredElementId={hoveredElementId}
-                setHoveredElementId={setHoveredElementId}
-                onElementSelect={handleElementSelect}
-                onElementDelete={onElementDelete}
-                showElementsByDefault={true}
-              />
-            ) : (
-              <ElementList
-                boundingBoxes={boundingBoxes}
-                selectedBox={selectedBox}
-                hoveredBoxId={hoveredBoxId}
-                setHoveredBoxId={setHoveredBoxId}
-                onBoxSelect={handleBoxSelect}
-                onBoxDelete={onBoxDelete}
-              />
-            )}
-          </TabsContent>
-
-          <TabsContent value="editor" className="mt-0 p-0">
-            {selectedItem ? (
-              <ElementEditor
-                selectedBox={selectedItem}
-                onBoxUpdate={onBoxUpdate}
-                onBoxDelete={selectedElement ? onElementDelete : onBoxDelete}
-                onBackToList={handleBackToList}
-                editingLabelState={editingLabelState}
-                isNewFormat={isNewFormat}
-              />
-            ) : (
-              <div className="p-4 text-center text-muted-foreground">
-                Select an element to edit its properties
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="summary" className="mt-0 p-0">
-            <SummaryPanel
-              masterPromptRuntime={masterPromptRuntime}
-              totalInferenceTime={totalInferenceTime}
-              elementCount={totalElementCount}
-            />
-          </TabsContent>
-        </Tabs>
-
-        <PanelFooterActions
-          onSave={onSave}
-          onExport={handleExportAnnotations}
-          onPreviousImage={onPreviousImage}
-          onNextImage={onNextImage}
-        />
+        </div>
       </div>
     );
   }
+
 
   // Desktop view - now with separate list and edit views
   return (
@@ -205,62 +197,40 @@ export function ControlPanel({
       {view === "list" && (
         <>
           <ControlPanelHeader
-            title={isNewFormat ? "Components Summary" : "Performance Summary"}
+            title="Components Summary"
             masterPromptRuntime={masterPromptRuntime}
             totalInferenceTime={totalInferenceTime}
           />
 
           <div className="p-4 border-b">
-            <h3 className="text-lg font-medium">
-              {isNewFormat ? "Detected Components" : "Detected Elements"}
+            <h3 className="text-lg font-medium flex items-center gap-2">
+              <Layers className="h-5 w-5 text-primary" />
+              Detected Components
             </h3>
-            <p className="text-sm text-muted-foreground">
-              {isNewFormat 
-                ? `${components.length} components, ${totalElementCount} elements found`
-                : `${boundingBoxes.length} elements found`
-              }
+            <p className="text-sm text-muted-foreground flex items-center gap-2 mt-1">
+              <Box className="h-4 w-4" />
+              <span className="font-medium">{components.length}</span> components, 
+              <Cpu className="h-4 w-4 ml-1" />
+              <span className="font-medium">{totalElementCount}</span> elements found
             </p>
           </div>
 
-          {isNewFormat ? (
-            <ComponentList
-              components={components}
-              hoveredElementId={hoveredElementId}
-              setHoveredElementId={setHoveredElementId}
-              onElementSelect={handleElementSelect}
-              onElementDelete={onElementDelete}
-              showElementsByDefault={true}
-            />
-          ) : (
-            <ElementList
-              boundingBoxes={boundingBoxes}
-              selectedBox={selectedBox}
-              hoveredBoxId={hoveredBoxId}
-              setHoveredBoxId={setHoveredBoxId}
-              onBoxSelect={handleBoxSelect}
-              onBoxDelete={onBoxDelete}
-            />
-          )}
+          <ComponentList
+            components={components}
+            hoveredElementId={hoveredElementId}
+            setHoveredElementId={setHoveredElementId}
+            onElementSelect={handleElementSelect}
+            onElementDelete={onElementDelete}
+            showElementsByDefault={true}
+          />
 
-          <PanelFooterActions
+          {/* <PanelFooterActions
             onSave={onSave}
             onExport={handleExportAnnotations}
             onPreviousImage={onPreviousImage}
             onNextImage={onNextImage}
-          />
+          /> */}
         </>
-      )}
-
-      {/* Edit View */}
-      {view === "edit" && selectedItem && (
-        <ElementEditor
-          selectedBox={selectedItem}
-          onBoxUpdate={onBoxUpdate}
-          onBoxDelete={selectedElement ? onElementDelete : onBoxDelete}
-          onBackToList={handleBackToList}
-          editingLabelState={editingLabelState}
-          isNewFormat={isNewFormat}
-        />
       )}
     </div>
   );

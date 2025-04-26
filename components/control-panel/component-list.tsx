@@ -1,6 +1,6 @@
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Component, Element } from "@/types/annotation"
-import { ComponentListItem } from "@/components/component-list-item"
+import { ComponentListItem } from "@/components/control-panel/component-list-item"
 
 interface ComponentListProps {
   components: Component[]
@@ -20,7 +20,7 @@ export function ComponentList({
   showElementsByDefault = false
 }: ComponentListProps) {
   return (
-    <ScrollArea className="flex-1">
+    <ScrollArea className="flex-1 max-h-[calc(100vh-220px)]">
       <div className="p-4 space-y-2">
         {components.length === 0 ? (
           <div className="text-center p-6 text-muted-foreground">
