@@ -35,8 +35,8 @@ export async function callClaudeVisionModel(
   // Build the Anthropic messages payload
   const messages = [
     {
-      role: 'user',
-      content: [
+      "role": 'user',
+      "content": [
         // include image if provided
         imageUrl && {
           "type": "image",
