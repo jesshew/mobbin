@@ -39,10 +39,10 @@ export async function callClaudeVisionModel(
       content: [
         // include image if provided
         imageUrl && {
-          type: 'image',
-          source: { type: 'url', url: imageUrl }
+          "type": "image",
+          "source": { "type": "url", "url": imageUrl }
         },
-        { type: 'text', text: prompt }
+        { "type": "text", "text": prompt }
       ].filter(Boolean),
     },
   ];
