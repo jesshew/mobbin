@@ -110,8 +110,8 @@ export class MetadataExtractionService {
     
     try {
       // Store all component-level metadata (excluding element-specific metadata)
-      const { patternName, facetTags, states, interaction, userFlowImpact } = componentMetadata;
-      
+      const { componentDescription, patternName, facetTags, states, interaction, userFlowImpact } = componentMetadata;
+    //   const { componentDescription } = componentMetadata;
       // Create component metadata string
       component.component_metadata_extraction = JSON.stringify({
         patternName,
@@ -120,6 +120,8 @@ export class MetadataExtractionService {
         interaction,
         userFlowImpact
       });
+
+      component.component_ai_description = componentDescription;
       
       // Create a map of elements by label for easier lookup
       const elementMap = new Map<string, ElementDetectionItem>();

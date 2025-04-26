@@ -1536,12 +1536,12 @@ Follow *good ux annotation guidelines* precisely:
 📋 Steps to Follow:
 1. Component Role Recognition
 • Determine the overall purpose and interaction model (e.g., “modal dialog for onboarding reminders”).
-• Use this to complete patternName and description.
+• Use this to complete patternName and componentDescription.
 
 2. Component Enrichment (Top-Level)
 • patternName: Exactly one canonical type (e.g., Primary Button, Modal Dialog, Radio Card List,Form Input with Label	).
 • facetTags (5–10): Diverse terms across Function, Context, and Role (e.g., onboarding, mobile, CTA).
-• description: Clear and contextual.
+• componentDescription: Clear and contextual.
 • states: All valid states (e.g., default, hover, selected, disabled, checked).
 • interaction: List of supported events as key-value pairs, using clear, user-centered action-effect language.). ie: {"interaction": {
   "on_tap": "triggers primary action",
@@ -1565,6 +1565,7 @@ format the output as strict, ordered JSON. use component names and element label
 <output>
 {
   "<component_name>": {
+    "componentDescription": "",
     "patternName": "",
     "facetTags": [],
     "states": [],

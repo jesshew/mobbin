@@ -24,7 +24,8 @@
         "error": null,
         "accuracy_score": 92,
         "hidden": false,
-        "explanation": "Bounding box tightly frames the 'All' tab with minimal excess space; alignment with the element is nearly perfect."
+        "explanation": "Bounding box tightly frames the 'All' tab with minimal excess space; alignment with the element is nearly perfect.",
+        "element_metadata_extraction": "{\"patternName\":\"Tab Item\",\"facetTags\":[\"default\",\"all-messages\",\"unselected\",\"navigation\",\"filter\",\"tab\",\"start\",\"feed\"],\"states\":[\"default\",\"focused\",\"disabled\"],\"interaction\":{\"on_tap\":\"displays all messages in the feed\",\"on_focus\":\"highlights tab for keyboard or screen reader navigation\"},\"userFlowImpact\":\"Provides instant access to the complete message list with a single tap.\"}"
       },
       {
         "label": "Filter Tabs > Important Tab",
@@ -41,7 +42,8 @@
         "error": null,
         "accuracy_score": 88,
         "hidden": false,
-        "explanation": "Bounding box encompasses the blue pill button but is slightly wide on the left; overall capture is accurate with small margin over the pill boundary."
+        "explanation": "Bounding box encompasses the blue pill button but is slightly wide on the left; overall capture is accurate with small margin over the pill boundary.",
+        "element_metadata_extraction": "{\"patternName\":\"Tab Item\",\"facetTags\":[\"selected\",\"important\",\"priority\",\"emphasis\",\"filter\",\"category\",\"highlighted\",\"focus\"],\"states\":[\"selected\",\"focused\",\"disabled\"],\"interaction\":{\"on_tap\":\"filters view to show only important messages\",\"on_focus\":\"highlights tab for accessibility\"},\"userFlowImpact\":\"Directs attention to high-priority conversations, reducing overload and supporting quick triage.\"}"
       },
       {
         "label": "Filter Tabs > Unread Tab",
@@ -58,7 +60,8 @@
         "error": null,
         "accuracy_score": 95,
         "hidden": false,
-        "explanation": "Box is well-aligned with the 'Unread' tab and text, providing an accurate representation with minimal extra padding."
+        "explanation": "Box is well-aligned with the 'Unread' tab and text, providing an accurate representation with minimal extra padding.",
+        "element_metadata_extraction": "{\"patternName\":\"Tab Item\",\"facetTags\":[\"unread\",\"filter\",\"navigation\",\"attention\",\"new\",\"messages\",\"mid\",\"tab\"],\"states\":[\"default\",\"focused\",\"disabled\"],\"interaction\":{\"on_tap\":\"displays only unread messages\",\"on_focus\":\"highlights tab for accessibility\"},\"userFlowImpact\":\"Steers users to pending or new conversations for efficient message catch-up.\"}"
       },
       {
         "label": "Filter Tabs > Read Tab",
@@ -75,9 +78,12 @@
         "error": null,
         "accuracy_score": 90,
         "hidden": false,
-        "explanation": "Bounding box closely fits the 'Read' tab at the end of the row, with good top, bottom, and side alignment."
+        "explanation": "Bounding box closely fits the 'Read' tab at the end of the row, with good top, bottom, and side alignment.",
+        "element_metadata_extraction": "{\"patternName\":\"Tab Item\",\"facetTags\":[\"read\",\"filtered\",\"archived\",\"navigation\",\"end\",\"tab\",\"messages\",\"status\"],\"states\":[\"default\",\"focused\",\"disabled\"],\"interaction\":{\"on_tap\":\"displays messages that have been read\",\"on_focus\":\"highlights tab for keyboard or accessibility navigation\"},\"userFlowImpact\":\"Enables rapid recall and access to previously read messages.\"}"
       }
-    ]
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Segmented Control\",\"facetTags\":[\"filtering\",\"navigation\",\"messaging\",\"segmentation\",\"priority\",\"mobile\",\"categorization\",\"context-switch\",\"tabs\",\"accessibility\"],\"states\":[\"default\",\"selected\",\"focused\",\"disabled\"],\"interaction\":{\"on_tap\":\"selects the tab and filters message list by selected category\",\"on_focus\":\"highlights tab for accessibility navigation\"},\"userFlowImpact\":\"Quickly routes users to contextually filtered message lists to support streamlined browsing or action.\"}",
+    "component_ai_description": "Horizontal filter tab set enabling users to segment message views by All, Important, Unread, or Read categories within the main messaging feed."
   },
   {
     "screenshot_id": 41,
@@ -104,7 +110,8 @@
         "error": null,
         "accuracy_score": 96,
         "hidden": false,
-        "explanation": "Box closely matches the position and size of the 'Telegram' title, only a slight excess of padding at the bottom."
+        "explanation": "Box closely matches the position and size of the 'Telegram' title, only a slight excess of padding at the bottom.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Header\",\"facetTags\":[\"branding\",\"label\",\"static\",\"mobile\",\"header\",\"contextual\",\"primary\",\"non-interactive\"],\"states\":[\"default\"],\"interaction\":{\"on_tap\":\"returns user to main chat screen\"},\"userFlowImpact\":\"Orient users by providing persistent app branding and a navigational return point.\"}"
       },
       {
         "label": "App Header > Add Button",
@@ -121,7 +128,8 @@
         "error": null,
         "accuracy_score": 92,
         "hidden": false,
-        "explanation": "Box frames the plus icon accurately with minor extra left/right space. Mostly correct."
+        "explanation": "Box frames the plus icon accurately with minor extra left/right space. Mostly correct.",
+        "element_metadata_extraction": "{\"patternName\":\"Icon Button\",\"facetTags\":[\"action\",\"add\",\"shortcut\",\"primary\",\"mobile\",\"CTA\",\"creation\",\"toolbar\"],\"states\":[\"default\",\"pressed\",\"disabled\"],\"interaction\":{\"on_tap\":\"opens new chat or group creation flow\"},\"userFlowImpact\":\"Enables users to quickly initiate a new conversation or group with minimal friction.\"}"
       },
       {
         "label": "App Header > Search Button",
@@ -138,7 +146,8 @@
         "error": null,
         "accuracy_score": 89,
         "hidden": false,
-        "explanation": "Box covers the search (magnifying glass) icon, but slightly overlaps with the menu button area. Minor correction could improve this."
+        "explanation": "Box covers the search (magnifying glass) icon, but slightly overlaps with the menu button area. Minor correction could improve this.",
+        "element_metadata_extraction": "{\"patternName\":\"Icon Button\",\"facetTags\":[\"search\",\"utility\",\"shortcut\",\"secondary\",\"mobile\",\"toolbar\",\"access\",\"navigation\"],\"states\":[\"default\",\"pressed\",\"disabled\"],\"interaction\":{\"on_tap\":\"opens search input modal or field\"},\"userFlowImpact\":\"Facilitates rapid access to message or contact search, streamlining information retrieval.\"}"
       },
       {
         "label": "App Header > Menu Button",
@@ -161,9 +170,12 @@
           "y_min": 73,
           "x_max": 591,
           "y_max": 98
-        }
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Menu Button\",\"facetTags\":[\"navigation\",\"menu\",\"drawer\",\"utility\",\"mobile\",\"access\",\"hamburger\",\"secondary\"],\"states\":[\"default\",\"pressed\",\"disabled\"],\"interaction\":{\"on_tap\":\"opens navigation or settings drawer\"},\"userFlowImpact\":\"Provides access to secondary navigation and app-wide options, enhancing discoverability of less prominent features.\"}"
       }
-    ]
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"App Bar\",\"facetTags\":[\"navigation\",\"branding\",\"shortcut\",\"mobile\",\"utility\",\"persistent\",\"header\",\"accessibility\",\"actionable\",\"contextual\"],\"states\":[\"default\",\"scrolled\",\"shadowed\",\"focused\"],\"interaction\":{\"on_tap_title\":\"returns user to main chat list\",\"on_tap_add\":\"initiates new chat or channel creation\",\"on_tap_search\":\"opens search field for queries\",\"on_tap_menu\":\"expands navigation drawer or menu\"},\"userFlowImpact\":\"Guides users to core actions and navigation points, ensuring efficient access and orientation throughout the app.\"}",
+    "component_ai_description": "A persistent, top-aligned application header providing app branding, quick action shortcuts, and navigation for the Telegram mobile interface."
   },
   {
     "screenshot_id": 41,
@@ -190,7 +202,8 @@
         "error": null,
         "accuracy_score": 97,
         "hidden": false,
-        "explanation": "Bounding box tightly fits the circular profile picture; nearly perfect alignment."
+        "explanation": "Bounding box tightly fits the circular profile picture; nearly perfect alignment.",
+        "element_metadata_extraction": "{\"patternName\":\"Avatar\",\"facetTags\":[\"profile\",\"identity\",\"visual cue\",\"recognition\",\"touch target\",\"contact\",\"user\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"on_tap\":\"opens contact or profile details\"},\"userFlowImpact\":\"Visually anchors the row, enabling quick user recognition and offering access to contact details.\"}"
       },
       {
         "label": "Chat List > Chat 2 > Name",
@@ -207,7 +220,8 @@
         "error": null,
         "accuracy_score": 67,
         "hidden": false,
-        "explanation": "Box includes both the name and the message preview text; should be tighter just around the 'Calvin Flores' text for better accuracy."
+        "explanation": "Box includes both the name and the message preview text; should be tighter just around the 'Calvin Flores' text for better accuracy.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Header\",\"facetTags\":[\"identity\",\"contact\",\"label\",\"emphasis\",\"list item\",\"naming\",\"reference\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Prioritizes contact recognition and scan-ability within the chat list.\"}"
       },
       {
         "label": "Chat List > Chat 2 > Online Indicator",
@@ -230,7 +244,8 @@
           "y_min": 270,
           "x_max": 302,
           "y_max": 288
-        }
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Status Badge\",\"facetTags\":[\"presence\",\"indicator\",\"realtime\",\"status\",\"notification\",\"visual cue\",\"activity\",\"user\"],\"states\":[\"online\",\"offline\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Gives immediate feedback on the contact's online status to guide communication timing.\"}"
       },
       {
         "label": "Chat List > Chat 2 > Timestamp",
@@ -247,7 +262,8 @@
         "error": null,
         "accuracy_score": 93,
         "hidden": false,
-        "explanation": "Box tightly fits the '15:13' timestamp; highly accurate."
+        "explanation": "Box tightly fits the '15:13' timestamp; highly accurate.",
+        "element_metadata_extraction": "{\"patternName\":\"Meta Label\",\"facetTags\":[\"timestamp\",\"datetime\",\"context\",\"reference\",\"timing\",\"meta\",\"list item\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Informs the user of message recency, enabling prioritization of responses.\"}"
       },
       {
         "label": "Chat List > Chat 2 > Message Preview",
@@ -264,7 +280,8 @@
         "error": null,
         "accuracy_score": 80,
         "hidden": false,
-        "explanation": "Box accurately fits the message preview text with minor excess padding above and below."
+        "explanation": "Box accurately fits the message preview text with minor excess padding above and below.",
+        "element_metadata_extraction": "{\"patternName\":\"Support Text\",\"facetTags\":[\"preview\",\"message\",\"summary\",\"secondary text\",\"context\",\"conversation\",\"user content\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Offers a context snapshot, helping users decide which messages to open next.\"}"
       },
       {
         "label": "Chat List > Chat 2 > Unread Count",
@@ -281,9 +298,12 @@
         "error": null,
         "accuracy_score": 95,
         "hidden": false,
-        "explanation": "Bounding box closely frames the blue unread badge; very minor margin artifacts only."
+        "explanation": "Bounding box closely frames the blue unread badge; very minor margin artifacts only.",
+        "element_metadata_extraction": "{\"patternName\":\"Notification Badge\",\"facetTags\":[\"badge\",\"notification\",\"priority\",\"alert\",\"unread\",\"indicator\",\"quantity\",\"message\"],\"states\":[\"visible\",\"hidden\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Highlights new activity, prompting prompt user attention and follow-up.\"}"
       }
-    ]
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Chat List Item\",\"facetTags\":[\"navigation\",\"messaging\",\"summary\",\"contact\",\"mobile\",\"touch target\",\"status\",\"notification\",\"conversation\",\"preview\"],\"states\":[\"default\",\"hover\",\"pressed\",\"selected\",\"disabled\",\"unread\"],\"interaction\":{\"on_tap\":\"navigates to detailed chat view\",\"on_long_press\":\"reveals additional chat options\",\"on_swipe_left\":\"shows actionable controls (archive, delete, mute)\"},\"userFlowImpact\":\"Directs user focus to new activity and provides a rapid entry point to conversation or notification management.\"}",
+    "component_ai_description": "A single interactive chat list row presenting the user's profile picture, contact name, online status, time of last message, a message preview, and unread message indicator to enable efficient navigation and message triage within a messaging app."
   },
   {
     "screenshot_id": 41,
@@ -310,7 +330,8 @@
         "error": null,
         "accuracy_score": 95,
         "hidden": false,
-        "explanation": "Box tightly encloses the circular profile picture; minimal padding and no significant misalignment."
+        "explanation": "Box tightly encloses the circular profile picture; minimal padding and no significant misalignment.",
+        "element_metadata_extraction": "{\"patternName\":\"Avatar Image\",\"facetTags\":[\"profile\",\"identity\",\"visual cue\",\"user\",\"list\",\"contextual\"],\"states\":[\"default\"],\"interaction\":{\"on_tap\":\"opens participant profile or contact information\"},\"userFlowImpact\":\"Provides quick personal identification and entry point to profile-related actions.\"}"
       },
       {
         "label": "Chat List > Chat 3 > Name",
@@ -327,7 +348,8 @@
         "error": null,
         "accuracy_score": 87,
         "hidden": false,
-        "explanation": "Box closely matches the name text, with some minimal excess width to the right but the height is almost perfect."
+        "explanation": "Box closely matches the name text, with some minimal excess width to the right but the height is almost perfect.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Label\",\"facetTags\":[\"display name\",\"heading\",\"primary text\",\"user\",\"hierarchy\",\"list\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Draws immediate attention to who the conversation is with, anchoring context for the row.\"}"
       },
       {
         "label": "Chat List > Chat 3 > Verification Badge",
@@ -344,7 +366,8 @@
         "error": null,
         "accuracy_score": 96,
         "hidden": false,
-        "explanation": "Box closely matches the size and location of the verification badge—very precise."
+        "explanation": "Box closely matches the size and location of the verification badge—very precise.",
+        "element_metadata_extraction": "{\"patternName\":\"Status Icon\",\"facetTags\":[\"verification\",\"trust\",\"badge\",\"icon\",\"status\",\"profile\"],\"states\":[\"default\"],\"interaction\":{\"on_tap\":\"shows verification details or tooltip (if supported)\"},\"userFlowImpact\":\"Conveys trustworthiness or authenticity of the participant at-a-glance.\"}"
       },
       {
         "label": "Chat List > Chat 3 > Timestamp",
@@ -361,7 +384,8 @@
         "error": null,
         "accuracy_score": 94,
         "hidden": false,
-        "explanation": "Box precisely contains the timestamp text with minimal padding and correct alignment."
+        "explanation": "Box precisely contains the timestamp text with minimal padding and correct alignment.",
+        "element_metadata_extraction": "{\"patternName\":\"Timestamp Label\",\"facetTags\":[\"time\",\"recency\",\"status\",\"metadata\",\"chat overview\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Allows users to quickly judge the freshness of the latest message.\"}"
       },
       {
         "label": "Chat List > Chat 3 > Message Preview",
@@ -378,7 +402,8 @@
         "error": null,
         "accuracy_score": 91,
         "hidden": false,
-        "explanation": "Box fits the message preview line well, covering the full width and height of the text element."
+        "explanation": "Box fits the message preview line well, covering the full width and height of the text element.",
+        "element_metadata_extraction": "{\"patternName\":\"Secondary Text\",\"facetTags\":[\"preview\",\"message snippet\",\"chat summary\",\"secondary text\",\"context\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Offers immediate insight into conversation content without opening the chat.\"}"
       },
       {
         "label": "Chat List > Chat 3 > Read Receipt",
@@ -401,9 +426,12 @@
           "y_min": 550,
           "x_max": 532,
           "y_max": 569
-        }
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Status Icon\",\"facetTags\":[\"read status\",\"confirmation\",\"icon\",\"feedback\",\"delivery status\"],\"states\":[\"default\",\"seen\"],\"interaction\":{\"on_tap\":\"may show read status details (if supported)\"},\"userFlowImpact\":\"Provides users feedback if their last message was read, influencing conversational pacing.\"}"
       }
-    ]
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Chat List Row\",\"facetTags\":[\"chat\",\"messaging\",\"list entry\",\"contact preview\",\"navigation\",\"recency\",\"profile\",\"verification\",\"status\",\"mobile\"],\"states\":[\"default\",\"hover\",\"selected\",\"unread\",\"read\"],\"interaction\":{\"on_tap\":\"opens the detailed chat view\",\"on_long_press\":\"opens quick actions menu (e.g., pin, mute, delete)\"},\"userFlowImpact\":\"Quickly informs and enables users to navigate into or take action on specific chat conversations.\"}",
+    "component_ai_description": "A single row entry in a chat list, representing an individual chat with avatar, participant name, verification status, last message preview, timestamp, and read receipt for streamlined chat overview and interaction."
   },
   {
     "screenshot_id": 41,
@@ -430,7 +458,8 @@
         "error": null,
         "accuracy_score": 95,
         "hidden": false,
-        "explanation": "Bounding box tightly encloses the circular profile photo as described, with minimal excess space."
+        "explanation": "Bounding box tightly encloses the circular profile photo as described, with minimal excess space.",
+        "element_metadata_extraction": "{\"patternName\":\"Avatar\",\"facetTags\":[\"identity\",\"user photo\",\"presence anchor\",\"visual anchor\",\"profile\",\"avatar\",\"list item\",\"recognition\"],\"states\":[\"default\"],\"interaction\":{\"on_tap\":\"opens contact or profile details\"},\"userFlowImpact\":\"Helps users recognize the chat participant, aiding fast identification and reducing mistakes.\"}"
       },
       {
         "label": "Chat List > Chat 4 > Name",
@@ -453,7 +482,8 @@
           "y_min": 540,
           "x_max": 460,
           "y_max": 587
-        }
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Text Label\",\"facetTags\":[\"primary text\",\"participant name\",\"bold\",\"identity\",\"row header\",\"label\",\"relationship\",\"list\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Provides clear recognition of the chat partner, supporting rapid scanning and navigation.\"}"
       },
       {
         "label": "Chat List > Chat 4 > Online Indicator",
@@ -476,7 +506,8 @@
           "y_min": 561,
           "x_max": 318,
           "y_max": 574
-        }
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Presence Indicator\",\"facetTags\":[\"status\",\"real-time\",\"availability\",\"indicator\",\"presence\",\"visual cue\",\"notification\",\"active\"],\"states\":[\"online\",\"offline\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Signals the current availability of the participant, influencing user urgency and response.\"}"
       },
       {
         "label": "Chat List > Chat 4 > Timestamp",
@@ -493,7 +524,8 @@
         "error": null,
         "accuracy_score": 90,
         "hidden": false,
-        "explanation": "Bounding box closely frames the '7:20' timestamp at the correct chat row location."
+        "explanation": "Bounding box closely frames the '7:20' timestamp at the correct chat row location.",
+        "element_metadata_extraction": "{\"patternName\":\"Secondary Text Label\",\"facetTags\":[\"time\",\"metadata\",\"timestamp\",\"message info\",\"alignment right\",\"subdued\",\"contextual info\",\"recent activity\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Helps users assess the recency of communication at a glance, aiding prioritization.\"}"
       },
       {
         "label": "Chat List > Chat 4 > Message Preview",
@@ -516,7 +548,8 @@
           "y_min": 598,
           "x_max": 472,
           "y_max": 625
-        }
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Text Subheader\",\"facetTags\":[\"snippet\",\"message preview\",\"secondary text\",\"context\",\"conversation summary\",\"info\",\"unread/read\",\"glanceable\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Allows quick scanning of latest message content without opening the chat, guiding user prioritization.\"}"
       },
       {
         "label": "Chat List > Chat 4 > Read Receipt",
@@ -539,9 +572,12 @@
           "y_min": 625,
           "x_max": 493,
           "y_max": 647
-        }
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Status Icon\",\"facetTags\":[\"read status\",\"message state\",\"visual indicator\",\"confirmation\",\"icon\",\"acknowledgement\",\"feedback\",\"status\"],\"states\":[\"read\",\"unread\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Assures the sender their message is seen, reinforcing communication reliability.\"}"
       }
-    ]
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Chat List Item\",\"facetTags\":[\"messaging\",\"navigation\",\"summary\",\"row\",\"mobile\",\"conversation preview\",\"status indicator\",\"entry point\",\"list view\",\"interaction\"],\"states\":[\"default\",\"pressed\",\"swiped\",\"disabled\"],\"interaction\":{\"on_tap\":\"opens the chat thread\",\"on_swipe_left\":\"reveals contextual chat actions\",\"on_long_press\":\"selects chat for multi-selection batch actions\"},\"userFlowImpact\":\"Enables users to review and swiftly access or manage their chats from a summary list.\"}",
+    "component_ai_description": "A row in the chat list displaying a conversation preview, participant's identity, message status, presence, and supporting details for quick triage and access."
   },
   {
     "screenshot_id": 41,
@@ -568,7 +604,8 @@
         "error": null,
         "accuracy_score": 98,
         "hidden": false,
-        "explanation": "Bounding box tightly fits the circular profile picture for the fifth chat row; nearly perfect alignment."
+        "explanation": "Bounding box tightly fits the circular profile picture for the fifth chat row; nearly perfect alignment.",
+        "element_metadata_extraction": "{\"patternName\":\"Avatar Image\",\"facetTags\":[\"profile\",\"identity\",\"avatar\",\"visual-cue\",\"contact\",\"recognition\",\"context\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Facilitates immediate contact recognition and visually distinguishes chat entries.\"}"
       },
       {
         "label": "Chat List > Chat 5 > Name",
@@ -585,7 +622,8 @@
         "error": null,
         "accuracy_score": 94,
         "hidden": false,
-        "explanation": "Box closely covers the bold 'Brother' text, with only a small amount of excess space above and below; accurate annotation."
+        "explanation": "Box closely covers the bold 'Brother' text, with only a small amount of excess space above and below; accurate annotation.",
+        "element_metadata_extraction": "{\"patternName\":\"Primary Text Label\",\"facetTags\":[\"name\",\"text\",\"label\",\"contact\",\"identity\",\"prominence\",\"navigation\",\"readability\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Highlights the chat participant's identity for rapid scanning and navigation.\"}"
       },
       {
         "label": "Chat List > Chat 5 > Timestamp",
@@ -602,7 +640,8 @@
         "error": null,
         "accuracy_score": 95,
         "hidden": false,
-        "explanation": "Bounding box aligns very well to the 'Yesterday' timestamp in the correct row and position."
+        "explanation": "Bounding box aligns very well to the 'Yesterday' timestamp in the correct row and position.",
+        "element_metadata_extraction": "{\"patternName\":\"Timestamp Label\",\"facetTags\":[\"timestamp\",\"date\",\"time\",\"context\",\"metadata\",\"label\",\"recency\",\"read-status\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Indicates the recency of the last message, helping users prioritize which chats to open.\"}"
       },
       {
         "label": "Chat List > Chat 5 > Message Preview",
@@ -619,9 +658,12 @@
         "error": null,
         "accuracy_score": 93,
         "hidden": false,
-        "explanation": "Bounding box matches the location and size of the message preview text with only slight excess width; overall accurate."
+        "explanation": "Bounding box matches the location and size of the message preview text with only slight excess width; overall accurate.",
+        "element_metadata_extraction": "{\"patternName\":\"Secondary Text\",\"facetTags\":[\"message-preview\",\"subtitle\",\"summary\",\"content\",\"text\",\"context\",\"read-status\",\"informational\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Provides a snippet of the most recent message to inform the user without opening the chat.\"}"
       }
-    ]
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Chat List Row\",\"facetTags\":[\"chat\",\"list\",\"messaging\",\"navigation\",\"mobile\",\"preview\",\"contact\",\"entry\",\"summary\",\"tap-target\"],\"states\":[\"default\",\"pressed\",\"unread\",\"read\",\"selected\",\"disabled\"],\"interaction\":{\"on_tap\":\"opens chat conversation\",\"on_long_press\":\"activates selection mode or additional actions\",\"on_swipe_left\":\"reveals contextual actions (such as delete or mute)\"},\"userFlowImpact\":\"Provides users with an overview and access point to ongoing or unread conversations, enabling quick navigation.\"}",
+    "component_ai_description": "A chat list row representing the fifth visible chat entry, summarizing the latest activity and providing quick navigation to the chat conversation."
   },
   {
     "screenshot_id": 41,
@@ -648,7 +690,8 @@
         "error": null,
         "accuracy_score": 95,
         "hidden": false,
-        "explanation": "Box closely matches the circular profile picture with minimal padding and covers the element well."
+        "explanation": "Box closely matches the circular profile picture with minimal padding and covers the element well.",
+        "element_metadata_extraction": "{\"patternName\":\"Avatar\",\"facetTags\":[\"profile\",\"identity\",\"visual cue\",\"navigation\",\"entry point\",\"messaging\",\"user\",\"avatar\"],\"states\":[\"default\"],\"interaction\":{\"on_tap\":\"opens contact or user profile\"},\"userFlowImpact\":\"Quickly identifies chat participants and offers a path to view profile details.\"}"
       },
       {
         "label": "Chat List > Chat 1 > Name",
@@ -665,7 +708,8 @@
         "error": null,
         "accuracy_score": 90,
         "hidden": false,
-        "explanation": "Box captures the name text closely with only slight excess width to accommodate possible adjacent elements."
+        "explanation": "Box captures the name text closely with only slight excess width to accommodate possible adjacent elements.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Header\",\"facetTags\":[\"primary text\",\"sender\",\"title\",\"identity\",\"list\",\"navigation\",\"label\",\"chat name\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Draws attention to the chat's owner for rapid scanning and selection.\"}"
       },
       {
         "label": "Chat List > Chat 1 > Verification Badge",
@@ -682,7 +726,8 @@
         "error": null,
         "accuracy_score": 88,
         "hidden": false,
-        "explanation": "Box accurately encloses the blue verification badge, is tightly fitted, and well-aligned horizontally with the name."
+        "explanation": "Box accurately encloses the blue verification badge, is tightly fitted, and well-aligned horizontally with the name.",
+        "element_metadata_extraction": "{\"patternName\":\"Status Icon\",\"facetTags\":[\"verification\",\"trust\",\"badge\",\"icon\",\"status\",\"security\",\"visual indicator\",\"authenticity\"],\"states\":[\"verified\",\"unverified\"],\"interaction\":{\"on_tap\":\"shows verification details (if supported)\"},\"userFlowImpact\":\"Signals authenticity or prominence of the chat participant to build user trust.\"}"
       },
       {
         "label": "Chat List > Chat 1 > Timestamp",
@@ -699,7 +744,8 @@
         "error": null,
         "accuracy_score": 92,
         "hidden": false,
-        "explanation": "Box fits the timestamp text snugly and is properly positioned at the top right of the entry."
+        "explanation": "Box fits the timestamp text snugly and is properly positioned at the top right of the entry.",
+        "element_metadata_extraction": "{\"patternName\":\"Timestamp\",\"facetTags\":[\"time\",\"meta\",\"context\",\"chronology\",\"message info\",\"update\",\"secondary info\",\"timing\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Keeps users aware of message recency for prioritizing responses.\"}"
       },
       {
         "label": "Chat List > Chat 1 > Message Preview",
@@ -716,7 +762,8 @@
         "error": null,
         "accuracy_score": 95,
         "hidden": false,
-        "explanation": "Box is well-aligned and closely frames the message preview text directly beneath the name."
+        "explanation": "Box is well-aligned and closely frames the message preview text directly beneath the name.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Subheader\",\"facetTags\":[\"preview\",\"snippet\",\"secondary text\",\"conversation\",\"summary\",\"messaging\",\"content\",\"read/unread state\"],\"states\":[\"read\",\"unread\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Allows users to quickly gauge conversation context without opening the chat.\"}"
       },
       {
         "label": "Chat List > Chat 1 > Unread Count",
@@ -733,9 +780,12 @@
         "error": null,
         "accuracy_score": 95,
         "hidden": false,
-        "explanation": "Box accurately encompasses the circular unread count badge, with a tight fit on all sides."
+        "explanation": "Box accurately encompasses the circular unread count badge, with a tight fit on all sides.",
+        "element_metadata_extraction": "{\"patternName\":\"Notification Badge\",\"facetTags\":[\"notification\",\"unread\",\"count\",\"attention\",\"badge\",\"alert\",\"indicator\",\"status\"],\"states\":[\"hidden\",\"visible\"],\"interaction\":{\"on_tap\":\"marks chat as read (if supported)\"},\"userFlowImpact\":\"Highlights pending unread messages to prompt timely attention.\"}"
       }
-    ]
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Chat List Row\",\"facetTags\":[\"messaging\",\"summary\",\"conversation preview\",\"navigation\",\"interactive row\",\"mobile\",\"list item\",\"read/unread\",\"CTA\",\"profile\"],\"states\":[\"default\",\"hover\",\"pressed\",\"selected\",\"unread\",\"read\"],\"interaction\":{\"on_tap\":\"opens the chat conversation\",\"on_long_press\":\"opens contextual actions (e.g., pin, delete, mute)\",\"on_swipe_left\":\"reveals quick actions (delete, mute, etc.)\",\"on_swipe_right\":\"marks chat read/unread or pins to top\"},\"userFlowImpact\":\"Allows users to efficiently navigate to, preview, and manage conversations directly from the chat list for faster messaging workflows.\"}",
+    "component_ai_description": "A primary row entry in a messaging app's chat list that summarizes a single conversation and enables quick access or review via tap or swipe."
   },
   {
     "screenshot_id": 41,
@@ -762,7 +812,8 @@
         "error": null,
         "accuracy_score": 96,
         "hidden": false,
-        "explanation": "Bounding box tightly encloses the blue bookmark icon button; minimal excess area."
+        "explanation": "Bounding box tightly encloses the blue bookmark icon button; minimal excess area.",
+        "element_metadata_extraction": "{\"patternName\":\"Icon Button\",\"facetTags\":[\"bookmark\",\"action\",\"messaging\",\"save\",\"quick access\",\"CTA\",\"icon\",\"navigation\"],\"states\":[\"default\",\"hover\",\"pressed\",\"disabled\"],\"interaction\":{\"on_tap\":\"marks selected chats as bookmarked\",\"on_long_press\":\"shows tooltip for bookmarking\"},\"userFlowImpact\":\"Enables users to quickly save important chat entries for later retrieval.\"}"
       },
       {
         "label": "Chat Actions Bar > Check Button",
@@ -785,7 +836,8 @@
           "y_min": 422,
           "x_max": 485,
           "y_max": 465
-        }
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Icon Button\",\"facetTags\":[\"check\",\"action\",\"confirm\",\"mark as read\",\"acknowledge\",\"messaging\",\"quick action\",\"icon\"],\"states\":[\"default\",\"hover\",\"pressed\",\"disabled\"],\"interaction\":{\"on_tap\":\"marks selected chats as read or completed\",\"on_long_press\":\"shows tooltip for marking as read\"},\"userFlowImpact\":\"Lets users efficiently mark multiple selected chats as read, keeping inbox organized.\"}"
       },
       {
         "label": "Chat Actions Bar > Delete Button",
@@ -802,7 +854,8 @@
         "error": null,
         "accuracy_score": 82,
         "hidden": false,
-        "explanation": "Box broadly contains the trash can icon, with slight excess on left (encroaching central zone); overall, accurately targets the correct icon."
+        "explanation": "Box broadly contains the trash can icon, with slight excess on left (encroaching central zone); overall, accurately targets the correct icon.",
+        "element_metadata_extraction": "{\"patternName\":\"Icon Button\",\"facetTags\":[\"delete\",\"remove\",\"trash\",\"destructive action\",\"messaging\",\"CTA\",\"icon\",\"management\"],\"states\":[\"default\",\"hover\",\"pressed\",\"disabled\"],\"interaction\":{\"on_tap\":\"initiates deletion of selected chats with confirmation\",\"on_long_press\":\"shows tooltip for deleting\"},\"userFlowImpact\":\"Allows users to efficiently remove unwanted selected chats, managing inbox clutter.\"}"
       },
       {
         "label": "Chat Actions Bar > Message Count",
@@ -819,8 +872,11 @@
         "error": null,
         "accuracy_score": 90,
         "hidden": false,
-        "explanation": "Box precisely encloses the small '164' text, only marginally larger than the text size."
+        "explanation": "Box precisely encloses the small '164' text, only marginally larger than the text size.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Label\",\"facetTags\":[\"count\",\"feedback\",\"status\",\"selection info\",\"messaging\",\"indicator\",\"contextual\",\"metadata\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Provides users with immediate feedback on how many messages are selected for action.\"}"
       }
-    ]
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Horizontal Action Bar\",\"facetTags\":[\"batch actions\",\"messaging\",\"selection\",\"toolbar\",\"mobile\",\"quick access\",\"contextual\",\"navigation\",\"feedback\",\"CTA\"],\"states\":[\"default\",\"disabled\",\"active\",\"pressed\"],\"interaction\":{\"on_tap_bookmark\":\"marks selected chats as bookmarked\",\"on_tap_check\":\"marks selected chats as read or checked\",\"on_tap_delete\":\"deletes selected chats and prompts confirmation\",\"on_swipe_up\":\"dismisses actions bar\"},\"userFlowImpact\":\"Guides users to perform batch actions on messages efficiently without navigating away from the chat list.\"}",
+    "component_ai_description": "A horizontal action menu that provides quick access to chat management actions—bookmark, check, and delete—across selected chat entries, with contextual feedback on the number of selected messages."
   }
 ]

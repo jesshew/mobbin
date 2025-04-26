@@ -184,7 +184,7 @@ function parseClaudeTextToJson(rawText: string): Record<string, any> {
     if (match) {
       // Use the first matched group that contains content
       jsonContent = match[1] || match[2];
-      console.log('Extracted potential JSON content:', jsonContent);
+      console.log('Extracted potential JSON content:', jsonContent.slice(0, 100));
     } else {
       console.log('No JSON match found within ``` markers or as standalone object, trying entire text.');
       // Fall back to using the entire text if no specific JSON block is found
@@ -213,7 +213,7 @@ function parseClaudeTextToJson(rawText: string): Record<string, any> {
     // 4. Final attempt to remove trailing commas before closing brace/bracket
     cleanedText = cleanedText.replace(/,\s*([}\]])/g, '$1');
 
-    console.log('Cleaned JSON content for parsing:', cleanedText);
+    console.log('Cleaned JSON content for parsing:', cleanedText.slice(0, 100));
     
     // --- Parsing ---
     return JSON.parse(cleanedText);
