@@ -1,0 +1,1410 @@
+[
+  {
+    "screenshot_id": 42,
+    "component_name": "Streak Goal Selector",
+    "original_image_object": "[Buffer data omitted: 26735 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 88082 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-44-am_ZXHD.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC00NC1hbV9aWEhELnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ._rOyXLfVC_KwBjmfsQZa5_wwG9M2GzwRNFWXnN7_-_Q",
+    "component_description": "Detection results for Streak Goal Selector",
+    "detection_status": "success",
+    "inference_time": 10.822,
+    "elements": [
+      {
+        "label": "Streak Goal Selector > Title",
+        "description": "Dark text 'Pick your streak goal!' centered at the top of the content area",
+        "bounding_box": {
+          "x_min": 287,
+          "y_min": 122,
+          "x_max": 513,
+          "y_max": 146
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 10.822,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Bounding box tightly fits the title text, is well-centered, and includes minimal padding. Only a slight trimming could improve, but current placement is essentially optimal.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Header\",\"facetTags\":[\"instruction\",\"header\",\"streaks\",\"motivation\",\"focus\",\"mobile\",\"onboarding\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Draws user focus to the goal selection task by providing clear, motivating context at the top of the flow.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Radio Card List\",\"facetTags\":[\"goal-setting\",\"onboarding\",\"habit-tracking\",\"mobile\",\"selection\",\"progression\",\"motivation\",\"user-choice\",\"streaks\",\"engagement\"],\"states\":[\"default\",\"option-selected\",\"option-unselected\",\"disabled\"],\"interaction\":{\"on_tap_option\":\"selects the chosen streak goal and updates visual state\",\"on_tap_confirm\":\"saves selected streak goal and advances process\"},\"userFlowImpact\":\"Guides users to establish a personalized streak goal, reinforcing commitment and supporting habit formation.\"}",
+    "component_ai_description": "A list selection interface that enables users to set a preferred streak goal duration as part of the onboarding or habit-setting process."
+  },
+  {
+    "screenshot_id": 42,
+    "component_name": "Streak Goal Selector > Option 1",
+    "original_image_object": "[Buffer data omitted: 26735 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 87557 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-44-am_ZXHD.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC00NC1hbV9aWEhELnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ._rOyXLfVC_KwBjmfsQZa5_wwG9M2GzwRNFWXnN7_-_Q",
+    "component_description": "Detection results for Streak Goal Selector > Option 1",
+    "detection_status": "success",
+    "inference_time": 48.105,
+    "elements": [
+      {
+        "label": "Streak Goal Selector > Option 1 > Container",
+        "description": "White rounded rectangular container displaying '3 days' and 'Baby steps', positioned as the first option in the list",
+        "bounding_box": {
+          "x_min": 256,
+          "y_min": 165,
+          "x_max": 544,
+          "y_max": 213
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 12.838,
+        "error": null,
+        "accuracy_score": 98,
+        "hidden": false,
+        "explanation": "Box closely matches the container's position and size with only negligible overflow on corners; accurately covers both texts and shape.",
+        "element_metadata_extraction": "{\"patternName\":\"Card Container\",\"facetTags\":[\"container\",\"option\",\"selectable\",\"list\",\"background\",\"mobile\",\"goal-setting\",\"visual-group\"],\"states\":[\"default\",\"hover\",\"focused\",\"selected\",\"disabled\"],\"interaction\":{\"on_tap\":\"selects this entire option\",\"on_focus\":\"displays highlight to indicate keyboard focus\"},\"userFlowImpact\":\"Provides a clear, tappable area to facilitate choosing the streak option and enhance usability.\"}"
+      },
+      {
+        "label": "Streak Goal Selector > Option 1 > Duration Label",
+        "description": "Gray text '3 days' aligned to the left inside the first white rounded container",
+        "bounding_box": {
+          "x_min": 259,
+          "y_min": 170,
+          "x_max": 541,
+          "y_max": 208
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 12.312,
+        "error": null,
+        "accuracy_score": 68,
+        "hidden": false,
+        "explanation": "Box includes both the label and overlaps into the 'Baby steps' area; could be slightly narrowed but sufficiently highlights the main text.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Label\",\"facetTags\":[\"duration\",\"descriptor\",\"left-aligned\",\"text\",\"non-interactive\",\"info\",\"goal\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Clearly communicates the length of the streak goal, supporting quick comparison between options.\"}"
+      },
+      {
+        "label": "Streak Goal Selector > Option 1 > Description",
+        "description": "Gray text 'Baby steps' aligned to the right inside the first white rounded container",
+        "bounding_box": {
+          "x_min": 254,
+          "y_min": 169,
+          "x_max": 546,
+          "y_max": 217
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 22.955,
+        "error": null,
+        "accuracy_score": 60,
+        "hidden": false,
+        "explanation": "Bounding box is marginally larger than needed, extending above and below the actual text zone; still encloses the 'Baby steps' label so remains usable.",
+        "element_metadata_extraction": "{\"patternName\":\"Supporting Text\",\"facetTags\":[\"description\",\"motivation\",\"right-aligned\",\"supplemental\",\"info\",\"streak\",\"static\",\"onboarding\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Reinforces the option’s intent and boosts user motivation with approachable language.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Radio Card List Option\",\"facetTags\":[\"goal-selection\",\"habit-forming\",\"onboarding\",\"option-card\",\"motivation\",\"list-item\",\"mobile\",\"beginner\",\"commitment\",\"streak-tracking\"],\"states\":[\"default\",\"hover\",\"focused\",\"selected\",\"disabled\"],\"interaction\":{\"on_tap\":\"selects this streak goal option and updates selection state\",\"on_focus\":\"highlights the option for keyboard navigation\"},\"userFlowImpact\":\"Guides users to select a manageable streak commitment, shaping the user's initial habit-building experience.\"}",
+    "component_ai_description": "Selectable option card that allows users to choose '3 days' as their streak goal, contextualized as an approachable, beginner-level commitment within a list of streak target choices."
+  },
+  {
+    "screenshot_id": 42,
+    "component_name": "Streak Goal Selector > Option 3",
+    "original_image_object": "[Buffer data omitted: 26735 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 87761 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-44-am_ZXHD.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC00NC1hbV9aWEhELnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ._rOyXLfVC_KwBjmfsQZa5_wwG9M2GzwRNFWXnN7_-_Q",
+    "component_description": "Detection results for Streak Goal Selector > Option 3",
+    "detection_status": "success",
+    "inference_time": 47.935,
+    "elements": [
+      {
+        "label": "Streak Goal Selector > Option 3 > Container",
+        "description": "Yellow/gold highlighted rounded rectangular container with '14 days' and 'Clearly committed' text, positioned third in the options list",
+        "bounding_box": {
+          "x_min": 253,
+          "y_min": 254,
+          "x_max": 547,
+          "y_max": 302
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 11.908,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Bounding box tightly fits the third highlighted container, covering the gold background, left, right, and vertical space with just slight padding overlap on the right for the checkmark.",
+        "element_metadata_extraction": "{\"patternName\":\"Highlighted List Item Container\",\"facetTags\":[\"option container\",\"list item\",\"highlight\",\"focus\",\"mobile\",\"selection\",\"rounded\",\"visual-cue\"],\"states\":[\"default\",\"highlighted\",\"selected\"],\"interaction\":{\"on_tap\":\"selects this option and visually highlights container\"},\"userFlowImpact\":\"Draws attention and provides a clear, tappable area for option selection.\"}"
+      },
+      {
+        "label": "Streak Goal Selector > Option 3 > Duration Label",
+        "description": "Orange/gold text '14 days' aligned to the left inside the highlighted third container",
+        "bounding_box": {
+          "x_min": 254,
+          "y_min": 254,
+          "x_max": 546,
+          "y_max": 302
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 8.454,
+        "error": null,
+        "accuracy_score": 50,
+        "hidden": false,
+        "explanation": "Box currently covers the entire container, but the '14 days' label is only on the left; suggested a much narrower box fitting just the text area.",
+        "suggested_coordinates": {
+          "x_min": 265,
+          "y_min": 262,
+          "x_max": 345,
+          "y_max": 288
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Option Primary Label\",\"facetTags\":[\"text label\",\"duration\",\"primary info\",\"mobile\",\"goal\",\"highlight\",\"left-aligned\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Displays the main information about the streak duration, informing user choice.\"}"
+      },
+      {
+        "label": "Streak Goal Selector > Option 3 > Description",
+        "description": "Orange/gold text 'Clearly committed' aligned to the right inside the highlighted third container",
+        "bounding_box": {
+          "x_min": 252,
+          "y_min": 254,
+          "x_max": 548,
+          "y_max": 302
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 13.666,
+        "error": null,
+        "accuracy_score": 51,
+        "hidden": false,
+        "explanation": "Given box covers whole container, but label is only on right; squeezed box to just surround 'Clearly committed' text region.",
+        "suggested_coordinates": {
+          "x_min": 400,
+          "y_min": 263,
+          "x_max": 520,
+          "y_max": 288
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Option Secondary Label\",\"facetTags\":[\"description\",\"secondary text\",\"context\",\"motivation\",\"right-aligned\",\"mobile\",\"streak goal\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Provides persuasive context to reinforce the commitment level and motivate selection.\"}"
+      },
+      {
+        "label": "Streak Goal Selector > Option 3 > Selection Indicator",
+        "description": "Orange checkmark icon in a circular background at the right edge of the highlighted third container",
+        "bounding_box": {
+          "x_min": 534,
+          "y_min": 251,
+          "x_max": 555,
+          "y_max": 268
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 13.907,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Box accurately encloses the checkmark icon including the circular background at the right edge of the selected container.",
+        "element_metadata_extraction": "{\"patternName\":\"Selection Checkmark Icon\",\"facetTags\":[\"icon\",\"checkmark\",\"feedback\",\"confirmation\",\"status\",\"mobile\",\"selected-state\"],\"states\":[\"default\",\"visible when selected\"],\"interaction\":{\"none\":\"Static element—no direct interaction\"},\"userFlowImpact\":\"Visually confirms the user's selection, reducing uncertainty and supporting decision-making.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Selectable Option Row\",\"facetTags\":[\"selection\",\"goal setting\",\"commitment\",\"mobile\",\"highlighted\",\"streak\",\"interactive\",\"multi-choice\",\"motivation\"],\"states\":[\"default\",\"focused\",\"selected\",\"disabled\"],\"interaction\":{\"on_tap\":\"selects this streak goal option\",\"on_focus\":\"highlights option for accessibility\"},\"userFlowImpact\":\"Guides users to confidently select a commitment level as part of onboarding or goal setup.\"}",
+    "component_ai_description": "A visually highlighted selectable option within a streak goal picker, indicating a 14-day commitment with clear supporting label and selection feedback."
+  },
+  {
+    "screenshot_id": 42,
+    "component_name": "Streak Goal Selector > Option 2",
+    "original_image_object": "[Buffer data omitted: 26735 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 87733 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-44-am_ZXHD.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC00NC1hbV9aWEhELnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ._rOyXLfVC_KwBjmfsQZa5_wwG9M2GzwRNFWXnN7_-_Q",
+    "component_description": "Detection results for Streak Goal Selector > Option 2",
+    "detection_status": "success",
+    "inference_time": 40.565000000000005,
+    "elements": [
+      {
+        "label": "Streak Goal Selector > Option 2 > Container",
+        "description": "White rounded rectangular container displaying '7 days' and 'Strong start', positioned second in the options list",
+        "bounding_box": {
+          "x_min": 254,
+          "y_min": 209,
+          "x_max": 546,
+          "y_max": 257
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 8.89,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Box accurately encloses the second option container with minimal overflow and matches the visual element's position and shape.",
+        "element_metadata_extraction": "{\"patternName\":\"Option Container\",\"facetTags\":[\"container\",\"layout\",\"option\",\"touch area\",\"visual grouping\",\"selection\",\"rounded\",\"list row\"],\"states\":[\"default\",\"focused\",\"selected\",\"disabled\"],\"interaction\":{\"on_tap\":\"selects this streak duration option\"},\"userFlowImpact\":\"Encapsulates and visually groups the interactive option, emphasizing tapability and clarity of selection.\"}"
+      },
+      {
+        "label": "Streak Goal Selector > Option 2 > Duration Label",
+        "description": "Gray text '7 days' aligned to the left inside the second white rounded container",
+        "bounding_box": {
+          "x_min": 254,
+          "y_min": 209,
+          "x_max": 546,
+          "y_max": 257
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 15.74,
+        "error": null,
+        "accuracy_score": 46,
+        "hidden": false,
+        "explanation": "Box currently covers full container, not just left-aligned '7 days' text; corrected to tightly fit the label.",
+        "suggested_coordinates": {
+          "x_min": 268,
+          "y_min": 216,
+          "x_max": 345,
+          "y_max": 245
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Text Label\",\"facetTags\":[\"label\",\"duration\",\"goal\",\"descriptor\",\"left-aligned\",\"static text\",\"clarity\",\"contextual info\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Clearly communicates the specific streak goal duration to guide user selection.\"}"
+      },
+      {
+        "label": "Streak Goal Selector > Option 2 > Description",
+        "description": "Gray text 'Strong start' aligned to the right inside the second white rounded container",
+        "bounding_box": {
+          "x_min": 253,
+          "y_min": 209,
+          "x_max": 547,
+          "y_max": 257
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 15.935,
+        "error": null,
+        "accuracy_score": 46,
+        "hidden": false,
+        "explanation": "Box oversegmented, capturing whole container; corrected to tightly encompass only the right-aligned 'Strong start' label.",
+        "suggested_coordinates": {
+          "x_min": 405,
+          "y_min": 217,
+          "x_max": 535,
+          "y_max": 245
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Contextual Text\",\"facetTags\":[\"description\",\"motivation\",\"right-aligned\",\"support text\",\"static\",\"clarification\",\"option detail\",\"engagement\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Provides motivational context for the option, encouraging users toward a 'strong start' commitment.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Radio Card List Option\",\"facetTags\":[\"selection\",\"progress\",\"onboarding\",\"habit-building\",\"goal-setting\",\"list option\",\"touch target\",\"motivational\",\"mobile\",\"user choice\"],\"states\":[\"default\",\"focused\",\"selected\",\"disabled\"],\"interaction\":{\"on_tap\":\"selects this goal duration and highlights the option\"},\"userFlowImpact\":\"Guides users to set a weekly streak target, shaping their initial onboarding and commitment behavior.\"}",
+    "component_ai_description": "A selectable option row in a streak goal selector interface, letting users choose '7 days' as their desired goal duration, positioned second in the list."
+  },
+  {
+    "screenshot_id": 42,
+    "component_name": "Streak Goal Selector > Option 4",
+    "original_image_object": "[Buffer data omitted: 26735 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 87703 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-44-am_ZXHD.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC00NC1hbV9aWEhELnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ._rOyXLfVC_KwBjmfsQZa5_wwG9M2GzwRNFWXnN7_-_Q",
+    "component_description": "Detection results for Streak Goal Selector > Option 4",
+    "detection_status": "success",
+    "inference_time": 35.120000000000005,
+    "elements": [
+      {
+        "label": "Streak Goal Selector > Option 4 > Container",
+        "description": "White rounded rectangular container displaying '30 days' and 'Unstoppable streak', positioned as the bottom option in the list",
+        "bounding_box": {
+          "x_min": 254,
+          "y_min": 309,
+          "x_max": 546,
+          "y_max": 346
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 13.352,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box closely matches the position and span of the white rounded container at the bottom of the selector; very minor vertical cropping at the bottom edge.",
+        "element_metadata_extraction": "{\"patternName\":\"Card Container\",\"facetTags\":[\"container\",\"card\",\"selector\",\"option background\",\"visual grouping\",\"selectable\",\"layout\",\"list\"],\"states\":[\"default\",\"selected\",\"disabled\",\"focused\"],\"interaction\":{\"on_tap\":\"selects this specific streak option\",\"on_focus\":\"visually highlights the container for keyboard or screen reader navigation\"},\"userFlowImpact\":\"Delineates the option's clickable area to support clear, accessible selection.\"}"
+      },
+      {
+        "label": "Streak Goal Selector > Option 4 > Duration Label",
+        "description": "Gray text '30 days' aligned to the left inside the fourth white rounded container",
+        "bounding_box": {
+          "x_min": 273,
+          "y_min": 311,
+          "x_max": 351,
+          "y_max": 333
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 16.012,
+        "error": null,
+        "accuracy_score": 90,
+        "hidden": false,
+        "explanation": "Box accurately covers the '30 days' text; edges have minimal padding but sufficiently surround the label.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Label\",\"facetTags\":[\"text\",\"label\",\"duration\",\"goal\",\"left-aligned\",\"option value\",\"informational\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Communicates the exact duration of the streak goal, informing user decision.\"}"
+      },
+      {
+        "label": "Streak Goal Selector > Option 4 > Description",
+        "description": "Gray text 'Unstoppable streak' aligned to the right inside the fourth white rounded container",
+        "bounding_box": {
+          "x_min": 399,
+          "y_min": 312,
+          "x_max": 532,
+          "y_max": 331
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 5.756,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box closely matches the horizontal alignment and extent of the 'Unstoppable streak' text; vertical fit is tight.",
+        "element_metadata_extraction": "{\"patternName\":\"Supporting Text\",\"facetTags\":[\"text\",\"support\",\"purpose\",\"right-aligned\",\"descriptor\",\"motivation\",\"option detail\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Provides motivational detail to inspire users to select this longer-term goal.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Radio Card List Option\",\"facetTags\":[\"selection\",\"goal setting\",\"habit formation\",\"streaks\",\"motivation\",\"list item\",\"mobile\",\"onboarding\",\"radio option\"],\"states\":[\"default\",\"selected\",\"disabled\",\"focused\"],\"interaction\":{\"on_tap\":\"selects the 30 days streak goal and updates selection state\",\"on_focus\":\"highlights the option for accessibility navigation\"},\"userFlowImpact\":\"Enables users to choose a higher commitment level for their streak, which impacts user motivation and progress tracking.\"}",
+    "component_ai_description": "A selectable row within a streak goal picker, representing the '30 days – Unstoppable streak' option as the fourth and final choice for users to set their target streak duration."
+  },
+  {
+    "screenshot_id": 42,
+    "component_name": "Motivational Message",
+    "original_image_object": "[Buffer data omitted: 26735 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 90550 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-44-am_ZXHD.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC00NC1hbV9aWEhELnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ._rOyXLfVC_KwBjmfsQZa5_wwG9M2GzwRNFWXnN7_-_Q",
+    "component_description": "Detection results for Motivational Message",
+    "detection_status": "success",
+    "inference_time": 54.445,
+    "elements": [
+      {
+        "label": "Motivational Message > Mascot",
+        "description": "Green cartoon owl with orange object positioned on the left side below the option containers",
+        "bounding_box": {
+          "x_min": 252,
+          "y_min": 476,
+          "x_max": 348,
+          "y_max": 560
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 15.006,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Bounding box accurately frames the owl mascot with minimal excess space; minor margin on the bottom.",
+        "element_metadata_extraction": "{\"patternName\":\"Mascot Illustration\",\"facetTags\":[\"visual-cue\",\"brand\",\"personality\",\"encouragement\",\"static\",\"engagement\",\"mobile\",\"friendly\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static illustration—does not respond to input\"},\"userFlowImpact\":\"Creates a friendly, familiar brand presence that makes the message more engaging and approachable.\"}"
+      },
+      {
+        "label": "Motivational Message > Speech Bubble",
+        "description": "White rounded speech bubble to the right of the green owl character",
+        "bounding_box": {
+          "x_min": 347,
+          "y_min": 489,
+          "x_max": 549,
+          "y_max": 553
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 14.956,
+        "error": null,
+        "accuracy_score": 88,
+        "hidden": false,
+        "explanation": "Box closely matches the speech bubble, with a slight extra margin at the top and bottom but solid horizontal fit.",
+        "element_metadata_extraction": "{\"patternName\":\"Speech Bubble Container\",\"facetTags\":[\"container\",\"dialog\",\"visual-separation\",\"message\",\"informative\",\"contextual\",\"highlight\",\"mobile\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—holds and frames the message text\"},\"userFlowImpact\":\"Frames the motivational statement clearly, drawing attention to the supportive message for users.\"}"
+      },
+      {
+        "label": "Motivational Message > Message Text",
+        "description": "Text in the speech bubble stating 'You'll be 5x more likely to complete the course!' with '5x more' in orange",
+        "bounding_box": {
+          "x_min": 260,
+          "y_min": 485,
+          "x_max": 540,
+          "y_max": 554
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 24.483,
+        "error": null,
+        "accuracy_score": 62,
+        "hidden": false,
+        "explanation": "Box partially overlaps the mascot area on the left and extends below the text baseline; could be tightened on the left and bottom for improved precision.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Emphasis\",\"facetTags\":[\"message\",\"emphasis\",\"instruction\",\"motivation\",\"progress\",\"behavioral-cue\",\"contextual\",\"mobile\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static—text is delivered as-is\"},\"userFlowImpact\":\"Reinforces the value of the user's action, increasing perceived benefits and likelihood to proceed.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Motivational Message Card\",\"facetTags\":[\"motivation\",\"onboarding\",\"engagement\",\"supportive\",\"visual-cue\",\"educational\",\"informational\",\"mobile\",\"reinforcement\",\"progress\"],\"states\":[\"default\",\"visible\",\"hidden\"],\"interaction\":{\"none\":\"Static module—displays encouragement without direct user interaction\"},\"userFlowImpact\":\"Prompts positive emotional reinforcement, increasing the likelihood that users will proceed with their chosen goal.\"}",
+    "component_ai_description": "A motivational UI module featuring a mascot and supportive message intended to encourage user commitment during a goal-setting sequence."
+  },
+  {
+    "screenshot_id": 42,
+    "component_name": "Action Buttons",
+    "original_image_object": "[Buffer data omitted: 26735 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 87785 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-44-am_ZXHD.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC00NC1hbV9aWEhELnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ._rOyXLfVC_KwBjmfsQZa5_wwG9M2GzwRNFWXnN7_-_Q",
+    "component_description": "Detection results for Action Buttons",
+    "detection_status": "success",
+    "inference_time": 30.373,
+    "elements": [
+      {
+        "label": "Action Buttons > Skip Button",
+        "description": "Light gray button with gray text 'SKIP' in the bottom section of the screen",
+        "bounding_box": {
+          "x_min": 244,
+          "y_min": 666,
+          "x_max": 556,
+          "y_max": 704
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 17.074,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Bounding box tightly fits the SKIP button with minimal extra padding and accurate alignment.",
+        "element_metadata_extraction": "{\"patternName\":\"Secondary Button\",\"facetTags\":[\"skip\",\"secondary\",\"dismiss\",\"low emphasis\",\"optional\",\"bottom-bar\",\"minimal\",\"onboarding\"],\"states\":[\"default\",\"focused\",\"disabled\",\"pressed\"],\"interaction\":{\"on_tap\":\"skips the goal selection process and proceeds to the next available screen\"},\"userFlowImpact\":\"Allows users to opt out of commitment, providing an easy exit or deferment.\"}"
+      },
+      {
+        "label": "Action Buttons > Confirmation Button",
+        "description": "Blue rounded rectangular button with white text 'I CAN DO IT!' at the bottom of the screen",
+        "bounding_box": {
+          "x_min": 243,
+          "y_min": 713,
+          "x_max": 557,
+          "y_max": 756
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 13.299,
+        "error": null,
+        "accuracy_score": 99,
+        "hidden": false,
+        "explanation": "Bounding box fits the 'I CAN DO IT!' button very accurately with near-perfect alignment and sizing.",
+        "element_metadata_extraction": "{\"patternName\":\"Primary Button\",\"facetTags\":[\"confirm\",\"primary\",\"cta\",\"commitment\",\"progression\",\"high emphasis\",\"mobile\",\"goal setting\"],\"states\":[\"default\",\"focused\",\"disabled\",\"pressed\"],\"interaction\":{\"on_tap\":\"confirms the user's goal selection and advances the onboarding process\"},\"userFlowImpact\":\"Encourages positive action and progression by clearly highlighting the recommended commitment.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Button Group\",\"facetTags\":[\"choice\",\"confirmation\",\"dismissal\",\"bottom-bar\",\"primary action\",\"secondary action\",\"goal setting\",\"mobile\",\"progression\",\"motivation\"],\"states\":[\"default\",\"focused\",\"disabled\",\"pressed\"],\"interaction\":{\"on_tap_skip\":\"dismisses the current goal selection and skips to the next step\",\"on_tap_confirm\":\"confirms the selected goal and advances user to the next step\"},\"userFlowImpact\":\"Guides users to either commit to a choice or bypass the step, influencing engagement and progression in the onboarding flow.\"}",
+    "component_ai_description": "A pair of action buttons anchored at the bottom of the screen, providing users with clear choices to either skip or confirm their commitment in the goal selection flow."
+  },
+  {
+    "screenshot_id": 43,
+    "component_name": "Header Section",
+    "original_image_object": "[Buffer data omitted: 33244 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 122974 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-11-am_VkEm.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC0xMS1hbV9Wa0VtLnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ.t8_-4CJsPREdfTQUENnQMZNc0Ub0SM887Q7Y3PYlFA0",
+    "component_description": "Detection results for Header Section",
+    "detection_status": "success",
+    "inference_time": 27.763999999999996,
+    "elements": [
+      {
+        "label": "Header Section > Status Bar",
+        "description": "Black status bar at the very top of the screen displaying time (9:41), cellular signal strength, Wi-Fi connection status, and battery level indicator.",
+        "bounding_box": {
+          "x_min": 226,
+          "y_min": 23,
+          "x_max": 574,
+          "y_max": 42
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 8.719,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Box tightly and accurately surrounds the entire status bar area with minimal padding; only slight excess space at the bottom.",
+        "element_metadata_extraction": "{\"patternName\":\"Status Bar\",\"facetTags\":[\"system info\",\"top bar\",\"time\",\"connectivity\",\"battery\",\"mobile UI\",\"non-interactive\",\"persistent\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Passively informs the user about current device status, reducing ambiguity and supporting awareness.\"}"
+      },
+      {
+        "label": "Header Section > Navigation Element",
+        "description": "Gray left-pointing arrow button positioned in the top left corner of the screen below the status bar.",
+        "bounding_box": {
+          "x_min": 223,
+          "y_min": 49,
+          "x_max": 248,
+          "y_max": 69
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 8.087,
+        "error": null,
+        "accuracy_score": 98,
+        "hidden": false,
+        "explanation": "Box is very accurate and snugly fits the gray left-pointing navigation arrow with almost no excess space.",
+        "element_metadata_extraction": "{\"patternName\":\"Navigation Icon Button\",\"facetTags\":[\"navigation\",\"back action\",\"icon button\",\"affordance\",\"mobile\",\"top bar\",\"interaction\",\"flow control\"],\"states\":[\"default\",\"pressed\",\"disabled\"],\"interaction\":{\"on_tap\":\"returns the user to the previous screen\"},\"userFlowImpact\":\"Offers a clear route for backward navigation, helping prevent disorientation within the onboarding or notifications flow.\"}"
+      },
+      {
+        "label": "Header Section > Yellow Bar",
+        "description": "Bright yellow horizontal bar spanning across the top of the screen below the navigation arrow.",
+        "bounding_box": {
+          "x_min": 255,
+          "y_min": 52,
+          "x_max": 573,
+          "y_max": 66
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 10.958,
+        "error": null,
+        "accuracy_score": 90,
+        "hidden": false,
+        "explanation": "Box covers the yellow bar almost perfectly, but slightly overshoots to the left and leaves marginal extra space at the top and bottom; generally well-fitted.",
+        "element_metadata_extraction": "{\"patternName\":\"Progress/Accent Bar\",\"facetTags\":[\"highlight\",\"accent\",\"visual cue\",\"orientation\",\"color bar\",\"progress\",\"contextual UI\",\"decorative\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Acts as a visual anchor or progress indicator, reinforcing the current phase or drawing attention to the header region.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Header Section\",\"facetTags\":[\"status\",\"navigation\",\"mobile\",\"orientation\",\"context\",\"system info\",\"visual hierarchy\",\"persistent\",\"onboarding\"],\"states\":[\"default\",\"hidden\",\"transitional\"],\"interaction\":{\"on_navigation_tap\":\"returns the user to the previous screen or flow\"},\"userFlowImpact\":\"Anchors the user with contextual and navigational cues, ensuring spatial consistency while transitioning through the app flow.\"}",
+    "component_ai_description": "A persistent header area at the top of the mobile interface, providing system status information, primary navigation access, and contextual highlighting to orient the user within their current flow."
+  },
+  {
+    "screenshot_id": 43,
+    "component_name": "Reminder Prompt",
+    "original_image_object": "[Buffer data omitted: 33244 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 131655 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-11-am_VkEm.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC0xMS1hbV9Wa0VtLnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ.t8_-4CJsPREdfTQUENnQMZNc0Ub0SM887Q7Y3PYlFA0",
+    "component_description": "Detection results for Reminder Prompt",
+    "detection_status": "success",
+    "inference_time": 42.179,
+    "elements": [
+      {
+        "label": "Reminder Prompt > Title Text",
+        "description": "Bold dark gray text reading 'Get a daily reminder to meet your goal' centered in the upper portion of the screen.",
+        "bounding_box": {
+          "x_min": 258,
+          "y_min": 174,
+          "x_max": 542,
+          "y_max": 255
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 15.56,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Bounding box closely fits around the title text; minor over-padding at top and bottom. Tightness and centering are accurate.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Header\",\"facetTags\":[\"header\",\"informational\",\"motivation\",\"goal setting\",\"attention\",\"bold\",\"centered\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Clearly communicates the primary value of enabling reminders, orienting the user to the action’s benefit.\"}"
+      },
+      {
+        "label": "Reminder Prompt > Mascot Character",
+        "description": "Bright green cartoon owl character (Duolingo mascot) on the left side of screen, with large eyes and yellow beak, holding a small gold bell in its wing.",
+        "bounding_box": {
+          "x_min": 241,
+          "y_min": 303,
+          "x_max": 428,
+          "y_max": 403
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 22.769,
+        "error": null,
+        "accuracy_score": 40,
+        "hidden": false,
+        "explanation": "Current box covers the character and the bell, but the actual mascot's left, bottom, and top areas are under-captured; shifted box left and expanded for full mascot inclusion.",
+        "suggested_coordinates": {
+          "x_min": 210,
+          "y_min": 314,
+          "x_max": 389,
+          "y_max": 425
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Illustration\",\"facetTags\":[\"mascot\",\"visual\",\"brand identity\",\"engagement\",\"informal\",\"attention\",\"supportive\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Visually attracts users and creates an emotional connection, making the prompt more friendly and noticeable.\"}"
+      },
+      {
+        "label": "Reminder Prompt > Speech Bubble",
+        "description": "White speech bubble with rounded corners containing text 'Just in case you forget!' positioned to the right of the green owl mascot.",
+        "bounding_box": {
+          "x_min": 429,
+          "y_min": 322,
+          "x_max": 566,
+          "y_max": 374
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 3.85,
+        "error": null,
+        "accuracy_score": 90,
+        "hidden": false,
+        "explanation": "Bounding box neatly outlines the speech bubble and most of its tail. The text is fully enclosed and top/bottom fit is nearly exact.",
+        "element_metadata_extraction": "{\"patternName\":\"Speech Bubble\",\"facetTags\":[\"informational\",\"supportive\",\"reinforcement\",\"microcopy\",\"guidance\",\"mascot\",\"visual cue\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Adds a personable, reassuring touch to the prompt, increasing user receptivity to enabling reminders.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Modal Dialog\",\"facetTags\":[\"reminder\",\"onboarding\",\"notification\",\"modal\",\"engagement\",\"goal setting\",\"motivation\",\"mascot\",\"mobile\",\"attention\"],\"states\":[\"default\",\"visible\",\"dismissed\"],\"interaction\":{\"on_open\":\"displays prompt to enable reminders\",\"on_dismiss\":\"closes prompt without enabling notifications\"},\"userFlowImpact\":\"Draws user attention to reminder setup, increasing likelihood they'll enable motivational notifications.\"}",
+    "component_ai_description": "A modal prompt that introduces and encourages users to enable daily reminders for achieving their learning goals, visually anchored by a mascot and supportive wording."
+  },
+  {
+    "screenshot_id": 43,
+    "component_name": "Primary Action Bar",
+    "original_image_object": "[Buffer data omitted: 33244 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 123933 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-11-am_VkEm.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC0xMS1hbV9Wa0VtLnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ.t8_-4CJsPREdfTQUENnQMZNc0Ub0SM887Q7Y3PYlFA0",
+    "component_description": "Detection results for Primary Action Bar",
+    "detection_status": "success",
+    "inference_time": 13.679,
+    "elements": [
+      {
+        "label": "Primary Action Bar > Continue Button",
+        "description": "Large bright green rectangular button with rounded corners containing white text 'CONTINUE' positioned at the bottom of the screen.",
+        "bounding_box": {
+          "x_min": 239,
+          "y_min": 686,
+          "x_max": 561,
+          "y_max": 737
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 13.679,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Bounding box is almost perfectly aligned with the green Continue button; slight minimal padding above and below only.",
+        "element_metadata_extraction": "{\"patternName\":\"Primary Button\",\"facetTags\":[\"CTA\",\"confirmation\",\"progression\",\"highlight\",\"action\",\"navigation\",\"mobile\",\"footer\",\"user advancement\"],\"states\":[\"default\",\"pressed\",\"disabled\",\"loading\"],\"interaction\":{\"on_tap\":\"initiates continuation to the next screen or task\",\"on_disabled_tap\":\"provides no response\"},\"userFlowImpact\":\"Visually guides and invites the user to intentionally complete this stage and proceed onward.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Primary Action Bar\",\"facetTags\":[\"CTA\",\"progression\",\"bottom bar\",\"mobile\",\"guidance\",\"navigation\",\"confirmation\",\"action\",\"task completion\",\"high visibility\"],\"states\":[\"default\",\"pressed\",\"disabled\",\"loading\"],\"interaction\":{\"on_tap\":\"confirms the current step and advances the user journey\",\"on_long_press\":\"may trigger haptic feedback or highlight state\"},\"userFlowImpact\":\"Anchors the user’s attention to the next expected action and accelerates forward movement through a defined workflow.\"}",
+    "component_ai_description": "A fixed, high-visibility horizontal action bar positioned at the bottom of the screen, designed to prominently surface the user’s main progression action."
+  },
+  {
+    "screenshot_id": 43,
+    "component_name": "Notification Permission Card",
+    "original_image_object": "[Buffer data omitted: 33244 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 128120 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-11-am_VkEm.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC0xMS1hbV9Wa0VtLnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ.t8_-4CJsPREdfTQUENnQMZNc0Ub0SM887Q7Y3PYlFA0",
+    "component_description": "Detection results for Notification Permission Card",
+    "detection_status": "success",
+    "inference_time": 77.15200000000002,
+    "elements": [
+      {
+        "label": "Notification Permission Card > Container",
+        "description": "White rounded rectangle card with light gray border occupying the middle section of the screen, containing notification permission information.",
+        "bounding_box": {
+          "x_min": 237,
+          "y_min": 396,
+          "x_max": 494,
+          "y_max": 640
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 15.184,
+        "error": null,
+        "accuracy_score": 99,
+        "hidden": false,
+        "explanation": "Bounding box tightly fits the notification card container with minimal extra padding; very high accuracy.",
+        "element_metadata_extraction": "{\"patternName\":\"Card Container\",\"facetTags\":[\"container\",\"layout\",\"background\",\"modal\",\"structure\",\"web\",\"centered\",\"surface\"],\"states\":[\"default\",\"focused\"],\"interaction\":{\"none\":\"Static visual structure—no direct interaction\"},\"userFlowImpact\":\"Gathers and visually distinguishes all permission-related elements for focused decision-making.\"}"
+      },
+      {
+        "label": "Notification Permission Card > App Icon",
+        "description": "Small square green icon showing the Duolingo owl face positioned in the upper left portion of the notification card.",
+        "bounding_box": {
+          "x_min": 338,
+          "y_min": 421,
+          "x_max": 384,
+          "y_max": 466
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 4.027,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Bounding box fits the App Icon closely with just a sliver of extra width; the alignment is visually accurate.",
+        "element_metadata_extraction": "{\"patternName\":\"App Icon\",\"facetTags\":[\"icon\",\"branding\",\"identifier\",\"visual cue\",\"recognition\",\"context\",\"application\",\"identity\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static branding element—no interaction\"},\"userFlowImpact\":\"Establishes clear visual association with the source application, boosting trust and context.\"}"
+      },
+      {
+        "label": "Notification Permission Card > Permission Text",
+        "description": "Dark gray text stating 'The website \"duolingo.com\" would like to send you notifications in Notification Center.' centered in the upper part of the notification card.",
+        "bounding_box": {
+          "x_min": 248,
+          "y_min": 483,
+          "x_max": 467,
+          "y_max": 512
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 8.265,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Box tightly captures the main notification permission text with alignment centered and correct vertical padding.",
+        "element_metadata_extraction": "{\"patternName\":\"Body Text\",\"facetTags\":[\"text\",\"information\",\"instruction\",\"context\",\"explanation\",\"permission\",\"web\",\"clarification\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static informational element—no interaction\"},\"userFlowImpact\":\"Communicates the intent of the permission request, setting user expectation on the outcome.\"}"
+      },
+      {
+        "label": "Notification Permission Card > Additional Info",
+        "description": "Light gray smaller text reading 'Notifications can be changed in Safari Website preferences.' positioned in the lower section of the notification card.",
+        "bounding_box": {
+          "x_min": 274,
+          "y_min": 539,
+          "x_max": 441,
+          "y_max": 558
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 7.7,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Box encompasses the entire additional info text with accurate width and height, no meaningful misalignment.",
+        "element_metadata_extraction": "{\"patternName\":\"Caption Text\",\"facetTags\":[\"caption\",\"fine print\",\"disclosure\",\"context\",\"secondary\",\"instruction\",\"informational\",\"web\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static supplementary info—no interaction\"},\"userFlowImpact\":\"Provides reassurance and paths for future changes, enabling informed consent.\"}"
+      },
+      {
+        "label": "Notification Permission Card > Block Button",
+        "description": "Light gray rectangular button with rounded corners labeled 'BLOCK' positioned on the bottom left side of the notification card.",
+        "bounding_box": {
+          "x_min": 254,
+          "y_min": 588,
+          "x_max": 356,
+          "y_max": 624
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 13.364,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Box covers the left button and is well-aligned with minimal excess area; label is well-centered.",
+        "element_metadata_extraction": "{\"patternName\":\"Secondary Button\",\"facetTags\":[\"button\",\"secondary action\",\"decline\",\"control\",\"permission\",\"choice\",\"reject\",\"ui action\"],\"states\":[\"default\",\"pressed\",\"disabled\"],\"interaction\":{\"on_tap\":\"declines notification permission and dismisses the prompt\"},\"userFlowImpact\":\"Enables users to opt out of notifications with a clear, accessible action.\"}"
+      },
+      {
+        "label": "Notification Permission Card > Allow Button",
+        "description": "Blue rectangular button with rounded corners and white text 'ALLOW' positioned on the bottom right side of the notification card.",
+        "bounding_box": {
+          "x_min": 362,
+          "y_min": 589,
+          "x_max": 466,
+          "y_max": 622
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 8.762,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Box fits the ALLOW button nearly perfectly with proper height and horizontal coverage; visually accurate.",
+        "element_metadata_extraction": "{\"patternName\":\"Primary Button\",\"facetTags\":[\"button\",\"primary action\",\"consent\",\"accept\",\"cta\",\"permission\",\"choice\",\"confirm\"],\"states\":[\"default\",\"pressed\",\"disabled\"],\"interaction\":{\"on_tap\":\"grants notification permission and dismisses the prompt\"},\"userFlowImpact\":\"Encourages users to easily enable notifications, supporting app engagement goals.\"}"
+      },
+      {
+        "label": "Notification Permission Card > Arrow Indicator",
+        "description": "Light blue downward-pointing arrow below the notification permission card.",
+        "bounding_box": {
+          "x_min": 405,
+          "y_min": 645,
+          "x_max": 423,
+          "y_max": 668
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 19.85,
+        "error": null,
+        "accuracy_score": 98,
+        "hidden": false,
+        "explanation": "Box conforms closely to the arrow graphic below the card; alignment and size are essentially perfect.",
+        "element_metadata_extraction": "{\"patternName\":\"Directional Icon\",\"facetTags\":[\"icon\",\"arrow\",\"indicator\",\"directional\",\"cue\",\"attention\",\"navigation\",\"visual guide\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Visual indicator—no direct interaction\"},\"userFlowImpact\":\"Draws user attention to the permission prompt, guiding engagement in the correct order.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Permission Prompt Card\",\"facetTags\":[\"notifications\",\"permission\",\"modal\",\"prompt\",\"onboarding\",\"decision\",\"user control\",\"alert\",\"web\",\"mobile\"],\"states\":[\"default\",\"focused\",\"disabled\"],\"interaction\":{\"on_tap_block\":\"blocks notifications and closes card\",\"on_tap_allow\":\"enables notifications and closes card\"},\"userFlowImpact\":\"This component directs users to make an explicit notification permission choice, which is pivotal for future engagement and reminders.\"}",
+    "component_ai_description": "A modal card prompting the user to allow or block notification permissions, with clear options and contextual information, designed to support informed decision-making during onboarding or settings adjustment."
+  },
+  {
+    "screenshot_id": 44,
+    "component_name": "Header Bar > Currency",
+    "original_image_object": "[Buffer data omitted: 31221 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 117366 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-52-am_mnew.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC01Mi1hbV9tbmV3LnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ.5w_vsGQ760e3en1VzZWFK3h9FVJSyfjgGF1ELB6U4Eg",
+    "component_description": "Detection results for Header Bar > Currency",
+    "detection_status": "success",
+    "inference_time": 58.097,
+    "elements": [
+      {
+        "label": "Header Bar > Currency > Fire Icon",
+        "description": "Orange flame icon positioned on the left side of the green header bar",
+        "bounding_box": {
+          "x_min": 320,
+          "y_min": 55,
+          "x_max": 367,
+          "y_max": 89
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 4.207,
+        "error": null,
+        "accuracy_score": 62,
+        "hidden": false,
+        "explanation": "Box is generally accurate but extends too far right and down; suggested tighter fit around the flame icon for better match.",
+        "suggested_coordinates": {
+          "x_min": 325,
+          "y_min": 57,
+          "x_max": 354,
+          "y_max": 87
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Icon\",\"facetTags\":[\"indicator\",\"streak\",\"progress\",\"visual-cue\",\"gamification\",\"header\",\"left-align\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Visually anchors the streak currency, orienting users to track daily progress.\"}"
+      },
+      {
+        "label": "Header Bar > Currency > Fire Value",
+        "description": "White text '1' displayed immediately to the right of the flame icon in the green header",
+        "bounding_box": {
+          "x_min": 328,
+          "y_min": 60,
+          "x_max": 375,
+          "y_max": 84
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 12.835,
+        "error": null,
+        "accuracy_score": 48,
+        "hidden": false,
+        "explanation": "Bounding box significantly overextends into both icon and whitespace; corrected to tightly frame the '1' value beside the flame.",
+        "suggested_coordinates": {
+          "x_min": 354,
+          "y_min": 62,
+          "x_max": 369,
+          "y_max": 82
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Text Label\",\"facetTags\":[\"value-display\",\"streak\",\"numeric\",\"progress\",\"feedback\",\"gamification\",\"inline\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Explicitly quantifies the user's streak, reinforcing ongoing engagement.\"}"
+      },
+      {
+        "label": "Header Bar > Currency > Gem Icon",
+        "description": "Blue hexagonal gem icon positioned in the center area of the green header bar",
+        "bounding_box": {
+          "x_min": 404,
+          "y_min": 58,
+          "x_max": 451,
+          "y_max": 81
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 10.677,
+        "error": null,
+        "accuracy_score": 68,
+        "hidden": false,
+        "explanation": "Box is slightly too wide and includes part of adjacent value; adjusted box to center more precisely on the gem icon.",
+        "suggested_coordinates": {
+          "x_min": 410,
+          "y_min": 61,
+          "x_max": 438,
+          "y_max": 80
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Icon\",\"facetTags\":[\"indicator\",\"currency\",\"gems\",\"visual-cue\",\"gamification\",\"header\",\"center-align\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Draws user attention to their primary spendable resource for strategic decisions.\"}"
+      },
+      {
+        "label": "Header Bar > Currency > Gem Value",
+        "description": "White text '505' displayed immediately to the right of the blue gem icon in the green header",
+        "bounding_box": {
+          "x_min": 424,
+          "y_min": 56,
+          "x_max": 471,
+          "y_max": 80
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 4.546,
+        "error": null,
+        "accuracy_score": 51,
+        "hidden": false,
+        "explanation": "Box is slightly too far left and includes part of the gem icon; suggested coordinates tightly enclose only the '505' value.",
+        "suggested_coordinates": {
+          "x_min": 438,
+          "y_min": 61,
+          "x_max": 469,
+          "y_max": 80
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Text Label\",\"facetTags\":[\"value-display\",\"gem\",\"numeric\",\"currency\",\"feedback\",\"gamification\",\"inline\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Shows the exact number of gems, supporting resource management and purchase awareness.\"}"
+      },
+      {
+        "label": "Header Bar > Currency > Heart Icon",
+        "description": "Red heart icon positioned on the right side of the green header bar",
+        "bounding_box": {
+          "x_min": 512,
+          "y_min": 58,
+          "x_max": 543,
+          "y_max": 81
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 4.396,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Box very closely fits the heart icon with minimal overlap on adjacent areas.",
+        "element_metadata_extraction": "{\"patternName\":\"Icon\",\"facetTags\":[\"indicator\",\"lives\",\"visual-cue\",\"gamification\",\"header\",\"right-align\",\"static\",\"status\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Signals user's available lives, cueing continued play and risk-reward awareness.\"}"
+      },
+      {
+        "label": "Header Bar > Currency > Heart Value",
+        "description": "White infinity symbol '∞' displayed immediately to the right of the red heart icon in the green header",
+        "bounding_box": {
+          "x_min": 540,
+          "y_min": 58,
+          "x_max": 565,
+          "y_max": 83
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 21.436,
+        "error": null,
+        "accuracy_score": 87,
+        "hidden": false,
+        "explanation": "Box tightly fits the infinity symbol, with only slight extra width on the right.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Label\",\"facetTags\":[\"value-display\",\"lives\",\"infinity\",\"currency\",\"feedback\",\"gamification\",\"inline\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Conveys the unlimited or special status of lives, reducing friction and inviting more engagement.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Status Bar\",\"facetTags\":[\"gamification\",\"mobile\",\"progress\",\"status\",\"currencies\",\"header\",\"navigation context\",\"feedback\",\"always-on\",\"dashboard\"],\"states\":[\"default\",\"updating\",\"low-currency-warning\"],\"interaction\":{\"on_tap_icon\":\"may open currency details or store (if implemented by host system)\",\"on_long_press_icon\":\"may show tooltip or info (if implemented by host system)\"},\"userFlowImpact\":\"Keeps users informed and motivated by providing instant feedback and easy monitoring of essential currency statuses.\"}",
+    "component_ai_description": "A persistent header bar displaying the user's in-app currencies—streaks, gems, and lives—using icons with accompanying values, enabling at-a-glance status tracking across the experience."
+  },
+  {
+    "screenshot_id": 44,
+    "component_name": "Power-Ups List > Streak Freeze",
+    "original_image_object": "[Buffer data omitted: 31221 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 121275 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-52-am_mnew.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC01Mi1hbV9tbmV3LnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ.5w_vsGQ760e3en1VzZWFK3h9FVJSyfjgGF1ELB6U4Eg",
+    "component_description": "Detection results for Power-Ups List > Streak Freeze",
+    "detection_status": "success",
+    "inference_time": 54.77,
+    "elements": [
+      {
+        "label": "Power-Ups List > Streak Freeze > Icon",
+        "description": "Light blue ice crystal or frozen water drop icon displayed on the left side of the first power-up row",
+        "bounding_box": {
+          "x_min": 258,
+          "y_min": 178,
+          "x_max": 311,
+          "y_max": 250
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 9.98,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Bounding box tightly fits the blue ice icon, with only minimal extra padding. Highly accurate.",
+        "element_metadata_extraction": "{\"patternName\":\"Decorative Icon\",\"facetTags\":[\"visual\",\"identifier\",\"illustration\",\"theme\",\"ice\",\"cue\",\"left-aligned\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Provides immediate visual identification and thematic context for the Streak Freeze feature.\"}"
+      },
+      {
+        "label": "Power-Ups List > Streak Freeze > Title",
+        "description": "Bold black text 'Streak Freeze' positioned to the right of the blue ice crystal icon",
+        "bounding_box": {
+          "x_min": 320,
+          "y_min": 184,
+          "x_max": 480,
+          "y_max": 202
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 9.11,
+        "error": null,
+        "accuracy_score": 88,
+        "hidden": false,
+        "explanation": "Box neatly contains the 'Streak Freeze' title text, with slight overextension to the right but otherwise well fit.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Header\",\"facetTags\":[\"label\",\"prominence\",\"typography\",\"feature-name\",\"header\",\"bold\",\"contextual\",\"reader\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Highlights the power-up's name, making it easy for the user to scan and recognize features.\"}"
+      },
+      {
+        "label": "Power-Ups List > Streak Freeze > Description",
+        "description": "Gray text below the 'Streak Freeze' title explaining the functionality about maintaining streak during inactivity",
+        "bounding_box": {
+          "x_min": 0,
+          "y_min": 169,
+          "x_max": 800,
+          "y_max": 263
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 14.16,
+        "error": null,
+        "accuracy_score": 33,
+        "hidden": false,
+        "explanation": "Box is vastly oversized, capturing the full width of the UI and parts of unrelated elements. Suggested new coordinates tightly fit the description text.",
+        "suggested_coordinates": {
+          "x_min": 322,
+          "y_min": 205,
+          "x_max": 670,
+          "y_max": 246
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Secondary Text\",\"facetTags\":[\"description\",\"informative\",\"gray\",\"body-text\",\"subtext\",\"explainer\",\"clarity\",\"guidance\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Clarifies the benefit, encouraging informed use and building trust in power-up functionality.\"}"
+      },
+      {
+        "label": "Power-Ups List > Streak Freeze > Status Badge",
+        "description": "Small green pill-shaped badge displaying '2 / 2 EQUIPPED' below the description text",
+        "bounding_box": {
+          "x_min": 343,
+          "y_min": 285,
+          "x_max": 457,
+          "y_max": 304
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 14.364,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Bounding box fits the badge closely with negligible padding; highly accurate.",
+        "element_metadata_extraction": "{\"patternName\":\"Status Badge\",\"facetTags\":[\"status\",\"badge\",\"pill\",\"feedback\",\"indicator\",\"completion\",\"equipped\",\"quantitative\"],\"states\":[\"equipped\",\"available\",\"unavailable\"],\"interaction\":{\"on_tap\":\"shows equipped details or explanation\"},\"userFlowImpact\":\"Reinforces user accomplishment by displaying current equipped quantity, motivating engagement.\"}"
+      },
+      {
+        "label": "Power-Ups List > Streak Freeze > Equipped Button",
+        "description": "Gray rounded button with white text 'EQUIPPED' below the status badge in the Streak Freeze section",
+        "bounding_box": {
+          "x_min": 339,
+          "y_min": 321,
+          "x_max": 427,
+          "y_max": 357
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 7.156,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Bounding box accurately encompasses the button with minimal extra space. Well positioned.",
+        "element_metadata_extraction": "{\"patternName\":\"State Button\",\"facetTags\":[\"button\",\"disabled\",\"feedback\",\"confirmation\",\"action-locked\",\"cta\",\"status\",\"inactive\"],\"states\":[\"equipped\",\"available\"],\"interaction\":{\"on_tap\":\"no action; visually confirms equipped state\"},\"userFlowImpact\":\"Signals that the power-up is currently used and cannot be re-equipped, reducing confusion.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"List Item with Status and Action\",\"facetTags\":[\"power-up\",\"status\",\"list item\",\"engagement\",\"utility\",\"mobile\",\"progress\",\"gamification\",\"actionable\",\"feature\"],\"states\":[\"default\",\"equipped\",\"unavailable\"],\"interaction\":{\"on_tap_status_badge\":\"shows equipped details\",\"on_tap_equipped_button\":\"no action; visually indicates equipped state\"},\"userFlowImpact\":\"Allows users to view and confirm the activation status of the Streak Freeze power-up, supporting streak maintenance behaviors.\"}",
+    "component_ai_description": "List entry displaying the 'Streak Freeze' power-up, showing its icon, name, explanation, current equipped status, and equipped action button."
+  },
+  {
+    "screenshot_id": 44,
+    "component_name": "Header Bar",
+    "original_image_object": "[Buffer data omitted: 31221 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 119257 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-52-am_mnew.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC01Mi1hbV9tbmV3LnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ.5w_vsGQ760e3en1VzZWFK3h9FVJSyfjgGF1ELB6U4Eg",
+    "component_description": "Detection results for Header Bar",
+    "detection_status": "success",
+    "inference_time": 71.527,
+    "elements": [
+      {
+        "label": "Header Bar > Logo Container",
+        "description": "Green rectangular area spanning the width of the screen at the top, containing currency indicators and resource counts",
+        "bounding_box": {
+          "x_min": 241,
+          "y_min": 8,
+          "x_max": 559,
+          "y_max": 89
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 11.17,
+        "error": null,
+        "accuracy_score": 98,
+        "hidden": false,
+        "explanation": "Bounding box nearly perfectly matches the green header area, with minimal padding discrepancy.",
+        "element_metadata_extraction": "{\"patternName\":\"Container\",\"facetTags\":[\"branding\",\"container\",\"status bar\",\"resource display\",\"visual anchor\",\"mobile\",\"top bar\",\"app structure\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Non-interactive area; provides visualization of brand and resources\"},\"userFlowImpact\":\"Anchors user attention with clear resource visibility, reinforcing app identity and available assets.\"}"
+      },
+      {
+        "label": "Header Bar > Time Display",
+        "description": "White text showing '9:41' positioned in the top-left corner of the green header bar",
+        "bounding_box": {
+          "x_min": 253,
+          "y_min": 27,
+          "x_max": 287,
+          "y_max": 43
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 8.52,
+        "error": null,
+        "accuracy_score": 90,
+        "hidden": false,
+        "explanation": "Bounding box closely fits the time display, with a slight excess on the right; sufficiently accurate.",
+        "element_metadata_extraction": "{\"patternName\":\"Time Indicator\",\"facetTags\":[\"time\",\"status\",\"informational\",\"system\",\"read-only\",\"utility\",\"mobile\",\"header\"],\"states\":[\"default\",\"time-update\"],\"interaction\":{\"none\":\"Displays current device time without interaction\"},\"userFlowImpact\":\"Keeps users oriented with device time, helping manage activity and session awareness.\"}"
+      },
+      {
+        "label": "Header Bar > Network Icon",
+        "description": "Signal strength indicator shown as vertical bars in the top-right corner of the green header",
+        "bounding_box": {
+          "x_min": 488,
+          "y_min": 29,
+          "x_max": 535,
+          "y_max": 41
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 24.183,
+        "error": null,
+        "accuracy_score": 45,
+        "hidden": false,
+        "explanation": "Original box included both WiFi and network icons, making it significantly too wide. Adjusted to tightly fit just the network icon.",
+        "suggested_coordinates": {
+          "x_min": 515,
+          "y_min": 29,
+          "x_max": 531,
+          "y_max": 41
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Network Status Icon\",\"facetTags\":[\"network\",\"status\",\"connectivity\",\"indicator\",\"informational\",\"system\",\"mobile\",\"header\"],\"states\":[\"full strength\",\"medium strength\",\"low strength\",\"no signal\"],\"interaction\":{\"none\":\"Purely informational; does not support user input\"},\"userFlowImpact\":\"Informs the user about connectivity, helping troubleshoot or anticipate network-dependent features.\"}"
+      },
+      {
+        "label": "Header Bar > WiFi Icon",
+        "description": "WiFi signal icon displayed next to the network icon in the top-right area of the green header",
+        "bounding_box": {
+          "x_min": 488,
+          "y_min": 29,
+          "x_max": 535,
+          "y_max": 41
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 10.698,
+        "error": null,
+        "accuracy_score": 40,
+        "hidden": false,
+        "explanation": "Original box included both WiFi and network icons; reduced width to fit only the WiFi icon.",
+        "suggested_coordinates": {
+          "x_min": 499,
+          "y_min": 29,
+          "x_max": 514,
+          "y_max": 41
+        },
+        "element_metadata_extraction": "{\"patternName\":\"WiFi Status Icon\",\"facetTags\":[\"WiFi\",\"status\",\"connectivity\",\"indicator\",\"system\",\"informational\",\"mobile\",\"header\"],\"states\":[\"connected\",\"searching\",\"disconnected\"],\"interaction\":{\"none\":\"Provides a visual cue of WiFi connectivity without interaction\"},\"userFlowImpact\":\"Clarifies WiFi connection status, enabling users to quickly recognize connectivity issues that may affect app functionality.\"}"
+      },
+      {
+        "label": "Header Bar > Battery Icon",
+        "description": "Battery icon showing full charge positioned at the far top-right corner of the screen",
+        "bounding_box": {
+          "x_min": 522,
+          "y_min": 29,
+          "x_max": 547,
+          "y_max": 41
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 16.956,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Bounding box is well placed and tightly fits the battery icon at the top right.",
+        "element_metadata_extraction": "{\"patternName\":\"Battery Status Icon\",\"facetTags\":[\"battery\",\"status\",\"system\",\"indicator\",\"informational\",\"mobile\",\"header\",\"power\"],\"states\":[\"full\",\"charging\",\"medium\",\"low\",\"critical\"],\"interaction\":{\"none\":\"Visual-only indicator of battery status\"},\"userFlowImpact\":\"Provides users with immediate battery awareness to prevent session interruptions.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"App Header Bar\",\"facetTags\":[\"status\",\"mobile\",\"navigation\",\"branding\",\"persistent UI\",\"resource indicators\",\"contextual awareness\",\"utility\",\"top bar\",\"system status\"],\"states\":[\"default\",\"notification\",\"low battery\",\"poor network\",\"resource update\"],\"interaction\":{\"none\":\"Static element—displays contextual and device status for continual awareness\"},\"userFlowImpact\":\"Provides users with critical contextual and device information, supporting informed interaction at every stage of the app experience.\"}",
+    "component_ai_description": "A persistent top-of-screen bar providing quick access to status information such as in-app currency, resource counts, device time, network, WiFi, and battery indicators to maintain user awareness throughout the app."
+  },
+  {
+    "screenshot_id": 44,
+    "component_name": "Power-Ups List",
+    "original_image_object": "[Buffer data omitted: 31221 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 117267 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-52-am_mnew.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC01Mi1hbV9tbmV3LnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ.5w_vsGQ760e3en1VzZWFK3h9FVJSyfjgGF1ELB6U4Eg",
+    "component_description": "Detection results for Power-Ups List",
+    "detection_status": "success",
+    "inference_time": 26.68,
+    "elements": [
+      {
+        "label": "Power-Ups List > Title",
+        "description": "Bold black text 'Power-Ups' at the top of the white content area, serving as the section header",
+        "bounding_box": {
+          "x_min": 247,
+          "y_min": 151,
+          "x_max": 553,
+          "y_max": 169
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 12.489,
+        "error": null,
+        "accuracy_score": 28,
+        "hidden": false,
+        "explanation": "Box is drawn over the area below the header text instead of the text itself; corrected coordinates to tightly fit the 'Power-Ups' title.",
+        "suggested_coordinates": {
+          "x_min": 247,
+          "y_min": 117,
+          "x_max": 380,
+          "y_max": 146
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Section Header\",\"facetTags\":[\"header\",\"navigation\",\"categorization\",\"text\",\"context\",\"mobile\",\"list-intro\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Clearly identifies the list section, ensuring users know they are viewing the power-up selections.\"}"
+      },
+      {
+        "label": "Power-Ups List > Separator Line",
+        "description": "Thin horizontal gray divider line separating the Streak Freeze power-up from the Double or Nothing power-up",
+        "bounding_box": {
+          "x_min": 233,
+          "y_min": 365,
+          "x_max": 567,
+          "y_max": 383
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 14.191,
+        "error": null,
+        "accuracy_score": 90,
+        "hidden": false,
+        "explanation": "Box closely matches the separator line; minor excess padding vertically, but overall very accurate and needs no correction.",
+        "element_metadata_extraction": "{\"patternName\":\"Divider\",\"facetTags\":[\"divider\",\"visual separation\",\"layout\",\"organization\",\"UI structure\",\"mobile\",\"grouping\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Visually separates power-up list items to support quick scanning and reduce cognitive load.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"List Section\",\"facetTags\":[\"power-ups\",\"progression\",\"mobile\",\"feature-discovery\",\"list\",\"user engagement\",\"inventory\",\"management\",\"navigation\"],\"states\":[\"default\",\"empty\",\"populated\"],\"interaction\":{\"on_scroll\":\"reveals more power-ups in the list\",\"on_select_power_up\":\"opens power-up details or purchase options\"},\"userFlowImpact\":\"Guides users to discover and interact with available power-ups, supporting engagement and progression.\"}",
+    "component_ai_description": "A vertically structured list that displays available power-ups in a dedicated section, enabling users to review and manage in-app power-up options."
+  },
+  {
+    "screenshot_id": 44,
+    "component_name": "Bottom Navigation Bar",
+    "original_image_object": "[Buffer data omitted: 31221 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 118587 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-52-am_mnew.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC01Mi1hbV9tbmV3LnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ.5w_vsGQ760e3en1VzZWFK3h9FVJSyfjgGF1ELB6U4Eg",
+    "component_description": "Detection results for Bottom Navigation Bar",
+    "detection_status": "success",
+    "inference_time": 47.424,
+    "elements": [
+      {
+        "label": "Bottom Navigation Bar > Home Icon",
+        "description": "Yellow house icon positioned at the far left of the bottom navigation bar",
+        "bounding_box": {
+          "x_min": 245,
+          "y_min": 725,
+          "x_max": 291,
+          "y_max": 764
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 5.181,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Bounding box tightly encloses the yellow house icon at the far left; only a minimal margin is present.",
+        "element_metadata_extraction": "{\"patternName\":\"Navigation Icon\",\"facetTags\":[\"home\",\"entry point\",\"navigation\",\"icon\",\"app core\",\"quick access\",\"mobile\",\"persistent\"],\"states\":[\"default\",\"active\",\"inactive\",\"disabled\"],\"interaction\":{\"on_tap\":\"navigates to home section\"},\"userFlowImpact\":\"Enables users to instantly return to the main home area for app orientation.\"}"
+      },
+      {
+        "label": "Bottom Navigation Bar > Shield Icon",
+        "description": "Yellow shield icon positioned second from the left in the bottom navigation bar",
+        "bounding_box": {
+          "x_min": 316,
+          "y_min": 726,
+          "x_max": 347,
+          "y_max": 762
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 12.773,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Box accurately surrounds the yellow shield icon; alignment and size are correct with negligible excess area.",
+        "element_metadata_extraction": "{\"patternName\":\"Navigation Icon\",\"facetTags\":[\"shield\",\"protect\",\"navigation\",\"icon\",\"secondary\",\"app section\",\"quick access\",\"mobile\"],\"states\":[\"default\",\"active\",\"inactive\",\"disabled\"],\"interaction\":{\"on_tap\":\"navigates to shield-protected or related section\"},\"userFlowImpact\":\"Directs users toward features related to safety, protection, or rewards.\"}"
+      },
+      {
+        "label": "Bottom Navigation Bar > Character Icon",
+        "description": "Brown character head icon positioned in the center of the bottom navigation bar",
+        "bounding_box": {
+          "x_min": 511,
+          "y_min": 724,
+          "x_max": 558,
+          "y_max": 765
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 13.482,
+        "error": null,
+        "accuracy_score": 0,
+        "hidden": true,
+        "explanation": "Box overlaps the profile (purple) icon on the far right instead of the central brown icon; not recoverable with box correction.",
+        "element_metadata_extraction": "{\"patternName\":\"Navigation Icon\",\"facetTags\":[\"character\",\"avatar\",\"navigation\",\"center\",\"core feature\",\"user identity\",\"icon\",\"mobile\"],\"states\":[\"default\",\"active\",\"inactive\",\"disabled\"],\"interaction\":{\"on_tap\":\"navigates to character or core area\"},\"userFlowImpact\":\"Anchors user behavior around the main character or feature focus of the app.\"}"
+      },
+      {
+        "label": "Bottom Navigation Bar > Store Icon",
+        "description": "Red shopping bag icon positioned second from the right in the bottom navigation bar",
+        "bounding_box": {
+          "x_min": 448,
+          "y_min": 718,
+          "x_max": 494,
+          "y_max": 766
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 3.946,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Bounding box precisely matches the red shopping bag icon; correct placement and dimension.",
+        "element_metadata_extraction": "{\"patternName\":\"Navigation Icon\",\"facetTags\":[\"store\",\"commerce\",\"shopping\",\"rewards\",\"navigation\",\"icon\",\"mobile\",\"quick access\"],\"states\":[\"default\",\"active\",\"inactive\",\"disabled\"],\"interaction\":{\"on_tap\":\"navigates to store or marketplace section\"},\"userFlowImpact\":\"Facilitates access to in-app purchases, upgrades, or content acquisition.\"}"
+      },
+      {
+        "label": "Bottom Navigation Bar > Profile Icon",
+        "description": "Purple character icon positioned at the far right of the bottom navigation bar",
+        "bounding_box": {
+          "x_min": 515,
+          "y_min": 724,
+          "x_max": 557,
+          "y_max": 765
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 12.042,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Bounding box is correctly placed over the purple profile icon at the far right, tightly enclosing the icon.",
+        "element_metadata_extraction": "{\"patternName\":\"Navigation Icon\",\"facetTags\":[\"profile\",\"user\",\"account\",\"navigation\",\"settings\",\"personalization\",\"icon\",\"mobile\"],\"states\":[\"default\",\"active\",\"inactive\",\"disabled\"],\"interaction\":{\"on_tap\":\"navigates to user profile or account section\"},\"userFlowImpact\":\"Simplifies user access to account settings and personalized information.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Bottom Navigation Bar\",\"facetTags\":[\"navigation\",\"persistent\",\"mobile\",\"main destinations\",\"icon\",\"primary navigation\",\"app structure\",\"tab bar\",\"quick access\",\"multi-action\"],\"states\":[\"default\",\"active\",\"inactive\",\"focused\",\"disabled\"],\"interaction\":{\"on_tap\":\"navigates to the selected section\",\"on_hold\":\"may show tooltip or context menu if supported\"},\"userFlowImpact\":\"Guides users to the key sections of the app, ensuring fast navigation and orientation.\"}",
+    "component_ai_description": "A persistent bottom navigation bar that provides users with quick access to core app destinations through distinct, icon-based actions."
+  },
+  {
+    "screenshot_id": 44,
+    "component_name": "Power-Ups List > Double or Nothing",
+    "original_image_object": "[Buffer data omitted: 31221 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 136811 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v4/v4/32/screenshot-2025-04-25-at-1-50-52-am_mnew.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NC92NC8zMi9zY3JlZW5zaG90LTIwMjUtMDQtMjUtYXQtMS01MC01Mi1hbV9tbmV3LnBuZyIsImlhdCI6MTc0NTY0OTA4MywiZXhwIjoxNzQ1NjUyNjgzfQ.5w_vsGQ760e3en1VzZWFK3h9FVJSyfjgGF1ELB6U4Eg",
+    "component_description": "Detection results for Power-Ups List > Double or Nothing",
+    "detection_status": "success",
+    "inference_time": 61.702000000000005,
+    "elements": [
+      {
+        "label": "Power-Ups List > Double or Nothing > Icon",
+        "description": "Orange calendar-like icon with flame effect and number '7' displayed on the left side of the second power-up row",
+        "bounding_box": {
+          "x_min": 254,
+          "y_min": 386,
+          "x_max": 318,
+          "y_max": 455
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 15.023,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Box tightly fits the orange calendar icon with the '7'; only minimal overpadding at the top and bottom.",
+        "element_metadata_extraction": "{\"patternName\":\"List Item Icon\",\"facetTags\":[\"icon\",\"visual\",\"affordance\",\"branding\",\"status\",\"motivation\",\"mobile\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Provides an immediate visual cue that reinforces recognition and differentiation of the Double or Nothing power-up.\"}"
+      },
+      {
+        "label": "Power-Ups List > Double or Nothing > Title",
+        "description": "Bold black text 'Double or Nothing' positioned to the right of the orange calendar icon",
+        "bounding_box": {
+          "x_min": 244,
+          "y_min": 0,
+          "x_max": 556,
+          "y_max": 800
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 5.341,
+        "error": null,
+        "accuracy_score": 28,
+        "hidden": false,
+        "explanation": "Original box covered nearly the entire UI—severely overinclusive; suggested box now tightly bounds the title text.",
+        "suggested_coordinates": {
+          "x_min": 328,
+          "y_min": 395,
+          "x_max": 540,
+          "y_max": 426
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Text Header\",\"facetTags\":[\"title\",\"header\",\"label\",\"information\",\"clarity\",\"mobile\",\"focus\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Clearly identifies the power-up, aiding quick scanning and selection within the power-ups list.\"}"
+      },
+      {
+        "label": "Power-Ups List > Double or Nothing > Description",
+        "description": "Gray text below the 'Double or Nothing' title explaining the functionality about doubling gem wagers with a 7-day streak",
+        "bounding_box": {
+          "x_min": 0,
+          "y_min": 0,
+          "x_max": 800,
+          "y_max": 800
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 26.045,
+        "error": null,
+        "accuracy_score": 20,
+        "hidden": false,
+        "explanation": "Box spanned entire screen and did not target description text; suggested box now fits gray subtext under the title.",
+        "suggested_coordinates": {
+          "x_min": 328,
+          "y_min": 434,
+          "x_max": 580,
+          "y_max": 457
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Supporting Description Text\",\"facetTags\":[\"description\",\"helper text\",\"information\",\"context\",\"guidance\",\"mobile\",\"rules\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Explains the feature's rules and benefits, encouraging informed engagement and purchase.\"}"
+      },
+      {
+        "label": "Power-Ups List > Double or Nothing > Purchase Button",
+        "description": "White rounded button with blue border containing 'GET FOR:' text and a blue gem icon with '50' value",
+        "bounding_box": {
+          "x_min": 330,
+          "y_min": 482,
+          "x_max": 470,
+          "y_max": 514
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 15.293,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Box precisely outlines the white purchase button with minimal extra space.",
+        "element_metadata_extraction": "{\"patternName\":\"Primary Outlined Button with Icon\",\"facetTags\":[\"button\",\"call-to-action\",\"purchase\",\"primary\",\"gems\",\"pricing\",\"mobile\",\"engagement\"],\"states\":[\"default\",\"disabled\",\"processing\",\"purchased\"],\"interaction\":{\"on_tap\":\"initiates purchase for Double or Nothing power-up\"},\"userFlowImpact\":\"Prominently drives user action to acquire the power-up, directly affecting user progression and reward potential.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"List Row with Action Button\",\"facetTags\":[\"power-up\",\"list item\",\"reward\",\"purchase\",\"gamification\",\"mobile\",\"call-to-action\",\"progression\",\"streak\"],\"states\":[\"default\",\"purchased\",\"disabled\"],\"interaction\":{\"on_tap_button\":\"opens purchase flow for Double or Nothing power-up\",\"on_tap_row\":\"reveals more information or details for Double or Nothing\"},\"userFlowImpact\":\"Enables users to discover, understand, and acquire the Double or Nothing power-up to boost engagement and maintain streak progression.\"}",
+    "component_ai_description": "A list row in the Power-Ups section that highlights the 'Double or Nothing' power-up, allowing users to view details and purchase this feature for use within the app."
+  }
+]

@@ -4,9 +4,7 @@ import fs from 'fs';
 import { SUPABASE_BUCKET_NAME } from '@/config';
 
 // Constants
-// const DEFAULT_BUCKET_NAME = 'processed-images';
-// const DEFAULT_BUCKET_NAME = 'screenshots';
-const DEFAULT_BUCKET_NAME = SUPABASE_BUCKET_NAME || 'v4';
+const DEFAULT_BUCKET_NAME = SUPABASE_BUCKET_NAME || 'v5';
 const PUBLIC_FOLDER = 'public';
 
 export interface UploadResult {

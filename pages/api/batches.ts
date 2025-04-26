@@ -6,9 +6,6 @@ import { getScreenshotPath,getSignedUrls } from '@/lib/supabaseUtils'
 
 // --- Constants ---
 const BATCH_TABLE = 'batch'
-const SCREENSHOT_TABLE = 'screenshot'
-// const SCREENSHOT_BUCKET = SUPABASE_BUCKET_NAME || 'v4'
-const SIGNED_URL_EXPIRY_SECONDS = 3600 // 1 hour
 
 const ERROR_METHOD_NOT_ALLOWED = 'Method not allowed'
 const ERROR_FETCHING_BATCHES = 'Failed to fetch batches'

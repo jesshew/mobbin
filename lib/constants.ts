@@ -19,6 +19,7 @@ export enum ProcessStatus {
   EXTRACTING = 'extracting',
   ANNOTATING = 'annotating',
   VALIDATING = 'validating',
+  SAVING = 'saving',
   DONE = 'done',
   FAILED = 'failed',
 }

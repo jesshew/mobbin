@@ -9,6 +9,7 @@ import { AIExtractionService, Stage1Result } from '@/lib/services/ParallelExtrac
 import { ParallelMoondreamDetectionService } from '@/lib/services/ParallelAnnotationService';
 import { AccuracyValidationService } from '@/lib/services/AccuracyValidationService';
 import { MetadataExtractionService } from '@/lib/services/MetadataExtractionService';
+import { ResultPersistenceService } from '@/lib/services/ResultPersistenceService';
 import { EXTRACTION_CONCURRENCY, MOONDREAM_CONCURRENCY, ProcessStatus } from '@/lib/constants';
 import fs from 'fs';
 
@@ -18,12 +19,15 @@ import fs from 'fs';
 
 export class BatchProcessingService {
   private supabaseClient: SupabaseClient;
+  private resultPersistenceService: ResultPersistenceService;
 
   // Update constructor to accept StorageService
   constructor(
     supabaseClient: SupabaseClient = supabase,
+    resultPersistenceService?: ResultPersistenceService
   ) {
     this.supabaseClient = supabaseClient;
+    this.resultPersistenceService = resultPersistenceService || new ResultPersistenceService(supabaseClient);
   }
 
   /**
@@ -118,30 +122,15 @@ export class BatchProcessingService {
       console.log(`[Batch ${batchId}] Stage 4: Metadata Extraction complete.`);
 
       // Write the full results to a file for debugging
-  
+      fs.writeFileSync(`batch_${batchId}_final_results.json`, JSON.stringify(enrichedResults, replacer, 2));
 
-      // Use JSON.stringify with the replacer for readable output, omitting buffer data
-     fs.writeFileSync(`batch_${batchId}_final_results.json`, JSON.stringify(enrichedResults, replacer, 2));
-
-      // --- Stage 4: Metadata Extraction ---
-
-      // Use the MetadataExtractionService to extract metadata from the validated results
-      // extract 
-
-
-
-
-
-      // Keep status as DONE for now, persistence logic is TBD
-      await this.updateBatchStatus(batchId, ProcessStatus.DONE); 
-      console.log(`[Batch ${batchId}] Placeholder: Persisting ${validatedResults.length} component results...`);
-      // TODO: Implement persistence logic for `validatedResults`
-      // 1. Upload unique annotated_image_objects to Storage
-      // 2. Get public URLs
-      // 3. Update ComponentDetectionResult objects
-      // 4. Save component_detection metadata
-      // 5. Save element_detection items
-
+      // --- Stage 5: Persistence to Database ---
+      await this.updateBatchStatus(batchId, ProcessStatus.SAVING);
+      console.log(`[Batch ${batchId}] Stage 5: Persisting results to database...`);
+      
+      // Use the ResultPersistenceService to save results to the database
+      await this.resultPersistenceService.persistResults(batchId, enrichedResults);
+      console.log(`[Batch ${batchId}] Stage 5: Database persistence complete.`);
 
       // --- Finalize ---
       await this.updateBatchStatus(batchId, ProcessStatus.DONE); // Update status to 'done' after successful processing
