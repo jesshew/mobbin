@@ -257,29 +257,22 @@ export function useBoxInteraction({
 }
 
 export function useControlPanelState(
-  boundingBoxes: BoundingBox[],
+  boundingBoxes: BoundingBox[] = [],
   externalEditingState?: {
     editingLabel: string;
     setEditingLabel: (label: string) => void;
   }
 ) {
-  // Use external state if provided, otherwise create local state
-  const [localEditingLabel, setLocalEditingLabel] = useState<string>("")
-  const editingLabel = externalEditingState?.editingLabel ?? localEditingLabel
-  const setEditingLabel = externalEditingState?.setEditingLabel ?? setLocalEditingLabel
-  
-  const [activeTab, setActiveTab] = useState<string>("elements")
+  const [activeTab, setActiveTab] = useState("elements")
   const [hoveredBoxId, setHoveredBoxId] = useState<number | null>(null)
   const [view, setView] = useState<"list" | "edit">("list")
-
+  
   // Calculate total inference time
   const totalInferenceTime = useMemo(() => {
     return boundingBoxes.reduce((total, box) => total + box.inferenceTime, 0)
   }, [boundingBoxes])
-
+  
   return {
-    editingLabel,
-    setEditingLabel,
     activeTab,
     setActiveTab,
     hoveredBoxId,
