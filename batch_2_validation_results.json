@@ -1,0 +1,225 @@
+[
+  {
+    "screenshot_id": 5,
+    "component_name": "Goal Reminder Prompt",
+    "original_image_object": "[Buffer data omitted: 33244 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 132041 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/2/duolingo3_SuQZ.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8yL2R1b2xpbmdvM19TdVFaLnBuZyIsImlhdCI6MTc0NTY1OTc1NCwiZXhwIjoxNzQ1NjYzMzU0fQ.gYl5GSrfmmt-kvW0itrJmyC-oZZ12rQpr_sDQqA6foc",
+    "component_description": "Detection results for Goal Reminder Prompt",
+    "detection_status": "success",
+    "inference_time": 37.89,
+    "elements": [
+      {
+        "label": "Goal Reminder Prompt > Header Text",
+        "description": "Dark gray text 'Get a daily reminder to meet your goal' centered at the top portion of the white screen",
+        "bounding_box": {
+          "x_min": 247,
+          "y_min": 176,
+          "x_max": 553,
+          "y_max": 257
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 31.62,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Bounding box closely matches the header text, with only a very slight excess in horizontal padding; remains readable and central."
+      },
+      {
+        "label": "Goal Reminder Prompt > Mascot",
+        "description": "Green cartoon owl character holding a yellow bell, positioned in the upper middle section of the screen",
+        "bounding_box": {
+          "x_min": 245,
+          "y_min": 303,
+          "x_max": 434,
+          "y_max": 403
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.51,
+        "error": null,
+        "accuracy_score": 80,
+        "hidden": false,
+        "explanation": "Bounding box generally fits the full owl and bell graphic. Slight excess padding on the left and bottom. Main subject is mostly well-contained."
+      },
+      {
+        "label": "Goal Reminder Prompt > Speech Bubble",
+        "description": "White speech bubble containing the text 'Just in case you forget!' positioned to the right of the green owl character",
+        "bounding_box": {
+          "x_min": 428,
+          "y_min": 322,
+          "x_max": 568,
+          "y_max": 374
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 4.76,
+        "error": null,
+        "accuracy_score": 89,
+        "hidden": false,
+        "explanation": "Bounding box almost perfectly matches the speech bubble position and size, with only minor excess outside the lower and right edges."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 5,
+    "component_name": "Notification Permission Card",
+    "original_image_object": "[Buffer data omitted: 33244 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 128558 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/2/duolingo3_SuQZ.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8yL2R1b2xpbmdvM19TdVFaLnBuZyIsImlhdCI6MTc0NTY1OTc1NCwiZXhwIjoxNzQ1NjYzMzU0fQ.gYl5GSrfmmt-kvW0itrJmyC-oZZ12rQpr_sDQqA6foc",
+    "component_description": "Detection results for Notification Permission Card",
+    "detection_status": "success",
+    "inference_time": 91.366,
+    "elements": [
+      {
+        "label": "Notification Permission Card > Container",
+        "description": "White rounded rectangle card with notification permission information, occupying the middle section of the screen",
+        "bounding_box": {
+          "x_min": 238,
+          "y_min": 396,
+          "x_max": 506,
+          "y_max": 640
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 31.202,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Bounding box closely matches the visible white notification card; very minor excess padding horizontally but otherwise well fit."
+      },
+      {
+        "label": "Notification Permission Card > App Icon",
+        "description": "Small square green icon showing owl eyes, positioned at the left side within the notification text area",
+        "bounding_box": {
+          "x_min": 334,
+          "y_min": 422,
+          "x_max": 381,
+          "y_max": 466
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 9.372,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Bounding box tightly encompasses the green square app icon with minimal background; accurate."
+      },
+      {
+        "label": "Notification Permission Card > Notification Text",
+        "description": "Gray text stating 'The website \"duolingo.com\" would like to send you notifications in Notification Center.' centered in the upper portion of the white card",
+        "bounding_box": {
+          "x_min": 240,
+          "y_min": 474,
+          "x_max": 475,
+          "y_max": 521
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.713,
+        "error": null,
+        "accuracy_score": 88,
+        "hidden": false,
+        "explanation": "Bounding box tightly includes the notification text block and is well-centered and fit; minor excess on the bottom margin."
+      },
+      {
+        "label": "Notification Permission Card > Additional Info",
+        "description": "Small gray text 'Notifications can be changed in Safari Website preferences.' positioned at the bottom of the notification text section",
+        "bounding_box": {
+          "x_min": 258,
+          "y_min": 527,
+          "x_max": 542,
+          "y_max": 570
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 6.444,
+        "error": null,
+        "accuracy_score": 78,
+        "hidden": false,
+        "explanation": "Box includes the additional info text but is slightly too wide and tall, extending more left and right than needed."
+      },
+      {
+        "label": "Notification Permission Card > Block Button",
+        "description": "Light gray rectangular button with 'BLOCK' text, positioned at the bottom left corner of the notification card",
+        "bounding_box": {
+          "x_min": 253,
+          "y_min": 588,
+          "x_max": 358,
+          "y_max": 625
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 16.525,
+        "error": null,
+        "accuracy_score": 90,
+        "hidden": false,
+        "explanation": "Bounding box aligns well with 'BLOCK' button including the full area and a small margin; well matched."
+      },
+      {
+        "label": "Notification Permission Card > Allow Button",
+        "description": "Blue rectangular button with white 'ALLOW' text, positioned at the bottom right corner of the notification card",
+        "bounding_box": {
+          "x_min": 359,
+          "y_min": 588,
+          "x_max": 474,
+          "y_max": 623
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 14.591,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Box is tightly fit around 'ALLOW' button, tracking its edges; highly accurate."
+      },
+      {
+        "label": "Notification Permission Card > Arrow Indicator",
+        "description": "Blue upward-pointing arrow below the notification permission card",
+        "bounding_box": {
+          "x_min": 407,
+          "y_min": 644,
+          "x_max": 422,
+          "y_max": 667
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 11.519,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Small arrow is almost perfectly surrounded by the bounding box with negligible extra space."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 5,
+    "component_name": "Continue Button",
+    "original_image_object": "[Buffer data omitted: 33244 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 123933 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/2/duolingo3_SuQZ.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8yL2R1b2xpbmdvM19TdVFaLnBuZyIsImlhdCI6MTc0NTY1OTc1NCwiZXhwIjoxNzQ1NjYzMzU0fQ.gYl5GSrfmmt-kvW0itrJmyC-oZZ12rQpr_sDQqA6foc",
+    "component_description": "Detection results for Continue Button",
+    "detection_status": "success",
+    "inference_time": 32.273,
+    "elements": [
+      {
+        "label": "Continue Button > Button",
+        "description": "Large green rectangular button with rounded corners containing white 'CONTINUE' text, spanning the width of the lower portion of the screen",
+        "bounding_box": {
+          "x_min": 239,
+          "y_min": 686,
+          "x_max": 561,
+          "y_max": 737
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 32.273,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Bounding box closely matches the button's position and size, with only a slight extra vertical padding at the bottom corners."
+      }
+    ]
+  }
+]

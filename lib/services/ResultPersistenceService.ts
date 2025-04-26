@@ -2,9 +2,9 @@ import { supabase } from '@/lib/supabase';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { ComponentDetectionResult } from '@/types/DetectionResult';
 import { ProcessStatus } from '@/lib/constants';
-
+import { SUPABASE_BUCKET_NAME } from '@/config';
 // Storage bucket name for Supabase
-const STORAGE_BUCKET = 'screenshots';
+const STORAGE_BUCKET = SUPABASE_BUCKET_NAME || 'v5';
 
 export class ResultPersistenceService {
   private supabaseClient: SupabaseClient;

@@ -1,0 +1,890 @@
+[
+  {
+    "screenshot_id": 7,
+    "component_name": "Primary Card",
+    "original_image_object": "[Buffer data omitted: 49830 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 249829 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/4/blue-credit_aqmw.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS80L2JsdWUtY3JlZGl0X2FxbXcucG5nIiwiaWF0IjoxNzQ1NjYxMTA4LCJleHAiOjE3NDU2NjQ3MDh9.fZJH2hQKGYwBcIVjerTp-C9IxHDhvvfNP0QReEwv9z0",
+    "component_description": "Detection results for Primary Card",
+    "detection_status": "success",
+    "inference_time": 34.767,
+    "elements": [
+      {
+        "label": "Primary Card > Card Container",
+        "description": "Dark rectangular card with vertical blue-tinted gradient stripes displayed prominently in the middle section of the screen",
+        "bounding_box": {
+          "x_min": 222,
+          "y_min": 241,
+          "x_max": 522,
+          "y_max": 437
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 16.988,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Bounding box tightly fits the card container with only a minor 2-4 pixel offset on the sides; overall, it's highly accurate.",
+        "element_metadata_extraction": "{\"patternName\":\"Content Card Container\",\"facetTags\":[\"container\",\"visual-emphasis\",\"card-background\",\"finance\",\"display\",\"mobile\",\"layout\",\"structural\"],\"states\":[\"default\",\"selected\",\"focused\"],\"interaction\":{\"on_tap\":\"selects the card and brings forward related actions\",\"on_swipe\":\"cycles to adjacent cards\"},\"userFlowImpact\":\"Defines a distinct section for key account information, encouraging users to focus attention on essential card details.\"}"
+      },
+      {
+        "label": "Primary Card > Card Balance",
+        "description": "White text '$4 556.15' displayed in the top-left area of the dark striped card",
+        "bounding_box": {
+          "x_min": 236,
+          "y_min": 260,
+          "x_max": 358,
+          "y_max": 292
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 4.49,
+        "error": null,
+        "accuracy_score": 98,
+        "hidden": false,
+        "explanation": "Box tightly encloses the card balance amount text with minimal empty space and excellent alignment.",
+        "element_metadata_extraction": "{\"patternName\":\"Balance Value Text\",\"facetTags\":[\"balance\",\"currency\",\"primary-info\",\"account\",\"highlight\",\"dashboard\",\"read-only\",\"finance\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Immediately informs the user of current available funds, shaping spending awareness and action.\"}"
+      },
+      {
+        "label": "Primary Card > Card Type",
+        "description": "Small light text 'Debit Card' shown below the card balance on the dark striped card",
+        "bounding_box": {
+          "x_min": 227,
+          "y_min": 241,
+          "x_max": 533,
+          "y_max": 437
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.672,
+        "error": null,
+        "accuracy_score": 35,
+        "hidden": false,
+        "explanation": "Initial box encompasses almost the entire card. Corrected to tightly fit just the 'Debit Card' text below the balance.",
+        "suggested_coordinates": {
+          "x_min": 247,
+          "y_min": 316,
+          "x_max": 318,
+          "y_max": 341
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Caption Text Label\",\"facetTags\":[\"card-type\",\"information\",\"caption\",\"taxonomy\",\"finance\",\"descriptor\",\"sub-label\",\"read-only\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Clarifies the nature of the displayed card, helping users distinguish between multiple account types.\"}"
+      },
+      {
+        "label": "Primary Card > Card Number",
+        "description": "Partially masked card number '•••• 4568' displayed near the bottom of the dark striped card",
+        "bounding_box": {
+          "x_min": 224,
+          "y_min": 241,
+          "x_max": 542,
+          "y_max": 437
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 8.433,
+        "error": null,
+        "accuracy_score": 32,
+        "hidden": false,
+        "explanation": "Box covers the entire card, not just the card number. Suggest correction to fit only the card number area at bottom-left.",
+        "suggested_coordinates": {
+          "x_min": 245,
+          "y_min": 357,
+          "x_max": 341,
+          "y_max": 387
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Masked Value Label\",\"facetTags\":[\"card-number\",\"masked-data\",\"identification\",\"privacy\",\"finance\",\"secondary-info\",\"read-only\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Reassures users of card identity while protecting sensitive details, maintaining security awareness.\"}"
+      },
+      {
+        "label": "Primary Card > Contactless Indicator",
+        "description": "Wireless/contactless payment icon shown as curved lines on the right side of the dark striped card",
+        "bounding_box": {
+          "x_min": 511,
+          "y_min": 57,
+          "x_max": 558,
+          "y_max": 104
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 3.069,
+        "error": null,
+        "accuracy_score": 38,
+        "hidden": false,
+        "explanation": "Given coordinates are outside the card; corrected to tightly fit the contactless icon within the card's top-right.",
+        "suggested_coordinates": {
+          "x_min": 474,
+          "y_min": 276,
+          "x_max": 495,
+          "y_max": 301
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Contactless Icon\",\"facetTags\":[\"contactless\",\"icon\",\"payment-method\",\"feature-indicator\",\"accessory\",\"visual-cue\",\"finance\",\"read-only\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Signals the availability of contactless payments, priming users for convenient tap transactions.\"}"
+      },
+      {
+        "label": "Primary Card > Card Network Logo",
+        "description": "Small Mastercard logo with overlapping red and yellow circles displayed in the bottom-right corner of the dark striped card",
+        "bounding_box": {
+          "x_min": 221,
+          "y_min": 515,
+          "x_max": 266,
+          "y_max": 560
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.115,
+        "error": null,
+        "accuracy_score": 25,
+        "hidden": false,
+        "explanation": "Box is entirely misplaced at bottom-left and off the card. Corrected to the bottom-right of the card where the Mastercard logo is located.",
+        "suggested_coordinates": {
+          "x_min": 459,
+          "y_min": 382,
+          "x_max": 501,
+          "y_max": 414
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Brand Icon\",\"facetTags\":[\"card-network\",\"logo\",\"brand\",\"visual-marker\",\"finance\",\"credibility\",\"footer\",\"read-only\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Offers recognition and trust through known card network branding, aiding quick user validation.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Account Summary Card\",\"facetTags\":[\"finance\",\"dashboard\",\"account-overview\",\"balance\",\"card-summary\",\"mobile\",\"primary\",\"cta\",\"payment-method\",\"visual-anchor\"],\"states\":[\"default\",\"selected\",\"focused\"],\"interaction\":{\"on_tap\":\"activates detailed card view or additional actions\",\"on_swipe\":\"reveals next or previous card in list\"},\"userFlowImpact\":\"Anchors the user's focus for fast access to balance and payment method, guiding actions like reviewing details or initiating transactions.\"}",
+    "component_ai_description": "A visually prominent card widget displaying debit card summary and balance information, designed for at-a-glance account management within a digital banking app."
+  },
+  {
+    "screenshot_id": 7,
+    "component_name": "User Header",
+    "original_image_object": "[Buffer data omitted: 49830 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 239916 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/4/blue-credit_aqmw.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS80L2JsdWUtY3JlZGl0X2FxbXcucG5nIiwiaWF0IjoxNzQ1NjYxMTA4LCJleHAiOjE3NDU2NjQ3MDh9.fZJH2hQKGYwBcIVjerTp-C9IxHDhvvfNP0QReEwv9z0",
+    "component_description": "Detection results for User Header",
+    "detection_status": "success",
+    "inference_time": 31.292,
+    "elements": [
+      {
+        "label": "User Header > Profile Image",
+        "description": "Small circular profile image in the top-left corner of the banking app interface, containing a photo with light-colored appearance against a light background",
+        "bounding_box": {
+          "x_min": 224,
+          "y_min": 58,
+          "x_max": 276,
+          "y_max": 103
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.493,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Box tightly covers the circular profile image with only a slight excess on the top and left, but overall very precise.",
+        "element_metadata_extraction": "{\"patternName\":\"Avatar Image\",\"facetTags\":[\"profile\",\"avatar\",\"identity\",\"visual identifier\",\"mobile\",\"header\",\"branding\",\"dashboard\"],\"states\":[\"default\"],\"interaction\":{\"on_tap\":\"navigates to user profile or settings\"},\"userFlowImpact\":\"Encourages users to recognize personalization and access their profile quickly.\"}"
+      },
+      {
+        "label": "User Header > Greeting",
+        "description": "Light gray text 'Welcome,' positioned above the user name in the upper left portion of the screen",
+        "bounding_box": {
+          "x_min": 284,
+          "y_min": 59,
+          "x_max": 383,
+          "y_max": 77
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 18.991,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Bounding box closely fits the 'Welcome,' text with a slight margin, containing minimal but acceptable empty space.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Label\",\"facetTags\":[\"greeting\",\"welcome\",\"onboarding\",\"context\",\"static\",\"text\",\"mobile\",\"personalization\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Provides a friendly, welcoming tone that orients the user as they enter the app.\"}"
+      },
+      {
+        "label": "User Header > User Name",
+        "description": "Bold dark text 'Diane Cruz' displayed directly below the greeting text in the upper portion of the interface",
+        "bounding_box": {
+          "x_min": 289,
+          "y_min": 78,
+          "x_max": 396,
+          "y_max": 105
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 8.821,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Box closely matches the user name, with very minimal extra padding.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Subheader\",\"facetTags\":[\"user name\",\"identity\",\"personalization\",\"header\",\"mobile\",\"highlight\",\"static\",\"dashboard\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Reinforces personalized context, confirming the account in use to increase trust and clarity.\"}"
+      },
+      {
+        "label": "User Header > Notification Bell",
+        "description": "Bell-shaped icon button enclosed in a circular outline, positioned in the top-right corner of the header",
+        "bounding_box": {
+          "x_min": 513,
+          "y_min": 57,
+          "x_max": 560,
+          "y_max": 105
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.987,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Box accurately outlines the notification bell icon button with its circular outline in the top-right corner.",
+        "element_metadata_extraction": "{\"patternName\":\"Icon Button\",\"facetTags\":[\"notification\",\"action\",\"alert\",\"icon\",\"cta\",\"header\",\"mobile\",\"navigation\"],\"states\":[\"default\",\"active\",\"notification_dot\"],\"interaction\":{\"on_tap\":\"opens notifications panel or inbox\"},\"userFlowImpact\":\"Enables quick awareness and access to new activity or alerts, promoting timely user action.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"User Account Header\",\"facetTags\":[\"profile\",\"identity\",\"header\",\"mobile\",\"onboarding\",\"personalization\",\"dashboard\",\"notification\",\"navigation\",\"app bar\"],\"states\":[\"default\",\"notification_alert\"],\"interaction\":{\"on_tap_notification_bell\":\"opens notifications center or details\",\"on_tap_profile_image\":\"navigates to user profile\"},\"userFlowImpact\":\"Sets a personalized context and entry point, enabling users to access account controls and notifications instantly.\"}",
+    "component_ai_description": "A compact mobile header displaying the user's profile image, greeting, name, and a notification bell to create a welcoming and informative top section in a banking app."
+  },
+  {
+    "screenshot_id": 7,
+    "component_name": "Recent Transactions List > Netflix Transaction",
+    "original_image_object": "[Buffer data omitted: 49830 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 239157 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/4/blue-credit_aqmw.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS80L2JsdWUtY3JlZGl0X2FxbXcucG5nIiwiaWF0IjoxNzQ1NjYxMTA4LCJleHAiOjE3NDU2NjQ3MDh9.fZJH2hQKGYwBcIVjerTp-C9IxHDhvvfNP0QReEwv9z0",
+    "component_description": "Detection results for Recent Transactions List > Netflix Transaction",
+    "detection_status": "success",
+    "inference_time": 47.501999999999995,
+    "elements": [
+      {
+        "label": "Recent Transactions List > Netflix Transaction > Merchant Logo",
+        "description": "Red rectangular Netflix logo at the left of the third transaction row",
+        "bounding_box": {
+          "x_min": 221,
+          "y_min": 658,
+          "x_max": 268,
+          "y_max": 696
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 15.033,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box closely fits the red rectangular Netflix logo with only minor extra padding at the bottom and right.",
+        "element_metadata_extraction": "{\"patternName\":\"List Avatar/Icon\",\"facetTags\":[\"merchant\",\"brand\",\"visual identifier\",\"avatar\",\"logo\",\"finance\",\"transaction\",\"mobile\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Strengthens scan-ability and immediate brand recognition for faster transaction review.\"}"
+      },
+      {
+        "label": "Recent Transactions List > Netflix Transaction > Merchant Name",
+        "description": "Bold text 'Netflix' positioned to the right of the Netflix logo in the third transaction row",
+        "bounding_box": {
+          "x_min": 229,
+          "y_min": 659,
+          "x_max": 277,
+          "y_max": 691
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.816,
+        "error": null,
+        "accuracy_score": 45,
+        "hidden": false,
+        "explanation": "Box is positioned over both the logo and text, missing most of the actual 'Netflix' text. Corrected to tightly overlay just the 'Netflix' name.",
+        "suggested_coordinates": {
+          "x_min": 276,
+          "y_min": 659,
+          "x_max": 342,
+          "y_max": 685
+        },
+        "element_metadata_extraction": "{\"patternName\":\"List Item Title\",\"facetTags\":[\"merchant\",\"label\",\"title\",\"primary text\",\"brand\",\"transaction\",\"finance\",\"mobile\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Clarifies who the transaction is with, helping users quickly identify the merchant involved.\"}"
+      },
+      {
+        "label": "Recent Transactions List > Netflix Transaction > Date",
+        "description": "Light gray text 'Aug 12, 07:25 PM' displayed below the merchant name in the Netflix transaction row",
+        "bounding_box": {
+          "x_min": 284,
+          "y_min": 672,
+          "x_max": 368,
+          "y_max": 691
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 3.741,
+        "error": null,
+        "accuracy_score": 82,
+        "hidden": false,
+        "explanation": "Box captures the date text well, with only slight extra width after the text.",
+        "element_metadata_extraction": "{\"patternName\":\"Metadata Subtext\",\"facetTags\":[\"timestamp\",\"date\",\"supporting text\",\"metadata\",\"secondary text\",\"transaction\",\"chronology\",\"mobile\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Provides temporal context to the transaction, aiding in memory recall and sorting.\"}"
+      },
+      {
+        "label": "Recent Transactions List > Netflix Transaction > Amount",
+        "description": "Red text '-$70.00' aligned to the right of the Netflix transaction row",
+        "bounding_box": {
+          "x_min": 489,
+          "y_min": 645,
+          "x_max": 565,
+          "y_max": 672
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 4.587,
+        "error": null,
+        "accuracy_score": 78,
+        "hidden": false,
+        "explanation": "Box encompasses the transaction amount correctly, with minor extra spacing above and below.",
+        "element_metadata_extraction": "{\"patternName\":\"List Item Amount\",\"facetTags\":[\"value\",\"money\",\"amount\",\"debit\",\"currency\",\"summary\",\"finance\",\"transaction\"],\"states\":[\"default\",\"highlighted\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Draws attention to the transaction size, allowing users to prioritize which expenses to investigate.\"}"
+      },
+      {
+        "label": "Recent Transactions List > Netflix Transaction > Card Reference",
+        "description": "Small gray text '•••• 0961' positioned below the transaction amount in the Netflix row",
+        "bounding_box": {
+          "x_min": 505,
+          "y_min": 635,
+          "x_max": 581,
+          "y_max": 662
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 21.325,
+        "error": null,
+        "accuracy_score": 41,
+        "hidden": false,
+        "explanation": "Box is placed too high and left, missing the '•••• 0961' text below the amount. Adjusted downward and right to encapsulate the reference text correctly.",
+        "suggested_coordinates": {
+          "x_min": 509,
+          "y_min": 676,
+          "x_max": 570,
+          "y_max": 695
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Supplementary Detail Text\",\"facetTags\":[\"card info\",\"details\",\"reference\",\"masked data\",\"supporting text\",\"finance\",\"transaction\",\"privacy\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Informs users which payment method was used, enhancing transparency and supporting dispute resolution or budgeting.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Transaction List Row\",\"facetTags\":[\"transaction\",\"finance\",\"recent activity\",\"list item\",\"mobile\",\"expense\",\"visual identity\",\"record\",\"dashboard\",\"quick review\"],\"states\":[\"default\",\"pressed\",\"focused\",\"disabled\"],\"interaction\":{\"on_tap\":\"opens detailed transaction view\",\"on_long_press\":\"reveals contextual menu (e.g., categorize, report issue)\",\"on_swipe_left\":\"shows delete or remove action\",\"on_swipe_right\":\"shows mark as reviewed or categorize option\"},\"userFlowImpact\":\"Enables rapid review and action on individual expenses, helping users track spending and access transaction details efficiently.\"}",
+    "component_ai_description": "A list row element displaying details for a single Netflix transaction in the user's recent transaction feed, supporting quick scanning and status recognition."
+  },
+  {
+    "screenshot_id": 7,
+    "component_name": "Account Balance Overview",
+    "original_image_object": "[Buffer data omitted: 49830 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 242370 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/4/blue-credit_aqmw.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS80L2JsdWUtY3JlZGl0X2FxbXcucG5nIiwiaWF0IjoxNzQ1NjYxMTA4LCJleHAiOjE3NDU2NjQ3MDh9.fZJH2hQKGYwBcIVjerTp-C9IxHDhvvfNP0QReEwv9z0",
+    "component_description": "Detection results for Account Balance Overview",
+    "detection_status": "success",
+    "inference_time": 74.071,
+    "elements": [
+      {
+        "label": "Account Balance Overview > Balance Label",
+        "description": "Light gray text 'Balance' displayed above the balance amount in the upper section of the screen",
+        "bounding_box": {
+          "x_min": 222,
+          "y_min": 139,
+          "x_max": 291,
+          "y_max": 163
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 4.157,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Box tightly frames the 'Balance' label with minimal extra space; accuracy is very high.",
+        "element_metadata_extraction": "{\"patternName\":\"Caption Text\",\"facetTags\":[\"label\",\"caption\",\"balance\",\"context\",\"static\",\"informative\",\"header\",\"display\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Frames the context for the account balance, guiding user attention to the main financial figure.\"}"
+      },
+      {
+        "label": "Account Balance Overview > Balance Amount",
+        "description": "Large bold text '$10 524.15' showing the current account balance in black font below the Balance label",
+        "bounding_box": {
+          "x_min": 200,
+          "y_min": 166,
+          "x_max": 467,
+          "y_max": 212
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 21.182,
+        "error": null,
+        "accuracy_score": 90,
+        "hidden": false,
+        "explanation": "Box covers the entire large balance text precisely, with only minimal extra padding horizontally.",
+        "element_metadata_extraction": "{\"patternName\":\"Numeric Data Display\",\"facetTags\":[\"amount\",\"highlight\",\"balance\",\"primary\",\"typography\",\"dashboard\",\"finance\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Makes the user's account balance immediately visible and prominent, ensuring clarity of financial status.\"}"
+      },
+      {
+        "label": "Account Balance Overview > Add Button",
+        "description": "Dark circular button with a white plus (+) icon positioned to the right of the balance amount",
+        "bounding_box": {
+          "x_min": 475,
+          "y_min": 164,
+          "x_max": 520,
+          "y_max": 206
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 25.253,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Box accurately surrounds the circular plus button with negligible extra space.",
+        "element_metadata_extraction": "{\"patternName\":\"Icon Action Button\",\"facetTags\":[\"action\",\"add\",\"button\",\"primary\",\"icon\",\"funds\",\"quick access\",\"CTA\"],\"states\":[\"default\",\"pressed\",\"disabled\"],\"interaction\":{\"on_tap\":\"triggers add funds action\"},\"userFlowImpact\":\"Enables users to quickly initiate the process of adding money to their account from the overview screen.\"}"
+      },
+      {
+        "label": "Account Balance Overview > Transfer Button",
+        "description": "Dark circular button with a white transfer/exchange icon featuring two arrows, positioned at the far right of the balance row",
+        "bounding_box": {
+          "x_min": 521,
+          "y_min": 162,
+          "x_max": 565,
+          "y_max": 208
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 23.479,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box snugly frames the transfer button. Alignment is correct relative to button center and icon.",
+        "element_metadata_extraction": "{\"patternName\":\"Icon Action Button\",\"facetTags\":[\"action\",\"transfer\",\"button\",\"primary\",\"icon\",\"funds\",\"move\",\"CTA\"],\"states\":[\"default\",\"pressed\",\"disabled\"],\"interaction\":{\"on_tap\":\"triggers transfer funds action\"},\"userFlowImpact\":\"Provides immediate access for users to start transferring funds, streamlining high-frequency banking tasks.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Account Summary Header\",\"facetTags\":[\"finance\",\"dashboard\",\"summary\",\"mobile\",\"account\",\"balance\",\"actions\",\"overview\",\"primary\",\"CTA\"],\"states\":[\"default\",\"loading\",\"error\"],\"interaction\":{\"on_tap_add_button\":\"initiates add funds workflow\",\"on_tap_transfer_button\":\"initiates transfer funds workflow\"},\"userFlowImpact\":\"Helps users quickly view their available funds and trigger key banking actions at the start of their financial journey.\"}",
+    "component_ai_description": "A summary section displaying the user's current account balance with quick access to add or transfer funds, typically placed at the top of a mobile banking dashboard."
+  },
+  {
+    "screenshot_id": 7,
+    "component_name": "Recent Transactions List",
+    "original_image_object": "[Buffer data omitted: 49830 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 239076 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/4/blue-credit_aqmw.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS80L2JsdWUtY3JlZGl0X2FxbXcucG5nIiwiaWF0IjoxNzQ1NjYxMTA4LCJleHAiOjE3NDU2NjQ3MDh9.fZJH2hQKGYwBcIVjerTp-C9IxHDhvvfNP0QReEwv9z0",
+    "component_description": "Detection results for Recent Transactions List",
+    "detection_status": "success",
+    "inference_time": 10.584999999999999,
+    "elements": [
+      {
+        "label": "Recent Transactions List > Section Header",
+        "description": "Bold dark text 'Recent transactions' positioned above the transaction list in the lower portion of the screen",
+        "bounding_box": {
+          "x_min": 225,
+          "y_min": 472,
+          "x_max": 413,
+          "y_max": 495
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.433,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "The bounding box tightly frames the 'Recent transactions' header with minimal extra padding; high positional and visual accuracy.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Header\",\"facetTags\":[\"header\",\"label\",\"summary\",\"visibility\",\"section\",\"contextual\",\"organizational\",\"readability\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Clearly distinguishes the recent transactions section and orients the user within the app.\"}"
+      },
+      {
+        "label": "Recent Transactions List > View All Link",
+        "description": "Teal-colored text 'View all' positioned to the right of the 'Recent transactions' header as an actionable link",
+        "bounding_box": {
+          "x_min": 502,
+          "y_min": 472,
+          "x_max": 567,
+          "y_max": 489
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 10.152,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box closely fits the 'View all' link with little excess space; correct horizontal and vertical alignment with minor extra width.",
+        "element_metadata_extraction": "{\"patternName\":\"Action Link\",\"facetTags\":[\"navigation\",\"call-to-action\",\"quick access\",\"expansion\",\"discoverability\",\"text link\",\"contextual\",\"shortcut\"],\"states\":[\"default\",\"pressed\",\"focused\",\"disabled\"],\"interaction\":{\"on_tap\":\"navigates the user to the full transaction history\"},\"userFlowImpact\":\"Enables users to access a comprehensive view of their transaction history efficiently.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"List with Header and Action Link\",\"facetTags\":[\"financial\",\"mobile\",\"history\",\"summary\",\"overview\",\"list\",\"navigation\",\"data display\",\"user account\",\"transaction tracking\"],\"states\":[\"default\"],\"interaction\":{\"on_scroll\":\"reveals more transaction items in the list\",\"on_tap_view_all\":\"navigates to the detailed transaction history screen\"},\"userFlowImpact\":\"Guides users to quickly review and access their latest transaction activities, promoting deeper exploration with easy expansion.\"}",
+    "component_ai_description": "A vertically stacked list module displaying recent financial transactions, with a header and quick access to a full transaction history, placed in the lower area of a financial mobile app screen."
+  },
+  {
+    "screenshot_id": 7,
+    "component_name": "Partial Secondary Card",
+    "original_image_object": "[Buffer data omitted: 49830 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 241071 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/4/blue-credit_aqmw.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS80L2JsdWUtY3JlZGl0X2FxbXcucG5nIiwiaWF0IjoxNzQ1NjYxMTA4LCJleHAiOjE3NDU2NjQ3MDh9.fZJH2hQKGYwBcIVjerTp-C9IxHDhvvfNP0QReEwv9z0",
+    "component_description": "Detection results for Partial Secondary Card",
+    "detection_status": "success",
+    "inference_time": 19.305,
+    "elements": [
+      {
+        "label": "Partial Secondary Card > Card Edge",
+        "description": "Partially visible blue card edge on the right side of the screen, showing only a small portion of another payment card",
+        "bounding_box": {
+          "x_min": 533,
+          "y_min": 239,
+          "x_max": 582,
+          "y_max": 439
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 5.054,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Bounding box tightly covers the blue card edge as visible, with minor padding present but encompassing the element accurately.",
+        "element_metadata_extraction": "{\"patternName\":\"Card Edge Indicator\",\"facetTags\":[\"visual cue\",\"navigation\",\"secondary card\",\"peek\",\"blue accent\",\"contextual\",\"teaser\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Hints at the presence of additional cards and subtly directs attention to possible interactions.\"}"
+      },
+      {
+        "label": "Partial Secondary Card > Partial Balance",
+        "description": "Partially visible text '$2...' shown in white on the blue card edge at the top left of the partial card",
+        "bounding_box": {
+          "x_min": 548,
+          "y_min": 254,
+          "x_max": 579,
+          "y_max": 298
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.472,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Box closely frames the '$2...' text; minor improvement possible but the core element is captured with minimal excess space.",
+        "element_metadata_extraction": "{\"patternName\":\"Partial Balance Label\",\"facetTags\":[\"informational\",\"finance\",\"secondary card\",\"balance preview\",\"white text\",\"teaser\",\"peek\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Provides a glimpse of the available balance, motivating users to explore further details on other cards.\"}"
+      },
+      {
+        "label": "Partial Secondary Card > Card Label",
+        "description": "Partially visible white text 'Debit...' on the blue card edge below the partial balance",
+        "bounding_box": {
+          "x_min": 545,
+          "y_min": 370,
+          "x_max": 585,
+          "y_max": 430
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 11.779,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Box accurately captures the 'Debit...' label area with the majority of the text visible and minimal extra padding.",
+        "element_metadata_extraction": "{\"patternName\":\"Truncated Card Label\",\"facetTags\":[\"identifier\",\"debit\",\"label\",\"secondary card\",\"white text\",\"context hint\",\"finance\",\"partial view\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Aids users in quickly recognizing card type or identity when browsing multiple cards.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Partial Card Preview\",\"facetTags\":[\"finance\",\"secondary\",\"card preview\",\"browse\",\"swipeable\",\"mobile\",\"teaser\",\"navigation\",\"contextual indicator\"],\"states\":[\"default\",\"focused\",\"unfocused\"],\"interaction\":{\"on_swipe_left\":\"reveals more of the secondary card by scrolling\",\"on_tap\":\"brings the secondary card into primary focus\"},\"userFlowImpact\":\"Encourages discovery and quick navigation between multiple cards, prompting users to explore or act on different accounts.\"}",
+    "component_ai_description": "A partially visible card preview positioned beside the primary card to indicate the presence of additional payment options, encouraging users to browse or interact with secondary cards."
+  },
+  {
+    "screenshot_id": 7,
+    "component_name": "Recent Transactions List > KFC Transaction",
+    "original_image_object": "[Buffer data omitted: 49830 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 239774 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/4/blue-credit_aqmw.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS80L2JsdWUtY3JlZGl0X2FxbXcucG5nIiwiaWF0IjoxNzQ1NjYxMTA4LCJleHAiOjE3NDU2NjQ3MDh9.fZJH2hQKGYwBcIVjerTp-C9IxHDhvvfNP0QReEwv9z0",
+    "component_description": "Detection results for Recent Transactions List > KFC Transaction",
+    "detection_status": "success",
+    "inference_time": 12.249,
+    "elements": [
+      {
+        "label": "Recent Transactions List > KFC Transaction > Merchant Logo",
+        "description": "Circular red logo featuring KFC's icon at the left of the fourth transaction row",
+        "bounding_box": {
+          "x_min": 223,
+          "y_min": 715,
+          "x_max": 264,
+          "y_max": 761
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.737,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Bounding box closely fits the KFC logo with minimal extra padding, corresponding well to the icon's size and position.",
+        "element_metadata_extraction": "{\"patternName\":\"Avatar Icon\",\"facetTags\":[\"visual identity\",\"merchant\",\"branding\",\"icon\",\"static\",\"list\",\"recognition\",\"decorative\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Supports rapid recognition of the merchant, improving scanning and recall.\"}"
+      },
+      {
+        "label": "Recent Transactions List > KFC Transaction > Merchant Name",
+        "description": "Bold text 'KFC' positioned to the right of the KFC logo in the bottom transaction row",
+        "bounding_box": {
+          "x_min": 282,
+          "y_min": 717,
+          "x_max": 317,
+          "y_max": 741
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 4.894,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Box fits the 'KFC' text and matches its position; minor excess padding on the right but overall highly accurate.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Label\",\"facetTags\":[\"merchant\",\"label\",\"primary\",\"identifier\",\"text\",\"list\",\"finance\",\"transaction\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Clearly identifies the merchant so users can confirm where the transaction occurred.\"}"
+      },
+      {
+        "label": "Recent Transactions List > KFC Transaction > Date",
+        "description": "Light gray text 'Aug 06, 05:12 PM' displayed below the merchant name in the KFC transaction row",
+        "bounding_box": {
+          "x_min": 280,
+          "y_min": 740,
+          "x_max": 344,
+          "y_max": 759
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.734,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Bounding box accurately surrounds the date text; left and right edges are tight, with minimal vertical space above and below.",
+        "element_metadata_extraction": "{\"patternName\":\"Supporting Text\",\"facetTags\":[\"timestamp\",\"date\",\"context\",\"secondary\",\"metadata\",\"transaction\",\"list\",\"information\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Provides chronological context to help users match the transaction to their activity.\"}"
+      },
+      {
+        "label": "Recent Transactions List > KFC Transaction > Amount",
+        "description": "Red text '-$12.60' aligned to the right of the KFC transaction row",
+        "bounding_box": {
+          "x_min": 491,
+          "y_min": 712,
+          "x_max": 564,
+          "y_max": 738
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.35,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Box is tightly fitted around the '-$12.60' amount with excellent positioning and minimal padding, resulting in high accuracy.",
+        "element_metadata_extraction": "{\"patternName\":\"Value Display\",\"facetTags\":[\"amount\",\"finance\",\"outflow\",\"currency\",\"highlighted\",\"summary\",\"debit\",\"transaction\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Immediately communicates the specific expense amount and its impact on the user's balance.\"}"
+      },
+      {
+        "label": "Recent Transactions List > KFC Transaction > Card Reference",
+        "description": "Small gray text '•••• 4568' positioned below the transaction amount in the KFC row",
+        "bounding_box": {
+          "x_min": 528,
+          "y_min": 537,
+          "x_max": 564,
+          "y_max": 558
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.534,
+        "error": null,
+        "accuracy_score": 15,
+        "hidden": false,
+        "explanation": "Box is placed far above the correct location (should be beneath the transaction amount); suggested coordinates correct this by targeting the card reference in the KFC row.",
+        "suggested_coordinates": {
+          "x_min": 505,
+          "y_min": 741,
+          "x_max": 561,
+          "y_max": 759
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Supporting Text\",\"facetTags\":[\"card\",\"reference\",\"metadata\",\"secondary\",\"masked\",\"identifier\",\"list\",\"detail\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Clarifies which card was charged, aiding in account reconciliation and fraud detection.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Transaction List Item\",\"facetTags\":[\"transaction\",\"summary\",\"banking\",\"mobile\",\"finance\",\"record\",\"recency\",\"merchant\",\"history\"],\"states\":[\"default\",\"pressed\",\"focused\",\"selected\"],\"interaction\":{\"on_tap\":\"opens detailed transaction view\",\"on_long_press\":\"reveals contextual actions such as share, dispute, or categorize\"},\"userFlowImpact\":\"Guides users to recognize, review, or act on specific financial transactions as part of their spending management journey.\"}",
+    "component_ai_description": "A transactional row within a recent transactions list, displaying key details for a KFC purchase including merchant branding, time, amount, and payment card reference, enabling users to quickly review and recognize individual spending history items."
+  },
+  {
+    "screenshot_id": 7,
+    "component_name": "Recent Transactions List > Starbucks Transaction",
+    "original_image_object": "[Buffer data omitted: 49830 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 240695 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/4/blue-credit_aqmw.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS80L2JsdWUtY3JlZGl0X2FxbXcucG5nIiwiaWF0IjoxNzQ1NjYxMTA4LCJleHAiOjE3NDU2NjQ3MDh9.fZJH2hQKGYwBcIVjerTp-C9IxHDhvvfNP0QReEwv9z0",
+    "component_description": "Detection results for Recent Transactions List > Starbucks Transaction",
+    "detection_status": "success",
+    "inference_time": 45.415000000000006,
+    "elements": [
+      {
+        "label": "Recent Transactions List > Starbucks Transaction > Merchant Logo",
+        "description": "Circular green and white Starbucks logo icon at the left of the first transaction row below the header",
+        "bounding_box": {
+          "x_min": 221,
+          "y_min": 515,
+          "x_max": 266,
+          "y_max": 561
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 5.042,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Box tightly fits the circular Starbucks logo with minimal excess space. Good visual and positional accuracy.",
+        "element_metadata_extraction": "{\"patternName\":\"Avatar Icon\",\"facetTags\":[\"merchant\",\"logo\",\"brand\",\"icon\",\"visual-identity\",\"list-item\",\"context\",\"static\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Provides immediate visual recognition of the merchant, speeding up transaction scanning by the user.\"}"
+      },
+      {
+        "label": "Recent Transactions List > Starbucks Transaction > Merchant Name",
+        "description": "Text 'Starbucks Coffee' in dark font positioned to the right of the Starbucks logo",
+        "bounding_box": {
+          "x_min": 278,
+          "y_min": 515,
+          "x_max": 435,
+          "y_max": 539
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.897,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Box accurately contains the merchant name text, only covering the necessary area.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Label\",\"facetTags\":[\"merchant\",\"title\",\"label\",\"primary-info\",\"readable\",\"focus\",\"text\",\"transaction\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Allows users to quickly identify the business associated with the transaction, facilitating fast review.\"}"
+      },
+      {
+        "label": "Recent Transactions List > Starbucks Transaction > Date",
+        "description": "Light gray text 'Aug 24, 5:27 PM' displayed below the merchant name in the Starbucks transaction row",
+        "bounding_box": {
+          "x_min": 278,
+          "y_min": 538,
+          "x_max": 385,
+          "y_max": 559
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 24.783,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box closely fits the light gray date text underneath the merchant name, with only minor extra padding.",
+        "element_metadata_extraction": "{\"patternName\":\"Subtext Label\",\"facetTags\":[\"date\",\"timestamp\",\"time-reference\",\"secondary-info\",\"history\",\"detail\",\"informational\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Helps users contextualize the transaction in their personal timeline for better recall and verification.\"}"
+      },
+      {
+        "label": "Recent Transactions List > Starbucks Transaction > Amount",
+        "description": "Red text '-$14.99' aligned to the right of the Starbucks transaction row",
+        "bounding_box": {
+          "x_min": 498,
+          "y_min": 512,
+          "x_max": 567,
+          "y_max": 539
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 7.31,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Box accurately and tightly wraps the red amount figure, with high positional and visual accuracy.",
+        "element_metadata_extraction": "{\"patternName\":\"Value Text\",\"facetTags\":[\"amount\",\"currency\",\"expense\",\"visual-hierarchy\",\"transaction\",\"actionable\",\"emphasis\",\"summary\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Draws attention to the debit value to help users monitor spending at a glance.\"}"
+      },
+      {
+        "label": "Recent Transactions List > Starbucks Transaction > Card Reference",
+        "description": "Small gray text '•••• 4568' positioned below the transaction amount in the Starbucks row",
+        "bounding_box": {
+          "x_min": 526,
+          "y_min": 536,
+          "x_max": 566,
+          "y_max": 561
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 6.383,
+        "error": null,
+        "accuracy_score": 94,
+        "hidden": false,
+        "explanation": "Box fits the small gray card reference text closely, with only a slight margin of extra space below the amount.",
+        "element_metadata_extraction": "{\"patternName\":\"Supporting Text\",\"facetTags\":[\"card\",\"reference\",\"metadata\",\"account-info\",\"detail\",\"secondary\",\"context\",\"privacy\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Lets users quickly confirm which payment method was used, aiding in reconciliation and dispute resolution.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"List Row\",\"facetTags\":[\"transaction\",\"financial\",\"history\",\"summary\",\"mobile\",\"list\",\"merchant\",\"expense\",\"readout\",\"accounting\"],\"states\":[\"default\",\"pressed\",\"focused\",\"selected\"],\"interaction\":{\"on_tap\":\"opens transaction details for this entry\",\"on_long_press\":\"opens contextual actions (e.g., add note or categorize)\"},\"userFlowImpact\":\"Gives users a clear, actionable entry point to review specific transaction details as part of financial tracking.\"}",
+    "component_ai_description": "A transaction row within the recent transactions list showing a summary of a Starbucks purchase, providing merchant branding, name, date, amount, and card reference for quick financial review."
+  },
+  {
+    "screenshot_id": 7,
+    "component_name": "Recent Transactions List > DKNY Transaction",
+    "original_image_object": "[Buffer data omitted: 49830 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 240569 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/4/blue-credit_aqmw.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS80L2JsdWUtY3JlZGl0X2FxbXcucG5nIiwiaWF0IjoxNzQ1NjYxMTA4LCJleHAiOjE3NDU2NjQ3MDh9.fZJH2hQKGYwBcIVjerTp-C9IxHDhvvfNP0QReEwv9z0",
+    "component_description": "Detection results for Recent Transactions List > DKNY Transaction",
+    "detection_status": "success",
+    "inference_time": 41.914,
+    "elements": [
+      {
+        "label": "Recent Transactions List > DKNY Transaction > Merchant Logo",
+        "description": "Circular white logo with 'DKNY' text at the left of the second transaction row",
+        "bounding_box": {
+          "x_min": 221,
+          "y_min": 515,
+          "x_max": 268,
+          "y_max": 560
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 11.516,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box closely fits the circular DKNY logo with minimal padding; slight extra space at the top, but overall highly accurate.",
+        "element_metadata_extraction": "{\"patternName\":\"Avatar Icon\",\"facetTags\":[\"logo\",\"branding\",\"merchant identity\",\"visual anchor\",\"mobile\",\"finance\",\"list item\",\"graphic\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Visually cues the user to identify the merchant at a glance to reduce cognitive load.\"}"
+      },
+      {
+        "label": "Recent Transactions List > DKNY Transaction > Merchant Name",
+        "description": "Bold text 'DKNY' positioned to the right of the DKNY logo in the second transaction row",
+        "bounding_box": {
+          "x_min": 218,
+          "y_min": 584,
+          "x_max": 332,
+          "y_max": 616
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 12.985,
+        "error": null,
+        "accuracy_score": 44,
+        "hidden": false,
+        "explanation": "Original box is well below the actual 'DKNY' text; new coordinates tightly frame the merchant name in the correct location.",
+        "suggested_coordinates": {
+          "x_min": 272,
+          "y_min": 524,
+          "x_max": 336,
+          "y_max": 550
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Text Label\",\"facetTags\":[\"merchant\",\"primary text\",\"title\",\"identifier\",\"read\",\"list\",\"mobile\",\"finance\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Quickly conveys the recipient or merchant of the transaction for user context and review.\"}"
+      },
+      {
+        "label": "Recent Transactions List > DKNY Transaction > Date",
+        "description": "Light gray text 'Aug 20, 2:14 PM' displayed below the merchant name in the DKNY transaction row",
+        "bounding_box": {
+          "x_min": 281,
+          "y_min": 610,
+          "x_max": 342,
+          "y_max": 628
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 5.283,
+        "error": null,
+        "accuracy_score": 46,
+        "hidden": false,
+        "explanation": "Bounding box is well below the actual date text; new coordinates tightly capture the gray date under 'DKNY'.",
+        "suggested_coordinates": {
+          "x_min": 272,
+          "y_min": 552,
+          "x_max": 334,
+          "y_max": 570
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Subtext\",\"facetTags\":[\"timestamp\",\"secondary text\",\"date and time\",\"temporal context\",\"mobile\",\"finance\",\"list\",\"metadata\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Anchors the transaction to a specific moment, supporting chronological review and discrepancy identification.\"}"
+      },
+      {
+        "label": "Recent Transactions List > DKNY Transaction > Amount",
+        "description": "Red text '-$40.00' aligned to the right of the DKNY transaction row",
+        "bounding_box": {
+          "x_min": 488,
+          "y_min": 576,
+          "x_max": 566,
+          "y_max": 608
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.522,
+        "error": null,
+        "accuracy_score": 90,
+        "hidden": false,
+        "explanation": "Box nearly perfectly encapsulates the red '-$40.00' amount; slight excess width but visually accurate.",
+        "element_metadata_extraction": "{\"patternName\":\"Amount Label\",\"facetTags\":[\"transaction value\",\"currency\",\"debit\",\"amount\",\"highlight\",\"finance\",\"read\",\"list entry\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Displays financial impact, drawing immediate attention to outflow for user monitoring and budgeting.\"}"
+      },
+      {
+        "label": "Recent Transactions List > DKNY Transaction > Card Reference",
+        "description": "Small gray text '•••• 0961' positioned below the transaction amount in the DKNY row",
+        "bounding_box": {
+          "x_min": 518,
+          "y_min": 606,
+          "x_max": 568,
+          "y_max": 626
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 9.608,
+        "error": null,
+        "accuracy_score": 42,
+        "hidden": false,
+        "explanation": "Box is nearly correct but slightly low; suggested adjustment tightens bounding box vertically to cover only the '•••• 0961' text.",
+        "suggested_coordinates": {
+          "x_min": 516,
+          "y_min": 606,
+          "x_max": 568,
+          "y_max": 622
+        },
+        "element_metadata_extraction": "{\"patternName\":\"Supporting Info Label\",\"facetTags\":[\"card suffix\",\"account reference\",\"secondary info\",\"supporting text\",\"finance\",\"mobile\",\"list metadata\",\"privacy\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Clarifies which card was used for the transaction, improving clarity during account audits and resolving confusion.\"}"
+      }
+    ],
+    "component_metadata_extraction": "{\"patternName\":\"Transaction List Row\",\"facetTags\":[\"list item\",\"transaction history\",\"finance\",\"spending detail\",\"mobile banking\",\"read-only\",\"data overview\",\"navigation entry\",\"accounting\",\"record\"],\"states\":[\"default\",\"pressed\",\"focused\",\"disabled\"],\"interaction\":{\"on_tap\":\"navigates to detailed transaction view\",\"on_long_press\":\"reveals transaction options (e.g., dispute, categorize)\"},\"userFlowImpact\":\"Enables users to quickly scan and access specifics for individual recent transactions, guiding them toward deeper financial insights.\"}",
+    "component_ai_description": "A horizontally stacked list row representing an individual recent transaction with DKNY, providing contextual merchant, date, and account details for quick user review."
+  }
+]
