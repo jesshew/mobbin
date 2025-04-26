@@ -4301,3 +4301,382 @@ Output Tokens: 827
 Total Tokens: 2551
 ========== END OF ENTRY ==========
 
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-26T10:03:28.403Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 9.076 seconds
+
+----- PROMPT -----
+
+    Extract High-Level UI Components with Functional Metadata
+
+    <instructions>
+    You are given a UI screenshot from a mobile or web application.
+
+    🎯 Your Task:
+    Identify and return only the key UI components or main sections visible in the interface. These should be semantically meaningful blocks that represent distinct parts of the user experience — not low-level elements like buttons, icons, or text unless they are the central interactive unit themselves.
+
+    🧠 Guidelines:
+    Do not list every visual element — focus only on sections or interactive units a product designer or UX researcher would define.
+
+    Group smaller elements into their logical parent component (e.g., quantity controls, icons, labels → Cart Item).
+
+    Avoid granular components unless they are standalone CTAs or decision points.
+
+    Include Partially Visible Items
+    - If a card or button is cut off but still recognizable, include it.
+    - Group Small Things if They Belong Together
+    - If an image, label, and button work together (like in a product card), group them as one component.
+
+    Ignore Decorative Stuff
+    - Don’t include backgrounds, dividers, icons that don’t do anything, or layout-only elements.
+
+    Each identified component should be visually and functionally distinct.
+
+    🧾 Output Format: JSON List
+    For each top-level component, include the following fields:
+
+    component_name: A human-readable name for the section (e.g., "Cart Item", "Header", "Promocode Section")
+
+    description: A short, clear description of the section and what's visually included
+
+    </instructions>
+
+    <sample_output> 
+    [
+      {
+        "component_name": "Cart Item List",
+        "description": "Visual block showing product image, name, price, and quantity controls.",
+      },
+      {
+        "component_name": "Delivery Options",
+        "description": "Section showing available delivery choices with cost and selection state.",
+      },
+      {
+        "component_name": "Promocode Section",
+        "description": "Input area for applying promotional codes with validation feedback.",
+      },
+      {
+    "component_name": "Partial Debit Card",
+    "description": "Partially visible card element showing the top edge and part of the card number, suggesting the presence of a second linked payment method."
+    }
+    ]
+    </sample_output>
+    
+
+----- RESPONSE -----
+{
+  "id": "resp_680caf6807b48192a5918083da3084950dc7813fe6185a2d",
+  "object": "response",
+  "created_at": 1745661800,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680caf6b0b7c8192a3f0f802fd94d16a0dc7813fe6185a2d",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"component_name\": \"Daily Reminder Prompt\",\n    \"description\": \"Main content area featuring a headline inviting the user to set up daily reminders with supporting illustration and a speech bubble for additional encouragement.\"\n  },\n  {\n    \"component_name\": \"Notification Permission Card\",\n    \"description\": \"Central modal-style card asking for notification permission, including the app icon, permission description, and option buttons for 'Block' and 'Allow'.\"\n  },\n  {\n    \"component_name\": \"Primary Action Bar\",\n    \"description\": \"Prominent green bar at the bottom labeled 'CONTINUE', acting as the main forward navigation or confirmation action.\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1247,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 136,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 1383
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "[\n  {\n    \"component_name\": \"Daily Reminder Prompt\",\n    \"description\": \"Main content area featuring a headline inviting the user to set up daily reminders with supporting illustration and a speech bubble for additional encouragement.\"\n  },\n  {\n    \"component_name\": \"Notification Permission Card\",\n    \"description\": \"Central modal-style card asking for notification permission, including the app icon, permission description, and option buttons for 'Block' and 'Allow'.\"\n  },\n  {\n    \"component_name\": \"Primary Action Bar\",\n    \"description\": \"Prominent green bar at the bottom labeled 'CONTINUE', acting as the main forward navigation or confirmation action.\"\n  }\n]"
+}
+
+----- USAGE -----
+Input Tokens: 1247
+Output Tokens: 136
+Total Tokens: 1383
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-26T10:03:41.120Z
+Service: Claude-claude-3-7-sonnet-20250219
+Execution Time: 12.596 seconds
+
+----- PROMPT -----
+
+<identity>  
+You are a highly capable autonomous AI UIUX ANNOTATOR.  
+You exist to assist a human USER in parsing UI screenshots and generating structured annotations for a design reference library.  
+You are optimized for accuracy, consistency in naming conventions, and exhaustive visual parsing.  
+You do not omit visible data. You do not ask questions. You do not speculate.  
+</identity>  
+
+<input>  
+Required input includes:  
+- A UI screenshot  
+- A list of component categories (e.g., “Header”, “Product Card”, “Bottom Bar”)  
+Each component in the list is treated as a logical container. Elements must be grouped accordingly.  
+</input>  
+
+<task_execution>  
+Upon receiving inputs, perform the following steps without deviation:  
+
+1. **Component Matching:**  
+   For each listed component, identify its corresponding region in the UI.  
+
+2. **Element Extraction:**  
+   Within each component, extract and describe ALL visual elements as INDIVIDUAL elements.  
+   - Include: icons, buttons, labels, values, helper text, visual states, overlays, spacers, input fields, scroll zones  
+   - DO NOT exclude small elements or secondary labels  
+
+3. **Naming Convention Enforcement:**  
+   - Output uses strict hierarchical keys  
+   - Format: [Parent Component] > [Subcomponent] > [Element Label]
+   - Separator: >  
+   - No nesting; use flat JSON with delimited keys  
+
+4. **Description Requirements:**  
+   Each key’s value must include:  
+   - Appearance: Shape, color, text, visual style  
+   - Function: Purpose or intended interaction  
+   - Position: Spatial reference (e.g., “top-right corner”, “below cart total”)  
+   - State: Active, disabled, selected, etc.  
+   - Interaction Type: Static, tappable, swipeable, etc.  
+
+5. **Output Constraints:**  
+   - JSON object in string format only  
+   - Flat structure (no nested objects)  
+   - No nulls, placeholders, or empty fields  
+   - No trailing commas  
+</task_execution>  
+
+<output_format>  
+Return string formatted JSON.  
+DO NOT include code guards ` in the output. 
+Each key represents an element using the format:  
+[Component] > [Subcomponent] > [Element Label]
+
+Each value is a detailed string description, compliant with the annotation rules.  
+
+Example:
+"{
+  "Header > Title": "Centered bold text 'Top Up Receipt' with a confetti background",
+  "Success Badge > Icon": "Green hexagon with a white checkmark, placed below the title",
+  "Delivery Options > Express Option > Label": "Text reading 'Express, 15-25 minutes' on the left side of the express delivery option row, positioned below the standard delivery option.",
+  "Delivery Options > Express Option > Icon": "Small lightning bolt icon next to the express delivery label, indicating speed.",
+  "Delivery Options > Express Option > Price": "Text reading '$2.00' on the right side of the express delivery option row.",
+  "Delivery Options > Express Option > Selection Indicator": "Empty circular radio button on the far right, next to the $2.00 price.",
+  "Confirmation > Message": "Large bold text 'Top Up Success', centered in the screen",
+  "Cart Item 1 > Image": "Square image of a bowl containing gnocchi dish positioned in the left portion of the upper-middle section of the screen.",
+  "Cart Item 1 > Title": "Text label 'Gnocchi with mushroom gravy' displayed to the right of the corresponding image.",
+  "Cart Item 1 > Weight": "Gray text '230g' displayed next to the title of the first item.",
+  "Cart Item 1 > Price": "Orange/amber colored price tag '$5,60' positioned below the item title.",
+  "Cart Item 1 > Quantity Controls > Decrease Button": "Minus button on the left side of the quantity control, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Count Display": "Text showing '1' between the minus and plus buttons, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Increase Button": "Plus button on the right side of the quantity control, under the item title 'Gnocchi'",
+  "Confirmation > Subtext": "Gray helper text 'Your money has been added to your card'",
+  "Amount Summary > Value": "Prominent text '$132.00' centered near the middle",
+  "Card Section > Card Label": "White label text 'Wally Virtual Card' at top of card",
+  "Card Section > Masked Number": "Text '•••• 4568' directly below card label",
+  "Card Section > Timestamp": "Small gray text 'Today, 12:45 PM' at bottom-right of card",
+  "Primary CTA > Label": "Green full-width button 'Done' with white text, tappable",
+  "Secondary CTA > Label": "Teal hyperlink text 'Top up more money' below primary button"
+}"
+</output_format>
+
+
+<component_list>Daily Reminder Prompt
+Notification Permission Card
+Primary Action Bar</component_list>
+
+----- RESPONSE -----
+{
+  "id": "msg_01HjKZUrSpmS3VcKoiWU4tLd",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-3-7-sonnet-20250219",
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"Daily Reminder Prompt > Heading\": \"Bold gray text 'Get a daily reminder to meet your goal' positioned at the top center of the screen, serving as the main message to encourage users to enable reminders\",\n  \n  \"Daily Reminder Prompt > Mascot\": \"Green cartoon owl character (Duolingo mascot) holding a yellow bell/notification icon, positioned in the mid-left portion of the screen, visually representing the reminder functionality\",\n  \n  \"Daily Reminder Prompt > Speech Bubble\": \"White speech bubble with text 'Just in case you forget!' coming from the mascot, conveying a friendly reminder about the importance of notifications\",\n  \n  \"Notification Permission Card > Card Container\": \"Rounded rectangular white card containing the notification permission request, positioned in the center of the screen below the mascot\",\n  \n  \"Notification Permission Card > App Icon\": \"Small square green icon with the Duolingo owl face, positioned in the upper portion of the notification card, identifying the app requesting permissions\",\n  \n  \"Notification Permission Card > Message\": \"Gray text explaining 'The website \"duolingo.com\" would like to send you notifications in Notification Center.' centered in the card, informing the user about the permission request\",\n  \n  \"Notification Permission Card > Helper Text\": \"Small gray text 'Notifications can be changed in Safari Website preferences.' at the bottom of the card, providing additional information about managing notification settings\",\n  \n  \"Notification Permission Card > Block Button\": \"Light gray rectangular button with text 'BLOCK' on the left side of the card bottom, allowing users to deny notification permissions\",\n  \n  \"Notification Permission Card > Allow Button\": \"Blue rectangular button with white text 'ALLOW' on the right side of the card bottom, allowing users to grant notification permissions\",\n  \n  \"Notification Permission Card > Indicator Arrow\": \"Blue downward-pointing arrow below the notification card, drawing attention to the buttons and guiding user interaction\",\n  \n  \"Primary Action Bar > Continue Button\": \"Prominent green rectangular button with white text 'CONTINUE' spanning the width of the bottom of the screen, allowing the user to proceed with the app flow after making a notification decision\"\n}"
+    }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 2103,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 501
+  }
+}
+
+----- USAGE -----
+Input Tokens: 2103
+Output Tokens: 501
+Total Tokens: 2604
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-26T10:03:48.060Z
+Service: Claude-claude-3-7-sonnet-20250219
+Execution Time: 6.671 seconds
+
+----- PROMPT -----
+
+You are optimizing UI component descriptions for a Vision Language Model (VLM) tasked with drawing bounding boxes accurately.
+The expected output is a flat JSON string.
+DO NOT include any other text or explanation in the output.
+
+Your job is to convert a flat JSON list of UI component keys into detailed visual descriptions that:
+- Make each component visually distinct and detectable
+- Resolves ambiguity between repeated elements by including precise visual anchors 
+- Avoid language that anthropomorphizes, speculates, or adds human-facing UX explanation
+- Preserves the model's focus on the target component  
+- Maintain a tight focus on structure, position, and appearance
+
+Input:  
+- A UI screenshot  
+- A flat JSON list of component IDs → short descriptions
+
+Key Guidance:
+
+1. Prioritize the Component Itself  
+Clearly describe:  
+- Shape and size (e.g., pill-shaped, small square)  
+- Color  
+- Text/icon content  
+- Functional purpose (e.g., ‘decrease item quantity’)  
+
+2. Use Row Anchors for Repeated Elements  
+- Only when components are repeated (like quantity controls), add a subtle row-level anchor based on a unique nearby feature.
+- Anchors must be visually locatable, such as labels, icons, or nearby components
+
+Example (Correct):
+"Plus (+) icon in a light orange pill-shaped button, in the row showing the item titled 'Wenzel with raspberries and currants'"
+
+Avoid (Incorrect):
+"Plus button on the left of the first quantity control"
+"Below the second product title"
+
+3. Do Not Include Purpose or Human Interpretation
+- NEVER explain intent (e.g., "used to add funds", "leads to new screen", "indicating xxxxx" )
+- Only describe what is visually present and identifiable
+
+4. Never Let Anchor Dominate  
+Use phrasing that keeps the component as the star, and the anchor as context.
+
+Good:  
+“...in the row displaying the title ‘Wenzel with raspberries and currants’”  
+"Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name 'DKNY'
+
+
+Bad:  
+“...under the ‘Wenzel’ label” → implies Wenzel might be the bounding box  
+“Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name in the second row” → VLM has no way to know what the second row is
+
+<sample_output>
+"  
+{
+  "Cart Items List > Item 2 > Quantity Controls > Increase Button": "Plus (+) button in a light orange pill-shaped control, on the right of the quantity selector in the row showing the item 'Wenzel with raspberries and currants'",
+  "Cart Items List > Item 3 > Quantity Controls > Decrease Button": "Minus (-) button in a light orange pill-shaped control, on the left of the quantity selector in the row displaying the title 'Freshly squeezed orange juice'",
+  "Order Summary & Confirmation Bar > Confirm Button": "White text 'Confirm order' aligned right in the orange confirmation bar at the bottom of the screen"
+}"
+</sample_output>
+
+Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards ` in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
+
+
+<element_list>{
+  "Daily Reminder Prompt > Heading": "Bold gray text 'Get a daily reminder to meet your goal' positioned at the top center of the screen, serving as the main message to encourage users to enable reminders",
+  
+  "Daily Reminder Prompt > Mascot": "Green cartoon owl character (Duolingo mascot) holding a yellow bell/notification icon, positioned in the mid-left portion of the screen, visually representing the reminder functionality",
+  
+  "Daily Reminder Prompt > Speech Bubble": "White speech bubble with text 'Just in case you forget!' coming from the mascot, conveying a friendly reminder about the importance of notifications",
+  
+  "Notification Permission Card > Card Container": "Rounded rectangular white card containing the notification permission request, positioned in the center of the screen below the mascot",
+  
+  "Notification Permission Card > App Icon": "Small square green icon with the Duolingo owl face, positioned in the upper portion of the notification card, identifying the app requesting permissions",
+  
+  "Notification Permission Card > Message": "Gray text explaining 'The website "duolingo.com" would like to send you notifications in Notification Center.' centered in the card, informing the user about the permission request",
+  
+  "Notification Permission Card > Helper Text": "Small gray text 'Notifications can be changed in Safari Website preferences.' at the bottom of the card, providing additional information about managing notification settings",
+  
+  "Notification Permission Card > Block Button": "Light gray rectangular button with text 'BLOCK' on the left side of the card bottom, allowing users to deny notification permissions",
+  
+  "Notification Permission Card > Allow Button": "Blue rectangular button with white text 'ALLOW' on the right side of the card bottom, allowing users to grant notification permissions",
+  
+  "Notification Permission Card > Indicator Arrow": "Blue downward-pointing arrow below the notification card, drawing attention to the buttons and guiding user interaction",
+  
+  "Primary Action Bar > Continue Button": "Prominent green rectangular button with white text 'CONTINUE' spanning the width of the bottom of the screen, allowing the user to proceed with the app flow after making a notification decision"
+}</element_list>
+
+----- RESPONSE -----
+{
+  "id": "msg_01MaF9VPRGRqy3hoSfvMjPD4",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-3-7-sonnet-20250219",
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"Daily Reminder Prompt > Heading\": \"Bold gray text 'Get a daily reminder to meet your goal' centered at the top portion of the screen\",\n  \n  \"Daily Reminder Prompt > Mascot\": \"Green cartoon owl character holding a yellow bell icon, positioned in the mid-left portion of the screen\",\n  \n  \"Daily Reminder Prompt > Speech Bubble\": \"White speech bubble containing text 'Just in case you forget!' adjacent to the green owl character\",\n  \n  \"Notification Permission Card > Card Container\": \"Rounded rectangular white card in the center of the screen below the green owl character\",\n  \n  \"Notification Permission Card > App Icon\": \"Small square green icon with owl face, positioned in the upper portion of the white notification card\",\n  \n  \"Notification Permission Card > Message\": \"Gray text stating 'The website \"duolingo.com\" would like to send you notifications in Notification Center.' within the white card\",\n  \n  \"Notification Permission Card > Helper Text\": \"Small gray text 'Notifications can be changed in Safari Website preferences.' at the bottom portion of the white card\",\n  \n  \"Notification Permission Card > Block Button\": \"Light gray rectangular button labeled 'BLOCK' positioned on the left side at the bottom of the white card\",\n  \n  \"Notification Permission Card > Allow Button\": \"Blue rectangular button with white text 'ALLOW' positioned on the right side at the bottom of the white card\",\n  \n  \"Notification Permission Card > Indicator Arrow\": \"Blue downward-pointing arrow below the notification card and above the green continue button\",\n  \n  \"Primary Action Bar > Continue Button\": \"Wide green rectangular button with white text 'CONTINUE' spanning the bottom portion of the screen\"\n}"
+    }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 2183,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 400
+  }
+}
+
+----- USAGE -----
+Input Tokens: 2183
+Output Tokens: 400
+Total Tokens: 2583
+========== END OF ENTRY ==========
+

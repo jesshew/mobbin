@@ -3,6 +3,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { ComponentDetectionResult, ElementDetectionItem } from '@/types/DetectionResult';
 import { BatchProcessingScreenshot as Screenshot } from '@/types/BatchProcessingScreenshot';
 import { generateSignedUrls, getScreenshotPath, getSignedUrls } from '@/lib/supabaseUtils';
+import fs from 'fs';
 
 export class BatchComponentLoaderService {
   private supabaseClient: SupabaseClient;
@@ -40,6 +41,7 @@ export class BatchComponentLoaderService {
         // Build a ComponentDetectionResult object
         const result: ComponentDetectionResult = {
           screenshot_id: screenshot.screenshot_id,
+          component_id: component.component_id,
           component_name: component.component_name || 'Unnamed Component',
           annotated_image_object: Buffer.from([]), // Empty buffer since we don't have the actual image
           component_description: component.component_description || '',
@@ -50,6 +52,7 @@ export class BatchComponentLoaderService {
           component_ai_description: component.component_ai_description || undefined,
           component_metadata_extraction: component.component_metadata_extraction || undefined,
           elements: elements.map(element => ({
+            element_id: element.element_id,
             label: element.element_label || '',
             description: element.element_description || '',
             bounding_box: element.bounding_box || { x_min: 0, y_min: 0, x_max: 0, y_max: 0 },
@@ -66,7 +69,7 @@ export class BatchComponentLoaderService {
         results.push(result);
       }
     }
-
+    fs.writeFileSync(`batch_${batchId}_components.json`, JSON.stringify(results, null, 2));
     return results;
   }
 

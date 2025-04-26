@@ -15,6 +15,7 @@ interface ElementDetectionItem {
   hidden?: boolean;
   explanation?: string;
   element_metadata_extraction?: string; // Optional: To be added later
+  element_id?: number;
 }
 
 interface ComponentDetectionResult {
@@ -30,6 +31,7 @@ interface ComponentDetectionResult {
   elements: ElementDetectionItem[];
   component_ai_description?: string;
   component_metadata_extraction?: string;
+  component_id?: number;
 }
 
 // Export the interfaces
