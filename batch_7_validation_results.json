@@ -1,0 +1,850 @@
+[
+  {
+    "screenshot_id": 12,
+    "component_name": "Reminder Explanation Section",
+    "original_image_object": "[Buffer data omitted: 33244 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 132165 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/7/duolingo3_DNjL.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS83L2R1b2xpbmdvM19ETmpMLnBuZyIsImlhdCI6MTc0NTY5MDI3NywiZXhwIjoxNzQ1NjkzODc3fQ.QrWT6a_InsJmh_cbNXA1N170dxGVclRlR8rX-AXUMD0",
+    "component_description": "Detection results for Reminder Explanation Section",
+    "detection_status": "success",
+    "inference_time": 28.435000000000002,
+    "elements": [
+      {
+        "label": "Reminder Explanation Section > Title",
+        "description": "Dark gray text 'Get a daily reminder to meet your goal' centered at the top portion of the screen",
+        "bounding_box": {
+          "x_min": 247,
+          "y_min": 176,
+          "x_max": 553,
+          "y_max": 257
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 6.271,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Bounding box tightly frames the title text and is well aligned with the element."
+      },
+      {
+        "label": "Reminder Explanation Section > Duolingo Mascot",
+        "description": "Green cartoon owl character holding a yellow bell in the upper right portion of the white background area",
+        "bounding_box": {
+          "x_min": 245,
+          "y_min": 302,
+          "x_max": 434,
+          "y_max": 404
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 5.873,
+        "error": null,
+        "accuracy_score": 84,
+        "hidden": false,
+        "explanation": "Box includes the entire owl and most of the yellow bell; could be shifted right slightly for a tighter fit but covers the mascot well."
+      },
+      {
+        "label": "Reminder Explanation Section > Speech Bubble",
+        "description": "White speech bubble with text 'Just in case you forget!' positioned to the right of the green owl character",
+        "bounding_box": {
+          "x_min": 428,
+          "y_min": 322,
+          "x_max": 568,
+          "y_max": 374
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 16.291,
+        "error": null,
+        "accuracy_score": 97,
+        "hidden": false,
+        "explanation": "Bounding box closely aligns with the edges of the speech bubble and its text, requiring no adjustment."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 12,
+    "component_name": "Notification Permission Prompt",
+    "original_image_object": "[Buffer data omitted: 33244 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 141072 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/7/duolingo3_DNjL.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS83L2R1b2xpbmdvM19ETmpMLnBuZyIsImlhdCI6MTc0NTY5MDI3NywiZXhwIjoxNzQ1NjkzODc3fQ.QrWT6a_InsJmh_cbNXA1N170dxGVclRlR8rX-AXUMD0",
+    "component_description": "Detection results for Notification Permission Prompt",
+    "detection_status": "success",
+    "inference_time": 115.97,
+    "elements": [
+      {
+        "label": "Notification Permission Prompt > Container",
+        "description": "White rounded rectangle container occupying the middle section of the screen with a notification permission interface",
+        "bounding_box": {
+          "x_min": 0,
+          "y_min": 0,
+          "x_max": 800,
+          "y_max": 800
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 11.553,
+        "error": null,
+        "accuracy_score": 35,
+        "hidden": false,
+        "explanation": "Bounding box covers the entire image, whereas the prompt container only occupies a centered area from roughly y=390 to y=650. Suggested box fits only the container.",
+        "suggested_coordinates": {
+          "x_min": 205,
+          "y_min": 390,
+          "x_max": 590,
+          "y_max": 650
+        }
+      },
+      {
+        "label": "Notification Permission Prompt > Duolingo Icon",
+        "description": "Small square green icon with cartoon eyes centered in the upper portion of the white notification prompt container",
+        "bounding_box": {
+          "x_min": 336,
+          "y_min": 422,
+          "x_max": 383,
+          "y_max": 466
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 16.465,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box accurately fits the Duolingo mascot icon, with only minor padding present."
+      },
+      {
+        "label": "Notification Permission Prompt > Message",
+        "description": "Dark text stating 'The website \"duolingo.com\" would like to send you notifications in Notification Center.' in the central area of the white prompt container",
+        "bounding_box": {
+          "x_min": 245,
+          "y_min": 480,
+          "x_max": 470,
+          "y_max": 515
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 10.27,
+        "error": null,
+        "accuracy_score": 85,
+        "hidden": false,
+        "explanation": "Box accurately encloses the notification message text; horizontal margins fit tightly, with negligible vertical padding."
+      },
+      {
+        "label": "Notification Permission Prompt > Helper Text",
+        "description": "Small gray text 'Notifications can be changed in Safari Website preferences.' positioned at the bottom of the notification prompt container",
+        "bounding_box": {
+          "x_min": 244,
+          "y_min": 536,
+          "x_max": 556,
+          "y_max": 578
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 10.077,
+        "error": null,
+        "accuracy_score": 77,
+        "hidden": false,
+        "explanation": "Box effectively frames the helper text at the bottom of the prompt container, with only slight excess on left/right edges."
+      },
+      {
+        "label": "Notification Permission Prompt > Block Button",
+        "description": "Light gray rectangular button labeled 'BLOCK' positioned on the left side at the bottom of the notification prompt",
+        "bounding_box": {
+          "x_min": 253,
+          "y_min": 588,
+          "x_max": 358,
+          "y_max": 625
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 28.263,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Box precisely encloses the 'BLOCK' button with minimal extra space."
+      },
+      {
+        "label": "Notification Permission Prompt > Allow Button",
+        "description": "Blue rectangular button labeled 'ALLOW' positioned on the right side at the bottom of the notification prompt",
+        "bounding_box": {
+          "x_min": 363,
+          "y_min": 589,
+          "x_max": 465,
+          "y_max": 622
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 12.645,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Box closely fits the 'ALLOW' button, with accurate alignment to the corners."
+      },
+      {
+        "label": "Notification Permission Prompt > Direction Indicator",
+        "description": "Light blue upward-pointing arrow displayed below the notification prompt container",
+        "bounding_box": {
+          "x_min": 407,
+          "y_min": 645,
+          "x_max": 422,
+          "y_max": 669
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 26.697,
+        "error": null,
+        "accuracy_score": 78,
+        "hidden": false,
+        "explanation": "Box frames the blue upward arrow under the dialog with only minor padding."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 12,
+    "component_name": "Continue Button",
+    "original_image_object": "[Buffer data omitted: 33244 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 123933 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/7/duolingo3_DNjL.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS83L2R1b2xpbmdvM19ETmpMLnBuZyIsImlhdCI6MTc0NTY5MDI3NywiZXhwIjoxNzQ1NjkzODc3fQ.QrWT6a_InsJmh_cbNXA1N170dxGVclRlR8rX-AXUMD0",
+    "component_description": "Detection results for Continue Button",
+    "detection_status": "success",
+    "inference_time": 1.053,
+    "elements": [
+      {
+        "label": "Continue Button > Button",
+        "description": "Large green rectangular button with white text 'CONTINUE' spanning the width of the screen at the bottom",
+        "bounding_box": {
+          "x_min": 239,
+          "y_min": 686,
+          "x_max": 561,
+          "y_max": 737
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.053,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Bounding box closely matches the extent of the button with minimal extra padding; slight overage on the right edge but overall highly accurate."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 13,
+    "component_name": "Exercise Prompt Area",
+    "original_image_object": "[Buffer data omitted: 26874 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 94764 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/7/duolingo4_eeRF.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS83L2R1b2xpbmdvNF9lZVJGLnBuZyIsImlhdCI6MTc0NTY5MDI3NywiZXhwIjoxNzQ1NjkzODc3fQ.VYqT0ff2-ZLkqaGpXpny1Zx_L-UYFxIxTTAWeBNr-7Q",
+    "component_description": "Detection results for Exercise Prompt Area",
+    "detection_status": "success",
+    "inference_time": 26.829,
+    "elements": [
+      {
+        "label": "Exercise Prompt Area > Title",
+        "description": "Bold black text 'Write this in English' at the top of the content area, positioned below the search bar",
+        "bounding_box": {
+          "x_min": 0,
+          "y_min": 0,
+          "x_max": 800,
+          "y_max": 800
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 26.829,
+        "error": null,
+        "accuracy_score": 38,
+        "hidden": false,
+        "explanation": "Original box covers the whole screen, heavily overextended; updated to tightly cover the title area below the search bar with appropriate margins.",
+        "suggested_coordinates": {
+          "x_min": 60,
+          "y_min": 60,
+          "x_max": 740,
+          "y_max": 140
+        }
+      }
+    ]
+  },
+  {
+    "screenshot_id": 13,
+    "component_name": "Translation Card",
+    "original_image_object": "[Buffer data omitted: 26874 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 82466 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/7/duolingo4_eeRF.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS83L2R1b2xpbmdvNF9lZVJGLnBuZyIsImlhdCI6MTc0NTY5MDI3NywiZXhwIjoxNzQ1NjkzODc3fQ.VYqT0ff2-ZLkqaGpXpny1Zx_L-UYFxIxTTAWeBNr-7Q",
+    "component_description": "Detection results for Translation Card",
+    "detection_status": "success",
+    "inference_time": 41.971999999999994,
+    "elements": [
+      {
+        "label": "Translation Card > Character",
+        "description": "Cartoon figure with dark hair in a bun wearing an orange shirt, positioned on the left side of the exercise area",
+        "bounding_box": {
+          "x_min": 255,
+          "y_min": 142,
+          "x_max": 334,
+          "y_max": 256
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 8.331,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Bounding box tightly encloses the cartoon character as described, with only slight extra space on the right and bottom edges."
+      },
+      {
+        "label": "Translation Card > Speech Bubble",
+        "description": "White speech bubble containing French text 'Tu es un chat ?' next to the cartoon figure",
+        "bounding_box": {
+          "x_min": 278,
+          "y_min": 170,
+          "x_max": 522,
+          "y_max": 221
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 6.441,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Bounding box surrounds the speech bubble well, including both the icon and all the text, with minimal excess padding."
+      },
+      {
+        "label": "Translation Card > Audio Button",
+        "description": "Blue speaker icon within the white speech bubble containing the French text 'Tu es un chat ?'",
+        "bounding_box": {
+          "x_min": 356,
+          "y_min": 180,
+          "x_max": 387,
+          "y_max": 206
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 27.2,
+        "error": null,
+        "accuracy_score": 86,
+        "hidden": false,
+        "explanation": "Bounding box correctly outlines the audio button icon with minor padding on the top/bottom, but size and position are visually appropriate."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 13,
+    "component_name": "Feedback and Action Bar",
+    "original_image_object": "[Buffer data omitted: 26874 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 80368 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/7/duolingo4_eeRF.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS83L2R1b2xpbmdvNF9lZVJGLnBuZyIsImlhdCI6MTc0NTY5MDI3NywiZXhwIjoxNzQ1NjkzODc3fQ.VYqT0ff2-ZLkqaGpXpny1Zx_L-UYFxIxTTAWeBNr-7Q",
+    "component_description": "Detection results for Feedback and Action Bar",
+    "detection_status": "success",
+    "inference_time": 75.895,
+    "elements": [
+      {
+        "label": "Feedback and Action Bar > Status Message",
+        "description": "Green text 'Correct!' on the left side of the light green feedback bar at the bottom of the screen",
+        "bounding_box": {
+          "x_min": 240,
+          "y_min": 722,
+          "x_max": 560,
+          "y_max": 765
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 13.686,
+        "error": null,
+        "accuracy_score": 45,
+        "hidden": false,
+        "explanation": "The original box was too wide, covering the entire feedback bar. Restricted the box to fit closely around the 'Correct!' text.",
+        "suggested_coordinates": {
+          "x_min": 250,
+          "y_min": 727,
+          "x_max": 340,
+          "y_max": 755
+        }
+      },
+      {
+        "label": "Feedback and Action Bar > Report Button",
+        "description": "Flag icon button positioned on the right side of the light green feedback bar",
+        "bounding_box": {
+          "x_min": 540,
+          "y_min": 684,
+          "x_max": 560,
+          "y_max": 708
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 22.632,
+        "error": null,
+        "accuracy_score": 60,
+        "hidden": false,
+        "explanation": "Box is generally over the report button but a bit tall and not perfectly centered. Slight improvement possible, but usable."
+      },
+      {
+        "label": "Feedback and Action Bar > Discuss Button",
+        "description": "Speech bubble icon button positioned on the far right of the light green feedback bar",
+        "bounding_box": {
+          "x_min": 536,
+          "y_min": 684,
+          "x_max": 556,
+          "y_max": 708
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 11.008,
+        "error": null,
+        "accuracy_score": 65,
+        "hidden": false,
+        "explanation": "Box covers the discuss button, although slightly larger vertically than necessary. Mostly accurate and acceptable."
+      },
+      {
+        "label": "Feedback and Action Bar > Continue Button",
+        "description": "Bright green rectangular button with white uppercase text 'CONTINUE' spanning the width of the screen at the bottom",
+        "bounding_box": {
+          "x_min": 239,
+          "y_min": 724,
+          "x_max": 561,
+          "y_max": 766
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 28.569,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Bounding box very closely fits the 'CONTINUE' button with minimal margin of error. No correction needed."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 13,
+    "component_name": "Answer Construction Area",
+    "original_image_object": "[Buffer data omitted: 26874 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 92971 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/7/duolingo4_eeRF.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS83L2R1b2xpbmdvNF9lZVJGLnBuZyIsImlhdCI6MTc0NTY5MDI3NywiZXhwIjoxNzQ1NjkzODc3fQ.VYqT0ff2-ZLkqaGpXpny1Zx_L-UYFxIxTTAWeBNr-7Q",
+    "component_description": "Detection results for Answer Construction Area",
+    "detection_status": "success",
+    "inference_time": 152.99699999999999,
+    "elements": [
+      {
+        "label": "Answer Construction Area > Word Button 1",
+        "description": "Gray pill-shaped button with the word 'Are' in the first position of the word selection row",
+        "bounding_box": {
+          "x_min": 247,
+          "y_min": 268,
+          "x_max": 293,
+          "y_max": 295
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 16.627,
+        "error": null,
+        "accuracy_score": 90,
+        "hidden": false,
+        "explanation": "Box is tightly fitted and well-aligned over 'Are'; minor vertical adjustment would perfect it, but accuracy is high."
+      },
+      {
+        "label": "Answer Construction Area > Word Button 2",
+        "description": "Gray pill-shaped button with the word 'you' positioned second in the word selection row",
+        "bounding_box": {
+          "x_min": 254,
+          "y_min": 262,
+          "x_max": 318,
+          "y_max": 289
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 19.4,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box accurately frames the 'you' button; good height and width coverage with negligible excess area."
+      },
+      {
+        "label": "Answer Construction Area > Word Button 3",
+        "description": "Gray pill-shaped button with the word 'a' positioned third in the word selection row",
+        "bounding_box": {
+          "x_min": 347,
+          "y_min": 268,
+          "x_max": 378,
+          "y_max": 295
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 16.955,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Box accurately centers and borders the 'a' button; close fit with minimal background included."
+      },
+      {
+        "label": "Answer Construction Area > Word Button 4",
+        "description": "Gray pill-shaped button with the word 'cat' positioned fourth in the word selection row",
+        "bounding_box": {
+          "x_min": 356,
+          "y_min": 267,
+          "x_max": 388,
+          "y_max": 296
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 31.463,
+        "error": null,
+        "accuracy_score": 80,
+        "hidden": false,
+        "explanation": "Box slightly overlaps with adjacent buttons and has minor left right misalignment, but mostly covers 'cat' accurately."
+      },
+      {
+        "label": "Answer Construction Area > Alternative Word 1",
+        "description": "Gray pill-shaped button with the word 'horse' positioned on the left side of the lower alternative words row",
+        "bounding_box": {
+          "x_min": 247,
+          "y_min": 370,
+          "x_max": 303,
+          "y_max": 402
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 14.623,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Box closely and fully encloses 'horse' button; size and position very accurate."
+      },
+      {
+        "label": "Answer Construction Area > Alternative Word 2",
+        "description": "Gray pill-shaped button with the word 'girl' positioned in the middle-left of the lower alternative words row",
+        "bounding_box": {
+          "x_min": 334,
+          "y_min": 371,
+          "x_max": 370,
+          "y_max": 404
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 6.792,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Box is very well-aligned and sized for 'girl'; strong coverage with minor lateral buffer."
+      },
+      {
+        "label": "Answer Construction Area > Alternative Word 3",
+        "description": "Gray pill-shaped button with the word 'It's' positioned in the middle-right of the lower alternative words row",
+        "bounding_box": {
+          "x_min": 413,
+          "y_min": 374,
+          "x_max": 444,
+          "y_max": 401
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.686,
+        "error": null,
+        "accuracy_score": 92,
+        "hidden": false,
+        "explanation": "Box fits 'It's' accurately; corner alignment and padding are on target."
+      },
+      {
+        "label": "Answer Construction Area > Alternative Word 4",
+        "description": "Gray pill-shaped button with the word 'woman' positioned on the right side of the lower alternative words row",
+        "bounding_box": {
+          "x_min": 496,
+          "y_min": 370,
+          "x_max": 555,
+          "y_max": 402
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 31.084,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Bounding box accurately encompasses the 'woman' button, tightly following the word's outline."
+      },
+      {
+        "label": "Answer Construction Area > Word Selection Space",
+        "description": "Empty white rectangular area between the selected words row and alternative words row",
+        "bounding_box": {
+          "x_min": 0,
+          "y_min": 0,
+          "x_max": 800,
+          "y_max": 800
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 15.367,
+        "error": null,
+        "accuracy_score": 15,
+        "hidden": false,
+        "explanation": "Original box covers the entire UI, not the intended white selection space; suggested new coordinates target the empty space between answer and alternative rows.",
+        "suggested_coordinates": {
+          "x_min": 220,
+          "y_min": 312,
+          "x_max": 582,
+          "y_max": 362
+        }
+      }
+    ]
+  },
+  {
+    "screenshot_id": 14,
+    "component_name": "Completion Illustration Section",
+    "original_image_object": "[Buffer data omitted: 27919 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 98315 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/7/duolingo5_RXoP.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS83L2R1b2xpbmdvNV9SWG9QLnBuZyIsImlhdCI6MTc0NTY5MDI3NywiZXhwIjoxNzQ1NjkzODc3fQ.ku2PGTFJ4q_Q9xUgUax48m01Lx52hBraRtOlTi1g6Lc",
+    "component_description": "Detection results for Completion Illustration Section",
+    "detection_status": "success",
+    "inference_time": 59.655,
+    "elements": [
+      {
+        "label": "Completion Illustration Section > Character > Green Bird",
+        "description": "A cartoon green bird character with a duck-like appearance standing on the left side of the screen, part of the lesson completion illustration.",
+        "bounding_box": {
+          "x_min": 300,
+          "y_min": 355,
+          "x_max": 373,
+          "y_max": 453
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 27.037,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "The box tightly frames the green bird character with minor extra space on the right; overall alignment and sizing is highly accurate."
+      },
+      {
+        "label": "Completion Illustration Section > Character > Human Figure",
+        "description": "A cartoon figure in a pink top and mint green pants with dark hair in a celebratory pose with one arm raised, positioned to the right of the green bird.",
+        "bounding_box": {
+          "x_min": 262,
+          "y_min": 300,
+          "x_max": 538,
+          "y_max": 463
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 8.484,
+        "error": null,
+        "accuracy_score": 68,
+        "hidden": false,
+        "explanation": "Box includes both the human figure and the green bird; it should only cover the human. Box is oversized and extends too far left."
+      },
+      {
+        "label": "Completion Illustration Section > Visual Effect > Purple Star",
+        "description": "A small purple starburst design displayed in the upper middle portion of the screen, above the cartoon characters.",
+        "bounding_box": {
+          "x_min": 480,
+          "y_min": 155,
+          "x_max": 529,
+          "y_max": 208
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 9.915,
+        "error": null,
+        "accuracy_score": 96,
+        "hidden": false,
+        "explanation": "Box exactly frames the entire purple starburst effect without unnecessary area."
+      },
+      {
+        "label": "Completion Illustration Section > Visual Elements > Red Rose",
+        "description": "A small red rose with scattered petals on the ground near the cartoon figure's feet in the center of the screen.",
+        "bounding_box": {
+          "x_min": 503,
+          "y_min": 407,
+          "x_max": 523,
+          "y_max": 426
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 6.639,
+        "error": null,
+        "accuracy_score": 98,
+        "hidden": false,
+        "explanation": "The red rose and petals are tightly captured within the box; nearly perfect fit."
+      },
+      {
+        "label": "Completion Illustration Section > Status Bar",
+        "description": "Thin status bar at the very top of the screen showing the time '9:41' on the left side and battery, WiFi and cellular signal indicators on the right.",
+        "bounding_box": {
+          "x_min": 0,
+          "y_min": 0,
+          "x_max": 800,
+          "y_max": 800
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 7.58,
+        "error": null,
+        "accuracy_score": 8,
+        "hidden": false,
+        "explanation": "Bounding box covered the entire screen but should only include the top status bar; suggested corrected box tightly frames the status bar portion.",
+        "suggested_coordinates": {
+          "x_min": 0,
+          "y_min": 0,
+          "x_max": 800,
+          "y_max": 35
+        }
+      }
+    ]
+  },
+  {
+    "screenshot_id": 14,
+    "component_name": "Lesson Status Summary > Performance Indicator",
+    "original_image_object": "[Buffer data omitted: 27919 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 85146 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/7/duolingo5_RXoP.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS83L2R1b2xpbmdvNV9SWG9QLnBuZyIsImlhdCI6MTc0NTY5MDI3NywiZXhwIjoxNzQ1NjkzODc3fQ.ku2PGTFJ4q_Q9xUgUax48m01Lx52hBraRtOlTi1g6Lc",
+    "component_description": "Detection results for Lesson Status Summary > Performance Indicator",
+    "detection_status": "success",
+    "inference_time": 69.782,
+    "elements": [
+      {
+        "label": "Lesson Status Summary > Performance Indicator > Container",
+        "description": "Green-bordered rectangular container with rounded corners positioned in the lower right portion of the screen, parallel to the XP container.",
+        "bounding_box": {
+          "x_min": 407,
+          "y_min": 555,
+          "x_max": 540,
+          "y_max": 574
+        },
+        "status": "Overwrite",
+        "vlm_model": "moondream",
+        "element_inference_time": 28.632,
+        "error": null,
+        "accuracy_score": 45,
+        "hidden": false,
+        "explanation": "Current box only covers the header/top of the container, missing the main area that includes the '100%' score and icon. Suggested box expands downward to tightly include the full green-bordered container.",
+        "suggested_coordinates": {
+          "x_min": 405,
+          "y_min": 555,
+          "x_max": 550,
+          "y_max": 635
+        }
+      },
+      {
+        "label": "Lesson Status Summary > Performance Indicator > Score Text",
+        "description": "Text '100%' in green with a target/bullseye icon displayed inside the green-bordered performance indicator container.",
+        "bounding_box": {
+          "x_min": 413,
+          "y_min": 570,
+          "x_max": 547,
+          "y_max": 635
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 28.837,
+        "error": null,
+        "accuracy_score": 93,
+        "hidden": false,
+        "explanation": "Box closely fits the '100%' text and icon inside the container. Minor padding on the sides, but the main elements are well centered."
+      },
+      {
+        "label": "Lesson Status Summary > Performance Indicator > Label",
+        "description": "Text 'AMAZING' in green capitals at the top portion of the performance indicator container on the right side.",
+        "bounding_box": {
+          "x_min": 436,
+          "y_min": 557,
+          "x_max": 518,
+          "y_max": 580
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 12.313,
+        "error": null,
+        "accuracy_score": 91,
+        "hidden": false,
+        "explanation": "Box is accurately anchored to the 'AMAZING' text label, minimal padding, and correct position within the top-right of the container."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 14,
+    "component_name": "Lesson Status Summary",
+    "original_image_object": "[Buffer data omitted: 27919 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 85217 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/7/duolingo5_RXoP.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS83L2R1b2xpbmdvNV9SWG9QLnBuZyIsImlhdCI6MTc0NTY5MDI3NywiZXhwIjoxNzQ1NjkzODc3fQ.ku2PGTFJ4q_Q9xUgUax48m01Lx52hBraRtOlTi1g6Lc",
+    "component_description": "Detection results for Lesson Status Summary",
+    "detection_status": "success",
+    "inference_time": 52.624,
+    "elements": [
+      {
+        "label": "Lesson Status Summary > Status Text",
+        "description": "Bold yellow text 'Lesson Complete!' displayed prominently in the middle of the screen below the cartoon characters.",
+        "bounding_box": {
+          "x_min": 315,
+          "y_min": 494,
+          "x_max": 485,
+          "y_max": 518
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 12.104,
+        "error": null,
+        "accuracy_score": 98,
+        "hidden": false,
+        "explanation": "Bounding box extremely closely matches the visual bounds of the yellow 'Lesson Complete!' text, with insignificant empty padding."
+      },
+      {
+        "label": "Lesson Status Summary > XP Container > Label",
+        "description": "Text 'TOTAL XP' in small capitals inside the top portion of a yellow-bordered rectangular container positioned in the lower left of the screen.",
+        "bounding_box": {
+          "x_min": 255,
+          "y_min": 557,
+          "x_max": 395,
+          "y_max": 638
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 28.597,
+        "error": null,
+        "accuracy_score": 72,
+        "hidden": false,
+        "explanation": "Bounding box was drawn around the upper half of the XP container and covers both the 'TOTAL XP' label and a significant margin around it. A tighter fit around just the label would improve accuracy, but as is, it does include the label."
+      },
+      {
+        "label": "Lesson Status Summary > XP Container > Value",
+        "description": "Text '+15' with an upward arrow icon displayed in yellow inside the XP container below the 'TOTAL XP' label.",
+        "bounding_box": {
+          "x_min": 264,
+          "y_min": 572,
+          "x_max": 398,
+          "y_max": 641
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 11.923,
+        "error": null,
+        "accuracy_score": 54,
+        "hidden": false,
+        "explanation": "Box includes the '+15' and lightning icon but with excess empty space on the right and lower edge. Minor adjustment to reduce width and height would improve precision, but the key value and icon are within the bounds."
+      }
+    ]
+  },
+  {
+    "screenshot_id": 14,
+    "component_name": "Primary Continue Button",
+    "original_image_object": "[Buffer data omitted: 27919 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 84486 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/7/duolingo5_RXoP.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS83L2R1b2xpbmdvNV9SWG9QLnBuZyIsImlhdCI6MTc0NTY5MDI3NywiZXhwIjoxNzQ1NjkzODc3fQ.ku2PGTFJ4q_Q9xUgUax48m01Lx52hBraRtOlTi1g6Lc",
+    "component_description": "Detection results for Primary Continue Button",
+    "detection_status": "success",
+    "inference_time": 22.116,
+    "elements": [
+      {
+        "label": "Primary Continue Button > Button",
+        "description": "Large green rectangular button with rounded corners spanning across the bottom of the screen, containing white uppercase text 'CONTINUE'.",
+        "bounding_box": {
+          "x_min": 241,
+          "y_min": 722,
+          "x_max": 559,
+          "y_max": 767
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 22.116,
+        "error": null,
+        "accuracy_score": 95,
+        "hidden": false,
+        "explanation": "Bounding box aligns very closely with the button's actual position and dimensions. Slightly more padding than necessary in the lower margin, but the annotation is visually and positionally accurate."
+      }
+    ]
+  }
+]
