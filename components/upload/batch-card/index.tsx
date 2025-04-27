@@ -23,7 +23,7 @@ export function BatchCard({ batch, isExpanded, onToggle, onImageSelect, onViewRe
         <BatchHeader batch={batch} isExpanded={isExpanded} onToggle={onToggle} onViewResults={(batchId) => onViewResults(batchId)   } />
       </div>
 
-      {batch.performance && isExpanded && <PerformanceStats performance={batch.performance} />}
+      {/* {batch.performance && isExpanded && <PerformanceStats performance={batch.performance} />} */}
 
       {isExpanded && (
         <>

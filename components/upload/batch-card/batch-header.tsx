@@ -14,8 +14,12 @@ interface BatchHeaderProps {
 export const BatchHeader = ({ batch, isExpanded, onToggle, onViewResults }: BatchHeaderProps) => (
   <div className="flex-1">
     <div className="flex items-center justify-between mb-1">
-      <h3 className="font-medium">{batch.name}</h3>
+      <h3 className="font-medium">Batch {batch.id} - {batch.name}</h3>
       <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 mr-4">
+        <FileImage className="h-4 w-4" />
+        {batch.images.length} {batch.images.length === 1 ? "image" : "images"}
+      </div>
         <StatusBadge status={batch.status} stage={batch.stage} />
         {/* {batch.status === 'extracting' && (
           <Button 
@@ -54,11 +58,8 @@ export const BatchHeader = ({ batch, isExpanded, onToggle, onViewResults }: Batc
         </Button>
       </div>
     </div>
-    <div className="flex flex-wrap items-center text-sm text-muted-foreground mt-1">
-      <div className="flex items-center gap-2 mr-4">
-        <FileImage className="h-4 w-4" />
-        {batch.images.length} {batch.images.length === 1 ? "image" : "images"}
-      </div>
+    {/* <div className="flex flex-wrap items-center text-sm text-muted-foreground mt-1">
+     
       {batch.analysisType && (
         <div className="flex items-center gap-2 mr-4">
           <ClipboardCheck className="h-4 w-4" />
@@ -66,6 +67,6 @@ export const BatchHeader = ({ batch, isExpanded, onToggle, onViewResults }: Batc
         </div>
       )}
       {batch.performance && <PerformanceTooltip performance={batch.performance} />}
-    </div>
+    </div> */}
   </div>
 ); 
