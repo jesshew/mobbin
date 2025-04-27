@@ -9,7 +9,6 @@ import fs from 'fs';
 import path from 'path';
 import { saveAnnotatedImageDebug } from '@/lib/services/imageServices/BoundingBoxService';
 // Import sample data
-import { VALIDATED_RESULTS } from '@/lib/services/sample_data';
 
 // Constants for accuracy score thresholds
 const ACCURACY_THRESHOLDS = {
@@ -38,64 +37,87 @@ const BOX_COLORS = {
  */
 export class AccuracyValidationService {
   /**
+   * Static method to check if this service requires image buffers
+   * @returns boolean indicating whether image buffers are needed
+   */
+  public static requiresImageBuffers(): boolean {
+    return false; // Currently validation doesn't require image buffers
+  }
+
+  /**
    * Validates the accuracy of detected UI elements and updates their metadata
-   * 
-   * @param batchId - The ID of the batch being processed
-   * @param components - Array of ComponentDetectionResult to validate
-   * @returns The components array with updated elements and re-annotated images
+   * @param batchId The ID of the batch being processed
+   * @param detectionResults The results from the previous detection stage
+   * @param screenshots Optional array of screenshots with image buffers
+   * @returns Validated detection results with accuracy metadata
    */
   public static async performAccuracyValidation(
     batchId: number,
-    components: ComponentDetectionResult[]
-  ): Promise<ComponentDetectionResult[]> {
-    console.log(`[Batch ${batchId}] Stage 3: Starting Accuracy Validation for ${components.length} components...`);
+    detectionResults: any,
+    screenshots: any[] = []
+  ): Promise<any> {
+    console.log(`[Batch ${batchId}] Stage 3: Starting Accuracy Validation for ${detectionResults.length} components...`);
     
     // Create a single output directory for all re-annotated images in this batch
     let batchOutputDir: string | null = null;
-    // if (process.env.SAVE_DEBUG_FILES === 'true') {
-    //   batchOutputDir = `mobbin_validated_batch_${batchId}_${new Date().toISOString().replace(/[:.-]/g,'')}`;
-    //   await fs.promises.mkdir(batchOutputDir, { recursive: true });
-    //   console.log(`[Batch ${batchId}] Created output directory for all validated images: ${batchOutputDir}`);
-    // }
+    if (process.env.SAVE_DEBUG_FILES === 'true') {
+      batchOutputDir = `mobbin_validated_batch_${batchId}_${new Date().toISOString().replace(/[:.-]/g,'')}`;
+      await fs.promises.mkdir(batchOutputDir, { recursive: true });
+      console.log(`[Batch ${batchId}] Created output directory for all validated images: ${batchOutputDir}`);
+    }
     
     // Create a concurrency limiter
     const validationLimit = pLimit(VALIDATION_CONCURRENCY);
     
     // Process each component in parallel
-    const validationPromises = components.map(component => 
+    const validationPromises = detectionResults.map((component: any) => 
       validationLimit(async () => {
         const screenshotId = component.screenshot_id;
         console.log(`[Batch ${batchId}] Stage 3: Validating component ${component.component_name} for screenshot ${screenshotId}...`);
         
         try {
-          // MOCK IMPLEMENTATION - Using sample data instead of API call
-        //   console.log(`[Batch ${batchId}] Stage 3: Using mock data for component ${component.component_name}`);
-          
-        //   // Transform VALIDATED_RESULTS to match ElementDetectionItem format
-        //   const mockValidationElements = VALIDATED_RESULTS.map(item => ({
-        //     label: item.label,
-        //     description: item.description,
-        //     bounding_box: item.bounding_box,
-        //     status: item.status as 'Detected' | 'Not Detected' | 'Error' | 'Overwrite',
-        //     accuracy: item.accuracy || 0,
-        //     hidden: item.hidden,
-        //     explanation: item.explanation,
-        //     suggested_coordinates: item.suggested_coordinates
-        //   }));
-          
-        //   const validationData: ElementDetectionItem[] = mockValidationElements;
-          
-        //   console.log(
-        //     `[Batch ${batchId}] Mock accuracy data loaded for component ${component.component_name}:`,
-        //     `Found ${mockValidationElements.length} validated elements`
-        //   );    
-        //   console.log(JSON.stringify(validationData, null, 2));
-          
           // Create tracking context for logging
           const context = createScreenshotTrackingContext(batchId, screenshotId);
           
-          // Base64 encode the annotated image
-          const imageBase64 = component.annotated_image_object.toString('base64');
+          // Get the source image buffer (original image is preferred)
+          const sourceImageBuffer = component.original_image_object || component.annotated_image_object;
+          
+          if (!sourceImageBuffer || sourceImageBuffer.length === 0) {
+            console.error(`[Batch ${batchId}] Stage 3: No valid image buffer available for component ${component.component_name}`);
+            return component;
+          }
+          
+          // Generate annotated image buffer for this component at validation time
+          const detectedElements = component.elements.filter((el: any) => el.status === 'Detected' && el.bounding_box);
+          const annotatedImageBuffer = await generateAnnotatedImageBuffer(
+            sourceImageBuffer,
+            detectedElements,
+            undefined, // Use default color
+            component.component_name
+          );
+          
+          if (!annotatedImageBuffer) {
+            console.error(`[Batch ${batchId}] Stage 3: Failed to generate annotated image for component ${component.component_name}`);
+            return component;
+          }
+          
+          // Save debug image if enabled
+          if (batchOutputDir) {
+            try {
+              const normalizedName = component.component_name.replace(/\s+/g,'_').toLowerCase();
+              await saveAnnotatedImageDebug(
+                annotatedImageBuffer,
+                component.component_name,
+                batchOutputDir
+              );
+              console.log(`[Batch ${batchId}] Saved annotated image for component '${component.component_name}' to ${batchOutputDir}`);
+            } catch (e) {
+              console.error(`Failed saving annotated image for ${component.component_name}:`, e);
+            }
+          }
+          
+          // Base64 encode the annotated image with proper data URL format
+          const imageBase64 = annotatedImageBuffer.toString('base64');
           
           // Create elements JSON to send to OpenAI
           const elementsJson = JSON.stringify(component.elements);
@@ -107,73 +129,14 @@ export class AccuracyValidationService {
             elementsJson
           );
           
-        //   console.log(
-        //     `[Batch ${batchId}] Accuracy raw response for component ${component.component_name}:`,
-        //     JSON.stringify(validationResult, null, 2)
-        //   );
-          // Extract validation data with type safety
-        //   let validationData: ElementDetectionItem[] | null = null;
-          
-        //   try {
-        //     validationData = validationResult.parsedContent as ValidationData;
-        //     if (!validationData) {
-        //       throw new Error('Validation data is null');
-        //     }
-            
-        //     // The response can be an array or an object with elements property
-        //     const elements = Array.isArray(validationData) 
-        //       ? validationData 
-        //       : validationData.elements;
-              
-        //     if (!Array.isArray(elements) || elements.length === 0) {
-        //       throw new Error('No validated elements found in response');
-        //     }
-            
-        //     console.log(`[Batch ${batchId}] Stage 3: Received valid response for component ${component.component_name}, found ${elements.length} elements`);
-        //   } catch (validationError) {
-        //     console.error(`[Batch ${batchId}] Stage 3: Invalid validation data format for component ${component.component_name}:`, validationError);
-        //     // Return the original component if validation data is invalid
-        //     return component;
-        //   }
-          
-          
           // Update elements with accuracy scores and suggested coordinates
-          // This mutates the elements array in-place
           this.updateElementsWithValidation(component.elements, validationResult.parsedContent);
 
-          console.log(`[Batch ${batchId}] Stage 3: Updated elements for component ${component.component_name}:`, JSON.stringify(component.elements, null, 2));
+          console.log(`[Batch ${batchId}] Stage 3: Updated elements for component ${component.component_name}`);
           
-          // Re-render the component's image with updated bounding boxes
-          // Use original image if available, otherwise fall back to annotated image
-        //   const sourceImageBuffer = component.original_image_object
-        //   if (!sourceImageBuffer) {
-        //     console.error(`[Batch ${batchId}] Stage 3: No image buffer available for component ${component.component_name}`);
-        //     return component;
-        //   }
-        //   const updatedImageBuffer = await this.regenerateAnnotatedImage(
-        //     sourceImageBuffer,
-        //     component.elements
-        //   );
+          // Store the annotated image buffer in the component
+          component.annotated_image_object = annotatedImageBuffer;
           
-        //   // Update the component with the new image buffer
-        //   if (updatedImageBuffer) {
-        //     component.annotated_image_object = updatedImageBuffer;
-
-        //     // Save the re-annotated image to the batch output directory
-        //     if (batchOutputDir) {
-        //       try {
-        //         const normalizedName = component.component_name.replace(/\s+/g,'_').toLowerCase();
-        //         await saveAnnotatedImageDebug(
-        //           updatedImageBuffer,
-        //           component.component_name,
-        //           batchOutputDir
-        //         );
-        //         console.log(`[Batch ${batchId}] Saved re-annotated image for component '${component.component_name}' to ${batchOutputDir}`);
-        //       } catch (e) {
-        //         console.error(`Failed saving re-annotated image for ${component.component_name}:`, e);
-        //       }
-        //     }
-        //   }
           console.log(`[Batch ${batchId}] Stage 3: Completed validation for component ${component.component_name}`);
           
           return component;

@@ -21,12 +21,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log('[BatchProcessing] Initializing batch processing service');
     const batchProcessingService = new BatchProcessingService(supabase);
     
-    // Start the batch processing
+    // Start the batch processing by initializing the job queue
     console.log(`[BatchProcessing] Starting batch processing for ID: ${batchId}`);
-    setTimeout(() => {
-      batchProcessingService.start(batchId).catch(console.error);
-    }, 0);
-        // console.log(`[BatchProcessing] Batch processing completed for ID: ${batchId}`);
+    await batchProcessingService.start(batchId);
     
     return res.status(200).json({ message: 'Batch processing started in background' });
   } catch (error) {

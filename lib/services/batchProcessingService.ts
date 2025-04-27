@@ -11,6 +11,7 @@ import { AccuracyValidationService } from '@/lib/services/AccuracyValidationServ
 import { MetadataExtractionService } from '@/lib/services/MetadataExtractionService';
 import { ResultPersistenceService } from '@/lib/services/ResultPersistenceService';
 import { EXTRACTION_CONCURRENCY, MOONDREAM_CONCURRENCY, ProcessStatus } from '@/lib/constants';
+import { fireAndForgetApiCall } from '@/lib/apiUtils';
 import fs from 'fs';
 
 // --- Constants ---
@@ -22,6 +23,18 @@ const ERROR_STAGES = {
   METADATA: 'metadata',
   PERSISTENCE: 'persistence'
 };
+
+// Processing stages for the batch job queue
+export enum ProcessingStage {
+  SETUP = 'setup',
+  EXTRACTION = 'extraction', 
+  ANNOTATION = 'annotation',
+  VALIDATION = 'validation',
+  METADATA = 'metadata',
+  PERSISTENCE = 'persistence',
+  COMPLETED = 'completed',
+  FAILED = 'failed'
+}
 
 export class BatchProcessingService {
   private supabaseClient: SupabaseClient;
@@ -36,104 +49,349 @@ export class BatchProcessingService {
   }
 
   /**
-   * Starts the processing pipeline for a given batch.
-   * Changes status, fetches screenshots, gets signed URLs, processes each, and updates status.
+   * Starts the batch processing queue.
+   * Each stage runs as a separate serverless function.
    * @param batchId The ID of the batch to process.
    */
   public async start(batchId: number): Promise<void> {
     try {
-      // --- Setup: Load Screenshots, URLs, Buffers ---
-      const screenshotsToProcess = await this.runSetupStage(batchId);
-      if (!screenshotsToProcess || screenshotsToProcess.length === 0) {
-        return; // Early return handled in the helper function with appropriate status updates
-      }
-
-      // --- Stage 1: Parallel AI Component/Element/Anchor Extraction ---
-      const stage1Results = await this.runExtractionStage(batchId, screenshotsToProcess);
-      
-      // --- Stage 2: Parallel Moondream Detection ---
-      const allDetectionResults = await this.runAnnotationStage(batchId, screenshotsToProcess, stage1Results);
-      if (!allDetectionResults) return;
-      
-      // --- Stage 3: Accuracy Validation ---
-      const validatedResults = await this.runValidationStage(batchId, allDetectionResults);
-      if (!validatedResults) return;
-      
-      // --- Stage 4: Metadata Extraction ---
-      const enrichedResults = await this.runMetadataStage(batchId, validatedResults);
-      if (!enrichedResults) return;
-      
-      // --- Stage 5: Persistence to Database ---
-      await this.runPersistenceStage(batchId, enrichedResults);
-
-      // --- Finalize ---
-      await this.updateBatchStatus(batchId, ProcessStatus.DONE);
-      console.log(`[Batch ${batchId}] Processing complete. Status set to done.`);
-
+      await this.initializeJobQueue(batchId);
+      await this.triggerNextStage(batchId);
     } catch (error) {
       await this.handleProcessingError(batchId, error, 'unknown');
     }
   }
 
   /**
+   * Initializes a new job in the queue
+   */
+  private async initializeJobQueue(batchId: number): Promise<void> {
+    try {
+      const { data, error } = await this.supabaseClient
+        .from('batch_processing_queue')
+        .select('*')
+        .eq('batch_id', batchId)
+        .maybeSingle();
+
+      if (error) throw new Error(`Failed to check queue: ${error.message}`);
+      
+      if (!data) {
+        const { error: insertError } = await this.supabaseClient
+          .from('batch_processing_queue')
+          .insert({
+            batch_id: batchId,
+            current_stage: ProcessingStage.SETUP,
+            status: 'pending',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          });
+          
+        if (insertError) throw new Error(`Failed to initialize job queue: ${insertError.message}`);
+        console.log(`[Batch ${batchId}] Created new job in queue`);
+      } else {
+        console.log(`[Batch ${batchId}] Job exists in queue at stage: ${data.current_stage}`);
+      }
+    } catch (error) {
+      console.error(`[Batch ${batchId}] Failed to initialize job:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Triggers the next stage of processing by making a request to the stage API
+   */
+  private async triggerNextStage(batchId: number): Promise<void> {
+    try {
+      const { data, error } = await this.supabaseClient
+        .from('batch_processing_queue')
+        .select('current_stage, status')
+        .eq('batch_id', batchId)
+        .maybeSingle();
+        
+      if (error || !data) {
+        throw new Error(`Failed to get current stage: ${error?.message || 'No data found'}`);
+      }
+      
+      if (data.status === 'in_progress') {
+        console.log(`[Batch ${batchId}] A stage is already in progress. Skipping trigger.`);
+        return;
+      }
+      
+      if (data.current_stage === ProcessingStage.COMPLETED || data.current_stage === ProcessingStage.FAILED) {
+        console.log(`[Batch ${batchId}] Processing already ${data.current_stage}. No further action needed.`);
+        return;
+      }
+      
+      // Update status to in_progress
+      await this.supabaseClient
+        .from('batch_processing_queue')
+        .update({ 
+          status: 'in_progress',
+          updated_at: new Date().toISOString()
+        })
+        .eq('batch_id', batchId);
+      
+      // Make request to next stage API
+      const stage = data.current_stage;
+      console.log(`[Batch ${batchId}] Triggering stage: ${stage}`);
+      
+      // Use the fire-and-forget API call utility
+      fireAndForgetApiCall(
+        `/api/batch-processing/${stage}`,
+        'POST',
+        { batchId }
+      );
+    } catch (error) {
+      console.error(`[Batch ${batchId}] Failed to trigger next stage:`, error);
+    }
+  }
+
+  /**
+   * Advances the batch queue to the next stage
+   */
+  public async advanceToNextStage(batchId: number, currentStage: ProcessingStage): Promise<void> {
+    try {
+      let nextStage: ProcessingStage;
+      
+      switch (currentStage) {
+        case ProcessingStage.SETUP:
+          nextStage = ProcessingStage.EXTRACTION;
+          await this.updateBatchStatus(batchId, ProcessStatus.EXTRACTING);
+          break;
+        case ProcessingStage.EXTRACTION:
+          nextStage = ProcessingStage.ANNOTATION;
+          await this.updateBatchStatus(batchId, ProcessStatus.ANNOTATING);
+          break;
+        case ProcessingStage.ANNOTATION:
+          nextStage = ProcessingStage.VALIDATION;
+          await this.updateBatchStatus(batchId, ProcessStatus.VALIDATING);
+          break;
+        case ProcessingStage.VALIDATION:
+          nextStage = ProcessingStage.METADATA;
+          break;
+        case ProcessingStage.METADATA:
+          nextStage = ProcessingStage.PERSISTENCE;
+          await this.updateBatchStatus(batchId, ProcessStatus.SAVING);
+          break;
+        case ProcessingStage.PERSISTENCE:
+          nextStage = ProcessingStage.COMPLETED;
+          await this.updateBatchStatus(batchId, ProcessStatus.DONE);
+          break;
+        default:
+          console.log(`[Batch ${batchId}] No next stage for ${currentStage}`);
+          return;
+      }
+      
+      await this.supabaseClient
+        .from('batch_processing_queue')
+        .update({ 
+          current_stage: nextStage,
+          status: 'pending',
+          updated_at: new Date().toISOString(),
+        })
+        .eq('batch_id', batchId);
+        
+      console.log(`[Batch ${batchId}] Advanced from ${currentStage} to ${nextStage}`);
+      
+      await this.triggerNextStage(batchId);
+    } catch (error) {
+      console.error(`[Batch ${batchId}] Failed to advance stage:`, error);
+      await this.markStageFailed(batchId, currentStage, error);
+    }
+  }
+
+  /**
+   * Marks the current stage as failed
+   */
+  private async markStageFailed(batchId: number, stage: ProcessingStage, error: unknown): Promise<void> {
+    try {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      
+      await this.supabaseClient
+        .from('batch_processing_queue')
+        .update({ 
+          current_stage: ProcessingStage.FAILED,
+          status: 'failed',
+          error_message: errorMessage,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('batch_id', batchId);
+        
+      await this.updateBatchStatus(batchId, ProcessStatus.FAILED);
+    } catch (updateError) {
+      console.error(`[Batch ${batchId}] Failed to mark as failed:`, updateError);
+    }
+  }
+
+  /**
+   * Saves stage data for use in the next stage
+   */
+  public async saveStageData(batchId: number, stage: ProcessingStage, data: any): Promise<void> {
+    try {
+      // Remove buffer data to prevent JSON serialization issues and reduce database size
+      const cleanedData = this.removeBufferData(data);
+      
+      const { error } = await this.supabaseClient
+        .from('batch_processing_data')
+        .upsert({
+          batch_id: batchId,
+          stage,
+          data: cleanedData,
+          created_at: new Date().toISOString(),
+        });
+        
+      if (error) throw new Error(`Failed to save stage data: ${error.message}`);
+    } catch (error) {
+      console.error(`[Batch ${batchId}] Failed to save stage data:`, error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Removes buffer data from objects to prepare them for JSON serialization
+   * @param data Data object or array to clean
+   * @returns Cleaned data without buffer objects
+   */
+  private removeBufferData(data: any): any {
+    if (!data) return data;
+    
+    // Handle arrays
+    if (Array.isArray(data)) {
+      return data.map(item => this.removeBufferData(item));
+    }
+    
+    // Handle objects
+    if (typeof data === 'object' && data !== null) {
+      // Skip Buffer objects directly
+      if (Buffer.isBuffer(data) || (data.type === 'Buffer' && data.data)) {
+        return '[Buffer data removed]';
+      }
+      
+      const result: any = {};
+      for (const [key, value] of Object.entries(data)) {
+        // Skip known buffer properties
+        if (['screenshot_image_buffer', 'annotated_image_object', 'original_image_object'].includes(key)) {
+          result[key] = '[Buffer data removed]';
+        } else {
+          result[key] = this.removeBufferData(value);
+        }
+      }
+      return result;
+    }
+    
+    // Return primitive values as is
+    return data;
+  }
+
+  /**
+   * Retrieves data from a previous stage
+   */
+  public async getStageData(batchId: number, stage: ProcessingStage): Promise<any> {
+    try {
+      const { data, error } = await this.supabaseClient
+        .from('batch_processing_data')
+        .select('data')
+        .eq('batch_id', batchId)
+        .eq('stage', stage)
+        .maybeSingle();
+        
+      if (error) throw new Error(`Failed to get stage data: ${error.message}`);
+      return data?.data || null;
+    } catch (error) {
+      console.error(`[Batch ${batchId}] Failed to get stage data:`, error);
+      throw error;
+    }
+  }
+
+  /**
    * Runs the setup stage - loads screenshots and prepares them for processing
    */
-  private async runSetupStage(batchId: number): Promise<Screenshot[]> {
+  public async runSetupStage(batchId: number): Promise<Screenshot[]> {
     try {
       const screenshotsToProcess = await this.loadAndPrepareScreenshots(batchId);
+      await this.saveStageData(batchId, ProcessingStage.SETUP, screenshotsToProcess);
+      await this.advanceToNextStage(batchId, ProcessingStage.SETUP);
       return screenshotsToProcess;
     } catch (error) {
       await this.handleProcessingError(batchId, error, ERROR_STAGES.SETUP);
-      return [];
+      throw error;
     }
   }
 
   /**
    * Runs the extraction stage - AI component/element/anchor extraction
    */
-  private async runExtractionStage(batchId: number, screenshotsToProcess: Screenshot[]): Promise<Map<number, Stage1Result>> {
+  public async runExtractionStage(batchId: number): Promise<Map<number, Stage1Result>> {
     try {
-      await this.updateBatchStatus(batchId, ProcessStatus.EXTRACTING);
-      console.log(`[Batch ${batchId}] Begin Parallel Extraction on ${screenshotsToProcess.length} screenshots`);
+      const screenshotsToProcess = await this.getStageData(batchId, ProcessingStage.SETUP);
+      if (!screenshotsToProcess || screenshotsToProcess.length === 0) {
+        throw new Error("No screenshots available from setup stage");
+      }
       
-      return await AIExtractionService.performAIExtraction(batchId, screenshotsToProcess);
+      console.log(`[Batch ${batchId}] Begin Parallel Extraction on ${screenshotsToProcess.length} screenshots`);
+      const results = await AIExtractionService.performAIExtraction(batchId, screenshotsToProcess);
+      
+      await this.saveStageData(batchId, ProcessingStage.EXTRACTION, Object.fromEntries(results));
+      await this.advanceToNextStage(batchId, ProcessingStage.EXTRACTION);
+      
+      return results;
     } catch (error) {
       await this.handleProcessingError(batchId, error, ERROR_STAGES.EXTRACTION);
-      return new Map();
+      throw error;
     }
   }
 
   /**
    * Runs the annotation stage - Moondream detection
    */
-  private async runAnnotationStage(
-    batchId: number, 
-    screenshotsToProcess: Screenshot[], 
-    stage1Results: Map<number, Stage1Result>
-  ) {
+  public async runAnnotationStage(batchId: number) {
     try {
+      // Get extraction results (text data)
+      const extractionResults = await this.getStageData(batchId, ProcessingStage.EXTRACTION);
+      if (!extractionResults) {
+        throw new Error("No extraction results available");
+      }
+      
+      // Re-fetch screenshots with image buffers since they aren't stored in the database
+      console.log(`[Batch ${batchId}] Re-fetching screenshots with image buffers for annotation stage`);
+      const screenshotsWithBuffers = await this.loadAndPrepareScreenshots(batchId);
+      
+      if (screenshotsWithBuffers.length === 0) {
+        throw new Error("Failed to reload screenshots with image buffers");
+      }
+      
+      console.log(`[Batch ${batchId}] Successfully reloaded ${screenshotsWithBuffers.length} screenshots with buffers`);
+      
+      // Convert extraction results back to Map
+      const stage1Results = new Map<number, Stage1Result>(Object.entries(extractionResults).map(
+        ([key, value]) => [parseInt(key), value as Stage1Result]
+      ));
+      
       const successfulScreenshotIds = this.filterSuccessfulStage1Results(stage1Results);
-      const screenshotsForMoondream = screenshotsToProcess.filter(s => 
+      const screenshotsForMoondream = screenshotsWithBuffers.filter((s: Screenshot) => 
         successfulScreenshotIds.has(s.screenshot_id)
       );
 
       if (screenshotsForMoondream.length === 0) {
         console.warn(`[Batch ${batchId}] No screenshots successfully completed Stage 1. Cannot proceed to Moondream.`);
-        await this.updateBatchStatus(batchId, ProcessStatus.FAILED);
-        return null;
+        throw new Error("No screenshots successfully completed extraction stage");
       }
       
       console.log(`[Batch ${batchId}] ${screenshotsForMoondream.length} screenshots proceeding to Stage 2 (Moondream).`);
-      await this.updateBatchStatus(batchId, ProcessStatus.ANNOTATING);
       
-      return await ParallelMoondreamDetectionService.performMoondreamDetection(
+      const results = await ParallelMoondreamDetectionService.performMoondreamDetection(
         batchId, 
         screenshotsForMoondream, 
         stage1Results
       );
+      
+      await this.saveStageData(batchId, ProcessingStage.ANNOTATION, results);
+      await this.advanceToNextStage(batchId, ProcessingStage.ANNOTATION);
+      
+      return results;
     } catch (error) {
       await this.handleProcessingError(batchId, error, ERROR_STAGES.ANNOTATION);
-      return null;
+      throw error;
     }
   }
 
@@ -151,63 +409,103 @@ export class BatchProcessingService {
   /**
    * Runs the validation stage - Accuracy validation
    */
-  private async runValidationStage(batchId: number, detectionResults: any) {
+  public async runValidationStage(batchId: number) {
     try {
-      await this.updateBatchStatus(batchId, ProcessStatus.VALIDATING);
+      // Get annotation results
+      const detectionResults = await this.getStageData(batchId, ProcessingStage.ANNOTATION);
+      if (!detectionResults) {
+        throw new Error("No annotation results available");
+      }
+      
+      // Check if we need to reload image buffers
+      let screenshotsWithBuffers: Screenshot[] = [];
+      if (AccuracyValidationService.requiresImageBuffers()) {
+        console.log(`[Batch ${batchId}] Validation requires image buffers, reloading screenshots`);
+        screenshotsWithBuffers = await this.loadAndPrepareScreenshots(batchId);
+        console.log(`[Batch ${batchId}] Reloaded ${screenshotsWithBuffers.length} screenshots with buffers for validation`);
+      }
+      
       console.log(`[Batch ${batchId}] Stage 3: Starting Accuracy Validation...`);
       
       const validatedResults = await AccuracyValidationService.performAccuracyValidation(
         batchId,
-        detectionResults
+        detectionResults,
+        screenshotsWithBuffers
       );
       console.log(`[Batch ${batchId}] Stage 3: Accuracy Validation complete.`);
       
       this.debugWriteResultsToFile(batchId, validatedResults, 'validation');
       
+      await this.saveStageData(batchId, ProcessingStage.VALIDATION, validatedResults);
+      await this.advanceToNextStage(batchId, ProcessingStage.VALIDATION);
+      
       return validatedResults;
     } catch (error) {
       await this.handleProcessingError(batchId, error, ERROR_STAGES.VALIDATION);
-      return null;
+      throw error;
     }
   }
 
   /**
    * Runs the metadata extraction stage
    */
-  private async runMetadataStage(batchId: number, validatedResults: any) {
+  public async runMetadataStage(batchId: number) {
     try {
+      const validatedResults = await this.getStageData(batchId, ProcessingStage.VALIDATION);
+      if (!validatedResults) {
+        throw new Error("No validation results available");
+      }
+      
+      // Check if we need to reload image buffers
+      let screenshotsWithBuffers: Screenshot[] = [];
+      if (MetadataExtractionService.requiresImageBuffers()) {
+        console.log(`[Batch ${batchId}] Metadata extraction requires image buffers, reloading screenshots`);
+        screenshotsWithBuffers = await this.loadAndPrepareScreenshots(batchId);
+        console.log(`[Batch ${batchId}] Reloaded ${screenshotsWithBuffers.length} screenshots with buffers for metadata extraction`);
+      }
+      
       console.log(`[Batch ${batchId}] Stage 4: Starting Metadata Extraction...`);
       
       const enrichedResults = await MetadataExtractionService.performMetadataExtraction(
         batchId,
-        validatedResults
+        validatedResults,
+        screenshotsWithBuffers
       );
       console.log(`[Batch ${batchId}] Stage 4: Metadata Extraction complete.`);
       
       this.debugWriteResultsToFile(batchId, enrichedResults, 'final');
       
+      await this.saveStageData(batchId, ProcessingStage.METADATA, enrichedResults);
+      await this.advanceToNextStage(batchId, ProcessingStage.METADATA);
+      
       return enrichedResults;
     } catch (error) {
       await this.handleProcessingError(batchId, error, ERROR_STAGES.METADATA);
-      return null;
+      throw error;
     }
   }
 
   /**
    * Runs the persistence stage - saving results to database
    */
-  private async runPersistenceStage(batchId: number, enrichedResults: any) {
+  public async runPersistenceStage(batchId: number) {
     try {
-      await this.updateBatchStatus(batchId, ProcessStatus.SAVING);
+      const enrichedResults = await this.getStageData(batchId, ProcessingStage.METADATA);
+      if (!enrichedResults) {
+        throw new Error("No metadata results available");
+      }
+      
       console.log(`[Batch ${batchId}] Stage 5: Persisting results to database...`);
       
       await this.resultPersistenceService.persistResults(batchId, enrichedResults);
       console.log(`[Batch ${batchId}] Stage 5: Database persistence complete.`);
       
+      await this.advanceToNextStage(batchId, ProcessingStage.PERSISTENCE);
+      
       return true;
     } catch (error) {
       await this.handleProcessingError(batchId, error, ERROR_STAGES.PERSISTENCE);
-      return null;
+      throw error;
     }
   }
 
@@ -216,16 +514,31 @@ export class BatchProcessingService {
    */
   private debugWriteResultsToFile(batchId: number, results: any, stage: string) {
     try {
+      // In production, skip writing debug files to save disk space
+      if (process.env.NODE_ENV === 'production' && !process.env.DEBUG_SAVE_FILES) {
+        console.log(`[Batch ${batchId}] Skipping debug file for ${stage} in production`);
+        return;
+      }
+
       const replacer = (key: string, value: any) => {
-        if ((key === 'annotated_image_object' || key === 'original_image_object') && value && value.type === 'Buffer') {
-          return `[Buffer data omitted: ${value.data ? value.data.length : 'N/A'} bytes]`;
-        } else if (Buffer.isBuffer(value)) {
-          return `[Buffer data omitted: ${value.length} bytes]`;
+        // Skip serializing image buffers to save disk space
+        if ((key === 'annotated_image_object' || key === 'original_image_object' || key === 'screenshot_image_buffer') && value) {
+          if (value.type === 'Buffer') {
+            return `[Buffer data omitted: ${value.data ? value.data.length : 'N/A'} bytes]`;
+          } else if (Buffer.isBuffer(value)) {
+            return `[Buffer data omitted: ${value.length} bytes]`;
+          }
         }
         return value;
       };
 
-      fs.writeFileSync(`batch_${batchId}_${stage}_results.json`, JSON.stringify(results, replacer, 2));
+      const resultsDir = './debug_results';
+      if (!fs.existsSync(resultsDir)) {
+        fs.mkdirSync(resultsDir);
+      }
+
+      fs.writeFileSync(`${resultsDir}/batch_${batchId}_${stage}_results.json`, JSON.stringify(results, replacer, 2));
+      console.log(`[Batch ${batchId}] Wrote debug file for ${stage} stage`);
     } catch (error) {
       console.warn(`[Batch ${batchId}] Failed to write debug file for ${stage} stage:`, error);
     }
@@ -331,6 +644,7 @@ export class BatchProcessingService {
     
     try {
       await this.updateBatchStatus(batchId, ProcessStatus.FAILED);
+      await this.markStageFailed(batchId, stage as ProcessingStage, error);
       console.error(`[Batch ${batchId}] Status set to failed due to error in ${stage} stage.`);
     } catch (statusError) {
       console.error(

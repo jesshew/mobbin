@@ -35,37 +35,39 @@ import { createScreenshotTrackingContext } from '@/lib/logger';
  */
 export class ParallelMoondreamDetectionService {
   /**
-   * Performs parallel Moondream detection on screenshots using anchors from Stage 1
+   * Performs Moondream detection on screenshots based on extracted AI components/elements
    * 
-   * TECHNICAL DETAILS:
-   * - Implements a processing pool with p-limit to manage resource consumption
-   * - Each screenshot is processed independently within the concurrency pool
-   * - Results are flat-mapped into a single array for efficient bulk persistence
-   * - Empty arrays are returned for failed screenshots to maintain processing flow
-   * - Promise.allSettled ensures batch resilience against individual failures
-   * 
-   * @param batchId The ID of the batch being processed (for logging)
-   * @param screenshots Array of screenshots that passed Stage 1
-   * @param stage1Results Map of Stage 1 results by screenshot ID
-   * @returns Array of ComponentDetectionResult objects
+   * @param batchId - The ID of the batch being processed
+   * @param screenshots - Array of screenshots to process, must contain image buffers
+   * @param stage1Results - Map of AI extraction results from Stage 1
+   * @returns Array of detection results
    */
   public static async performMoondreamDetection(
-    batchId: number, 
-    screenshots: Screenshot[], 
+    batchId: number,
+    screenshots: Screenshot[],
     stage1Results: Map<number, Stage1Result>
   ): Promise<ComponentDetectionResult[]> {
-
+    console.log(`[Batch ${batchId}] Stage 2: Starting Moondream Detection for ${screenshots.length} screenshots...`);
+    
+    // Verify that all screenshots have image buffers
+    const screenshotsWithBuffers = screenshots.filter(s => s.screenshot_image_buffer);
+    if (screenshotsWithBuffers.length < screenshots.length) {
+      console.warn(`[Batch ${batchId}] ${screenshots.length - screenshotsWithBuffers.length} screenshots missing image buffers. Only processing ${screenshotsWithBuffers.length}.`);
+      
+      if (screenshotsWithBuffers.length === 0) {
+        throw new Error('No screenshots have image buffers. Cannot proceed with Moondream detection.');
+      }
+    }
+    
     // Create concurrency limiter for Moondream to prevent resource exhaustion
-    // This is especially important as Moondream is compute-intensive
     const moondreamLimit = pLimit(MOONDREAM_CONCURRENCY);
     const allDetectionResults: ComponentDetectionResult[] = []; // Collect all results in flat array
     
-    console.log(`[Batch ${batchId}] Stage 2: Starting Bounding Box Detection for ${screenshots.length} screenshots... Concurrency: ${MOONDREAM_CONCURRENCY}`);
+    console.log(`[Batch ${batchId}] Stage 2: Starting Bounding Box Detection for ${screenshotsWithBuffers.length} screenshots... Concurrency: ${MOONDREAM_CONCURRENCY}`);
 
     // Initialize parallel detection tasks with controlled concurrency
-    const detectionPromises = screenshots.map(screenshot =>
+    const detectionPromises = screenshotsWithBuffers.map(screenshot =>
       moondreamLimit(async () => {
-        // const context = createScreenshotTrackingContext(batchId, screenshot.screenshot_id);
         const screenshotId = screenshot.screenshot_id;
         // We know buffer exists because it passed the initial filter
         const buffer = screenshot.screenshot_image_buffer!;
@@ -91,28 +93,24 @@ export class ParallelMoondreamDetectionService {
           return results; // Return results for this screenshot
         } catch (error) {
           // Log error but continue processing other screenshots
-          console.error(`[Batch ${batchId}] Stage 2: Error labelling screenshot ${screenshotId} with Moondream:`, error);
-          return []; // Return empty array on error for this screenshot
+          console.error(`[Batch ${batchId}] Stage 2: Error in Moondream labelling for screenshot ${screenshotId}:`, error);
+          return []; // Return empty array to maintain flow
         }
       })
     );
 
-    // Wait for all detection tasks to complete or fail
-    // Using Promise.allSettled ensures we collect all successful results
-    // even if some screenshots fail processing
+    // Wait for all promises to complete, allowing partial success
     const settledMoondreamResults = await Promise.allSettled(detectionPromises);
-    
+    console.log(`[Batch ${batchId}] Stage 2: All Moondream detection promises settled.`);
+
     // Aggregate results from all successfully processed screenshots
     settledMoondreamResults.forEach(result => {
       if (result.status === 'fulfilled' && Array.isArray(result.value)) {
-        // Spread array results into the flat collection
         allDetectionResults.push(...result.value);
-      } else if (result.status === 'rejected') {
-        // Error already logged inside the promise, add batch-level context
-        console.error(`[Batch ${batchId}] Stage 2: A Moondream detection task failed:`, result.reason);
       }
     });
-    
+
+    console.log(`[Batch ${batchId}] Stage 2: All Moondream detection results aggregated. Total components: ${allDetectionResults.length}`);
     return allDetectionResults;
   }
 } 

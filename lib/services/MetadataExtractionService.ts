@@ -19,23 +19,32 @@ const METADATA_EXTRACTION_CONCURRENCY = EXTRACTION_CONCURRENCY;
  */
 export class MetadataExtractionService {
   /**
+   * Static method to check if this service requires image buffers
+   * @returns boolean indicating whether image buffers are needed
+   */
+  public static requiresImageBuffers(): boolean {
+    return false; // Currently metadata extraction doesn't require image buffers
+  }
+
+  /**
    * Performs metadata extraction for all validated components
-   * 
-   * @param batchId - The ID of the batch being processed
-   * @param components - Array of ComponentDetectionResult after validation
-   * @returns The components array with updated metadata fields
+   * @param batchId The ID of the batch being processed
+   * @param validatedResults The results from the accuracy validation stage
+   * @param screenshots Optional array of screenshots with image buffers
+   * @returns Validated components with extracted metadata
    */
   public static async performMetadataExtraction(
     batchId: number,
-    components: ComponentDetectionResult[]
-  ): Promise<ComponentDetectionResult[]> {
-    console.log(`[Batch ${batchId}] Stage 4: Starting Metadata Extraction for ${components.length} components...`);
+    validatedResults: any,
+    screenshots: any[] = []
+  ): Promise<any> {
+    console.log(`[Batch ${batchId}] Stage 4: Starting Metadata Extraction for ${validatedResults.length} components...`);
     
     // Create a concurrency limiter
     const extractionLimit = pLimit(METADATA_EXTRACTION_CONCURRENCY);
     
     // Process each component in parallel
-    const extractionPromises = components.map(component => 
+    const extractionPromises = validatedResults.map((component: any) => 
       extractionLimit(async () => {
         const screenshotId = component.screenshot_id;
         console.log(`[Batch ${batchId}] Stage 4: Extracting metadata for component ${component.component_name} for screenshot ${screenshotId}...`);
@@ -51,7 +60,7 @@ export class MetadataExtractionService {
           // 2. Prepare structured input for OpenAI
           const inputPayload = {
             component_name: component.component_name,
-            elements: component.elements.map(element => ({
+            elements: component.elements.map((element: any) => ({
               label: element.label,
               description: element.description
             }))
