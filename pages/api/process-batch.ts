@@ -23,10 +23,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     
     // Start the batch processing
     console.log(`[BatchProcessing] Starting batch processing for ID: ${batchId}`);
-    await batchProcessingService.start(batchId);
-    console.log(`[BatchProcessing] Batch processing completed for ID: ${batchId}`);
+    setTimeout(() => {
+      batchProcessingService.start(batchId).catch(console.error);
+    }, 0);
+        // console.log(`[BatchProcessing] Batch processing completed for ID: ${batchId}`);
     
-    return res.status(200).json({ message: 'Batch processing started successfully' });
+    return res.status(200).json({ message: 'Batch processing started in background' });
   } catch (error) {
     console.error('[BatchProcessing] Error processing batch:', error);
     
