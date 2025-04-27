@@ -10,8 +10,12 @@ const anthropic = new Anthropic({
 });
 
 // Specify the Claude vision model version
-const VISION_MODEL_CLAUDE = 'claude-3-7-sonnet-20250219';
+// const VISION_MODEL_CLAUDE = 'claude-3-7-sonnet-20250219';
 const VISION_MODEL_HAIKU = 'claude-3-5-haiku-20241022';
+const VISION_MODEL_HAIKU_CHEAP = 'claude-3-haiku-20240307';
+
+// const MAX_TOKENS = 8192;
+const MAX_TOKENS = 4096;
 
 // Constants for token cost calculation (update with actual costs)
 const CLAUDE_INPUT_TOKEN_COST = 0.000015; // example cost per input token
@@ -53,8 +57,8 @@ export async function callClaudeVisionModel(
     
     const response = await anthropic.messages.create({
       // model: VISION_MODEL_HAIKU,
-      model: VISION_MODEL_CLAUDE,
-      max_tokens: 8192, // tweak as needed
+      model: VISION_MODEL_HAIKU_CHEAP,
+      max_tokens: MAX_TOKENS, // tweak as needed
       messages: messages as Anthropic.MessageParam[],
     });
     
@@ -68,7 +72,7 @@ export async function callClaudeVisionModel(
     
     // Log the interaction using the context with the measured duration
     await context.logPromptInteraction(
-      `Claude-${VISION_MODEL_CLAUDE}`,
+      `Claude-${VISION_MODEL_HAIKU_CHEAP}`,
       promptType,
       prompt,
       JSON.stringify(response),

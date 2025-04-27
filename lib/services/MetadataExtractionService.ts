@@ -1,6 +1,6 @@
 import { ComponentDetectionResult, ElementDetectionItem } from '@/types/DetectionResult';
-import { extract_component_metadata } from '@/lib/services/ai/OpenAIDirectService';
-// import { extract_component_metadata } from '@/lib/services/ai/OpenAIService';
+// import { extract_component_metadata } from '@/lib/services/ai/OpenAIDirectService';
+import { extract_component_metadata } from '@/lib/services/ai/OpenAIService';
 import pLimit from 'p-limit';
 import { createScreenshotTrackingContext } from '@/lib/logger';
 import { PromptLogType, EXTRACTION_CONCURRENCY } from '@/lib/constants';

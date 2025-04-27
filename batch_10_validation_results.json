@@ -1,0 +1,384 @@
+[
+  {
+    "screenshot_id": 17,
+    "component_name": "Best Prices Section",
+    "original_image_object": "[Buffer data omitted: 67966 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 356471 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/10/bakery-landing_QHpg.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8xMC9iYWtlcnktbGFuZGluZ19RSHBnLnBuZyIsImlhdCI6MTc0NTc0MzQ4OSwiZXhwIjoxNzQ1NzQ3MDg5fQ.53QjtKo-LrpSNrFbipxfS7Wuvp426HcwqVdssDiIun8",
+    "component_description": "Detection results for Best Prices Section",
+    "detection_status": "success",
+    "inference_time": 1.8679999999999999,
+    "elements": [
+      {
+        "label": "Best Prices Section > Fruit Image",
+        "description": "Image of raspberries, in the top-left corner of the best prices section.",
+        "bounding_box": {
+          "x_min": 251,
+          "y_min": 636,
+          "x_max": 342,
+          "y_max": 700
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.697,
+        "error": null
+      },
+      {
+        "label": "Best Prices Section > Coffee Image",
+        "description": "Image of a latte, in the top-right corner of the best prices section.",
+        "bounding_box": {
+          "x_min": 364,
+          "y_min": 631,
+          "x_max": 473,
+          "y_max": 696
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.47,
+        "error": null
+      },
+      {
+        "label": "Best Prices Section > Bakery Image",
+        "description": "Image of a pastry, in the bottom-right corner of the best prices section.",
+        "bounding_box": {
+          "x_min": 448,
+          "y_min": 629,
+          "x_max": 582,
+          "y_max": 705
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.701,
+        "error": null
+      }
+    ]
+  },
+  {
+    "screenshot_id": 17,
+    "component_name": "Header",
+    "original_image_object": "[Buffer data omitted: 67966 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 353732 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/10/bakery-landing_QHpg.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8xMC9iYWtlcnktbGFuZGluZ19RSHBnLnBuZyIsImlhdCI6MTc0NTc0MzQ4OSwiZXhwIjoxNzQ1NzQ3MDg5fQ.53QjtKo-LrpSNrFbipxfS7Wuvp426HcwqVdssDiIun8",
+    "component_description": "Detection results for Header",
+    "detection_status": "success",
+    "inference_time": 2.755,
+    "elements": [
+      {
+        "label": "Header > Title",
+        "description": "Text reading 'Regent Street, 16' in the center of the header, in a large bold font.",
+        "bounding_box": {
+          "x_min": 228,
+          "y_min": 72,
+          "x_max": 504,
+          "y_max": 109
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.755,
+        "error": null
+      }
+    ]
+  },
+  {
+    "screenshot_id": 17,
+    "component_name": "Specials Section",
+    "original_image_object": "[Buffer data omitted: 67966 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 365205 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/10/bakery-landing_QHpg.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8xMC9iYWtlcnktbGFuZGluZ19RSHBnLnBuZyIsImlhdCI6MTc0NTc0MzQ4OSwiZXhwIjoxNzQ1NzQ3MDg5fQ.53QjtKo-LrpSNrFbipxfS7Wuvp426HcwqVdssDiIun8",
+    "component_description": "Detection results for Specials Section",
+    "detection_status": "success",
+    "inference_time": 18.465000000000003,
+    "elements": [
+      {
+        "label": "Specials Section > Title",
+        "description": "Text reading 'Specials of the week' at the top of the specials section, in a medium-sized bold font.",
+        "bounding_box": {
+          "x_min": 237,
+          "y_min": 132,
+          "x_max": 335,
+          "y_max": 231
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.906,
+        "error": null
+      },
+      {
+        "label": "Specials Section > Discount Indicator 1",
+        "description": "Orange label with '-25%' text, in the top-left corner of the first special item.",
+        "bounding_box": {
+          "x_min": 239,
+          "y_min": 132,
+          "x_max": 348,
+          "y_max": 233
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.879,
+        "error": null
+      },
+      {
+        "label": "Specials Section > Discount Indicator 2",
+        "description": "Orange label with '-50%' text, in the top-left corner of the second special item.",
+        "bounding_box": {
+          "x_min": 237,
+          "y_min": 132,
+          "x_max": 341,
+          "y_max": 233
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.386,
+        "error": null
+      },
+      {
+        "label": "Specials Section > Cookie Image",
+        "description": "Image of a chocolate chip cookie, taking up the majority of the first special item.",
+        "bounding_box": {
+          "x_min": 368,
+          "y_min": 162,
+          "x_max": 454,
+          "y_max": 237
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.905,
+        "error": null
+      },
+      {
+        "label": "Specials Section > Drink Image",
+        "description": "Image of a glass of Evian water, taking up the majority of the third special item.",
+        "bounding_box": {
+          "x_min": 448,
+          "y_min": 401,
+          "x_max": 577,
+          "y_max": 522
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.756,
+        "error": null
+      },
+      {
+        "label": "Specials Section > Dessert Image",
+        "description": "Image of a pastry, taking up the majority of the fourth special item.",
+        "bounding_box": {
+          "x_min": 235,
+          "y_min": 268,
+          "x_max": 337,
+          "y_max": 346
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.859,
+        "error": null
+      },
+      {
+        "label": "Specials Section > Pizza Image",
+        "description": "Image of a pizza, taking up the majority of the fifth special item.",
+        "bounding_box": {
+          "x_min": 367,
+          "y_min": 261,
+          "x_max": 456,
+          "y_max": 347
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.889,
+        "error": null
+      },
+      {
+        "label": "Specials Section > Salad Image",
+        "description": "Image of a green salad, taking up the majority of the sixth special item.",
+        "bounding_box": {
+          "x_min": 464,
+          "y_min": 263,
+          "x_max": 561,
+          "y_max": 346
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 1.885,
+        "error": null
+      }
+    ]
+  },
+  {
+    "screenshot_id": 17,
+    "component_name": "Places Section",
+    "original_image_object": "[Buffer data omitted: 67966 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 359900 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/10/bakery-landing_QHpg.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8xMC9iYWtlcnktbGFuZGluZ19RSHBnLnBuZyIsImlhdCI6MTc0NTc0MzQ4OSwiZXhwIjoxNzQ1NzQ3MDg5fQ.53QjtKo-LrpSNrFbipxfS7Wuvp426HcwqVdssDiIun8",
+    "component_description": "Detection results for Places Section",
+    "detection_status": "success",
+    "inference_time": 7.265000000000001,
+    "elements": [
+      {
+        "label": "Places Section > Sundown Cafe Image",
+        "description": "Image of the interior of a cafe, taking up the majority of the first place item.",
+        "bounding_box": {
+          "x_min": 236,
+          "y_min": 404,
+          "x_max": 426,
+          "y_max": 526
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 2.66,
+        "error": null
+      },
+      {
+        "label": "Places Section > Sundown Cafe Title",
+        "description": "Text reading 'Sundown cafe' in the center of the first place item, in a medium-sized bold font.",
+        "bounding_box": {
+          "x_min": 232,
+          "y_min": 534,
+          "x_max": 339,
+          "y_max": 555
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.842,
+        "error": null
+      },
+      {
+        "label": "Places Section > Sundown Cafe Rating",
+        "description": "4.9 out of 5 star rating displayed below the first place item's title.",
+        "bounding_box": {
+          "x_min": 391,
+          "y_min": 536,
+          "x_max": 437,
+          "y_max": 552
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.792,
+        "error": null
+      },
+      {
+        "label": "Places Section > Sundown Cafe Duration",
+        "description": "Text reading '60 min' displayed below the first place item's rating.",
+        "bounding_box": {
+          "x_min": 302,
+          "y_min": 555,
+          "x_max": 336,
+          "y_max": 570
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.846,
+        "error": null
+      },
+      {
+        "label": "Places Section > The Cozy Cup Image",
+        "description": "Image of the interior of a cafe, taking up the majority of the second place item.",
+        "bounding_box": {
+          "x_min": 236,
+          "y_min": 405,
+          "x_max": 426,
+          "y_max": 525
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.85,
+        "error": null
+      },
+      {
+        "label": "Places Section > The Cozy Cup Title",
+        "description": "Text reading 'The cozy cup' in the center of the second place item, in a medium-sized bold font.",
+        "bounding_box": {
+          "x_min": 437,
+          "y_min": 534,
+          "x_max": 549,
+          "y_max": 553
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.753,
+        "error": null
+      },
+      {
+        "label": "Places Section > The Cozy Cup Duration",
+        "description": "Text reading '35 min' displayed below the second place item's title.",
+        "bounding_box": {
+          "x_min": 526,
+          "y_min": 556,
+          "x_max": 566,
+          "y_max": 571
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.522,
+        "error": null
+      }
+    ]
+  },
+  {
+    "screenshot_id": 17,
+    "component_name": "Bottom Navigation Bar",
+    "original_image_object": "[Buffer data omitted: 67966 bytes]",
+    "annotated_image_object": "[Buffer data omitted: 352576 bytes]",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/10/bakery-landing_QHpg.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8xMC9iYWtlcnktbGFuZGluZ19RSHBnLnBuZyIsImlhdCI6MTc0NTc0MzQ4OSwiZXhwIjoxNzQ1NzQ3MDg5fQ.53QjtKo-LrpSNrFbipxfS7Wuvp426HcwqVdssDiIun8",
+    "component_description": "Detection results for Bottom Navigation Bar",
+    "detection_status": "success",
+    "inference_time": 2.777,
+    "elements": [
+      {
+        "label": "Bottom Navigation Bar > Home Icon",
+        "description": "House-shaped icon in the bottom-left corner of the screen.",
+        "bounding_box": {
+          "x_min": 248,
+          "y_min": 705,
+          "x_max": 277,
+          "y_max": 729
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.694,
+        "error": null
+      },
+      {
+        "label": "Bottom Navigation Bar > Catalog Icon",
+        "description": "Grid-shaped icon in the bottom-middle of the screen.",
+        "bounding_box": {
+          "x_min": 336,
+          "y_min": 701,
+          "x_max": 376,
+          "y_max": 735
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.695,
+        "error": null
+      },
+      {
+        "label": "Bottom Navigation Bar > Cart Icon",
+        "description": "Shopping cart-shaped icon in the bottom-right corner of the screen.",
+        "bounding_box": {
+          "x_min": 424,
+          "y_min": 687,
+          "x_max": 464,
+          "y_max": 748
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.901,
+        "error": null
+      },
+      {
+        "label": "Bottom Navigation Bar > Profile Icon",
+        "description": "User-shaped icon in the bottom-right corner of the screen, to the right of the cart icon.",
+        "bounding_box": {
+          "x_min": 517,
+          "y_min": 707,
+          "x_max": 548,
+          "y_max": 730
+        },
+        "status": "Detected",
+        "vlm_model": "moondream",
+        "element_inference_time": 0.487,
+        "error": null
+      }
+    ]
+  }
+]

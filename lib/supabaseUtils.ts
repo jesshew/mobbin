@@ -78,14 +78,14 @@ export async function generateSignedUrls(
         .createSignedUrls(paths, expiresIn);
 
     if (bulkUrlError) {
-        console.error(`Error generating signed URLs in bulk for bucket '${bucketName}':`, bulkUrlError);
+        // console.error(`Error generating signed URLs in bulk for bucket '${bucketName}':`, bulkUrlError);
         // Throw a specific error indicating bulk operation failure
         throw new Error(`${ERROR_GENERATING_SIGNED_URL}: Bulk operation failed.`);
     }
 
     if (!signedUrlsResult) {
         // This case should theoretically be covered by bulkUrlError, but added for robustness
-        console.error(`No data returned for signed URLs batch for bucket '${bucketName}', but no error reported.`);
+        // console.error(`No data returned for signed URLs batch for bucket '${bucketName}', but no error reported.`);
         throw new Error(`${ERROR_GENERATING_SIGNED_URL}: No data returned from Supabase.`);
     }
 
@@ -97,7 +97,7 @@ export async function generateSignedUrls(
         const path = paths[i]; // Get the corresponding original path
 
         if (item.error) {
-            console.error(`Failed to generate signed URL for path: ${path} in bucket '${bucketName}'. Error: ${item.error}`);
+            // console.error(`Failed to generate signed URL for path: ${path} in bucket '${bucketName}'. Error: ${item.error}`);
             // Throw an error specific to the failing path
             throw new Error(`${ERROR_GENERATING_SIGNED_URL} for path: ${path}. Reason: ${item.error}`);
         }
@@ -130,35 +130,38 @@ export async function getSignedUrls(
     supabase: SupabaseClient,
     paths: string[],
 ): Promise<Map<string, string>> {
+    // console.log('getSignedUrls called with paths:', paths);
     if (paths.length === 0) {
+        console.log('No paths provided, returning empty map');
         return new Map<string, string>(); // Return empty map if no paths
     }
 
     const signedUrlMap = new Map<string, string>();
     const pathsToFetch: string[] = [];
     const currentTime = Date.now(); // Get current time in milliseconds
-
+    
     // 1. Check cache for valid, non-expired URLs
     for (const path of paths) {
         const cacheEntry = signedUrlCache.get(path);
         if (cacheEntry && cacheEntry.expiresAt > currentTime) {
             // Cache hit and not expired
+            // console.log(`Cache hit for path: ${path}`);
             signedUrlMap.set(path, cacheEntry.signedUrl);
-            // console.log(`Cache hit for path: ${path}`); // Optional: for debugging
         } else {
             // Cache miss or expired
+            // console.log(`Cache miss for path: ${path}, will fetch`);
             pathsToFetch.push(path);
             // Optional: Remove expired entry if it exists
             if (cacheEntry) {
+                // console.log(`Removing expired cache entry for path: ${path}`);
                 signedUrlCache.delete(path);
-                // console.log(`Cache expired/removed for path: ${path}`); // Optional: for debugging
             }
         }
     }
 
     // 2. Fetch missing URLs if any
     if (pathsToFetch.length > 0) {
-        // console.log(`Fetching ${pathsToFetch.length} URLs from Supabase:`, pathsToFetch); // Optional: for debugging
+        // console.log(`Fetching ${pathsToFetch.length} URLs from Supabase:`, pathsToFetch);
         const { data: signedUrlsResult, error: bulkUrlError } = await supabase
             .storage
             .from(SCREENSHOT_BUCKET)
@@ -176,6 +179,8 @@ export async function getSignedUrls(
             throw new Error(`${ERROR_GENERATING_SIGNED_URL}: No data returned from Supabase.`);
         }
 
+        // console.log(`Received ${signedUrlsResult.length} results from Supabase`);
+        
         // Calculate expiry time for the newly fetched URLs
         const expiresAt = currentTime + SIGNED_URL_EXPIRY_SECONDS * 1000;
 
@@ -202,13 +207,10 @@ export async function getSignedUrls(
 
             // Add the newly fetched URL and its expiry time to the cache
             signedUrlCache.set(path, { signedUrl: item.signedUrl, expiresAt });
-            // console.log(`Cached new URL for path: ${path}, expires at: ${new Date(expiresAt).toISOString()}`); // Optional: for debugging
         }
-    } else {
-        // console.log("All requested URLs were found in cache."); // Optional: for debugging
     }
-
-
+    
+    // console.log(`signedUrlMap has ${signedUrlMap.size} entries:`, JSON.stringify(Object.fromEntries(signedUrlMap), null, 2));
     // Return the map containing both cached and newly fetched URLs
     return signedUrlMap;
 } 

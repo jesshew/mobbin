@@ -1,6 +1,6 @@
 import { BatchProcessingScreenshot as Screenshot } from '@/types/BatchProcessingScreenshot';
-import { extract_component_from_image } from '@/lib/services/ai/OpenAIDirectService';
-// import { extract_component_from_image } from '@/lib/services/ai/OpenAIService';
+// import { extract_component_from_image } from '@/lib/services/ai/OpenAIDirectService';
+import { extract_component_from_image } from '@/lib/services/ai/OpenAIService';
 import { extract_element_from_image, anchor_elements_from_image } from '@/lib/services/ai/ClaudeAIService';
 import pLimit from 'p-limit';
 import { EXTRACTION_CONCURRENCY } from '@/lib/constants';
