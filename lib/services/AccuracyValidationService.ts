@@ -1,55 +1,49 @@
 import { ComponentDetectionResult, ElementDetectionItem } from '@/types/DetectionResult';
-// import { validate_bounding_boxes_base64 } from '@/lib/services/ai/OpenAIDirectService';
-import { validate_bounding_boxes_base64, safelyEncodeImageForOpenAI } from '@/lib/services/ai/OpenAIService';
+import { validate_bounding_boxes_base64 } from '@/lib/services/ai/OpenAIService';
 import pLimit from 'p-limit';
 import { generateAnnotatedImageBuffer } from '@/lib/services/imageServices/BoundingBoxService';
 import { createScreenshotTrackingContext } from '@/lib/logger';
-import { PromptLogType, VALIDATION_CONCURRENCY } from '@/lib/constants'
-import fs from 'fs';
-import path from 'path';
-import { saveAnnotatedImageDebug } from '@/lib/services/imageServices/BoundingBoxService';
+import { VALIDATION_CONCURRENCY } from '@/lib/constants'
 import { OpenAIServiceResponse } from '@/types/OpenAIServiceResponse';
 
-// Constants for accuracy score thresholds
+// Define thresholds for accuracy scores to categorize the bounding boxes
 const ACCURACY_THRESHOLDS = {
-  HIGH: 85, // Green boxes
-  MEDIUM: 70, // Yellow/orange boxes
-  LOW: 50, // Overwrite/redashed + suggested orange box
+  HIGH: 85, // Green boxes indicate high accuracy
+  MEDIUM: 70, // Yellow/orange boxes for medium accuracy
+  LOW: 50, // Red boxes for low accuracy, with suggestions in orange
 };
 
-// Box colors for different accuracy levels
+// Define RGBA colors for bounding boxes based on accuracy levels
 const BOX_COLORS = {
-  HIGH: 0x00FF00FF, // Green (RGBA)
-  MEDIUM: 0xFFA500FF, // Orange (RGBA)
-  LOW: 0xFF0000FF, // Red (RGBA)
-  SUGGESTED: 0xFFA500FF, // Orange for suggested box (RGBA)
+  HIGH: 0x00FF00FF, // Green for high accuracy
+  MEDIUM: 0xFFA500FF, // Orange for medium accuracy
+  LOW: 0xFF0000FF, // Red for low accuracy
+  SUGGESTED: 0xFFA500FF, // Orange for suggested corrections
 };
-
 
 /**
  * AccuracyValidationService
  * 
- * This service validates the accuracy of detected UI elements by:
- * 1. Processing components in parallel with controlled concurrency
- * 2. For each component, validating the accuracy of bounding boxes using OpenAI
- * 3. Re-rendering annotated images with different colors based on accuracy
- * 4. Adding accuracy scores and suggested coordinates to each element
+ * This service is responsible for validating the accuracy of detected UI elements:
+ * 1. It processes components in parallel, managing concurrency.
+ * 2. For each component, it validates bounding box accuracy using OpenAI.
+ * 3. It updates each element with accuracy scores and suggested coordinates.
  */
 export class AccuracyValidationService {
   /**
-   * Static method to check if this service requires image buffers
-   * @returns boolean indicating whether image buffers are needed
+   * Determines if image buffers are necessary for this service.
+   * @returns true if image buffers are required for annotation.
    */
   public static requiresImageBuffers(): boolean {
-    return true; // Validation now requires image buffers for annotating images
+    return true; // Image buffers are essential for annotating images
   }
 
   /**
-   * Validates the accuracy of detected UI elements and updates their metadata
-   * @param batchId The ID of the batch being processed
-   * @param detectionResults The results from the previous detection stage
-   * @param screenshots Optional array of screenshots with image buffers
-   * @returns Validated detection results with accuracy metadata
+   * Validates the accuracy of detected UI elements and updates their metadata.
+   * @param batchId The ID of the batch being processed.
+   * @param detectionResults The results from the previous detection stage.
+   * @param screenshots Optional array of screenshots with image buffers.
+   * @returns Validated detection results with updated accuracy metadata.
    */
   public static async performAccuracyValidation(
     batchId: number,
@@ -58,15 +52,7 @@ export class AccuracyValidationService {
   ): Promise<any> {
     console.log(`[Batch ${batchId}] Stage 3: Starting Accuracy Validation for ${detectionResults.length} components...`);
     
-    // Create a single output directory for all re-annotated images in this batch
-    let batchOutputDir: string | null = null;
-    if (process.env.SAVE_DEBUG_FILES === 'true') {
-      batchOutputDir = `mobbin_validated_batch_${batchId}_${new Date().toISOString().replace(/[:.-]/g,'')}`;
-      await fs.promises.mkdir(batchOutputDir, { recursive: true });
-      console.log(`[Batch ${batchId}] Created output directory for all validated images: ${batchOutputDir}`);
-    }
-    
-    // Create a map of screenshots by ID for quick lookup
+    // Create a map of screenshots by ID for efficient access
     const screenshotsMap = new Map();
     for (const screenshot of screenshots) {
       if (screenshot.screenshot_id && screenshot.screenshot_image_buffer) {
@@ -75,40 +61,34 @@ export class AccuracyValidationService {
     }
     console.log(`[Batch ${batchId}] Loaded ${screenshotsMap.size} screenshots with valid buffers`);
     
-    // Create a concurrency limiter
+    // Set up a concurrency limiter for processing components
     const validationLimit = pLimit(VALIDATION_CONCURRENCY);
     
-    // Process each component in parallel
+    // Validate each component in parallel, respecting concurrency limits
     const validationPromises = detectionResults.map((component: any) => 
       validationLimit(async () => {
         const screenshotId = component.screenshot_id;
         console.log(`[Batch ${batchId}] Stage 3: Validating component ${component.component_name} for screenshot ${screenshotId}...`);
         
         try {
-          // Create tracking context for logging
+          // Create a logging context for this component
           const context = createScreenshotTrackingContext(batchId, screenshotId);
           
-          // Get the screenshot data for this component
+          // Retrieve the screenshot data for this component
           const screenshot = screenshotsMap.get(screenshotId);
-          if (!screenshot || !screenshot.screenshot_image_buffer) {
-            console.error(`[Batch ${batchId}] Stage 3: No screenshot buffer found for screenshot ${screenshotId}, component ${component.component_name}`);
+          if (!screenshot || !screenshot.screenshot_image_buffer || screenshot.screenshot_image_buffer.length === 0) {
+            console.error(`[Batch ${batchId}] Stage 3: No valid screenshot buffer found for screenshot ${screenshotId}, component ${component.component_name}`);
             return component;
           }
           
-          // Get the source image buffer (use original buffer from the screenshot instead of potentially corrupted buffer)
+          // Use the original image buffer from the screenshot
           const sourceImageBuffer = screenshot.screenshot_image_buffer;
-          
-          if (!sourceImageBuffer || sourceImageBuffer.length === 0) {
-            console.error(`[Batch ${batchId}] Stage 3: No valid image buffer available for component ${component.component_name}`);
-            return component;
-          }
-          
-          // Generate annotated image buffer for this component at validation time
+          // Generate an annotated image buffer for this component
           const detectedElements = component.elements.filter((el: any) => el.status === 'Detected' && el.bounding_box);
           const annotatedImageBuffer = await generateAnnotatedImageBuffer(
             sourceImageBuffer,
             detectedElements,
-            undefined, // Use default color
+            undefined, // Default color is used
             component.component_name
           );
           
@@ -117,36 +97,18 @@ export class AccuracyValidationService {
             return component;
           }
           
-          // Save debug image if enabled
-          if (batchOutputDir) {
-            try {
-              const normalizedName = component.component_name.replace(/\s+/g,'_').toLowerCase();
-              await saveAnnotatedImageDebug(
-                annotatedImageBuffer,
-                component.component_name,
-                batchOutputDir
-              );
-              console.log(`[Batch ${batchId}] Saved annotated image for component '${component.component_name}' to ${batchOutputDir}`);
-            } catch (e) {
-              console.error(`Failed saving annotated image for ${component.component_name}:`, e);
-            }
-          }
-          
-          // Create elements JSON to send to OpenAI
+          // Convert elements to JSON for OpenAI validation
           const elementsJson = JSON.stringify(component.elements);
           
-          // Call OpenAI to validate bounding boxes
+          // Validate bounding boxes using OpenAI
           const validationResult = await validate_bounding_boxes_base64(
-            annotatedImageBuffer, // Pass buffer directly, utility will handle conversion
+            annotatedImageBuffer, // Directly pass the buffer, conversion is handled internally
             context,
             elementsJson
           ) as OpenAIServiceResponse;
           
           // Update elements with accuracy scores and suggested coordinates
           this.updateElementsWithValidation(component.elements, validationResult.parsedContent);
-
-          console.log(`[Batch ${batchId}] Stage 3: Updated elements for component ${component.component_name}`);
-          
           // Store the annotated image buffer in the component
           component.annotated_image_object = annotatedImageBuffer;
           
@@ -163,104 +125,55 @@ export class AccuracyValidationService {
     
     // Wait for all components to be validated
     const validatedComponents = await Promise.all(validationPromises);
-    
     console.log(`[Batch ${batchId}] Stage 3: Completed Accuracy Validation for all components`);
-    
     return validatedComponents;
   }
   
   /**
-   * Updates elements with accuracy scores and suggested coordinates
+   * Updates elements with accuracy scores and suggested coordinates.
    * 
-   * @param elements - Array of elements to update
-   * @param validationData - Validation data from OpenAI
+   * @param elements - Array of elements to update.
+   * @param validationData - Validation data from OpenAI.
    */
   private static updateElementsWithValidation(
     elements: ElementDetectionItem[],
     validationData: any
   ): void {
-    // Ensure validation data has the expected format
+    // Check if validation data is in the expected format
     if (!validationData) {
       console.warn('Validation data is null or undefined');
       return;
     }
     
-    // Handle both array and object with elements property formats
+    // Ensure validation data is an array
     let validatedElements = validationData;
     if (!Array.isArray(validationData)) {
       console.warn('Invalid validation data format, elements array not found');
       return;
     }
     
-    // Create a map of elements by label for easier lookup
+    // Map elements by their label for easy access
     const elementMap = new Map<string, ElementDetectionItem>();
     elements.forEach(element => {
       elementMap.set(element.label, element);
     });
     
-    // Update elements with validation data
+    // Update elements with the new validation data
     validatedElements.forEach((validatedElement: any) => {
       const element = elementMap.get(validatedElement.label);
       
       if (element) {
         try {
-          // Attempt to update element properties with validated data
-          element.status = validatedElement.status? validatedElement.status : 'Error';
-          element.accuracy_score = validatedElement.accuracy? validatedElement.accuracy : 0;
-          element.hidden = validatedElement.hidden? validatedElement.hidden : false;
-          element.explanation = validatedElement.explanation? validatedElement.explanation : '';
-          element.suggested_coordinates = validatedElement.suggested_coordinates? validatedElement.suggested_coordinates : undefined;
+          // Update element properties with validated data
+          element.status = validatedElement.status ? validatedElement.status : 'Error';
+          element.accuracy_score = validatedElement.accuracy ? validatedElement.accuracy : 0;
+          element.hidden = validatedElement.hidden ? validatedElement.hidden : false;
+          element.explanation = validatedElement.explanation ? validatedElement.explanation : '';
+          element.suggested_coordinates = validatedElement.suggested_coordinates ? validatedElement.suggested_coordinates : undefined;
         } catch (error) {
           console.error(`Failed to update element '${element.label}' with validation data:`, error);
         }
       }
     });
-  }
-  
-  /**
-   * Regenerates the annotated image with colored bounding boxes based on accuracy
-   * 
-   * @param originalImageBuffer - The original image buffer
-   * @param elements - Array of elements with accuracy scores
-   * @returns New image buffer with colored bounding boxes
-   */
-  private static async regenerateAnnotatedImage(
-    originalImageBuffer: Buffer,
-    elements: ElementDetectionItem[]
-  ): Promise<Buffer | null> {
-    // Process each element to determine its color based on accuracy
-    const coloredElements = elements.map(element => {
-      const accuracy = element.accuracy_score || 0;
-      let color = BOX_COLORS.HIGH;
-      
-      if (accuracy < ACCURACY_THRESHOLDS.LOW) {
-        color = BOX_COLORS.LOW;
-      } else if (accuracy < ACCURACY_THRESHOLDS.MEDIUM) {
-        color = BOX_COLORS.MEDIUM;
-      }
-      
-      // Add properties that will be used by enhanced BoundingBoxService
-      const enhancedElement = {
-        ...element,
-        boxColor: color,
-        dashed: accuracy < ACCURACY_THRESHOLDS.LOW && (!element.suggested_coordinates && element.status === 'Overwrite'),
-        masked: element.status === 'Overwrite' || element.hidden === true
-      };
-      
-      return enhancedElement;
-    });
-    
-    // Generate a new annotated image with colored boxes
-    try {
-      return await generateAnnotatedImageBuffer(
-        originalImageBuffer,
-        coloredElements,
-        undefined, // Use default color, our elements have custom boxColor property
-        PromptLogType.ACCURACY_VALIDATION // Category name for logging
-      );
-    } catch (error) {
-      console.error('Error generating annotated image buffer:', error);
-      return null;
-    }
   }
 } 

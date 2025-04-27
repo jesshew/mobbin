@@ -2,7 +2,7 @@ import { supabase } from '@/lib/supabase';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { ComponentDetectionResult, ElementDetectionItem } from '@/types/DetectionResult';
 import { BatchProcessingScreenshot as Screenshot } from '@/types/BatchProcessingScreenshot';
-import { generateSignedUrls, getScreenshotPath, getSignedUrls } from '@/lib/supabaseUtils';
+import { getScreenshotPath, getSignedUrls } from '@/lib/supabaseUtils';
 import fs from 'fs';
 
 export class BatchComponentLoaderService {

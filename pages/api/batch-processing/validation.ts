@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ message: 'Invalid batch ID' });
     }
     
-    console.log(`[ValidationStage] Processing batch ID: ${batchId}`);
+    // console.log(`[ValidationStage] Processing batch ID: ${batchId}`);
     const batchProcessingService = new BatchProcessingService(supabase);
     
     await batchProcessingService.runValidationStage(batchId);
