@@ -86,12 +86,13 @@ export class PromptTrackingContext {
     const startedAt = new Date(Date.now() - durationMs).toISOString();
     
     // Log to file
-    logPromptInteraction(
-      modelName,
-      prompt, 
-      response,
-      durationMs,
-      tokenUsage
+    if (process.env.LOCAL_LOG === 'true') {
+      logPromptInteraction(
+        modelName,
+        prompt, 
+        response,
+        durationMs,
+        tokenUsage
     );
     
     // Calculate cost if token usage and rates are provided
@@ -118,6 +119,7 @@ export class PromptTrackingContext {
       prompt_response: response
     });
   }
+}
   
   /**
    * Create a derived context with a component ID

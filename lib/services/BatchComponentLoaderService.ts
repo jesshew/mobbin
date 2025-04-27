@@ -48,7 +48,7 @@ export class BatchComponentLoaderService {
           detection_status: component.detection_status || 'success',
           inference_time: component.inference_time || 0,
           screenshot_url: screenshot.screenshot_signed_url || undefined,
-          annotated_image_url: component.screenshot_url || undefined,
+          // annotated_image_url: component.screenshot_url || undefined,
           component_ai_description: component.component_ai_description || undefined,
           component_metadata_extraction: component.component_metadata_extraction || undefined,
           elements: elements.map(element => ({
@@ -69,9 +69,12 @@ export class BatchComponentLoaderService {
         results.push(result);
       }
     }
-    fs.writeFileSync(`batch_${batchId}_components.json`, JSON.stringify(results, null, 2));
+    if (process.env.LOCAL_LOG === 'true') {
+      fs.writeFileSync(`batch_${batchId}_components.json`, JSON.stringify(results, null, 2));
+    }
     return results;
   }
+
 
   /**
    * Fetches all screenshot records for a given batch ID
