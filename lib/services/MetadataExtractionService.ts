@@ -1,9 +1,10 @@
 import { ComponentDetectionResult, ElementDetectionItem } from '@/types/DetectionResult';
 // import { extract_component_metadata } from '@/lib/services/ai/OpenAIDirectService';
-import { extract_component_metadata } from '@/lib/services/ai/OpenAIService';
+import { extract_component_metadata, safelyEncodeImageForOpenAI } from '@/lib/services/ai/OpenAIService';
 import pLimit from 'p-limit';
 import { createScreenshotTrackingContext } from '@/lib/logger';
 import { PromptLogType, EXTRACTION_CONCURRENCY } from '@/lib/constants';
+import { OpenAIServiceResponse } from '@/types/OpenAIServiceResponse';
 
 // Constant for concurrency control
 const METADATA_EXTRACTION_CONCURRENCY = EXTRACTION_CONCURRENCY;
@@ -23,7 +24,7 @@ export class MetadataExtractionService {
    * @returns boolean indicating whether image buffers are needed
    */
   public static requiresImageBuffers(): boolean {
-    return false; // Currently metadata extraction doesn't require image buffers
+    return true; // Metadata extraction now requires image buffers
   }
 
   /**
@@ -40,6 +41,15 @@ export class MetadataExtractionService {
   ): Promise<any> {
     console.log(`[Batch ${batchId}] Stage 4: Starting Metadata Extraction for ${validatedResults.length} components...`);
     
+    // Create a map of screenshots by ID for quick lookup
+    const screenshotsMap = new Map();
+    for (const screenshot of screenshots) {
+      if (screenshot.screenshot_id && screenshot.screenshot_image_buffer) {
+        screenshotsMap.set(screenshot.screenshot_id, screenshot);
+      }
+    }
+    console.log(`[Batch ${batchId}] Loaded ${screenshotsMap.size} screenshots with valid buffers for metadata extraction`);
+    
     // Create a concurrency limiter
     const extractionLimit = pLimit(METADATA_EXTRACTION_CONCURRENCY);
     
@@ -53,9 +63,19 @@ export class MetadataExtractionService {
           // Create tracking context for logging
           const context = createScreenshotTrackingContext(batchId, screenshotId);
           
-          // 1. Convert image to base64 - prefer original image but fall back to annotated
-          const imageBuffer = component.original_image_object || component.annotated_image_object;
-          const imageBase64 = imageBuffer.toString('base64');
+          // Get the screenshot data for this component
+          const screenshot = screenshotsMap.get(screenshotId);
+          if (!screenshot || !screenshot.screenshot_image_buffer) {
+            console.error(`[Batch ${batchId}] Stage 4: No screenshot buffer found for screenshot ${screenshotId}, component ${component.component_name}`);
+            return component;
+          }
+          
+          // 1. Get the source image buffer from the screenshot
+          const imageBuffer = screenshot.screenshot_image_buffer;
+          if (!imageBuffer || imageBuffer.length === 0) {
+            console.error(`[Batch ${batchId}] Stage 4: No valid image buffer available for component ${component.component_name}`);
+            return component;
+          }
           
           // 2. Prepare structured input for OpenAI
           const inputPayload = {
@@ -66,12 +86,12 @@ export class MetadataExtractionService {
             }))
           };
           
-          // 3. Call OpenAI to extract metadata
+          // 3. Call OpenAI to extract metadata using the utility function for safe image encoding
           const metadataResult = await extract_component_metadata(
-            imageBase64,
+            imageBuffer, // Pass the buffer directly, it will be handled properly in the OpenAI service
             JSON.stringify(inputPayload),
             context
-          );
+          ) as OpenAIServiceResponse;
           
           // 4. Update component and element metadata
           this.updateComponentWithMetadata(component, metadataResult.parsedContent);

@@ -1,6 +1,6 @@
 import { ComponentDetectionResult, ElementDetectionItem } from '@/types/DetectionResult';
 // import { validate_bounding_boxes_base64 } from '@/lib/services/ai/OpenAIDirectService';
-import { validate_bounding_boxes_base64 } from '@/lib/services/ai/OpenAIService';
+import { validate_bounding_boxes_base64, safelyEncodeImageForOpenAI } from '@/lib/services/ai/OpenAIService';
 import pLimit from 'p-limit';
 import { generateAnnotatedImageBuffer } from '@/lib/services/imageServices/BoundingBoxService';
 import { createScreenshotTrackingContext } from '@/lib/logger';
@@ -8,7 +8,7 @@ import { PromptLogType, VALIDATION_CONCURRENCY } from '@/lib/constants'
 import fs from 'fs';
 import path from 'path';
 import { saveAnnotatedImageDebug } from '@/lib/services/imageServices/BoundingBoxService';
-// Import sample data
+import { OpenAIServiceResponse } from '@/types/OpenAIServiceResponse';
 
 // Constants for accuracy score thresholds
 const ACCURACY_THRESHOLDS = {
@@ -41,7 +41,7 @@ export class AccuracyValidationService {
    * @returns boolean indicating whether image buffers are needed
    */
   public static requiresImageBuffers(): boolean {
-    return false; // Currently validation doesn't require image buffers
+    return true; // Validation now requires image buffers for annotating images
   }
 
   /**
@@ -66,6 +66,15 @@ export class AccuracyValidationService {
       console.log(`[Batch ${batchId}] Created output directory for all validated images: ${batchOutputDir}`);
     }
     
+    // Create a map of screenshots by ID for quick lookup
+    const screenshotsMap = new Map();
+    for (const screenshot of screenshots) {
+      if (screenshot.screenshot_id && screenshot.screenshot_image_buffer) {
+        screenshotsMap.set(screenshot.screenshot_id, screenshot);
+      }
+    }
+    console.log(`[Batch ${batchId}] Loaded ${screenshotsMap.size} screenshots with valid buffers`);
+    
     // Create a concurrency limiter
     const validationLimit = pLimit(VALIDATION_CONCURRENCY);
     
@@ -79,8 +88,15 @@ export class AccuracyValidationService {
           // Create tracking context for logging
           const context = createScreenshotTrackingContext(batchId, screenshotId);
           
-          // Get the source image buffer (original image is preferred)
-          const sourceImageBuffer = component.original_image_object || component.annotated_image_object;
+          // Get the screenshot data for this component
+          const screenshot = screenshotsMap.get(screenshotId);
+          if (!screenshot || !screenshot.screenshot_image_buffer) {
+            console.error(`[Batch ${batchId}] Stage 3: No screenshot buffer found for screenshot ${screenshotId}, component ${component.component_name}`);
+            return component;
+          }
+          
+          // Get the source image buffer (use original buffer from the screenshot instead of potentially corrupted buffer)
+          const sourceImageBuffer = screenshot.screenshot_image_buffer;
           
           if (!sourceImageBuffer || sourceImageBuffer.length === 0) {
             console.error(`[Batch ${batchId}] Stage 3: No valid image buffer available for component ${component.component_name}`);
@@ -116,18 +132,15 @@ export class AccuracyValidationService {
             }
           }
           
-          // Base64 encode the annotated image with proper data URL format
-          const imageBase64 = annotatedImageBuffer.toString('base64');
-          
           // Create elements JSON to send to OpenAI
           const elementsJson = JSON.stringify(component.elements);
           
           // Call OpenAI to validate bounding boxes
           const validationResult = await validate_bounding_boxes_base64(
-            imageBase64,
+            annotatedImageBuffer, // Pass buffer directly, utility will handle conversion
             context,
             elementsJson
-          );
+          ) as OpenAIServiceResponse;
           
           // Update elements with accuracy scores and suggested coordinates
           this.updateElementsWithValidation(component.elements, validationResult.parsedContent);

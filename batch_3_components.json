@@ -10,8 +10,7 @@
     "component_description": "Detection results for Header / User Profile Section",
     "detection_status": "success",
     "inference_time": 58.062999999999995,
-    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1Njg0NzEzLCJleHAiOjE3NDU2ODgzMTN9.xq8_A3Ab6IXbYWn-ctrXoBVwf2DF1LvHJjZ5ib5TUWQ",
-    "annotated_image_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/public/v5/annotated/6/1745660871599_component.png",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
     "component_ai_description": "A top-of-screen user profile header section used for greeting, user identification, and surfacing notifications, anchoring the user's context upon app entry.",
     "component_metadata_extraction": "{\"patternName\":\"Profile Header\",\"facetTags\":[\"profile\",\"header\",\"user identification\",\"notification\",\"greeting\",\"dashboard\",\"mobile\",\"context\",\"status\",\"navigation entry\"],\"states\":[\"default\",\"with notifications\",\"no notifications\"],\"interaction\":{\"on_profile_image_tap\":\"opens user profile or account settings\",\"on_notification_bell_tap\":\"displays notification center\",\"none\":\"static display for status bar, welcome text, and name\"},\"userFlowImpact\":\"Introduces the user with contextual details and directs attention to timely notifications at app entry.\"}",
     "elements": [
@@ -123,8 +122,7 @@
     "component_description": "Detection results for Balance Summary",
     "detection_status": "success",
     "inference_time": 51.351000000000006,
-    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1Njg0NzEzLCJleHAiOjE3NDU2ODgzMTN9.xq8_A3Ab6IXbYWn-ctrXoBVwf2DF1LvHJjZ5ib5TUWQ",
-    "annotated_image_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/public/v5/annotated/6/1745660871988_component.png",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
     "component_ai_description": "A balance overview header displaying the user's account total with quick access to add funds or initiate transfers, facilitating account management in a financial app.",
     "component_metadata_extraction": "{\"patternName\":\"Account Balance Header\",\"facetTags\":[\"account\",\"finance\",\"dashboard\",\"summary\",\"mobile\",\"status display\",\"quick action\",\"balance\",\"cta\",\"header\"],\"states\":[\"default\",\"loading\",\"error\",\"updated\"],\"interaction\":{\"on_tap_add_funds\":\"opens fund deposit workflow\",\"on_tap_transfer\":\"initiates money transfer workflow\"},\"userFlowImpact\":\"Provides instant balance visibility and direct entry points to critical funding and transfer actions, guiding users toward active account management.\"}",
     "elements": [
@@ -223,8 +221,7 @@
     "component_description": "Detection results for Recent Transactions List > DKNY Transaction",
     "detection_status": "success",
     "inference_time": 50.595,
-    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1Njg0NzEzLCJleHAiOjE3NDU2ODgzMTN9.xq8_A3Ab6IXbYWn-ctrXoBVwf2DF1LvHJjZ5ib5TUWQ",
-    "annotated_image_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/public/v5/annotated/6/1745660872339_component.png",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
     "component_ai_description": "A list row displaying detailed information for a recent transaction with DKNY, including merchant details, amount, date, and card reference, allowing users to quickly review individual purchase activity within their banking application.",
     "component_metadata_extraction": "{\"patternName\":\"Transaction List Row\",\"facetTags\":[\"transaction\",\"list item\",\"banking\",\"mobile\",\"spending history\",\"read-only\",\"summary\",\"identification\",\"activity feed\"],\"states\":[\"default\",\"hover\",\"pressed\",\"focused\"],\"interaction\":{\"on_tap\":\"opens detailed view for selected transaction\",\"on_swipe_left\":\"reveals contextual actions such as delete or categorize\"},\"userFlowImpact\":\"Enables users to scan and manage recent spending, nudging engagement with transaction details.\"}",
     "elements": [
@@ -331,8 +328,7 @@
     "component_description": "Detection results for Recent Transactions List > Netflix Transaction",
     "detection_status": "success",
     "inference_time": 44.418,
-    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1Njg0NzEzLCJleHAiOjE3NDU2ODgzMTN9.xq8_A3Ab6IXbYWn-ctrXoBVwf2DF1LvHJjZ5ib5TUWQ",
-    "annotated_image_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/public/v5/annotated/6/1745660872646_component.png",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
     "component_ai_description": "A single transaction row displaying Netflix purchase details within the recent transactions list, allowing users to quickly review payment specifics and context.",
     "component_metadata_extraction": "{\"patternName\":\"Transaction Row\",\"facetTags\":[\"transaction\",\"purchase history\",\"financial summary\",\"mobile banking\",\"detail preview\",\"list item\",\"expense tracking\",\"merchant identification\",\"quick scan\",\"account reference\"],\"states\":[\"default\",\"pressed\",\"focused\",\"swipeable\"],\"interaction\":{\"on_tap\":\"navigates to detailed transaction view\",\"on_swipe_left\":\"reveals transaction-level actions\",\"on_long_press\":\"enables selection for batch actions\"},\"userFlowImpact\":\"Enables users to quickly review, identify, and act upon specific transactions in their financial history.\"}",
     "elements": [
@@ -444,8 +440,7 @@
     "component_description": "Detection results for Recent Transactions List",
     "detection_status": "success",
     "inference_time": 20.408,
-    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1Njg0NzEzLCJleHAiOjE3NDU2ODgzMTN9.xq8_A3Ab6IXbYWn-ctrXoBVwf2DF1LvHJjZ5ib5TUWQ",
-    "annotated_image_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/public/v5/annotated/6/1745660872990_component.png",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
     "component_ai_description": "A vertically scrolling list that displays a user's most recent financial transactions, providing quick access to up-to-date activity with an option to view the full transaction history.",
     "component_metadata_extraction": "{\"patternName\":\"List Section\",\"facetTags\":[\"transaction history\",\"account overview\",\"financial summary\",\"mobile\",\"dashboard\",\"list preview\",\"quick access\",\"personal finance\",\"browsable\"],\"states\":[\"default\",\"loading\",\"empty\"],\"interaction\":{\"on_scroll\":\"reveals more transactions\",\"on_view_all_tap\":\"navigates to full transaction history\"},\"userFlowImpact\":\"Helps users quickly review and explore recent financial activities, supporting efficient account monitoring and deeper record access.\"}",
     "elements": [
@@ -498,8 +493,7 @@
     "component_description": "Detection results for Recent Transactions List > KFC Transaction",
     "detection_status": "success",
     "inference_time": 56.996,
-    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1Njg0NzEzLCJleHAiOjE3NDU2ODgzMTN9.xq8_A3Ab6IXbYWn-ctrXoBVwf2DF1LvHJjZ5ib5TUWQ",
-    "annotated_image_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/public/v5/annotated/6/1745660873305_component.png",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
     "component_ai_description": "A transaction row within a recent transactions list, summarizing details of a specific purchase from KFC, including merchant branding, date, amount, and card reference, optimized for fast review and easy tapping.",
     "component_metadata_extraction": "{\"patternName\":\"Transaction List Row\",\"facetTags\":[\"transaction\",\"list item\",\"finance\",\"record\",\"summary\",\"mobile\",\"touch\",\"readable\",\"history\",\"review\"],\"states\":[\"default\",\"pressed\",\"selected\",\"disabled\"],\"interaction\":{\"on_tap\":\"opens detailed transaction view\",\"on_longpress\":\"reveals additional actions like delete or categorize\"},\"userFlowImpact\":\"Enables users to quickly scan, verify, and take action on recent financial activity.\"}",
     "elements": [
@@ -611,8 +605,7 @@
     "component_description": "Detection results for Recent Transactions List > Starbucks Transaction",
     "detection_status": "success",
     "inference_time": 55.699000000000005,
-    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1Njg0NzEzLCJleHAiOjE3NDU2ODgzMTN9.xq8_A3Ab6IXbYWn-ctrXoBVwf2DF1LvHJjZ5ib5TUWQ",
-    "annotated_image_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/public/v5/annotated/6/1745660873599_component.png",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
     "component_ai_description": "List row summarizing a recent Starbucks purchase, providing merchant branding, transaction details, and payment method reference for easy scanning and verification.",
     "component_metadata_extraction": "{\"patternName\":\"Transaction List Row\",\"facetTags\":[\"transaction\",\"list\",\"summary\",\"history\",\"mobile\",\"finance\",\"read-only\",\"record\",\"dashboard\",\"recent\"],\"states\":[\"default\",\"pressed\",\"focused\",\"disabled\"],\"interaction\":{\"on_tap\":\"opens detailed transaction view\",\"on_long_press\":\"shows quick actions (e.g., categorize, report issue)\"},\"userFlowImpact\":\"Helps users quickly recognize and review past transactions to monitor their spending activity.\"}",
     "elements": [
@@ -719,8 +712,7 @@
     "component_description": "Detection results for Partial Debit Card",
     "detection_status": "success",
     "inference_time": 69.059,
-    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1Njg0NzEzLCJleHAiOjE3NDU2ODgzMTN9.xq8_A3Ab6IXbYWn-ctrXoBVwf2DF1LvHJjZ5ib5TUWQ",
-    "annotated_image_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/public/v5/annotated/6/1745660873882_component.png",
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
     "component_ai_description": "A visually rich card UI component summarizing debit card details and balance, designed for quick in-app financial overview and access.",
     "component_metadata_extraction": "{\"patternName\":\"Digital Payment Card Display\",\"facetTags\":[\"banking\",\"card summary\",\"mobile\",\"balance\",\"account overview\",\"financial\",\"identity\",\"read-only\",\"visually prominent\"],\"states\":[\"default\",\"selected\",\"disabled\"],\"interaction\":{\"on_tap\":\"selects the card for details or actions\",\"on_swipe\":\"reveals other linked cards\"},\"userFlowImpact\":\"Provides users instant visibility into their debit card balance and details, encouraging engagement with account and transaction features.\"}",
     "elements": [
@@ -846,6 +838,544 @@
         "hidden": false,
         "explanation": "Current box is outside the card and on wrong part of UI. Corrected to precisely frame the Mastercard logo on lower-right card corner.",
         "element_metadata_extraction": "{\"patternName\":\"Brand Logo\",\"facetTags\":[\"network\",\"branding\",\"trust\",\"visual\",\"static\",\"authentication\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Affirms card authenticity and acceptance via a recognizable payment network logo.\"}"
+      }
+    ]
+  },
+  {
+    "screenshot_id": 6,
+    "component_id": 83,
+    "component_name": "Balance Display",
+    "annotated_image_object": {
+      "type": "Buffer",
+      "data": []
+    },
+    "component_description": "Detection results for Balance Display",
+    "detection_status": "success",
+    "inference_time": 2.346,
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
+    "component_ai_description": "A visual representation of the user's current account balance, prominently displayed for easy visibility.",
+    "component_metadata_extraction": "{\"patternName\":\"Balance Display\",\"facetTags\":[\"financial\",\"real-time\",\"mobile\",\"user feedback\",\"dashboard\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"This component provides immediate insight into the user's financial status, encouraging informed financial decisions.\"}",
+    "elements": [
+      {
+        "element_id": 288,
+        "label": "Balance Display > Value",
+        "description": "Large text \"$10,524.15\" displayed prominently at the center of the screen.",
+        "bounding_box": {
+          "x_max": 418,
+          "x_min": 219,
+          "y_max": 212,
+          "y_min": 166
+        },
+        "status": "Overwrite",
+        "element_inference_time": 2.346,
+        "accuracy_score": 70,
+        "suggested_coordinates": {
+          "x_max": 430,
+          "x_min": 210,
+          "y_max": 220,
+          "y_min": 160
+        },
+        "hidden": false,
+        "explanation": "Box was slightly misaligned, corrected dimensions to fit the text more accurately.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Value\",\"facetTags\":[\"display\",\"financial\",\"numeric\",\"prominent\",\"centered\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"The large text display draws attention to the balance, reinforcing awareness and prompting potential actions.\"}"
+      }
+    ]
+  },
+  {
+    "screenshot_id": 6,
+    "component_id": 84,
+    "component_name": "User Greeting",
+    "annotated_image_object": {
+      "type": "Buffer",
+      "data": []
+    },
+    "component_description": "Detection results for User Greeting",
+    "detection_status": "success",
+    "inference_time": 4.002000000000001,
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
+    "component_ai_description": "Displays a personalized greeting to the user, enhancing engagement.",
+    "component_metadata_extraction": "{\"patternName\":\"User Greeting\",\"facetTags\":[\"personalization\",\"user engagement\",\"profile\",\"mobile\",\"greeting\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"Encourages user connection by welcoming them with their name.\"}",
+    "elements": [
+      {
+        "element_id": 289,
+        "label": "User Greeting > Username",
+        "description": "Text label \"Welcome, Diane Cruz\" displayed below the profile image.",
+        "bounding_box": {
+          "x_max": 393,
+          "x_min": 285,
+          "y_max": 104,
+          "y_min": 77
+        },
+        "status": "Detected",
+        "element_inference_time": 1.532,
+        "accuracy_score": 70,
+        "suggested_coordinates": {
+          "x_max": 360,
+          "x_min": 290,
+          "y_max": 95,
+          "y_min": 80
+        },
+        "hidden": false,
+        "explanation": "Box accurately captures the username element but includes too much width.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Label\",\"facetTags\":[\"information\",\"greeting\",\"user identification\",\"static\",\"mobile\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Reinforces user identity through direct address.\"}"
+      },
+      {
+        "element_id": 290,
+        "label": "User Greeting > Profile Image",
+        "description": "Circular avatar image of a person with short dark hair, positioned at the top-left of the screen.",
+        "bounding_box": {
+          "x_max": 275,
+          "x_min": 225,
+          "y_max": 106,
+          "y_min": 58
+        },
+        "status": "Detected",
+        "element_inference_time": 2.47,
+        "accuracy_score": 90,
+        "suggested_coordinates": {
+          "x_max": 270,
+          "x_min": 220,
+          "y_max": 105,
+          "y_min": 55
+        },
+        "hidden": false,
+        "explanation": "Box correctly fits the circular profile image with minor adjustments needed.",
+        "element_metadata_extraction": "{\"patternName\":\"Profile Image\",\"facetTags\":[\"avatar\",\"personalization\",\"visual cue\",\"static\",\"mobile\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Provides a visual representation of the user, enhancing familiarity.\"}"
+      }
+    ]
+  },
+  {
+    "screenshot_id": 6,
+    "component_id": 85,
+    "component_name": "Debit Card Info",
+    "annotated_image_object": {
+      "type": "Buffer",
+      "data": []
+    },
+    "component_description": "Detection results for Debit Card Info",
+    "detection_status": "success",
+    "inference_time": 3.8609999999999998,
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
+    "component_ai_description": "Display for essential debit card details including brand and masked card number.",
+    "component_metadata_extraction": "{\"patternName\":\"Debit Card Info\",\"facetTags\":[\"financial\",\"payment method\",\"user account\",\"mobile\",\"security\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"This component helps users identify and secure their debit card information quickly.\"}",
+    "elements": [
+      {
+        "element_id": 291,
+        "label": "Debit Card Info > Card Brand",
+        "description": "Mastercard logo icon displayed next to the card number.",
+        "bounding_box": {
+          "x_max": 266,
+          "x_min": 221,
+          "y_max": 560,
+          "y_min": 515
+        },
+        "status": "Overwrite",
+        "element_inference_time": 1.515,
+        "accuracy_score": 75,
+        "suggested_coordinates": {
+          "x_max": 260,
+          "x_min": 230,
+          "y_max": 550,
+          "y_min": 520
+        },
+        "hidden": false,
+        "explanation": "Box was slightly misaligned; adjusted to better fit the icon.",
+        "element_metadata_extraction": "{\"patternName\":\"Icon\",\"facetTags\":[\"brand identity\",\"visual cue\",\"security\",\"mobile\",\"payment\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"The card brand icon reinforces brand recognition and trust.\"}"
+      },
+      {
+        "element_id": 292,
+        "label": "Debit Card Info > Card Number",
+        "description": "Masked debit card number \"•••• 4568\" shown in the middle section of the screen.",
+        "bounding_box": {
+          "x_max": 529,
+          "x_min": 224,
+          "y_max": 437,
+          "y_min": 241
+        },
+        "status": "Overwrite",
+        "element_inference_time": 2.346,
+        "accuracy_score": 40,
+        "suggested_coordinates": {
+          "x_max": 510,
+          "x_min": 225,
+          "y_max": 400,
+          "y_min": 260
+        },
+        "hidden": false,
+        "explanation": "Box was too wide and extended beyond the number; resized to fit the text.",
+        "element_metadata_extraction": "{\"patternName\":\"Masked Text\",\"facetTags\":[\"sensitive information\",\"security\",\"user account\",\"privacy\",\"mobile\"],\"states\":[\"default\"],\"interaction\":{\"none\":\"Static element—no interaction\"},\"userFlowImpact\":\"Displaying the masked card number enhances security by protecting sensitive information.\"}"
+      }
+    ]
+  },
+  {
+    "screenshot_id": 6,
+    "component_id": 86,
+    "component_name": "Recent Transactions > Transaction 3",
+    "annotated_image_object": {
+      "type": "Buffer",
+      "data": []
+    },
+    "component_description": "Detection results for Recent Transactions > Transaction 3",
+    "detection_status": "success",
+    "inference_time": 3.598,
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
+    "component_ai_description": "Displays specific transaction details including merchant name, masked card number, and transaction amount.",
+    "component_metadata_extraction": "{\"patternName\":\"Recent Transaction Item\",\"facetTags\":[\"transactions\",\"financial\",\"mobile\",\"overview\",\"details\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"This component allows users to quickly view essential details about their recent transactions.\"}",
+    "elements": [
+      {
+        "element_id": 293,
+        "label": "Recent Transactions > Transaction 3 > Merchant Name",
+        "description": "Text \"Netflix\" displayed with the Netflix logo icon.",
+        "bounding_box": {
+          "x_max": 269,
+          "x_min": 223,
+          "y_max": 693,
+          "y_min": 657
+        },
+        "status": "Detected",
+        "element_inference_time": 2.085,
+        "accuracy_score": 85,
+        "suggested_coordinates": {},
+        "hidden": false,
+        "explanation": "Box accurately covers the text with a minor margin.",
+        "element_metadata_extraction": "{\"patternName\":\"Text with Icon\",\"facetTags\":[\"metadata\",\"merchant\",\"identification\",\"visual\",\"branding\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"This element helps users recognize the merchant associated with the transaction at a glance.\"}"
+      },
+      {
+        "element_id": 294,
+        "label": "Recent Transactions > Transaction 3 > Masked Card Number",
+        "description": "Masked card number \"•••• 0961\" displayed below the transaction details.",
+        "bounding_box": {
+          "x_max": 566,
+          "x_min": 520,
+          "y_max": 107,
+          "y_min": 54
+        },
+        "status": "Overwrite",
+        "element_inference_time": 0.666,
+        "accuracy_score": 40,
+        "suggested_coordinates": {
+          "x_max": 566,
+          "x_min": 520,
+          "y_max": 85,
+          "y_min": 62
+        },
+        "hidden": true,
+        "explanation": "Box is too tall and not aligned with the text; suggested resized coordinates based on alignment with the text.",
+        "element_metadata_extraction": "{\"patternName\":\"Masked Text\",\"facetTags\":[\"security\",\"financial\",\"details\",\"privacy\",\"transaction\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"This element reinforces security by displaying a masked version of the card number.\"}"
+      },
+      {
+        "element_id": 295,
+        "label": "Recent Transactions > Transaction 3 > Transaction Amount",
+        "description": "Text \"-$70.00\" shown on the right side of the Netflix transaction.",
+        "bounding_box": {
+          "x_max": 564,
+          "x_min": 491,
+          "y_max": 672,
+          "y_min": 645
+        },
+        "status": "Overwrite",
+        "element_inference_time": 0.847,
+        "accuracy_score": 60,
+        "suggested_coordinates": {
+          "x_max": 530,
+          "x_min": 491,
+          "y_max": 670,
+          "y_min": 645
+        },
+        "hidden": false,
+        "explanation": "Box includes unnecessary horizontal space; adjusted to better fit the amount.",
+        "element_metadata_extraction": "{\"patternName\":\"Amount Display\",\"facetTags\":[\"financial\",\"transactions\",\"amount\",\"interactive\",\"summary\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"This element clearly communicates the monetary value of the transaction, aiding in budget tracking.\"}"
+      }
+    ]
+  },
+  {
+    "screenshot_id": 6,
+    "component_id": 87,
+    "component_name": "Recent Transactions > Transaction 2",
+    "annotated_image_object": {
+      "type": "Buffer",
+      "data": []
+    },
+    "component_description": "Detection results for Recent Transactions > Transaction 2",
+    "detection_status": "success",
+    "inference_time": 3.76,
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
+    "component_ai_description": "Displays details of a specific recent transaction.",
+    "component_metadata_extraction": "{\"patternName\":\"Transaction Item\",\"facetTags\":[\"financial\",\"overview\",\"transaction\",\"details\",\"recent\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"Helps users quickly identify and understand their recent transactions.\"}",
+    "elements": [
+      {
+        "element_id": 296,
+        "label": "Recent Transactions > Transaction 2 > Merchant Name",
+        "description": "Text \"DKNY\" displayed with the DKNY logo icon.",
+        "bounding_box": {
+          "x_max": 277,
+          "x_min": 229,
+          "y_max": 618,
+          "y_min": 586
+        },
+        "status": "Overwrite",
+        "element_inference_time": 2.346,
+        "accuracy_score": 85,
+        "suggested_coordinates": {
+          "x_max": 278,
+          "x_min": 225,
+          "y_max": 617,
+          "y_min": 590
+        },
+        "hidden": false,
+        "explanation": "Box was slightly misaligned; adjusted coordinates for a better fit.",
+        "element_metadata_extraction": "{\"patternName\":\"Text with Icon\",\"facetTags\":[\"brand\",\"merchant\",\"visual\",\"identity\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"Provides brand recognition and context for the transaction.\"}"
+      },
+      {
+        "element_id": 297,
+        "label": "Recent Transactions > Transaction 2 > Masked Card Number",
+        "description": "Masked card number \"•••• 0961\" displayed below the transaction details.",
+        "bounding_box": {
+          "x_max": 566,
+          "x_min": 520,
+          "y_max": 107,
+          "y_min": 54
+        },
+        "status": "Overwrite",
+        "element_inference_time": 0.727,
+        "accuracy_score": 42,
+        "suggested_coordinates": {
+          "x_max": 570,
+          "x_min": 510,
+          "y_max": 100,
+          "y_min": 50
+        },
+        "hidden": false,
+        "explanation": "Box did not cover the masked card number correctly; resized for a proper fit.",
+        "element_metadata_extraction": "{\"patternName\":\"Text\",\"facetTags\":[\"security\",\"information\",\"privacy\",\"details\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"Ensures user security while displaying transaction-related information.\"}"
+      },
+      {
+        "element_id": 298,
+        "label": "Recent Transactions > Transaction 2 > Transaction Amount",
+        "description": "Text \"-$40.00\" shown on the right side of the DKNY transaction.",
+        "bounding_box": {
+          "x_max": 565,
+          "x_min": 492,
+          "y_max": 608,
+          "y_min": 576
+        },
+        "status": "Detected",
+        "element_inference_time": 0.687,
+        "accuracy_score": 90,
+        "suggested_coordinates": null,
+        "hidden": false,
+        "explanation": "Box accurately surrounds the transaction amount.",
+        "element_metadata_extraction": "{\"patternName\":\"Text\",\"facetTags\":[\"financial\",\"amount\",\"value\",\"transaction\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"Clearly communicates the amount spent, aiding in financial tracking.\"}"
+      }
+    ]
+  },
+  {
+    "screenshot_id": 6,
+    "component_id": 88,
+    "component_name": "Recent Transactions",
+    "annotated_image_object": {
+      "type": "Buffer",
+      "data": []
+    },
+    "component_description": "Detection results for Recent Transactions",
+    "detection_status": "success",
+    "inference_time": 4.975,
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
+    "component_ai_description": "Displays a list of recent financial transactions for user reference.",
+    "component_metadata_extraction": "{\"patternName\":\"Transaction List\",\"facetTags\":[\"finance\",\"recent activity\",\"user account\",\"transactions\",\"mobile\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"It allows users to quickly review their recent spending, enhancing financial awareness.\"}",
+    "elements": [
+      {
+        "element_id": 299,
+        "label": "Recent Transactions > Section Title",
+        "description": "Text label \"Recent transactions\" shown at the top of the lower section.",
+        "bounding_box": {
+          "x_max": 420,
+          "x_min": 221,
+          "y_max": 495,
+          "y_min": 472
+        },
+        "status": "Detected",
+        "element_inference_time": 2.51,
+        "accuracy_score": 85,
+        "suggested_coordinates": null,
+        "hidden": false,
+        "explanation": "Box is well-aligned with the text and fits closely.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Header\",\"facetTags\":[\"label\",\"section title\",\"navigation\",\"information\",\"static\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"It clearly identifies the section, helping users locate transaction details intuitively.\"}"
+      },
+      {
+        "element_id": 300,
+        "label": "Recent Transactions > View All > Label",
+        "description": "Hyperlink text \"View all\" displayed at the bottom of the recent transactions section.",
+        "bounding_box": {
+          "x_max": 567,
+          "x_min": 502,
+          "y_max": 490,
+          "y_min": 471
+        },
+        "status": "Overwrite",
+        "element_inference_time": 2.465,
+        "accuracy_score": 70,
+        "suggested_coordinates": {
+          "x_max": 560,
+          "x_min": 505,
+          "y_max": 490,
+          "y_min": 475
+        },
+        "hidden": false,
+        "explanation": "Box is slightly too wide and needs adjustment to fit the text better.",
+        "element_metadata_extraction": "{\"patternName\":\"Hyperlink\",\"facetTags\":[\"navigation\",\"link\",\"call to action\",\"user engagement\",\"static\"],\"states\":[\"default\",\"hover\"],\"interaction\":{\"on_tap\":\"navigates to the full list of transactions\"},\"userFlowImpact\":\"It encourages users to explore detailed transaction history beyond the summary.\"}"
+      }
+    ]
+  },
+  {
+    "screenshot_id": 6,
+    "component_id": 89,
+    "component_name": "Recent Transactions > Transaction 1",
+    "annotated_image_object": {
+      "type": "Buffer",
+      "data": []
+    },
+    "component_description": "Detection results for Recent Transactions > Transaction 1",
+    "detection_status": "success",
+    "inference_time": 3.857,
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
+    "component_ai_description": "Displays detailed information about a recent financial transaction.",
+    "component_metadata_extraction": "{\"patternName\":\"Transaction Detail\",\"facetTags\":[\"finance\",\"mobile\",\"transaction\",\"user feedback\",\"overview\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"This component helps users quickly review their recent transaction history.\"}",
+    "elements": [
+      {
+        "element_id": 301,
+        "label": "Recent Transactions > Transaction 1 > Merchant Name",
+        "description": "Text \"Starbucks Coffee\" displayed with the Starbucks logo icon.",
+        "bounding_box": {
+          "x_max": 415,
+          "x_min": 275,
+          "y_max": 539,
+          "y_min": 514
+        },
+        "status": "Detected",
+        "element_inference_time": 2.345,
+        "accuracy_score": 90,
+        "suggested_coordinates": null,
+        "hidden": false,
+        "explanation": "Box accurately fits the 'Starbucks Coffee' text, slight adjustment needed for better visual fit.",
+        "element_metadata_extraction": null
+      },
+      {
+        "element_id": 302,
+        "label": "Recent Transactions > Transaction 1 > Masked Card Number",
+        "description": "Masked card number \"•••• 4568\" displayed below the transaction details.",
+        "bounding_box": {
+          "x_max": 537,
+          "x_min": 225,
+          "y_max": 437,
+          "y_min": 241
+        },
+        "status": "Overwrite",
+        "element_inference_time": 0.776,
+        "accuracy_score": 40,
+        "suggested_coordinates": {
+          "x_max": 537,
+          "x_min": 225,
+          "y_max": 310,
+          "y_min": 250
+        },
+        "hidden": true,
+        "explanation": "Box is misaligned and overly large; repositioned to better fit the masked card number.",
+        "element_metadata_extraction": null
+      },
+      {
+        "element_id": 303,
+        "label": "Recent Transactions > Transaction 1 > Transaction Amount",
+        "description": "Text \"-$14.99\" shown on the right side of the Starbucks transaction.",
+        "bounding_box": {
+          "x_max": 569,
+          "x_min": 500,
+          "y_max": 540,
+          "y_min": 513
+        },
+        "status": "Detected",
+        "element_inference_time": 0.736,
+        "accuracy_score": 80,
+        "suggested_coordinates": null,
+        "hidden": false,
+        "explanation": "Box closely matches the 'Transaction Amount' text with minimal adjustments required.",
+        "element_metadata_extraction": null
+      }
+    ]
+  },
+  {
+    "screenshot_id": 6,
+    "component_id": 90,
+    "component_name": "Recent Transactions > Transaction 4",
+    "annotated_image_object": {
+      "type": "Buffer",
+      "data": []
+    },
+    "component_description": "Detection results for Recent Transactions > Transaction 4",
+    "detection_status": "success",
+    "inference_time": 1.7220000000000002,
+    "screenshot_url": "https://gqellcfaovqzaxqgrvdl.supabase.co/storage/v1/object/sign/v5/v5/3/blue-credit_WbNp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5XzZjYjU2MDFkLTE3YzUtNDc1NS05MTVmLWIzNGM2OGM1N2IxMCJ9.eyJ1cmwiOiJ2NS92NS8zL2JsdWUtY3JlZGl0X1diTnAucG5nIiwiaWF0IjoxNzQ1NzUwNTYzLCJleHAiOjE3NDU3NTQxNjN9.Xsv4BymbfqOo7y0Q-vVYMIEJCCnRUXVUd5R0phXicqw",
+    "component_ai_description": "Displays details of a recent transaction, highlighting the merchant, masked card information, and transaction amount.",
+    "component_metadata_extraction": "{\"patternName\":\"Transaction Detail\",\"facetTags\":[\"finance\",\"mobile\",\"user account\",\"recent activity\",\"transaction\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"Provides users with essential information about their recent transaction, facilitating financial tracking.\"}",
+    "elements": [
+      {
+        "element_id": 304,
+        "label": "Recent Transactions > Transaction 4 > Merchant Name",
+        "description": "Text \"KFC\" displayed with the KFC logo icon.",
+        "bounding_box": {
+          "x_max": 567,
+          "x_min": 233,
+          "y_max": 763,
+          "y_min": 703
+        },
+        "status": "Detected",
+        "element_inference_time": 0.793,
+        "accuracy_score": 85,
+        "suggested_coordinates": null,
+        "hidden": false,
+        "explanation": "Box accurately captures the merchant name with minor margin adjustments.",
+        "element_metadata_extraction": "{\"patternName\":\"Text with Icon\",\"facetTags\":[\"merchant info\",\"branding\",\"finance\",\"visual indication\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"Identifies the merchant to help users recognize their purchase.\",\"description\":\"Text \\\"KFC\\\" displayed with the KFC logo icon.\"}"
+      },
+      {
+        "element_id": 305,
+        "label": "Recent Transactions > Transaction 4 > Masked Card Number",
+        "description": "Masked card number \"•••• 4568\" displayed below the transaction details.",
+        "bounding_box": {
+          "x_max": 537,
+          "x_min": 225,
+          "y_max": 437,
+          "y_min": 241
+        },
+        "status": "Overwrite",
+        "element_inference_time": 0.462,
+        "accuracy_score": 70,
+        "suggested_coordinates": {
+          "x_max": 520,
+          "x_min": 225,
+          "y_max": 400,
+          "y_min": 220
+        },
+        "hidden": false,
+        "explanation": "Box size needed downscaling to fit the text more tightly.",
+        "element_metadata_extraction": "{\"patternName\":\"Masked Text\",\"facetTags\":[\"security\",\"account information\",\"finance\",\"privacy\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"Provides security by displaying a masked card number, enhancing user trust.\",\"description\":\"Masked card number \\\"•••• 4568\\\" displayed below the transaction details.\"}"
+      },
+      {
+        "element_id": 306,
+        "label": "Recent Transactions > Transaction 4 > Transaction Amount",
+        "description": "Text \"-$12.60\" shown on the right side of the KFC transaction.",
+        "bounding_box": {
+          "x_max": 567,
+          "x_min": 498,
+          "y_max": 747,
+          "y_min": 708
+        },
+        "status": "Detected",
+        "element_inference_time": 0.467,
+        "accuracy_score": 90,
+        "suggested_coordinates": null,
+        "hidden": false,
+        "explanation": "Box accurately captures the amount with appropriate padding.",
+        "element_metadata_extraction": "{\"patternName\":\"Text Amount\",\"facetTags\":[\"transaction details\",\"finance\",\"user feedback\",\"amount display\"],\"states\":[\"default\"],\"interaction\":{},\"userFlowImpact\":\"Clearly presents the transaction amount, assisting users with financial assessment.\",\"description\":\"Text \\\"-$12.60\\\" shown on the right side of the KFC transaction.\"}"
       }
     ]
   }

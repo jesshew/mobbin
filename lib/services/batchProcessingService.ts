@@ -67,30 +67,34 @@ export class BatchProcessingService {
    */
   private async initializeJobQueue(batchId: number): Promise<void> {
     try {
-      const { data, error } = await this.supabaseClient
+      // First, deactivate any existing queue items for this batch
+      const { error: deactivateError } = await this.supabaseClient
         .from('batch_processing_queue')
-        .select('*')
+        .update({ 
+          is_active: false,
+          updated_at: new Date().toISOString() 
+        })
         .eq('batch_id', batchId)
-        .maybeSingle();
+        .eq('is_active', true);
 
-      if (error) throw new Error(`Failed to check queue: ${error.message}`);
-      
-      if (!data) {
-        const { error: insertError } = await this.supabaseClient
-          .from('batch_processing_queue')
-          .insert({
-            batch_id: batchId,
-            current_stage: ProcessingStage.SETUP,
-            status: 'pending',
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          });
-          
-        if (insertError) throw new Error(`Failed to initialize job queue: ${insertError.message}`);
-        console.log(`[Batch ${batchId}] Created new job in queue`);
-      } else {
-        console.log(`[Batch ${batchId}] Job exists in queue at stage: ${data.current_stage}`);
+      if (deactivateError) {
+        console.warn(`[Batch ${batchId}] Failed to deactivate existing queue items: ${deactivateError.message}`);
       }
+      
+      // Create a new active queue item
+      const { error: insertError } = await this.supabaseClient
+        .from('batch_processing_queue')
+        .insert({
+          batch_id: batchId,
+          current_stage: ProcessingStage.SETUP,
+          status: 'pending',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          is_active: true
+        });
+        
+      if (insertError) throw new Error(`Failed to initialize job queue: ${insertError.message}`);
+      console.log(`[Batch ${batchId}] Created new job in queue`);
     } catch (error) {
       console.error(`[Batch ${batchId}] Failed to initialize job:`, error);
       throw error;
@@ -106,10 +110,11 @@ export class BatchProcessingService {
         .from('batch_processing_queue')
         .select('current_stage, status')
         .eq('batch_id', batchId)
+        .eq('is_active', true)
         .maybeSingle();
         
       if (error || !data) {
-        throw new Error(`Failed to get current stage: ${error?.message || 'No data found'}`);
+        throw new Error(`Failed to get current stage: ${error?.message || 'No active queue item found'}`);
       }
       
       if (data.status === 'in_progress') {
@@ -129,7 +134,8 @@ export class BatchProcessingService {
           status: 'in_progress',
           updated_at: new Date().toISOString()
         })
-        .eq('batch_id', batchId);
+        .eq('batch_id', batchId)
+        .eq('is_active', true);
       
       // Make request to next stage API
       const stage = data.current_stage;
@@ -152,6 +158,7 @@ export class BatchProcessingService {
   public async advanceToNextStage(batchId: number, currentStage: ProcessingStage): Promise<void> {
     try {
       let nextStage: ProcessingStage;
+      let isCompletedOrFailed = false;
       
       switch (currentStage) {
         case ProcessingStage.SETUP:
@@ -176,12 +183,14 @@ export class BatchProcessingService {
         case ProcessingStage.PERSISTENCE:
           nextStage = ProcessingStage.COMPLETED;
           await this.updateBatchStatus(batchId, ProcessStatus.DONE);
+          isCompletedOrFailed = true;
           break;
         default:
           console.log(`[Batch ${batchId}] No next stage for ${currentStage}`);
           return;
       }
       
+      // Update stage in the queue
       await this.supabaseClient
         .from('batch_processing_queue')
         .update({ 
@@ -189,10 +198,19 @@ export class BatchProcessingService {
           status: 'pending',
           updated_at: new Date().toISOString(),
         })
-        .eq('batch_id', batchId);
+        .eq('batch_id', batchId)
+        .eq('is_active', true);
         
       console.log(`[Batch ${batchId}] Advanced from ${currentStage} to ${nextStage}`);
       
+      // If this is the final stage, deactivate tracking data after updating the stage
+      if (isCompletedOrFailed) {
+        console.log(`[Batch ${batchId}] Processing complete, deactivating tracking data`);
+        await this.deactivateTrackingData(batchId);
+        return; // Do not trigger next stage after deactivation
+      }
+      
+      // Only trigger next stage if we're not in a terminal state
       await this.triggerNextStage(batchId);
     } catch (error) {
       console.error(`[Batch ${batchId}] Failed to advance stage:`, error);
@@ -201,48 +219,73 @@ export class BatchProcessingService {
   }
 
   /**
-   * Marks the current stage as failed
+   * Marks a stage as failed and updates batch status
    */
   private async markStageFailed(batchId: number, stage: ProcessingStage, error: unknown): Promise<void> {
     try {
       const errorMessage = error instanceof Error ? error.message : String(error);
       
+      // First update the queue status to FAILED before deactivating
       await this.supabaseClient
         .from('batch_processing_queue')
         .update({ 
           current_stage: ProcessingStage.FAILED,
-          status: 'failed',
+          status: 'error',
           error_message: errorMessage,
           updated_at: new Date().toISOString(),
         })
-        .eq('batch_id', batchId);
-        
-      await this.updateBatchStatus(batchId, ProcessStatus.FAILED);
-    } catch (updateError) {
-      console.error(`[Batch ${batchId}] Failed to mark as failed:`, updateError);
+        .eq('batch_id', batchId)
+        .eq('is_active', true);
+      
+      // Update the batch status
+      await this.updateBatchStatus(batchId, ProcessStatus.FAILED, errorMessage);
+      
+      console.error(`[Batch ${batchId}] Marked stage ${stage} as failed: ${errorMessage}`);
+      
+      // Deactivate tracking data after marking as failed
+      // This should be the last operation to prevent further stage transitions
+      console.log(`[Batch ${batchId}] Processing failed, deactivating tracking data`);
+      await this.deactivateTrackingData(batchId);
+    } catch (dbError) {
+      console.error(`[Batch ${batchId}] Failed to update database with error:`, dbError);
     }
   }
 
   /**
-   * Saves stage data for use in the next stage
+   * Saves data from a stage for use in subsequent stages
    */
   public async saveStageData(batchId: number, stage: ProcessingStage, data: any): Promise<void> {
     try {
-      // Remove buffer data to prevent JSON serialization issues and reduce database size
+      // First, deactivate any existing data for this batch and stage
+      const { error: deactivateError } = await this.supabaseClient
+        .from('batch_processing_data')
+        .update({ is_active: false })
+        .eq('batch_id', batchId)
+        .eq('stage', stage)
+        .eq('is_active', true);
+
+      if (deactivateError) {
+        console.warn(`[Batch ${batchId}] Failed to deactivate existing data for stage ${stage}: ${deactivateError.message}`);
+      }
+      
+      // Remove large buffer data before storing
       const cleanedData = this.removeBufferData(data);
       
+      // Insert new data
       const { error } = await this.supabaseClient
         .from('batch_processing_data')
-        .upsert({
+        .insert({
           batch_id: batchId,
           stage,
           data: cleanedData,
           created_at: new Date().toISOString(),
+          is_active: true
         });
         
       if (error) throw new Error(`Failed to save stage data: ${error.message}`);
+      console.log(`[Batch ${batchId}] Saved data for stage: ${stage}`);
     } catch (error) {
-      console.error(`[Batch ${batchId}] Failed to save stage data:`, error);
+      console.error(`[Batch ${batchId}] Error saving stage data:`, error);
       throw error;
     }
   }
@@ -284,7 +327,7 @@ export class BatchProcessingService {
   }
 
   /**
-   * Retrieves data from a previous stage
+   * Retrieves data from a previous stage for use in the current stage
    */
   public async getStageData(batchId: number, stage: ProcessingStage): Promise<any> {
     try {
@@ -293,12 +336,18 @@ export class BatchProcessingService {
         .select('data')
         .eq('batch_id', batchId)
         .eq('stage', stage)
+        .eq('is_active', true)
         .maybeSingle();
         
       if (error) throw new Error(`Failed to get stage data: ${error.message}`);
-      return data?.data || null;
+      
+      if (!data) {
+        throw new Error(`No data found for batch ${batchId} at stage ${stage}`);
+      }
+      
+      return data.data;
     } catch (error) {
-      console.error(`[Batch ${batchId}] Failed to get stage data:`, error);
+      console.error(`[Batch ${batchId}] Error retrieving stage data:`, error);
       throw error;
     }
   }
@@ -417,12 +466,13 @@ export class BatchProcessingService {
         throw new Error("No annotation results available");
       }
       
-      // Check if we need to reload image buffers
-      let screenshotsWithBuffers: Screenshot[] = [];
-      if (AccuracyValidationService.requiresImageBuffers()) {
-        console.log(`[Batch ${batchId}] Validation requires image buffers, reloading screenshots`);
-        screenshotsWithBuffers = await this.loadAndPrepareScreenshots(batchId);
-        console.log(`[Batch ${batchId}] Reloaded ${screenshotsWithBuffers.length} screenshots with buffers for validation`);
+      // Always reload image buffers for validation since they're needed for annotation
+      console.log(`[Batch ${batchId}] Reloading screenshots with image buffers for validation`);
+      const screenshotsWithBuffers = await this.loadAndPrepareScreenshots(batchId);
+      console.log(`[Batch ${batchId}] Reloaded ${screenshotsWithBuffers.length} screenshots with buffers for validation`);
+      
+      if (screenshotsWithBuffers.length === 0) {
+        throw new Error("Failed to reload screenshots with image buffers");
       }
       
       console.log(`[Batch ${batchId}] Stage 3: Starting Accuracy Validation...`);
@@ -456,12 +506,13 @@ export class BatchProcessingService {
         throw new Error("No validation results available");
       }
       
-      // Check if we need to reload image buffers
-      let screenshotsWithBuffers: Screenshot[] = [];
-      if (MetadataExtractionService.requiresImageBuffers()) {
-        console.log(`[Batch ${batchId}] Metadata extraction requires image buffers, reloading screenshots`);
-        screenshotsWithBuffers = await this.loadAndPrepareScreenshots(batchId);
-        console.log(`[Batch ${batchId}] Reloaded ${screenshotsWithBuffers.length} screenshots with buffers for metadata extraction`);
+      // Always reload image buffers for metadata extraction
+      console.log(`[Batch ${batchId}] Reloading screenshots with image buffers for metadata extraction`);
+      const screenshotsWithBuffers = await this.loadAndPrepareScreenshots(batchId);
+      console.log(`[Batch ${batchId}] Reloaded ${screenshotsWithBuffers.length} screenshots with buffers for metadata extraction`);
+      
+      if (screenshotsWithBuffers.length === 0) {
+        throw new Error("Failed to reload screenshots with image buffers");
       }
       
       console.log(`[Batch ${batchId}] Stage 4: Starting Metadata Extraction...`);
@@ -643,7 +694,7 @@ export class BatchProcessingService {
     console.error(`[Batch ${batchId}] Error during ${stage} stage: ${errorMessage}`);
     
     try {
-      await this.updateBatchStatus(batchId, ProcessStatus.FAILED);
+      // Use markStageFailed which already handles updating batch status and deactivating tracking data
       await this.markStageFailed(batchId, stage as ProcessingStage, error);
       console.error(`[Batch ${batchId}] Status set to failed due to error in ${stage} stage.`);
     } catch (statusError) {
@@ -658,18 +709,29 @@ export class BatchProcessingService {
    * Updates the status of a batch in the database.
    * @param batchId The ID of the batch.
    * @param status The new status string.
+   * @param errorMessage Optional error message to save with the status.
    */
-  private async updateBatchStatus(batchId: number, status: string): Promise<void> {
+  private async updateBatchStatus(batchId: number, status: string, errorMessage?: string): Promise<void> {
     try {
+      const updateData: any = { 
+        batch_status: status, 
+        updated_at: new Date().toISOString() 
+      };
+      
+      // Add error_message if provided
+      if (errorMessage) {
+        updateData.error_message = errorMessage;
+      }
+      
       const { error } = await this.supabaseClient
         .from('batch')
-        .update({ batch_status: status, updated_at: new Date().toISOString() })
+        .update(updateData)
         .eq('batch_id', batchId);
 
       if (error) {
         console.error(`[Batch ${batchId}] Supabase batch status update error to '${status}':`, error);
       } else {
-        console.log(`[Batch ${batchId}] Status updated to '${status}'.`);
+        console.log(`[Batch ${batchId}] Status updated to '${status}'${errorMessage ? ' with error message' : ''}.`);
       }
     } catch (error) {
       console.error(`[Batch ${batchId}] Exception when updating batch status to '${status}':`, error);
@@ -713,6 +775,82 @@ export class BatchProcessingService {
     } catch (error) {
       console.error(`Failed to fetch screenshot buffers:`, error);
       throw new Error(`Failed to fetch screenshot buffers: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  /**
+   * Reprocesses a batch from the beginning, useful for failed batches
+   * @param batchId The ID of the batch to reprocess
+   */
+  public async reprocessBatch(batchId: number): Promise<void> {
+    try {
+      // First update the batch status to 'uploading' (initial state)
+      await this.updateBatchStatus(batchId, ProcessStatus.UPLOADING);
+      
+      // Deactivate all tracking data for this batch
+      await this.deactivateTrackingData(batchId);
+      
+      // Start the batch processing from the beginning
+      await this.start(batchId);
+      console.log(`[Batch ${batchId}] Reprocessing started successfully`);
+    } catch (error) {
+      console.error(`[Batch ${batchId}] Failed to start reprocessing:`, error);
+      throw error;
+    }
+  }
+
+  private async deactivateTrackingData(batchId: number): Promise<void> {
+    try {
+      console.log(`[Batch ${batchId}] Starting deactivation of tracking data`);
+      
+      // Deactivate all tracking data for the batch in the queue table
+      const { count: queueCount, error: deactivateQueueError } = await this.supabaseClient
+        .from('batch_processing_queue')
+        .update({ 
+          is_active: false,
+          updated_at: new Date().toISOString() 
+        })
+        .eq('batch_id', batchId)
+        .eq('is_active', true);
+
+      if (deactivateQueueError) {
+        console.warn(`[Batch ${batchId}] Failed to deactivate existing queue items: ${deactivateQueueError.message}`);
+      } else {
+        console.log(`[Batch ${batchId}] Successfully deactivated queue items`);
+      }
+      
+      // Deactivate all stage data for the batch
+      const { count: stageCount, error: deactivateDataError } = await this.supabaseClient
+        .from('batch_processing_data')
+        .update({ is_active: false })
+        .eq('batch_id', batchId)
+        .eq('is_active', true);
+
+      if (deactivateDataError) {
+        console.warn(`[Batch ${batchId}] Failed to deactivate existing stage data: ${deactivateDataError.message}`);
+      } else {
+        console.log(`[Batch ${batchId}] Successfully deactivated stage data items`);
+      }
+      
+      console.log(`[Batch ${batchId}] Completed deactivation of tracking data`);
+    } catch (error) {
+      console.error(`[Batch ${batchId}] Failed to deactivate tracking data:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Deactivates all tracking data for a batch without reprocessing it
+   * This can be used for maintenance or manual intervention
+   * @param batchId The ID of the batch to deactivate
+   */
+  public async deactivateBatchTrackingData(batchId: number): Promise<void> {
+    try {
+      await this.deactivateTrackingData(batchId);
+      console.log(`[Batch ${batchId}] Tracking data deactivated successfully`);
+    } catch (error) {
+      console.error(`[Batch ${batchId}] Failed to deactivate tracking data:`, error);
+      throw error;
     }
   }
 }

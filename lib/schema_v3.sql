@@ -7,6 +7,8 @@ DROP TABLE IF EXISTS annotation_element CASCADE;
 DROP TABLE IF EXISTS screenshot CASCADE;
 DROP TABLE IF EXISTS batch CASCADE;
 DROP TABLE IF EXISTS taxonomy CASCADE;
+DROP TABLE IF EXISTS batch_processing_queue;
+DROP TABLE IF EXISTS batch_processing_data;
 
 ------------------------------------------------------------
 -- Taxonomy: shared label definitions for UI elements
@@ -30,7 +32,8 @@ CREATE TABLE batch (
     batch_master_prompt_runtime NUMERIC,   -- in seconds
     batch_total_inference_time NUMERIC,    -- in seconds
     batch_detected_elements_count INTEGER, -- number of detected UI elements
-    batch_description TEXT                 -- optional metadata
+    batch_description TEXT,                 -- optional metadata
+    error_message TEXT
 );
 
 ------------------------------------------------------------
@@ -108,3 +111,42 @@ CREATE TRIGGER trg_set_annotation_version
 BEFORE INSERT ON annotation_element
 FOR EACH ROW
 EXECUTE FUNCTION set_annotation_version();
+
+-- Table to track batch processing stages
+CREATE TABLE batch_processing_queue (
+  id BIGSERIAL PRIMARY KEY,
+  batch_id BIGINT NOT NULL REFERENCES batch(batch_id),
+  current_stage TEXT NOT NULL,
+  status TEXT NOT NULL,
+  error_message TEXT,
+  created_at TIMESTAMPTZ NOT NULL,
+  updated_at TIMESTAMPTZ NOT NULL,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  
+  -- Add constraint to ensure only one active queue item per batch
+  CONSTRAINT unique_active_batch UNIQUE (batch_id, is_active) 
+  WHERE (is_active = TRUE)
+);
+
+-- Index for fast lookups
+CREATE INDEX idx_batch_processing_queue_batch_id ON batch_processing_queue(batch_id);
+CREATE INDEX idx_batch_processing_queue_active ON batch_processing_queue(is_active);
+
+-- Table to store data between processing stages
+CREATE TABLE batch_processing_data (
+  id BIGSERIAL PRIMARY KEY,
+  batch_id BIGINT NOT NULL,
+  stage TEXT NOT NULL,
+  data JSONB NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  
+  -- Composite unique constraint for active batch_id and stage
+  CONSTRAINT unique_active_batch_stage UNIQUE (batch_id, stage, is_active) 
+  WHERE (is_active = TRUE)
+);
+
+-- Index for fast lookups
+CREATE INDEX idx_batch_processing_data_batch_id ON batch_processing_data(batch_id);
+CREATE INDEX idx_batch_processing_data_stage ON batch_processing_data(stage);
+CREATE INDEX idx_batch_processing_data_active ON batch_processing_data(is_active);
