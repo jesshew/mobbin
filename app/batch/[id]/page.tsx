@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useParams } from "next/navigation"
 import { ControlPanel } from "@/components/control-panel"
 import { Component } from "@/types/annotation"
@@ -101,7 +101,9 @@ export default function BatchDetailPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
   const [selectedElement, setSelectedElement] = useState<null | any>(null)
+  const [selectedComponent, setSelectedComponent] = useState<Component | null>(null)
   const [hoveredElementId, setHoveredElementId] = useState<number | null>(null)
+  const [imageRef, setImageRef] = useState<HTMLImageElement | null>(null)
   const [editingLabelState, setEditingLabelState] = useState<EditingLabelState>({
     editingLabelId: null,
     editingLabelText: "",
@@ -161,9 +163,102 @@ export default function BatchDetailPage() {
     setSelectedElement(null)
   }
 
+  const handleComponentSelect = (component: Component) => {
+    setSelectedComponent(prev => prev?.component_id === component.component_id ? null : component)
+  }
+
   const handleSave = () => {
     // Implement save functionality if needed
     console.log('Saving components...')
+  }
+
+  // BoundingBoxOverlay component for rendering bounding boxes
+  const BoundingBoxOverlay = ({ 
+    component, 
+    imageRef 
+  }: { 
+    component: Component | null, 
+    imageRef: HTMLImageElement | null 
+  }) => {
+    const [scale, setScale] = useState({ x: 1, y: 1 })
+    const [position, setPosition] = useState({ x: 0, y: 0 })
+    const overlayRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+      // Calculate scale factors and position when the image or component changes
+      if (!imageRef || !component) return
+
+      const calculateScaleAndPosition = () => {
+        // Get natural dimensions of the image
+        const naturalWidth = imageRef.naturalWidth
+        const naturalHeight = imageRef.naturalHeight
+        
+        // Get displayed dimensions
+        const displayedWidth = imageRef.width
+        const displayedHeight = imageRef.height
+
+        // Calculate scale
+        setScale({
+          x: displayedWidth / naturalWidth,
+          y: displayedHeight / naturalHeight,
+        })
+      }
+
+      // Calculate once on load
+      calculateScaleAndPosition()
+
+      // Add resize observer to recalculate on image resize
+      const resizeObserver = new ResizeObserver(calculateScaleAndPosition)
+      resizeObserver.observe(imageRef)
+
+      return () => {
+        resizeObserver.disconnect()
+      }
+    }, [imageRef, component])
+
+    if (!component || !imageRef) return null
+
+    return (
+      <div 
+        ref={overlayRef}
+        className="absolute inset-0 top-0 left-0 pointer-events-none"
+        style={{
+          width: `${imageRef.width}px`,
+          height: `${imageRef.height}px`,
+        }}
+      >
+        {component.elements.map((element) => {
+          // Calculate scaled position and dimensions
+          const box = element.bounding_box
+          const left = box.x_min * scale.x
+          const top = box.y_min * scale.y
+          const width = (box.x_max - box.x_min) * scale.x
+          const height = (box.y_max - box.y_min) * scale.y
+
+          return (
+            <div
+              key={element.element_id}
+              className={`absolute border-2 ${
+                hoveredElementId === element.element_id 
+                  ? 'border-primary animate-pulse' 
+                  : 'border-blue-500'
+              }`}
+              style={{
+                left: `${left}px`,
+                top: `${top}px`,
+                width: `${width}px`,
+                height: `${height}px`,
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+              }}
+            >
+              <div className="absolute -top-6 left-0 bg-blue-500 text-white text-xs px-2 py-1 rounded-t-md whitespace-nowrap overflow-hidden max-w-[150px] text-ellipsis">
+                {element.label.split(' > ').pop()}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    )
   }
 
   // Calculate total elements across all components
@@ -228,12 +323,19 @@ export default function BatchDetailPage() {
                   <div className="md:w-3/5 flex-shrink-0 h-full">
                     <div className="bg-gray-100 rounded-lg overflow-hidden h-full flex items-center justify-center">
                       {screenshot.url ? (
-                        <img 
-                          src={screenshot.url} 
-                          alt={`Screenshot ${screenshot.id}`}
-                          className="max-h-full max-w-full object-contain"
-                        //   style={{ maxHeight: "calc(70vh - 32px)" }}
-                        />
+                        <div className="relative">
+                          <img 
+                            src={screenshot.url} 
+                            alt={`Screenshot ${screenshot.id}`}
+                            className="max-h-full max-w-full object-contain"
+                            ref={(el) => {
+                              setImageRef(el)
+                            }}
+                          />
+                          {selectedComponent && selectedComponent.screenshot_id === screenshot.id && (
+                            <BoundingBoxOverlay component={selectedComponent} imageRef={imageRef} />
+                          )}
+                        </div>
                       ) : (
                         <div className="flex items-center justify-center h-full text-muted-foreground">
                           No preview available
@@ -250,6 +352,7 @@ export default function BatchDetailPage() {
                         <div 
                           key={component.component_id}
                           className="cursor-pointer"
+                          onClick={() => handleComponentSelect(component)}
                         >
                           <ComponentListItem 
                             component={component}
@@ -257,7 +360,7 @@ export default function BatchDetailPage() {
                             onElementDelete={(elementId: number) => console.log(`Delete element ${elementId}`)} 
                             hoveredElementId={hoveredElementId}
                             setHoveredElementId={(id: number | null) => setHoveredElementId(id)}
-                            showElementsByDefault={false}
+                            showElementsByDefault={selectedComponent?.component_id === component.component_id}
                           />
                         </div>
                       ))}
