@@ -10360,3 +10360,896 @@ Output Tokens: 343
 Total Tokens: 1936
 ========== END OF ENTRY ==========
 
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T07:59:40.393Z
+Service: OpenAI-Direct-gpt-4.1-2025-04-14
+Execution Time: 7.869 seconds
+
+----- PROMPT -----
+
+    Extract High-Level UI Components with Functional Metadata
+
+    <instructions>
+    You are given a UI screenshot from a mobile or web application.
+
+    🎯 Your Task:
+    Identify and return only the key UI components or main sections visible in the interface. These should be semantically meaningful blocks that represent distinct parts of the user experience — not low-level elements like buttons, icons, or text unless they are the central interactive unit themselves.
+
+    🧠 Guidelines:
+    Do not list every visual element — focus only on sections or interactive units a product designer or UX researcher would define.
+
+    Group smaller elements into their logical parent component (e.g., quantity controls, icons, labels → Cart Item).
+
+    Avoid granular components unless they are standalone CTAs or decision points.
+
+    Include Partially Visible Items
+    - If a card or button is cut off but still recognizable, include it.
+    - Group Small Things if They Belong Together
+    - If an image, label, and button work together (like in a product card), group them as one component.
+
+    Ignore Decorative Stuff
+    - Don’t include backgrounds, dividers, icons that don’t do anything, or layout-only elements.
+
+    Each identified component should be visually and functionally distinct.
+
+    🧾 Output Format: JSON List
+    For each top-level component, include the following fields:
+
+    component_name: A human-readable name for the section (e.g., "Cart Item", "Header", "Promocode Section")
+
+    description: A short, clear description of the section and what's visually included
+
+    </instructions>
+
+    <sample_output> 
+    [
+      {
+        "component_name": "Cart Item List",
+        "description": "Visual block showing product image, name, price, and quantity controls.",
+      },
+      {
+        "component_name": "Delivery Options",
+        "description": "Section showing available delivery choices with cost and selection state.",
+      },
+      {
+        "component_name": "Promocode Section",
+        "description": "Input area for applying promotional codes with validation feedback.",
+      },
+      {
+    "component_name": "Partial Debit Card",
+    "description": "Partially visible card element showing the top edge and part of the card number, suggesting the presence of a second linked payment method."
+    }
+    ]
+    </sample_output>
+    
+
+----- RESPONSE -----
+{
+  "id": "resp_680de3e56d84819281b81b73d3c1a88d0c94f30d08756c69",
+  "object": "response",
+  "created_at": 1745740773,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680de3e8e28c81928a1992de55f0c8720c94f30d08756c69",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"component_name\": \"Product Detail Header\",\n    \"description\": \"Section featuring the main product image (choco croissant), caloric information, and a favorite (heart) icon.\"\n  },\n  {\n    \"component_name\": \"Product Description\",\n    \"description\": \"Block displaying product name, weight, and a detailed list of ingredients.\"\n  },\n  {\n    \"component_name\": \"Add to Order Suggestions\",\n    \"description\": \"Horizontal list of suggested add-on items, each with image, name, price, and an add button.\"\n  },\n  {\n    \"component_name\": \"Cart Action Bar\",\n    \"description\": \"Sticky footer section displaying the total price and a prominent 'Add to cart' button.\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1247,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 155,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 1402
+  },
+  "user": null,
+  "metadata": {}
+}
+
+----- USAGE -----
+Input Tokens: 1247
+Output Tokens: 155
+Total Tokens: 1402
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T07:59:41.928Z
+Service: OpenAI-Direct-gpt-4.1-2025-04-14
+Execution Time: 9.405 seconds
+
+----- PROMPT -----
+
+    Extract High-Level UI Components with Functional Metadata
+
+    <instructions>
+    You are given a UI screenshot from a mobile or web application.
+
+    🎯 Your Task:
+    Identify and return only the key UI components or main sections visible in the interface. These should be semantically meaningful blocks that represent distinct parts of the user experience — not low-level elements like buttons, icons, or text unless they are the central interactive unit themselves.
+
+    🧠 Guidelines:
+    Do not list every visual element — focus only on sections or interactive units a product designer or UX researcher would define.
+
+    Group smaller elements into their logical parent component (e.g., quantity controls, icons, labels → Cart Item).
+
+    Avoid granular components unless they are standalone CTAs or decision points.
+
+    Include Partially Visible Items
+    - If a card or button is cut off but still recognizable, include it.
+    - Group Small Things if They Belong Together
+    - If an image, label, and button work together (like in a product card), group them as one component.
+
+    Ignore Decorative Stuff
+    - Don’t include backgrounds, dividers, icons that don’t do anything, or layout-only elements.
+
+    Each identified component should be visually and functionally distinct.
+
+    🧾 Output Format: JSON List
+    For each top-level component, include the following fields:
+
+    component_name: A human-readable name for the section (e.g., "Cart Item", "Header", "Promocode Section")
+
+    description: A short, clear description of the section and what's visually included
+
+    </instructions>
+
+    <sample_output> 
+    [
+      {
+        "component_name": "Cart Item List",
+        "description": "Visual block showing product image, name, price, and quantity controls.",
+      },
+      {
+        "component_name": "Delivery Options",
+        "description": "Section showing available delivery choices with cost and selection state.",
+      },
+      {
+        "component_name": "Promocode Section",
+        "description": "Input area for applying promotional codes with validation feedback.",
+      },
+      {
+    "component_name": "Partial Debit Card",
+    "description": "Partially visible card element showing the top edge and part of the card number, suggesting the presence of a second linked payment method."
+    }
+    ]
+    </sample_output>
+    
+
+----- RESPONSE -----
+{
+  "id": "resp_680de3e5ba0c819299261c3915666f4a0a650fd13b7f0704",
+  "object": "response",
+  "created_at": 1745740773,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680de3e8e1fc8192abfd67517d8420730a650fd13b7f0704",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"component_name\": \"Location Header\",\n    \"description\": \"Top section displaying the current delivery or search location, 'Regent Street, 16', with a dropdown indicator for changing the address.\"\n  },\n  {\n    \"component_name\": \"Category Grid\",\n    \"description\": \"Grid layout featuring food and beverage categories such as Specials of the week, Cookies, Drinks, Deserts, Pizza, and Salads, each represented by an image and label.\"\n  },\n  {\n    \"component_name\": \"Places List\",\n    \"description\": \"Horizontally scrollable block showing restaurant cards, each with a photo, name, type of cuisine, delivery estimate, and rating (e.g., 'Sundown café', 'The cozy cup').\"\n  },\n  {\n    \"component_name\": \"Best Prices Section\",\n    \"description\": \"Horizontal row highlighting deals or discounted items, each card showing a product image and a quick-add (+) action.\"\n  },\n  {\n    \"component_name\": \"Bottom Navigation Bar\",\n    \"description\": \"Persistent navigation at the bottom with main sections: Home, Catalog, Cart, and Profile, each represented by an icon and label.\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1247,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 247,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 1494
+  },
+  "user": null,
+  "metadata": {}
+}
+
+----- USAGE -----
+Input Tokens: 1247
+Output Tokens: 247
+Total Tokens: 1494
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T07:59:53.831Z
+Service: Claude-claude-3-7-sonnet-20250219
+Execution Time: 13.323 seconds
+
+----- PROMPT -----
+
+<identity>  
+You are a highly capable autonomous AI UIUX ANNOTATOR.  
+You exist to assist a human USER in parsing UI screenshots and generating structured annotations for a design reference library.  
+You are optimized for accuracy, consistency in naming conventions, and exhaustive visual parsing.  
+You do not omit visible data. You do not ask questions. You do not speculate.  
+</identity>  
+
+<input>  
+Required input includes:  
+- A UI screenshot  
+- A list of component categories (e.g., “Header”, “Product Card”, “Bottom Bar”)  
+Each component in the list is treated as a logical container. Elements must be grouped accordingly.  
+</input>  
+
+<task_execution>  
+Upon receiving inputs, perform the following steps without deviation:  
+
+1. **Component Matching:**  
+   For each listed component, identify its corresponding region in the UI.  
+
+2. **Element Extraction:**  
+   Within each component, extract and describe ALL visual elements as INDIVIDUAL elements.  
+   - Include: icons, buttons, labels, values, helper text, visual states, overlays, spacers, input fields, scroll zones  
+   - DO NOT exclude small elements or secondary labels  
+
+3. **Naming Convention Enforcement:**  
+   - Output uses strict hierarchical keys  
+   - Format: [Parent Component] > [Subcomponent] > [Element Label]
+   - Separator: >  
+   - No nesting; use flat JSON with delimited keys  
+
+4. **Description Requirements:**  
+   Each key’s value must include:  
+   - Appearance: Shape, color, text, visual style  
+   - Function: Purpose or intended interaction  
+   - Position: Spatial reference (e.g., “top-right corner”, “below cart total”)  
+   - State: Active, disabled, selected, etc.  
+   - Interaction Type: Static, tappable, swipeable, etc.  
+
+5. **Output Constraints:**  
+   - JSON object in string format only  
+   - Flat structure (no nested objects)  
+   - No nulls, placeholders, or empty fields  
+   - No trailing commas  
+</task_execution>  
+
+<output_format>  
+Return string formatted JSON.  
+DO NOT include code guards ` in the output. 
+Each key represents an element using the format:  
+[Component] > [Subcomponent] > [Element Label]
+
+Each value is a detailed string description, compliant with the annotation rules.  
+
+Example:
+"{
+  "Header > Title": "Centered bold text 'Top Up Receipt' with a confetti background",
+  "Success Badge > Icon": "Green hexagon with a white checkmark, placed below the title",
+  "Delivery Options > Express Option > Label": "Text reading 'Express, 15-25 minutes' on the left side of the express delivery option row, positioned below the standard delivery option.",
+  "Delivery Options > Express Option > Icon": "Small lightning bolt icon next to the express delivery label, indicating speed.",
+  "Delivery Options > Express Option > Price": "Text reading '$2.00' on the right side of the express delivery option row.",
+  "Delivery Options > Express Option > Selection Indicator": "Empty circular radio button on the far right, next to the $2.00 price.",
+  "Confirmation > Message": "Large bold text 'Top Up Success', centered in the screen",
+  "Cart Item 1 > Image": "Square image of a bowl containing gnocchi dish positioned in the left portion of the upper-middle section of the screen.",
+  "Cart Item 1 > Title": "Text label 'Gnocchi with mushroom gravy' displayed to the right of the corresponding image.",
+  "Cart Item 1 > Weight": "Gray text '230g' displayed next to the title of the first item.",
+  "Cart Item 1 > Price": "Orange/amber colored price tag '$5,60' positioned below the item title.",
+  "Cart Item 1 > Quantity Controls > Decrease Button": "Minus button on the left side of the quantity control, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Count Display": "Text showing '1' between the minus and plus buttons, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Increase Button": "Plus button on the right side of the quantity control, under the item title 'Gnocchi'",
+  "Confirmation > Subtext": "Gray helper text 'Your money has been added to your card'",
+  "Amount Summary > Value": "Prominent text '$132.00' centered near the middle",
+  "Card Section > Card Label": "White label text 'Wally Virtual Card' at top of card",
+  "Card Section > Masked Number": "Text '•••• 4568' directly below card label",
+  "Card Section > Timestamp": "Small gray text 'Today, 12:45 PM' at bottom-right of card",
+  "Primary CTA > Label": "Green full-width button 'Done' with white text, tappable",
+  "Secondary CTA > Label": "Teal hyperlink text 'Top up more money' below primary button"
+}"
+</output_format>
+
+
+<component_list></component_list>
+
+----- RESPONSE -----
+{
+  "id": "msg_01MXrhwzugLo1pYbCP4ewi4J",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-3-7-sonnet-20250219",
+  "content": [
+    {
+      "type": "text",
+      "text": "I notice you've shared a screenshot of a food ordering app showing a chocolate croissant product page, but you haven't provided a component list for me to annotate against. \n\nTo properly analyze this UI, I would need a list of component categories you'd like me to identify and describe (such as \"Product Header\", \"Item Description\", \"Add-ons Section\", \"Pricing Bar\", etc.).\n\nIf you provide the component categories you'd like annotated, I can generate a comprehensive structured annotation following the format you outlined in your instructions."
+    }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 2088,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 117
+  }
+}
+
+----- USAGE -----
+Input Tokens: 2088
+Output Tokens: 117
+Total Tokens: 2205
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T08:02:51.540Z
+Service: OpenAI-Direct-gpt-4.1-2025-04-14
+Execution Time: 9.719 seconds
+
+----- PROMPT -----
+
+    Extract High-Level UI Components with Functional Metadata
+
+    <instructions>
+    You are given a UI screenshot from a mobile or web application.
+
+    🎯 Your Task:
+    Identify and return only the key UI components or main sections visible in the interface. These should be semantically meaningful blocks that represent distinct parts of the user experience — not low-level elements like buttons, icons, or text unless they are the central interactive unit themselves.
+
+    🧠 Guidelines:
+    Do not list every visual element — focus only on sections or interactive units a product designer or UX researcher would define.
+
+    Group smaller elements into their logical parent component (e.g., quantity controls, icons, labels → Cart Item).
+
+    Avoid granular components unless they are standalone CTAs or decision points.
+
+    Include Partially Visible Items
+    - If a card or button is cut off but still recognizable, include it.
+    - Group Small Things if They Belong Together
+    - If an image, label, and button work together (like in a product card), group them as one component.
+
+    Ignore Decorative Stuff
+    - Don’t include backgrounds, dividers, icons that don’t do anything, or layout-only elements.
+
+    Each identified component should be visually and functionally distinct.
+
+    🧾 Output Format: JSON List
+    For each top-level component, include the following fields:
+
+    component_name: A human-readable name for the section (e.g., "Cart Item", "Header", "Promocode Section")
+
+    description: A short, clear description of the section and what's visually included
+
+    </instructions>
+
+    <sample_output> 
+    [
+      {
+        "component_name": "Cart Item List",
+        "description": "Visual block showing product image, name, price, and quantity controls.",
+      },
+      {
+        "component_name": "Delivery Options",
+        "description": "Section showing available delivery choices with cost and selection state.",
+      },
+      {
+        "component_name": "Promocode Section",
+        "description": "Input area for applying promotional codes with validation feedback.",
+      },
+      {
+    "component_name": "Partial Debit Card",
+    "description": "Partially visible card element showing the top edge and part of the card number, suggesting the presence of a second linked payment method."
+    }
+    ]
+    </sample_output>
+    
+
+----- RESPONSE -----
+{
+  "id": "resp_680de4a20db481928657720ce57d25d90675aaaac68f7994",
+  "object": "response",
+  "created_at": 1745740962,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680de4a5f8ac8192b2fc78c83e5d19ba0675aaaac68f7994",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"component_name\": \"Address Header\",\n    \"description\": \"Top section displaying the selected delivery address ('Regent Street, 16') with a dropdown indicator.\"\n  },\n  {\n    \"component_name\": \"Food Category Grid\",\n    \"description\": \"Main grid of food categories, each represented by a card with images and labels, including options like 'Specials of the week', 'Cookies', 'Drinks', 'Deserts', 'Pizza', and 'Salads'.\"\n  },\n  {\n    \"component_name\": \"Recommended Places List\",\n    \"description\": \"Horizontal list of restaurant cards under 'Places', each showing a photo, name, review info, cuisine type, and estimated delivery time.\"\n  },\n  {\n    \"component_name\": \"Best Prices Carousel\",\n    \"description\": \"Scrollable row highlighting products or meals with discounts, each card showing an image, price indicator, and add-to-cart action.\"\n  },\n  {\n    \"component_name\": \"Bottom Navigation Bar\",\n    \"description\": \"Persistent navigation bar at the bottom with labeled icons for Home, Catalog, Cart, and Profile.\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1247,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 233,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 1480
+  },
+  "user": null,
+  "metadata": {}
+}
+
+----- USAGE -----
+Input Tokens: 1247
+Output Tokens: 233
+Total Tokens: 1480
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T08:04:21.919Z
+Service: OpenAI-Direct-gpt-4.1-2025-04-14
+Execution Time: 9.381 seconds
+
+----- PROMPT -----
+
+    Extract High-Level UI Components with Functional Metadata
+
+    <instructions>
+    You are given a UI screenshot from a mobile or web application.
+
+    🎯 Your Task:
+    Identify and return only the key UI components or main sections visible in the interface. These should be semantically meaningful blocks that represent distinct parts of the user experience — not low-level elements like buttons, icons, or text unless they are the central interactive unit themselves.
+
+    🧠 Guidelines:
+    Do not list every visual element — focus only on sections or interactive units a product designer or UX researcher would define.
+
+    Group smaller elements into their logical parent component (e.g., quantity controls, icons, labels → Cart Item).
+
+    Avoid granular components unless they are standalone CTAs or decision points.
+
+    Include Partially Visible Items
+    - If a card or button is cut off but still recognizable, include it.
+    - Group Small Things if They Belong Together
+    - If an image, label, and button work together (like in a product card), group them as one component.
+
+    Ignore Decorative Stuff
+    - Don’t include backgrounds, dividers, icons that don’t do anything, or layout-only elements.
+
+    Each identified component should be visually and functionally distinct.
+
+    🧾 Output Format: JSON List
+    For each top-level component, include the following fields:
+
+    component_name: A human-readable name for the section (e.g., "Cart Item", "Header", "Promocode Section")
+
+    description: A short, clear description of the section and what's visually included
+
+    </instructions>
+
+    <sample_output> 
+    [
+      {
+        "component_name": "Cart Item List",
+        "description": "Visual block showing product image, name, price, and quantity controls.",
+      },
+      {
+        "component_name": "Delivery Options",
+        "description": "Section showing available delivery choices with cost and selection state.",
+      },
+      {
+        "component_name": "Promocode Section",
+        "description": "Input area for applying promotional codes with validation feedback.",
+      },
+      {
+    "component_name": "Partial Debit Card",
+    "description": "Partially visible card element showing the top edge and part of the card number, suggesting the presence of a second linked payment method."
+    }
+    ]
+    </sample_output>
+    
+
+----- RESPONSE -----
+{
+  "id": "resp_680de4fcc5408192bd7fda37fdd86c7801b8cf0b0169a774",
+  "object": "response",
+  "created_at": 1745741052,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680de50133248192b65a668062ed4ef301b8cf0b0169a774",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"component_name\": \"Location Header\",\n    \"description\": \"Section at the top displaying the current delivery or browsing location (Regent Street, 16) with a dropdown indicator for changing the address.\"\n  },\n  {\n    \"component_name\": \"Category Grid\",\n    \"description\": \"Grid of food and drink categories including Specials of the week, Cookies, Drinks, Deserts, Pizza, and Salads, each represented with an image and label for browsing options.\"\n  },\n  {\n    \"component_name\": \"Places List\",\n    \"description\": \"Horizontal list showcasing local restaurants or cafés with images, names, cuisine type, estimated delivery time, and ratings. Includes at least two items: Sundown café and The cozy cup.\"\n  },\n  {\n    \"component_name\": \"Best Prices Carousel\",\n    \"description\": \"Row of discounted or featured food items with images, labels, and add buttons, intended to highlight current deals or best price offers. Partially visible food cards suggest horizontal scrolling.\"\n  },\n  {\n    \"component_name\": \"Bottom Navigation Bar\",\n    \"description\": \"Persistent navigation bar at the bottom with icons and labels for Home, Catalog, Cart, and Profile, enabling quick switching between main app sections.\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1247,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 258,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 1505
+  },
+  "user": null,
+  "metadata": {}
+}
+
+----- USAGE -----
+Input Tokens: 1247
+Output Tokens: 258
+Total Tokens: 1505
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T08:06:40.576Z
+Service: OpenAI-Direct-gpt-4o-mini
+Execution Time: 7.263 seconds
+
+----- PROMPT -----
+
+    Extract High-Level UI Components with Functional Metadata
+
+    <instructions>
+    You are given a UI screenshot from a mobile or web application.
+
+    🎯 Your Task:
+    Identify and return only the key UI components or main sections visible in the interface. These should be semantically meaningful blocks that represent distinct parts of the user experience — not low-level elements like buttons, icons, or text unless they are the central interactive unit themselves.
+
+    🧠 Guidelines:
+    Do not list every visual element — focus only on sections or interactive units a product designer or UX researcher would define.
+
+    Group smaller elements into their logical parent component (e.g., quantity controls, icons, labels → Cart Item).
+
+    Avoid granular components unless they are standalone CTAs or decision points.
+
+    Include Partially Visible Items
+    - If a card or button is cut off but still recognizable, include it.
+    - Group Small Things if They Belong Together
+    - If an image, label, and button work together (like in a product card), group them as one component.
+
+    Ignore Decorative Stuff
+    - Don’t include backgrounds, dividers, icons that don’t do anything, or layout-only elements.
+
+    Each identified component should be visually and functionally distinct.
+
+    🧾 Output Format: JSON List
+    For each top-level component, include the following fields:
+
+    component_name: A human-readable name for the section (e.g., "Cart Item", "Header", "Promocode Section")
+
+    description: A short, clear description of the section and what's visually included
+
+    </instructions>
+
+    <sample_output> 
+    [
+      {
+        "component_name": "Cart Item List",
+        "description": "Visual block showing product image, name, price, and quantity controls.",
+      },
+      {
+        "component_name": "Delivery Options",
+        "description": "Section showing available delivery choices with cost and selection state.",
+      },
+      {
+        "component_name": "Promocode Section",
+        "description": "Input area for applying promotional codes with validation feedback.",
+      },
+      {
+    "component_name": "Partial Debit Card",
+    "description": "Partially visible card element showing the top edge and part of the card number, suggesting the presence of a second linked payment method."
+    }
+    ]
+    </sample_output>
+    
+
+----- RESPONSE -----
+{
+  "id": "resp_680de589872481928310df2af8c673fd03b7c9d7f68d5332",
+  "object": "response",
+  "created_at": 1745741193,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4o-mini-2024-07-18",
+  "output": [
+    {
+      "id": "msg_680de58f62488192bd36d3db48dfff1e03b7c9d7f68d5332",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "```json\n[\n  {\n    \"component_name\": \"Header\",\n    \"description\": \"Top section displaying the location label 'Regent Street, 16' with a dropdown arrow.\"\n  },\n  {\n    \"component_name\": \"Specials Section\",\n    \"description\": \"Visual block showcasing food specials of the week with discount labels.\"\n  },\n  {\n    \"component_name\": \"Food Categories\",\n    \"description\": \"Grid section displaying various food categories like Cookies, Drinks, Deserts, Pizza, and Salads.\"\n  },\n  {\n    \"component_name\": \"Places Section\",\n    \"description\": \"Area featuring restaurant listings with images, star ratings, and cuisine types.\"\n  },\n  {\n    \"component_name\": \"Best Prices Section\",\n    \"description\": \"Block highlighting special offers on items with images and add buttons, showcasing deals.\"\n  },\n  {\n    \"component_name\": \"Bottom Navigation\",\n    \"description\": \"Navigation bar with icons for Home, Catalog, Cart, and Profile.\"\n  }\n]\n```"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 25983,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 210,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 26193
+  },
+  "user": null,
+  "metadata": {}
+}
+
+----- USAGE -----
+Input Tokens: 25983
+Output Tokens: 210
+Total Tokens: 26193
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T08:09:41.626Z
+Service: OpenAI-Direct-gpt-4.1-2025-04-14
+Execution Time: 9.624 seconds
+
+----- PROMPT -----
+
+    Extract High-Level UI Components with Functional Metadata
+
+    <instructions>
+    You are given a UI screenshot from a mobile or web application.
+
+    🎯 Your Task:
+    Identify and return only the key UI components or main sections visible in the interface. These should be semantically meaningful blocks that represent distinct parts of the user experience — not low-level elements like buttons, icons, or text unless they are the central interactive unit themselves.
+
+    🧠 Guidelines:
+    Do not list every visual element — focus only on sections or interactive units a product designer or UX researcher would define.
+
+    Group smaller elements into their logical parent component (e.g., quantity controls, icons, labels → Cart Item).
+
+    Avoid granular components unless they are standalone CTAs or decision points.
+
+    Include Partially Visible Items
+    - If a card or button is cut off but still recognizable, include it.
+    - Group Small Things if They Belong Together
+    - If an image, label, and button work together (like in a product card), group them as one component.
+
+    Ignore Decorative Stuff
+    - Don’t include backgrounds, dividers, icons that don’t do anything, or layout-only elements.
+
+    Each identified component should be visually and functionally distinct.
+
+    🧾 Output Format: JSON List
+    For each top-level component, include the following fields:
+
+    component_name: A human-readable name for the section (e.g., "Cart Item", "Header", "Promocode Section")
+
+    description: A short, clear description of the section and what's visually included
+
+    </instructions>
+
+    <sample_output> 
+    [
+      {
+        "component_name": "Cart Item List",
+        "description": "Visual block showing product image, name, price, and quantity controls.",
+      },
+      {
+        "component_name": "Delivery Options",
+        "description": "Section showing available delivery choices with cost and selection state.",
+      },
+      {
+        "component_name": "Promocode Section",
+        "description": "Input area for applying promotional codes with validation feedback.",
+      },
+      {
+    "component_name": "Partial Debit Card",
+    "description": "Partially visible card element showing the top edge and part of the card number, suggesting the presence of a second linked payment method."
+    }
+    ]
+    </sample_output>
+    
+
+----- RESPONSE -----
+{
+  "id": "resp_680de63c33908192ba6dbafc1f8c69cb035210724c2b62b9",
+  "object": "response",
+  "created_at": 1745741372,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680de63ec8348192b25acc34a784cfcc035210724c2b62b9",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"component_name\": \"Location Header\",\n    \"description\": \"Top section displaying the user's delivery location ('Regent Street, 16'), with a dropdown indicator for changing the address.\"\n  },\n  {\n    \"component_name\": \"Category Selector\",\n    \"description\": \"Grid of tappable category cards including 'Specials of the week', 'Cookies', 'Drinks', 'Deserts', 'Pizza', and 'Salads', each with an image and label, allowing users to browse by food type or promotion.\"\n  },\n  {\n    \"component_name\": \"Places List\",\n    \"description\": \"Section showcasing individual restaurant cards with images, names, ratings, cuisine types, and estimated delivery times.\"\n  },\n  {\n    \"component_name\": \"Best Prices Carousel\",\n    \"description\": \"Horizontally scrollable row featuring food item cards with images, titles, price or discount indications, and prominent add-to-cart controls.\"\n  },\n  {\n    \"component_name\": \"Bottom Navigation Bar\",\n    \"description\": \"Persistent footer with navigation icons and labels for 'Home', 'Catalog', 'Cart', and 'Profile'.\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1247,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 238,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 1485
+  },
+  "user": null,
+  "metadata": {}
+}
+
+----- USAGE -----
+Input Tokens: 1247
+Output Tokens: 238
+Total Tokens: 1485
+========== END OF ENTRY ==========
+

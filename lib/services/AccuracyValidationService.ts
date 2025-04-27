@@ -1,5 +1,6 @@
 import { ComponentDetectionResult, ElementDetectionItem } from '@/types/DetectionResult';
-import { validate_bounding_boxes_base64 } from '@/lib/services/ai/OpenAIService';
+import { validate_bounding_boxes_base64 } from '@/lib/services/ai/OpenAIDirectService';
+// import { validate_bounding_boxes_base64 } from '@/lib/services/ai/OpenAIService';
 import pLimit from 'p-limit';
 import { generateAnnotatedImageBuffer } from '@/lib/services/imageServices/BoundingBoxService';
 import { createScreenshotTrackingContext } from '@/lib/logger';
