@@ -51098,3 +51098,3033 @@ Output Tokens: 749
 Total Tokens: 2489
 ========== END OF ENTRY ==========
 
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:28:47.798Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 8.027 seconds
+
+----- PROMPT -----
+
+    Extract High-Level UI Components with Functional Metadata
+
+    <instructions>
+    You are given a UI screenshot from a mobile or web application.
+
+    🎯 Your Task:
+    Identify and return only the key UI components or main sections visible in the interface. These should be semantically meaningful blocks that represent distinct parts of the user experience — not low-level elements like buttons, icons, or text unless they are the central interactive unit themselves.
+
+    🧠 Guidelines:
+    Do not list every visual element — focus only on sections or interactive units a product designer or UX researcher would define.
+
+    Group smaller elements into their logical parent component (e.g., quantity controls, icons, labels → Cart Item).
+
+    Avoid granular components unless they are standalone CTAs or decision points.
+
+    Include Partially Visible Items
+    - If a card or button is cut off but still recognizable, include it.
+    - Group Small Things if They Belong Together
+    - If an image, label, and button work together (like in a product card), group them as one component.
+
+    Ignore Decorative Stuff
+    - Don’t include backgrounds, dividers, icons that don’t do anything, or layout-only elements.
+
+    Each identified component should be visually and functionally distinct.
+
+    🧾 Output Format: JSON List
+    For each top-level component, include the following fields:
+
+    component_name: A human-readable name for the section (e.g., "Cart Item", "Header", "Promocode Section")
+
+    description: A short, clear description of the section and what's visually included
+
+    </instructions>
+
+    <sample_output> 
+    [
+      {
+        "component_name": "Cart Item List",
+        "description": "Visual block showing product image, name, price, and quantity controls.",
+      },
+      {
+        "component_name": "Delivery Options",
+        "description": "Section showing available delivery choices with cost and selection state.",
+      },
+      {
+        "component_name": "Promocode Section",
+        "description": "Input area for applying promotional codes with validation feedback.",
+      },
+      {
+    "component_name": "Partial Debit Card",
+    "description": "Partially visible card element showing the top edge and part of the card number, suggesting the presence of a second linked payment method."
+    }
+    ]
+    </sample_output>
+    
+
+----- RESPONSE -----
+{
+  "id": "resp_680e3107fbcc8192aaa3c5b559a5e2ea0ce769f8c2eaf91b",
+  "object": "response",
+  "created_at": 1745760519,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680e310b48ac819297672d3221ecf8df0ce769f8c2eaf91b",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"component_name\": \"Streak Goal Selection\",\n    \"description\": \"Main section containing a list of streak goal options with day values and motivational labels. Includes selection state for the currently chosen option.\"\n  },\n  {\n    \"component_name\": \"Motivational Tip\",\n    \"description\": \"Section displaying a character illustration and a tip about completion likelihood, reinforcing the benefit of selecting a streak goal.\"\n  },\n  {\n    \"component_name\": \"Action Button Bar\",\n    \"description\": \"Bottom section containing two main actions: a 'SKIP' button and a prominent 'I CAN DO IT!' confirmation button.\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1248,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 133,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 1381
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "[\n  {\n    \"component_name\": \"Streak Goal Selection\",\n    \"description\": \"Main section containing a list of streak goal options with day values and motivational labels. Includes selection state for the currently chosen option.\"\n  },\n  {\n    \"component_name\": \"Motivational Tip\",\n    \"description\": \"Section displaying a character illustration and a tip about completion likelihood, reinforcing the benefit of selecting a streak goal.\"\n  },\n  {\n    \"component_name\": \"Action Button Bar\",\n    \"description\": \"Bottom section containing two main actions: a 'SKIP' button and a prominent 'I CAN DO IT!' confirmation button.\"\n  }\n]"
+}
+
+----- USAGE -----
+Input Tokens: 1248
+Output Tokens: 133
+Total Tokens: 1381
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:28:52.124Z
+Service: Claude-claude-3-haiku-20240307
+Execution Time: 4.241 seconds
+
+----- PROMPT -----
+
+<identity>  
+You are a highly capable autonomous AI UIUX ANNOTATOR.  
+You exist to assist a human USER in parsing UI screenshots and generating structured annotations for a design reference library.  
+You are optimized for accuracy, consistency in naming conventions, and exhaustive visual parsing.  
+You do not omit visible data. You do not ask questions. You do not speculate.  
+</identity>  
+
+<input>  
+Required input includes:  
+- A UI screenshot  
+- A list of component categories (e.g., “Header”, “Product Card”, “Bottom Bar”)  
+Each component in the list is treated as a logical container. Elements must be grouped accordingly.  
+</input>  
+
+<task_execution>  
+Upon receiving inputs, perform the following steps without deviation:  
+
+1. **Component Matching:**  
+   For each listed component, identify its corresponding region in the UI.  
+
+2. **Element Extraction:**  
+   Within each component, extract and describe ALL visual elements as INDIVIDUAL elements.  
+   - Include: icons, buttons, labels, values, helper text, visual states, overlays, spacers, input fields, scroll zones  
+   - DO NOT exclude small elements or secondary labels  
+
+3. **Naming Convention Enforcement:**  
+   - Output uses strict hierarchical keys  
+   - Format: [Parent Component] > [Subcomponent] > [Element Label]
+   - Separator: >  
+   - No nesting; use flat JSON with delimited keys  
+
+4. **Description Requirements:**  
+   Each key’s value must include:  
+   - Appearance: Shape, color, text, visual style  
+   - Function: Purpose or intended interaction  
+   - Position: Spatial reference (e.g., “top-right corner”, “below cart total”)  
+   - State: Active, disabled, selected, etc.  
+   - Interaction Type: Static, tappable, swipeable, etc.  
+
+5. **Output Constraints:**  
+   - JSON object in string format only  
+   - Flat structure (no nested objects)  
+   - No nulls, placeholders, or empty fields  
+   - No trailing commas  
+</task_execution>  
+
+<output_format>  
+Return string formatted JSON.  
+DO NOT include code guards ` in the output. 
+Each key represents an element using the format:  
+[Component] > [Subcomponent] > [Element Label]
+
+Each value is a detailed string description, compliant with the annotation rules.  
+
+Example:
+"{
+  "Header > Title": "Centered bold text 'Top Up Receipt' with a confetti background",
+  "Success Badge > Icon": "Green hexagon with a white checkmark, placed below the title",
+  "Delivery Options > Express Option > Label": "Text reading 'Express, 15-25 minutes' on the left side of the express delivery option row, positioned below the standard delivery option.",
+  "Delivery Options > Express Option > Icon": "Small lightning bolt icon next to the express delivery label, indicating speed.",
+  "Delivery Options > Express Option > Price": "Text reading '$2.00' on the right side of the express delivery option row.",
+  "Delivery Options > Express Option > Selection Indicator": "Empty circular radio button on the far right, next to the $2.00 price.",
+  "Confirmation > Message": "Large bold text 'Top Up Success', centered in the screen",
+  "Cart Item 1 > Image": "Square image of a bowl containing gnocchi dish positioned in the left portion of the upper-middle section of the screen.",
+  "Cart Item 1 > Title": "Text label 'Gnocchi with mushroom gravy' displayed to the right of the corresponding image.",
+  "Cart Item 1 > Weight": "Gray text '230g' displayed next to the title of the first item.",
+  "Cart Item 1 > Price": "Orange/amber colored price tag '$5,60' positioned below the item title.",
+  "Cart Item 1 > Quantity Controls > Decrease Button": "Minus button on the left side of the quantity control, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Count Display": "Text showing '1' between the minus and plus buttons, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Increase Button": "Plus button on the right side of the quantity control, under the item title 'Gnocchi'",
+  "Confirmation > Subtext": "Gray helper text 'Your money has been added to your card'",
+  "Amount Summary > Value": "Prominent text '$132.00' centered near the middle",
+  "Card Section > Card Label": "White label text 'Wally Virtual Card' at top of card",
+  "Card Section > Masked Number": "Text '•••• 4568' directly below card label",
+  "Card Section > Timestamp": "Small gray text 'Today, 12:45 PM' at bottom-right of card",
+  "Primary CTA > Label": "Green full-width button 'Done' with white text, tappable",
+  "Secondary CTA > Label": "Teal hyperlink text 'Top up more money' below primary button"
+}"
+</output_format>
+
+
+<component_list>Streak Goal Selection
+Motivational Tip
+Action Button Bar</component_list>
+
+----- RESPONSE -----
+{
+  "id": "msg_016YKad7idqz1m7QFjSCgHbY",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-3-haiku-20240307",
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"Streak Goal Selection > Goal Option 1\": \"The first streak goal option displays '3 days' as the duration and 'Baby steps' as the associated description.\",\n  \"Streak Goal Selection > Goal Option 2\": \"The second streak goal option displays '7 days' as the duration and 'Strong start' as the associated description.\",\n  \"Streak Goal Selection > Goal Option 3\": \"The third streak goal option displays '14 days' as the duration and 'Clearly committed' as the associated description, with a check mark icon indicating this is the selected option.\",\n  \"Streak Goal Selection > Goal Option 4\": \"The fourth streak goal option displays '30 days' as the duration and 'Unstoppable streak' as the associated description.\",\n  \"Motivational Tip > Tip\": \"The motivational tip section displays a cartoon alligator character and the text 'You'll be 5x more likely to complete the course!'\",\n  \"Action Button Bar > Skip Button\": \"A 'SKIP' button that appears to be a secondary action option.\",\n  \"Action Button Bar > Primary CTA\": \"A blue 'I CAN DO IT!' button that appears to be the primary call-to-action.\"\n}"
+    }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 2103,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 284
+  }
+}
+
+----- USAGE -----
+Input Tokens: 2103
+Output Tokens: 284
+Total Tokens: 2387
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:28:54.938Z
+Service: Claude-claude-3-haiku-20240307
+Execution Time: 2.762 seconds
+
+----- PROMPT -----
+
+You are optimizing UI component descriptions for a Vision Language Model (VLM) tasked with drawing bounding boxes accurately.
+The expected output is a flat JSON string.
+DO NOT include any other text or explanation in the output.
+
+Your job is to convert a flat JSON list of UI component keys into detailed visual descriptions that:
+- Make each component visually distinct and detectable
+- Resolves ambiguity between repeated elements by including precise visual anchors 
+- Avoid language that anthropomorphizes, speculates, or adds human-facing UX explanation
+- Preserves the model's focus on the target component  
+- Maintain a tight focus on structure, position, and appearance
+
+Input:  
+- A UI screenshot  
+- A flat JSON list of component IDs → short descriptions
+
+Key Guidance:
+
+1. Prioritize the Component Itself  
+Clearly describe:  
+- Shape and size (e.g., pill-shaped, small square)  
+- Color  
+- Text/icon content  
+- Functional purpose (e.g., ‘decrease item quantity’)  
+
+2. Use Row Anchors for Repeated Elements  
+- Only when components are repeated (like quantity controls), add a subtle row-level anchor based on a unique nearby feature.
+- Anchors must be visually locatable, such as labels, icons, or nearby components
+
+Example (Correct):
+"Plus (+) icon in a light orange pill-shaped button, in the row showing the item titled 'Wenzel with raspberries and currants'"
+
+Avoid (Incorrect):
+"Plus button on the left of the first quantity control"
+"Below the second product title"
+
+3. Do Not Include Purpose or Human Interpretation
+- NEVER explain intent (e.g., "used to add funds", "leads to new screen", "indicating xxxxx" )
+- Only describe what is visually present and identifiable
+
+4. Never Let Anchor Dominate  
+Use phrasing that keeps the component as the star, and the anchor as context.
+
+Good:  
+“...in the row displaying the title ‘Wenzel with raspberries and currants’”  
+"Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name 'DKNY'
+
+
+Bad:  
+“...under the ‘Wenzel’ label” → implies Wenzel might be the bounding box  
+“Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name in the second row” → VLM has no way to know what the second row is
+
+<sample_output>
+"  
+{
+  "Cart Items List > Item 2 > Quantity Controls > Increase Button": "Plus (+) button in a light orange pill-shaped control, on the right of the quantity selector in the row showing the item 'Wenzel with raspberries and currants'",
+  "Cart Items List > Item 3 > Quantity Controls > Decrease Button": "Minus (-) button in a light orange pill-shaped control, on the left of the quantity selector in the row displaying the title 'Freshly squeezed orange juice'",
+  "Order Summary & Confirmation Bar > Confirm Button": "White text 'Confirm order' aligned right in the orange confirmation bar at the bottom of the screen"
+}"
+</sample_output>
+
+Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards ` in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
+
+
+<element_list>{
+  "Streak Goal Selection > Goal Option 1": "The first streak goal option displays '3 days' as the duration and 'Baby steps' as the associated description.",
+  "Streak Goal Selection > Goal Option 2": "The second streak goal option displays '7 days' as the duration and 'Strong start' as the associated description.",
+  "Streak Goal Selection > Goal Option 3": "The third streak goal option displays '14 days' as the duration and 'Clearly committed' as the associated description, with a check mark icon indicating this is the selected option.",
+  "Streak Goal Selection > Goal Option 4": "The fourth streak goal option displays '30 days' as the duration and 'Unstoppable streak' as the associated description.",
+  "Motivational Tip > Tip": "The motivational tip section displays a cartoon alligator character and the text 'You'll be 5x more likely to complete the course!'",
+  "Action Button Bar > Skip Button": "A 'SKIP' button that appears to be a secondary action option.",
+  "Action Button Bar > Primary CTA": "A blue 'I CAN DO IT!' button that appears to be the primary call-to-action."
+}</element_list>
+
+----- RESPONSE -----
+{
+  "id": "msg_01AmxdUjnDiCwwEYuCzvx4ub",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-3-haiku-20240307",
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"Streak Goal Selection > Goal Option 1\": \"The first streak goal option displays '3 days' as the duration and 'Baby steps' as the associated description.\",\n  \"Streak Goal Selection > Goal Option 2\": \"The second streak goal option displays '7 days' as the duration and 'Strong start' as the associated description.\",\n  \"Streak Goal Selection > Goal Option 3\": \"The third streak goal option displays '14 days' as the duration and 'Clearly committed' as the associated description, with a check mark icon indicating this is the selected option.\",\n  \"Streak Goal Selection > Goal Option 4\": \"The fourth streak goal option displays '30 days' as the duration and 'Unstoppable streak' as the associated description.\",\n  \"Motivational Tip > Tip\": \"The motivational tip section displays a cartoon alligator character and the text 'You'll be 5x more likely to complete the course!'\",\n  \"Action Button Bar > Skip Button\": \"A 'SKIP' button that appears to be a secondary action option.\",\n  \"Action Button Bar > Primary CTA\": \"A blue 'I CAN DO IT!' button that appears to be the primary call-to-action.\"\n}"
+    }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 1966,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 284
+  }
+}
+
+----- USAGE -----
+Input Tokens: 1966
+Output Tokens: 284
+Total Tokens: 2250
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:28:56.974Z
+Service: Moondream-vl-Detect
+Execution Time: 1.875 seconds
+
+----- PROMPT -----
+Detect The third streak goal option displays '14 days' as the duration and 'Clearly committed' as the associated description, with a check mark icon indicating this is the selected option. in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.316573366522789,
+      "y_min": 0.3146808259189129,
+      "x_max": 0.683426633477211,
+      "y_max": 0.3747722990810871
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:28:57.230Z
+Service: Moondream-vl-Detect
+Execution Time: 2.132 seconds
+
+----- PROMPT -----
+Detect The first streak goal option displays '3 days' as the duration and 'Baby steps' as the associated description. in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.32388079166412354,
+      "y_min": 0.2111652009189129,
+      "x_max": 0.6761192083358765,
+      "y_max": 0.2712566740810871
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:28:57.486Z
+Service: Moondream-vl-Detect
+Execution Time: 2.387 seconds
+
+----- PROMPT -----
+Detect The fourth streak goal option displays '30 days' as the duration and 'Unstoppable streak' as the associated description. in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.32388079166412354,
+      "y_min": 0.3890283424407244,
+      "x_max": 0.6761192083358765,
+      "y_max": 0.4254247825592756
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:28:57.495Z
+Service: Moondream-vl-Detect
+Execution Time: 2.396 seconds
+
+----- PROMPT -----
+Detect The second streak goal option displays '7 days' as the duration and 'Strong start' as the associated description. in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.3178119957447052,
+      "y_min": 0.2638995759189129,
+      "x_max": 0.6821880042552948,
+      "y_max": 0.3239910490810871
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:28:57.511Z
+Service: Moondream-vl-Detect
+Execution Time: 2.412 seconds
+
+----- PROMPT -----
+Detect The motivational tip section displays a cartoon alligator character and the text 'You'll be 5x more likely to complete the course!' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.31904225051403046,
+      "y_min": 0.6063870154321194,
+      "x_max": 0.6809577494859695,
+      "y_max": 0.6924411095678806
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:28:57.519Z
+Service: Moondream-vl-Detect
+Execution Time: 2.42 seconds
+
+----- PROMPT -----
+Detect A 'SKIP' button that appears to be a secondary action option. in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.30503979325294495,
+      "y_min": 0.8325818348675966,
+      "x_max": 0.694960206747055,
+      "y_max": 0.8803087901324034
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:28:57.574Z
+Service: Moondream-vl-Detect
+Execution Time: 2.475 seconds
+
+----- PROMPT -----
+Detect A blue 'I CAN DO IT!' button that appears to be the primary call-to-action. in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.3037143349647522,
+      "y_min": 0.8915523886680603,
+      "x_max": 0.6962856650352478,
+      "y_max": 0.9443851113319397
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:36:50.529Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 7.341 seconds
+
+----- PROMPT -----
+
+    Extract High-Level UI Components with Functional Metadata
+
+    <instructions>
+    You are given a UI screenshot from a mobile or web application.
+
+    🎯 Your Task:
+    Identify and return only the key UI components or main sections visible in the interface. These should be semantically meaningful blocks that represent distinct parts of the user experience — not low-level elements like buttons, icons, or text unless they are the central interactive unit themselves.
+
+    🧠 Guidelines:
+    Do not list every visual element — focus only on sections or interactive units a product designer or UX researcher would define.
+
+    Group smaller elements into their logical parent component (e.g., quantity controls, icons, labels → Cart Item).
+
+    Avoid granular components unless they are standalone CTAs or decision points.
+
+    Include Partially Visible Items
+    - If a card or button is cut off but still recognizable, include it.
+    - Group Small Things if They Belong Together
+    - If an image, label, and button work together (like in a product card), group them as one component.
+
+    Ignore Decorative Stuff
+    - Don’t include backgrounds, dividers, icons that don’t do anything, or layout-only elements.
+
+    Each identified component should be visually and functionally distinct.
+
+    🧾 Output Format: JSON List
+    For each top-level component, include the following fields:
+
+    component_name: A human-readable name for the section (e.g., "Cart Item", "Header", "Promocode Section")
+
+    description: A short, clear description of the section and what's visually included
+
+    </instructions>
+
+    <sample_output> 
+    [
+      {
+        "component_name": "Cart Item List",
+        "description": "Visual block showing product image, name, price, and quantity controls.",
+      },
+      {
+        "component_name": "Delivery Options",
+        "description": "Section showing available delivery choices with cost and selection state.",
+      },
+      {
+        "component_name": "Promocode Section",
+        "description": "Input area for applying promotional codes with validation feedback.",
+      },
+      {
+    "component_name": "Partial Debit Card",
+    "description": "Partially visible card element showing the top edge and part of the card number, suggesting the presence of a second linked payment method."
+    }
+    ]
+    </sample_output>
+    
+
+----- RESPONSE -----
+{
+  "id": "resp_680e32eb796c8192a5f279e42cf494c00e961e590ff3680c",
+  "object": "response",
+  "created_at": 1745761003,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680e32ef07ac8192a8bd1512ded60f290e961e590ff3680c",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"component_name\": \"Streak Goal Selector\",\n    \"description\": \"Central section presenting selectable options for streak goals (3 days, 7 days, 14 days, 30 days), each with a descriptive label. Includes a highlighted selection with a checkmark for the chosen option.\"\n  },\n  {\n    \"component_name\": \"Motivational Message\",\n    \"description\": \"Visual block featuring a mascot illustration paired with a motivational text about increased likelihood of course completion.\"\n  },\n  {\n    \"component_name\": \"Action Buttons\",\n    \"description\": \"Footer section with two prominent actions: a SKIP button and a highlighted primary 'I CAN DO IT!' button for user progression.\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1248,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 148,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 1396
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "[\n  {\n    \"component_name\": \"Streak Goal Selector\",\n    \"description\": \"Central section presenting selectable options for streak goals (3 days, 7 days, 14 days, 30 days), each with a descriptive label. Includes a highlighted selection with a checkmark for the chosen option.\"\n  },\n  {\n    \"component_name\": \"Motivational Message\",\n    \"description\": \"Visual block featuring a mascot illustration paired with a motivational text about increased likelihood of course completion.\"\n  },\n  {\n    \"component_name\": \"Action Buttons\",\n    \"description\": \"Footer section with two prominent actions: a SKIP button and a highlighted primary 'I CAN DO IT!' button for user progression.\"\n  }\n]"
+}
+
+----- USAGE -----
+Input Tokens: 1248
+Output Tokens: 148
+Total Tokens: 1396
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:36:55.443Z
+Service: Claude-claude-3-haiku-20240307
+Execution Time: 4.768 seconds
+
+----- PROMPT -----
+
+<identity>  
+You are a highly capable autonomous AI UIUX ANNOTATOR.  
+You exist to assist a human USER in parsing UI screenshots and generating structured annotations for a design reference library.  
+You are optimized for accuracy, consistency in naming conventions, and exhaustive visual parsing.  
+You do not omit visible data. You do not ask questions. You do not speculate.  
+</identity>  
+
+<input>  
+Required input includes:  
+- A UI screenshot  
+- A list of component categories (e.g., “Header”, “Product Card”, “Bottom Bar”)  
+Each component in the list is treated as a logical container. Elements must be grouped accordingly.  
+</input>  
+
+<task_execution>  
+Upon receiving inputs, perform the following steps without deviation:  
+
+1. **Component Matching:**  
+   For each listed component, identify its corresponding region in the UI.  
+
+2. **Element Extraction:**  
+   Within each component, extract and describe ALL visual elements as INDIVIDUAL elements.  
+   - Include: icons, buttons, labels, values, helper text, visual states, overlays, spacers, input fields, scroll zones  
+   - DO NOT exclude small elements or secondary labels  
+
+3. **Naming Convention Enforcement:**  
+   - Output uses strict hierarchical keys  
+   - Format: [Parent Component] > [Subcomponent] > [Element Label]
+   - Separator: >  
+   - No nesting; use flat JSON with delimited keys  
+
+4. **Description Requirements:**  
+   Each key’s value must include:  
+   - Appearance: Shape, color, text, visual style  
+   - Function: Purpose or intended interaction  
+   - Position: Spatial reference (e.g., “top-right corner”, “below cart total”)  
+   - State: Active, disabled, selected, etc.  
+   - Interaction Type: Static, tappable, swipeable, etc.  
+
+5. **Output Constraints:**  
+   - JSON object in string format only  
+   - Flat structure (no nested objects)  
+   - No nulls, placeholders, or empty fields  
+   - No trailing commas  
+</task_execution>  
+
+<output_format>  
+Return string formatted JSON.  
+DO NOT include code guards ` in the output. 
+Each key represents an element using the format:  
+[Component] > [Subcomponent] > [Element Label]
+
+Each value is a detailed string description, compliant with the annotation rules.  
+
+Example:
+"{
+  "Header > Title": "Centered bold text 'Top Up Receipt' with a confetti background",
+  "Success Badge > Icon": "Green hexagon with a white checkmark, placed below the title",
+  "Delivery Options > Express Option > Label": "Text reading 'Express, 15-25 minutes' on the left side of the express delivery option row, positioned below the standard delivery option.",
+  "Delivery Options > Express Option > Icon": "Small lightning bolt icon next to the express delivery label, indicating speed.",
+  "Delivery Options > Express Option > Price": "Text reading '$2.00' on the right side of the express delivery option row.",
+  "Delivery Options > Express Option > Selection Indicator": "Empty circular radio button on the far right, next to the $2.00 price.",
+  "Confirmation > Message": "Large bold text 'Top Up Success', centered in the screen",
+  "Cart Item 1 > Image": "Square image of a bowl containing gnocchi dish positioned in the left portion of the upper-middle section of the screen.",
+  "Cart Item 1 > Title": "Text label 'Gnocchi with mushroom gravy' displayed to the right of the corresponding image.",
+  "Cart Item 1 > Weight": "Gray text '230g' displayed next to the title of the first item.",
+  "Cart Item 1 > Price": "Orange/amber colored price tag '$5,60' positioned below the item title.",
+  "Cart Item 1 > Quantity Controls > Decrease Button": "Minus button on the left side of the quantity control, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Count Display": "Text showing '1' between the minus and plus buttons, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Increase Button": "Plus button on the right side of the quantity control, under the item title 'Gnocchi'",
+  "Confirmation > Subtext": "Gray helper text 'Your money has been added to your card'",
+  "Amount Summary > Value": "Prominent text '$132.00' centered near the middle",
+  "Card Section > Card Label": "White label text 'Wally Virtual Card' at top of card",
+  "Card Section > Masked Number": "Text '•••• 4568' directly below card label",
+  "Card Section > Timestamp": "Small gray text 'Today, 12:45 PM' at bottom-right of card",
+  "Primary CTA > Label": "Green full-width button 'Done' with white text, tappable",
+  "Secondary CTA > Label": "Teal hyperlink text 'Top up more money' below primary button"
+}"
+</output_format>
+
+
+<component_list>Streak Goal Selector
+Motivational Message
+Action Buttons</component_list>
+
+----- RESPONSE -----
+{
+  "id": "msg_018mi98V7RZfvLvddDduMre5",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-3-haiku-20240307",
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"Streak Goal Selector > 3 days\": \"Option for a 3-day streak goal, labeled as 'Baby steps'\",\n  \"Streak Goal Selector > 7 days\": \"Option for a 7-day streak goal, labeled as 'Strong start'\",\n  \"Streak Goal Selector > 14 days\": \"Option for a 14-day streak goal, labeled as 'Clearly committed' and selected by default\",\n  \"Streak Goal Selector > 30 days\": \"Option for a 30-day streak goal, labeled as 'Unstoppable streak'\",\n  \"Motivational Message > Completion Likelihood\": \"Text stating 'You'll be 5x more likely to complete the course!'\",\n  \"Action Buttons > Skip\": \"Button labeled 'SKIP'\",\n  \"Action Buttons > Commitment\": \"Button labeled 'I CAN DO IT!'\"\n}"
+    }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 2103,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 218
+  }
+}
+
+----- USAGE -----
+Input Tokens: 2103
+Output Tokens: 218
+Total Tokens: 2321
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:36:57.510Z
+Service: Claude-claude-3-haiku-20240307
+Execution Time: 2.024 seconds
+
+----- PROMPT -----
+
+You are optimizing UI component descriptions for a Vision Language Model (VLM) tasked with drawing bounding boxes accurately.
+The expected output is a flat JSON string.
+DO NOT include any other text or explanation in the output.
+
+Your job is to convert a flat JSON list of UI component keys into detailed visual descriptions that:
+- Make each component visually distinct and detectable
+- Resolves ambiguity between repeated elements by including precise visual anchors 
+- Avoid language that anthropomorphizes, speculates, or adds human-facing UX explanation
+- Preserves the model's focus on the target component  
+- Maintain a tight focus on structure, position, and appearance
+
+Input:  
+- A UI screenshot  
+- A flat JSON list of component IDs → short descriptions
+
+Key Guidance:
+
+1. Prioritize the Component Itself  
+Clearly describe:  
+- Shape and size (e.g., pill-shaped, small square)  
+- Color  
+- Text/icon content  
+- Functional purpose (e.g., ‘decrease item quantity’)  
+
+2. Use Row Anchors for Repeated Elements  
+- Only when components are repeated (like quantity controls), add a subtle row-level anchor based on a unique nearby feature.
+- Anchors must be visually locatable, such as labels, icons, or nearby components
+
+Example (Correct):
+"Plus (+) icon in a light orange pill-shaped button, in the row showing the item titled 'Wenzel with raspberries and currants'"
+
+Avoid (Incorrect):
+"Plus button on the left of the first quantity control"
+"Below the second product title"
+
+3. Do Not Include Purpose or Human Interpretation
+- NEVER explain intent (e.g., "used to add funds", "leads to new screen", "indicating xxxxx" )
+- Only describe what is visually present and identifiable
+
+4. Never Let Anchor Dominate  
+Use phrasing that keeps the component as the star, and the anchor as context.
+
+Good:  
+“...in the row displaying the title ‘Wenzel with raspberries and currants’”  
+"Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name 'DKNY'
+
+
+Bad:  
+“...under the ‘Wenzel’ label” → implies Wenzel might be the bounding box  
+“Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name in the second row” → VLM has no way to know what the second row is
+
+<sample_output>
+"  
+{
+  "Cart Items List > Item 2 > Quantity Controls > Increase Button": "Plus (+) button in a light orange pill-shaped control, on the right of the quantity selector in the row showing the item 'Wenzel with raspberries and currants'",
+  "Cart Items List > Item 3 > Quantity Controls > Decrease Button": "Minus (-) button in a light orange pill-shaped control, on the left of the quantity selector in the row displaying the title 'Freshly squeezed orange juice'",
+  "Order Summary & Confirmation Bar > Confirm Button": "White text 'Confirm order' aligned right in the orange confirmation bar at the bottom of the screen"
+}"
+</sample_output>
+
+Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards ` in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
+
+
+<element_list>{
+  "Streak Goal Selector > 3 days": "Option for a 3-day streak goal, labeled as 'Baby steps'",
+  "Streak Goal Selector > 7 days": "Option for a 7-day streak goal, labeled as 'Strong start'",
+  "Streak Goal Selector > 14 days": "Option for a 14-day streak goal, labeled as 'Clearly committed' and selected by default",
+  "Streak Goal Selector > 30 days": "Option for a 30-day streak goal, labeled as 'Unstoppable streak'",
+  "Motivational Message > Completion Likelihood": "Text stating 'You'll be 5x more likely to complete the course!'",
+  "Action Buttons > Skip": "Button labeled 'SKIP'",
+  "Action Buttons > Commitment": "Button labeled 'I CAN DO IT!'"
+}</element_list>
+
+----- RESPONSE -----
+{
+  "id": "msg_0187RnaHp4SQS8cnBMfrHSCk",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-3-haiku-20240307",
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"Streak Goal Selector > 3 days\": \"Small gray pill-shaped button labeled 'Baby steps'\",\n  \"Streak Goal Selector > 7 days\": \"Small gray pill-shaped button labeled 'Strong start'\",\n  \"Streak Goal Selector > 14 days\": \"Larger yellow pill-shaped button labeled 'Clearly committed', selected by default\",\n  \"Streak Goal Selector > 30 days\": \"Small gray pill-shaped button labeled 'Unstoppable streak'\",\n  \"Motivational Message > Completion Likelihood\": \"Green cartoon animal icon with text stating '5x more likely to complete the course!'\",\n  \"Action Buttons > Skip\": \"Medium gray rectangular button labeled 'SKIP'\",\n  \"Action Buttons > Commitment\": \"Large blue rectangular button labeled 'I CAN DO IT!'\"\n}"
+    }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 1900,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 204
+  }
+}
+
+----- USAGE -----
+Input Tokens: 1900
+Output Tokens: 204
+Total Tokens: 2104
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:36:59.969Z
+Service: Moondream-vl-Detect
+Execution Time: 2.307 seconds
+
+----- PROMPT -----
+Detect Larger yellow pill-shaped button labeled 'Clearly committed', selected by default in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.316573366522789,
+      "y_min": 0.3146808259189129,
+      "x_max": 0.683426633477211,
+      "y_max": 0.3747722990810871
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:36:59.988Z
+Service: Moondream-vl-Detect
+Execution Time: 2.326 seconds
+
+----- PROMPT -----
+Detect Small gray pill-shaped button labeled 'Strong start' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.316573366522789,
+      "y_min": 0.2609698884189129,
+      "x_max": 0.683426633477211,
+      "y_max": 0.3210613615810871
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:37:00.112Z
+Service: Moondream-vl-Detect
+Execution Time: 2.449 seconds
+
+----- PROMPT -----
+Detect Small gray pill-shaped button labeled 'Unstoppable streak' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.3153263032436371,
+      "y_min": 0.38539953902363777,
+      "x_max": 0.6846736967563629,
+      "y_max": 0.42514733597636223
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:37:00.112Z
+Service: Moondream-vl-Detect
+Execution Time: 2.45 seconds
+
+----- PROMPT -----
+Detect Medium gray rectangular button labeled 'SKIP' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.3063563108444214,
+      "y_min": 0.8325818348675966,
+      "x_max": 0.6936436891555786,
+      "y_max": 0.8803087901324034
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:37:00.112Z
+Service: Moondream-vl-Detect
+Execution Time: 2.45 seconds
+
+----- PROMPT -----
+Detect Green cartoon animal icon with text stating '5x more likely to complete the course!' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.3162372373044491,
+      "y_min": 0.5954451598227024,
+      "x_max": 0.4337627626955509,
+      "y_max": 0.6994767151772976
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:37:00.161Z
+Service: Moondream-vl-Detect
+Execution Time: 2.499 seconds
+
+----- PROMPT -----
+Detect Small gray pill-shaped button labeled 'Baby steps' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.3178119957447052,
+      "y_min": 0.2062823884189129,
+      "x_max": 0.6821880042552948,
+      "y_max": 0.2663738615810871
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:37:00.240Z
+Service: Moondream-vl-Detect
+Execution Time: 2.578 seconds
+
+----- PROMPT -----
+Detect Large blue rectangular button labeled 'I CAN DO IT!' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.3037143349647522,
+      "y_min": 0.8915523886680603,
+      "x_max": 0.6962856650352478,
+      "y_max": 0.9443851113319397
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:37:08.551Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 7.914 seconds
+
+----- PROMPT -----
+
+You are an expert UI bounding box verifier and corrector.
+Your task is to evaluate and correct UI screenshot bounding box annotations.
+
+You are given:
+
+A UI image with pre-drawn bounding boxes.
+
+A JSON object describing each bounding box, including id, label, description, coordinates, and current status.
+
+Your job is to evaluate how accurately each bounding box matches the described UI element in the image and return an updated JSON object with these new fields added to each item:
+
+“accuracy”: A number from 0 to 100 estimating the visual and positional accuracy of the box.
+
+“hidden”:
+
+false if the box is accurate or a corrected version can be suggested
+
+true if the box is inaccurate and no reasonable correction can be made
+
+“suggested_coordinates”: Include only when accuracy is below 50% and correction is feasible. Format must match the original coordinates schema (x_min, y_min, x_max, y_max).
+
+“status”:
+
+Set to “Overwrite” if suggested_coordinates are provided
+
+Otherwise keep the original status value
+
+“explanation”: A concise reason explaining the score and if/how the box was corrected.
+
+Return only the updated JSON array, preserving the original structure and adding these fields to each item.
+
+Example Output:
+"
+{
+  "id": "transaction_item_1_gt_merchant_logo",
+  "label": "Transaction Item 1 > Merchant Logo",
+  "description": "Circular logo showing the green and white Starbucks emblem...",
+  "coordinates": {
+    "x_min": 6.18,
+    "y_min": 795.20,
+    "x_max": 83.67,
+    "y_max": 870.49
+  },
+  "status": "Overwrite",
+  "accuracy": 46,
+  "hidden": false,
+  "suggested_coordinates": {
+    "x_min": 12.0,
+    "y_min": 800.0,
+    "x_max": 76.0,
+    "y_max": 860.0
+  },
+  "explanation": "Box had 19% extra padding and was misaligned; resized to tightly fit the logo."
+}"
+
+  Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards ` or ```json in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
+
+
+Here are the elements to evaluate:
+[{"label":"Motivational Message > Completion Likelihood","description":"Green cartoon animal icon with text stating '5x more likely to complete the course!'","bounding_box":{"x_min":253,"y_min":476,"x_max":347,"y_max":560},"status":"Detected","vlm_model":"moondream","element_inference_time":2.45,"error":null}]
+
+----- RESPONSE -----
+{
+  "id": "resp_680e32fdb4f48192aafc0d0c9443610a0dddd30c8364f5c5",
+  "object": "response",
+  "created_at": 1745761021,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680e32ff34e8819283a8412a30c219420dddd30c8364f5c5",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"label\": \"Motivational Message > Completion Likelihood\",\n    \"description\": \"Green cartoon animal icon with text stating '5x more likely to complete the course!'\",\n    \"bounding_box\": {\n      \"x_min\": 253,\n      \"y_min\": 476,\n      \"x_max\": 347,\n      \"y_max\": 560\n    },\n    \"status\": \"Overwrite\",\n    \"accuracy\": 42,\n    \"hidden\": false,\n    \"suggested_coordinates\": {\n      \"x_min\": 247,\n      \"y_min\": 473,\n      \"x_max\": 415,\n      \"y_max\": 536\n    },\n    \"explanation\": \"Box only captured the icon; the text is omitted. Suggested box expands to encompass both the icon and the completion likelihood message per description.\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1355,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 178,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 1533
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "[\n  {\n    \"label\": \"Motivational Message > Completion Likelihood\",\n    \"description\": \"Green cartoon animal icon with text stating '5x more likely to complete the course!'\",\n    \"bounding_box\": {\n      \"x_min\": 253,\n      \"y_min\": 476,\n      \"x_max\": 347,\n      \"y_max\": 560\n    },\n    \"status\": \"Overwrite\",\n    \"accuracy\": 42,\n    \"hidden\": false,\n    \"suggested_coordinates\": {\n      \"x_min\": 247,\n      \"y_min\": 473,\n      \"x_max\": 415,\n      \"y_max\": 536\n    },\n    \"explanation\": \"Box only captured the icon; the text is omitted. Suggested box expands to encompass both the icon and the completion likelihood message per description.\"\n  }\n]"
+}
+
+----- USAGE -----
+Input Tokens: 1355
+Output Tokens: 178
+Total Tokens: 1533
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:37:11.648Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 11.012 seconds
+
+----- PROMPT -----
+
+You are an expert UI bounding box verifier and corrector.
+Your task is to evaluate and correct UI screenshot bounding box annotations.
+
+You are given:
+
+A UI image with pre-drawn bounding boxes.
+
+A JSON object describing each bounding box, including id, label, description, coordinates, and current status.
+
+Your job is to evaluate how accurately each bounding box matches the described UI element in the image and return an updated JSON object with these new fields added to each item:
+
+“accuracy”: A number from 0 to 100 estimating the visual and positional accuracy of the box.
+
+“hidden”:
+
+false if the box is accurate or a corrected version can be suggested
+
+true if the box is inaccurate and no reasonable correction can be made
+
+“suggested_coordinates”: Include only when accuracy is below 50% and correction is feasible. Format must match the original coordinates schema (x_min, y_min, x_max, y_max).
+
+“status”:
+
+Set to “Overwrite” if suggested_coordinates are provided
+
+Otherwise keep the original status value
+
+“explanation”: A concise reason explaining the score and if/how the box was corrected.
+
+Return only the updated JSON array, preserving the original structure and adding these fields to each item.
+
+Example Output:
+"
+{
+  "id": "transaction_item_1_gt_merchant_logo",
+  "label": "Transaction Item 1 > Merchant Logo",
+  "description": "Circular logo showing the green and white Starbucks emblem...",
+  "coordinates": {
+    "x_min": 6.18,
+    "y_min": 795.20,
+    "x_max": 83.67,
+    "y_max": 870.49
+  },
+  "status": "Overwrite",
+  "accuracy": 46,
+  "hidden": false,
+  "suggested_coordinates": {
+    "x_min": 12.0,
+    "y_min": 800.0,
+    "x_max": 76.0,
+    "y_max": 860.0
+  },
+  "explanation": "Box had 19% extra padding and was misaligned; resized to tightly fit the logo."
+}"
+
+  Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards ` or ```json in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
+
+
+Here are the elements to evaluate:
+[{"label":"Action Buttons > Skip","description":"Medium gray rectangular button labeled 'SKIP'","bounding_box":{"x_min":245,"y_min":666,"x_max":555,"y_max":704},"status":"Detected","vlm_model":"moondream","element_inference_time":2.45,"error":null},{"label":"Action Buttons > Commitment","description":"Large blue rectangular button labeled 'I CAN DO IT!'","bounding_box":{"x_min":243,"y_min":713,"x_max":557,"y_max":756},"status":"Detected","vlm_model":"moondream","element_inference_time":2.578,"error":null}]
+
+----- RESPONSE -----
+{
+  "id": "resp_680e32fdafe88192a592212a1d0b4852070828dd4a06e47c",
+  "object": "response",
+  "created_at": 1745761021,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680e32ff3dac81929e36f8446cf94c0f070828dd4a06e47c",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"label\": \"Action Buttons > Skip\",\n    \"description\": \"Medium gray rectangular button labeled 'SKIP'\",\n    \"bounding_box\": {\n      \"x_min\": 245,\n      \"y_min\": 666,\n      \"x_max\": 555,\n      \"y_max\": 704\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 95,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box tightly encompasses the 'SKIP' button with only minor excess margin on top and bottom.\"\n  },\n  {\n    \"label\": \"Action Buttons > Commitment\",\n    \"description\": \"Large blue rectangular button labeled 'I CAN DO IT!'\",\n    \"bounding_box\": {\n      \"x_min\": 243,\n      \"y_min\": 713,\n      \"x_max\": 557,\n      \"y_max\": 756\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 97,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box closely matches the 'I CAN DO IT!' button with nearly perfect alignment.\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1412,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 231,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 1643
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "[\n  {\n    \"label\": \"Action Buttons > Skip\",\n    \"description\": \"Medium gray rectangular button labeled 'SKIP'\",\n    \"bounding_box\": {\n      \"x_min\": 245,\n      \"y_min\": 666,\n      \"x_max\": 555,\n      \"y_max\": 704\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 95,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box tightly encompasses the 'SKIP' button with only minor excess margin on top and bottom.\"\n  },\n  {\n    \"label\": \"Action Buttons > Commitment\",\n    \"description\": \"Large blue rectangular button labeled 'I CAN DO IT!'\",\n    \"bounding_box\": {\n      \"x_min\": 243,\n      \"y_min\": 713,\n      \"x_max\": 557,\n      \"y_max\": 756\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 97,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box closely matches the 'I CAN DO IT!' button with nearly perfect alignment.\"\n  }\n]"
+}
+
+----- USAGE -----
+Input Tokens: 1412
+Output Tokens: 231
+Total Tokens: 1643
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:37:18.087Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 17.45 seconds
+
+----- PROMPT -----
+
+You are an expert UI bounding box verifier and corrector.
+Your task is to evaluate and correct UI screenshot bounding box annotations.
+
+You are given:
+
+A UI image with pre-drawn bounding boxes.
+
+A JSON object describing each bounding box, including id, label, description, coordinates, and current status.
+
+Your job is to evaluate how accurately each bounding box matches the described UI element in the image and return an updated JSON object with these new fields added to each item:
+
+“accuracy”: A number from 0 to 100 estimating the visual and positional accuracy of the box.
+
+“hidden”:
+
+false if the box is accurate or a corrected version can be suggested
+
+true if the box is inaccurate and no reasonable correction can be made
+
+“suggested_coordinates”: Include only when accuracy is below 50% and correction is feasible. Format must match the original coordinates schema (x_min, y_min, x_max, y_max).
+
+“status”:
+
+Set to “Overwrite” if suggested_coordinates are provided
+
+Otherwise keep the original status value
+
+“explanation”: A concise reason explaining the score and if/how the box was corrected.
+
+Return only the updated JSON array, preserving the original structure and adding these fields to each item.
+
+Example Output:
+"
+{
+  "id": "transaction_item_1_gt_merchant_logo",
+  "label": "Transaction Item 1 > Merchant Logo",
+  "description": "Circular logo showing the green and white Starbucks emblem...",
+  "coordinates": {
+    "x_min": 6.18,
+    "y_min": 795.20,
+    "x_max": 83.67,
+    "y_max": 870.49
+  },
+  "status": "Overwrite",
+  "accuracy": 46,
+  "hidden": false,
+  "suggested_coordinates": {
+    "x_min": 12.0,
+    "y_min": 800.0,
+    "x_max": 76.0,
+    "y_max": 860.0
+  },
+  "explanation": "Box had 19% extra padding and was misaligned; resized to tightly fit the logo."
+}"
+
+  Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards ` or ```json in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
+
+
+Here are the elements to evaluate:
+[{"label":"Streak Goal Selector > 3 days","description":"Small gray pill-shaped button labeled 'Baby steps'","bounding_box":{"x_min":254,"y_min":165,"x_max":546,"y_max":213},"status":"Detected","vlm_model":"moondream","element_inference_time":2.499,"error":null},{"label":"Streak Goal Selector > 7 days","description":"Small gray pill-shaped button labeled 'Strong start'","bounding_box":{"x_min":253,"y_min":209,"x_max":547,"y_max":257},"status":"Detected","vlm_model":"moondream","element_inference_time":2.326,"error":null},{"label":"Streak Goal Selector > 14 days","description":"Larger yellow pill-shaped button labeled 'Clearly committed', selected by default","bounding_box":{"x_min":253,"y_min":252,"x_max":547,"y_max":300},"status":"Detected","vlm_model":"moondream","element_inference_time":2.307,"error":null},{"label":"Streak Goal Selector > 30 days","description":"Small gray pill-shaped button labeled 'Unstoppable streak'","bounding_box":{"x_min":252,"y_min":308,"x_max":548,"y_max":340},"status":"Detected","vlm_model":"moondream","element_inference_time":2.449,"error":null}]
+
+----- RESPONSE -----
+{
+  "id": "resp_680e32fda678819294b0ff4303f2c573060457e5cf033b13",
+  "object": "response",
+  "created_at": 1745761021,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680e32ff7788819287b052510b474fc1060457e5cf033b13",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"label\": \"Streak Goal Selector > 3 days\",\n    \"description\": \"Small gray pill-shaped button labeled 'Baby steps'\",\n    \"bounding_box\": {\n      \"x_min\": 254,\n      \"y_min\": 165,\n      \"x_max\": 546,\n      \"y_max\": 213\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 97,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box closely fits the '3 days/Baby steps' pill button with minimal padding.\"\n  },\n  {\n    \"label\": \"Streak Goal Selector > 7 days\",\n    \"description\": \"Small gray pill-shaped button labeled 'Strong start'\",\n    \"bounding_box\": {\n      \"x_min\": 253,\n      \"y_min\": 209,\n      \"x_max\": 547,\n      \"y_max\": 257\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 97,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box accurately captures the '7 days/Strong start' pill button with minor margin.\"\n  },\n  {\n    \"label\": \"Streak Goal Selector > 14 days\",\n    \"description\": \"Larger yellow pill-shaped button labeled 'Clearly committed', selected by default\",\n    \"bounding_box\": {\n      \"x_min\": 253,\n      \"y_min\": 252,\n      \"x_max\": 547,\n      \"y_max\": 300\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 97,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box nearly perfectly hugs the yellow '14 days/Clearly committed' button, matching its pill shape.\"\n  },\n  {\n    \"label\": \"Streak Goal Selector > 30 days\",\n    \"description\": \"Small gray pill-shaped button labeled 'Unstoppable streak'\",\n    \"bounding_box\": {\n      \"x_min\": 252,\n      \"y_min\": 308,\n      \"x_max\": 548,\n      \"y_max\": 340\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 95,\n    \"hidden\": false,\n    \"explanation\": \"Box is slightly tall for the '30 days/Unstoppable streak' pill, but generally well-aligned.\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1570,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 487,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 2057
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "[\n  {\n    \"label\": \"Streak Goal Selector > 3 days\",\n    \"description\": \"Small gray pill-shaped button labeled 'Baby steps'\",\n    \"bounding_box\": {\n      \"x_min\": 254,\n      \"y_min\": 165,\n      \"x_max\": 546,\n      \"y_max\": 213\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 97,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box closely fits the '3 days/Baby steps' pill button with minimal padding.\"\n  },\n  {\n    \"label\": \"Streak Goal Selector > 7 days\",\n    \"description\": \"Small gray pill-shaped button labeled 'Strong start'\",\n    \"bounding_box\": {\n      \"x_min\": 253,\n      \"y_min\": 209,\n      \"x_max\": 547,\n      \"y_max\": 257\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 97,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box accurately captures the '7 days/Strong start' pill button with minor margin.\"\n  },\n  {\n    \"label\": \"Streak Goal Selector > 14 days\",\n    \"description\": \"Larger yellow pill-shaped button labeled 'Clearly committed', selected by default\",\n    \"bounding_box\": {\n      \"x_min\": 253,\n      \"y_min\": 252,\n      \"x_max\": 547,\n      \"y_max\": 300\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 97,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box nearly perfectly hugs the yellow '14 days/Clearly committed' button, matching its pill shape.\"\n  },\n  {\n    \"label\": \"Streak Goal Selector > 30 days\",\n    \"description\": \"Small gray pill-shaped button labeled 'Unstoppable streak'\",\n    \"bounding_box\": {\n      \"x_min\": 252,\n      \"y_min\": 308,\n      \"x_max\": 548,\n      \"y_max\": 340\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 95,\n    \"hidden\": false,\n    \"explanation\": \"Box is slightly tall for the '30 days/Unstoppable streak' pill, but generally well-aligned.\"\n  }\n]"
+}
+
+----- USAGE -----
+Input Tokens: 1570
+Output Tokens: 487
+Total Tokens: 2057
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:38:31.923Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 13.106 seconds
+
+----- PROMPT -----
+
+    Extract High-Level UI Components with Functional Metadata
+
+    <instructions>
+    You are given a UI screenshot from a mobile or web application.
+
+    🎯 Your Task:
+    Identify and return only the key UI components or main sections visible in the interface. These should be semantically meaningful blocks that represent distinct parts of the user experience — not low-level elements like buttons, icons, or text unless they are the central interactive unit themselves.
+
+    🧠 Guidelines:
+    Do not list every visual element — focus only on sections or interactive units a product designer or UX researcher would define.
+
+    Group smaller elements into their logical parent component (e.g., quantity controls, icons, labels → Cart Item).
+
+    Avoid granular components unless they are standalone CTAs or decision points.
+
+    Include Partially Visible Items
+    - If a card or button is cut off but still recognizable, include it.
+    - Group Small Things if They Belong Together
+    - If an image, label, and button work together (like in a product card), group them as one component.
+
+    Ignore Decorative Stuff
+    - Don’t include backgrounds, dividers, icons that don’t do anything, or layout-only elements.
+
+    Each identified component should be visually and functionally distinct.
+
+    🧾 Output Format: JSON List
+    For each top-level component, include the following fields:
+
+    component_name: A human-readable name for the section (e.g., "Cart Item", "Header", "Promocode Section")
+
+    description: A short, clear description of the section and what's visually included
+
+    </instructions>
+
+    <sample_output> 
+    [
+      {
+        "component_name": "Cart Item List",
+        "description": "Visual block showing product image, name, price, and quantity controls.",
+      },
+      {
+        "component_name": "Delivery Options",
+        "description": "Section showing available delivery choices with cost and selection state.",
+      },
+      {
+        "component_name": "Promocode Section",
+        "description": "Input area for applying promotional codes with validation feedback.",
+      },
+      {
+    "component_name": "Partial Debit Card",
+    "description": "Partially visible card element showing the top edge and part of the card number, suggesting the presence of a second linked payment method."
+    }
+    ]
+    </sample_output>
+    
+
+----- RESPONSE -----
+{
+  "id": "resp_680e334b870081928e570705a3e3e74304417c2732287945",
+  "object": "response",
+  "created_at": 1745761099,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680e334de3508192a857bfdb0ab7783004417c2732287945",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"component_name\": \"Streak Goal Selection\",\n    \"description\": \"Central section displaying a list of streak goal options (3, 7, 14, and 30 days) with descriptive labels, highlighting the selected option.\"\n  },\n  {\n    \"component_name\": \"Motivational Message Block\",\n    \"description\": \"Area showing the Duolingo mascot accompanied by a motivational message about goal completion likelihood.\"\n  },\n  {\n    \"component_name\": \"Action Buttons\",\n    \"description\": \"Footer section with prominently displayed 'SKIP' and 'I CAN DO IT!' buttons for user progression or bypass.\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1248,
+    "input_tokens_details": {
+      "cached_tokens": 1050
+    },
+    "output_tokens": 134,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 1382
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "[\n  {\n    \"component_name\": \"Streak Goal Selection\",\n    \"description\": \"Central section displaying a list of streak goal options (3, 7, 14, and 30 days) with descriptive labels, highlighting the selected option.\"\n  },\n  {\n    \"component_name\": \"Motivational Message Block\",\n    \"description\": \"Area showing the Duolingo mascot accompanied by a motivational message about goal completion likelihood.\"\n  },\n  {\n    \"component_name\": \"Action Buttons\",\n    \"description\": \"Footer section with prominently displayed 'SKIP' and 'I CAN DO IT!' buttons for user progression or bypass.\"\n  }\n]"
+}
+
+----- USAGE -----
+Input Tokens: 1248
+Output Tokens: 134
+Total Tokens: 1382
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:38:36.078Z
+Service: Claude-claude-3-haiku-20240307
+Execution Time: 4.11 seconds
+
+----- PROMPT -----
+
+<identity>  
+You are a highly capable autonomous AI UIUX ANNOTATOR.  
+You exist to assist a human USER in parsing UI screenshots and generating structured annotations for a design reference library.  
+You are optimized for accuracy, consistency in naming conventions, and exhaustive visual parsing.  
+You do not omit visible data. You do not ask questions. You do not speculate.  
+</identity>  
+
+<input>  
+Required input includes:  
+- A UI screenshot  
+- A list of component categories (e.g., “Header”, “Product Card”, “Bottom Bar”)  
+Each component in the list is treated as a logical container. Elements must be grouped accordingly.  
+</input>  
+
+<task_execution>  
+Upon receiving inputs, perform the following steps without deviation:  
+
+1. **Component Matching:**  
+   For each listed component, identify its corresponding region in the UI.  
+
+2. **Element Extraction:**  
+   Within each component, extract and describe ALL visual elements as INDIVIDUAL elements.  
+   - Include: icons, buttons, labels, values, helper text, visual states, overlays, spacers, input fields, scroll zones  
+   - DO NOT exclude small elements or secondary labels  
+
+3. **Naming Convention Enforcement:**  
+   - Output uses strict hierarchical keys  
+   - Format: [Parent Component] > [Subcomponent] > [Element Label]
+   - Separator: >  
+   - No nesting; use flat JSON with delimited keys  
+
+4. **Description Requirements:**  
+   Each key’s value must include:  
+   - Appearance: Shape, color, text, visual style  
+   - Function: Purpose or intended interaction  
+   - Position: Spatial reference (e.g., “top-right corner”, “below cart total”)  
+   - State: Active, disabled, selected, etc.  
+   - Interaction Type: Static, tappable, swipeable, etc.  
+
+5. **Output Constraints:**  
+   - JSON object in string format only  
+   - Flat structure (no nested objects)  
+   - No nulls, placeholders, or empty fields  
+   - No trailing commas  
+</task_execution>  
+
+<output_format>  
+Return string formatted JSON.  
+DO NOT include code guards ` in the output. 
+Each key represents an element using the format:  
+[Component] > [Subcomponent] > [Element Label]
+
+Each value is a detailed string description, compliant with the annotation rules.  
+
+Example:
+"{
+  "Header > Title": "Centered bold text 'Top Up Receipt' with a confetti background",
+  "Success Badge > Icon": "Green hexagon with a white checkmark, placed below the title",
+  "Delivery Options > Express Option > Label": "Text reading 'Express, 15-25 minutes' on the left side of the express delivery option row, positioned below the standard delivery option.",
+  "Delivery Options > Express Option > Icon": "Small lightning bolt icon next to the express delivery label, indicating speed.",
+  "Delivery Options > Express Option > Price": "Text reading '$2.00' on the right side of the express delivery option row.",
+  "Delivery Options > Express Option > Selection Indicator": "Empty circular radio button on the far right, next to the $2.00 price.",
+  "Confirmation > Message": "Large bold text 'Top Up Success', centered in the screen",
+  "Cart Item 1 > Image": "Square image of a bowl containing gnocchi dish positioned in the left portion of the upper-middle section of the screen.",
+  "Cart Item 1 > Title": "Text label 'Gnocchi with mushroom gravy' displayed to the right of the corresponding image.",
+  "Cart Item 1 > Weight": "Gray text '230g' displayed next to the title of the first item.",
+  "Cart Item 1 > Price": "Orange/amber colored price tag '$5,60' positioned below the item title.",
+  "Cart Item 1 > Quantity Controls > Decrease Button": "Minus button on the left side of the quantity control, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Count Display": "Text showing '1' between the minus and plus buttons, under the item title 'Gnocchi'",
+  "Cart Item 1 > Quantity Controls > Increase Button": "Plus button on the right side of the quantity control, under the item title 'Gnocchi'",
+  "Confirmation > Subtext": "Gray helper text 'Your money has been added to your card'",
+  "Amount Summary > Value": "Prominent text '$132.00' centered near the middle",
+  "Card Section > Card Label": "White label text 'Wally Virtual Card' at top of card",
+  "Card Section > Masked Number": "Text '•••• 4568' directly below card label",
+  "Card Section > Timestamp": "Small gray text 'Today, 12:45 PM' at bottom-right of card",
+  "Primary CTA > Label": "Green full-width button 'Done' with white text, tappable",
+  "Secondary CTA > Label": "Teal hyperlink text 'Top up more money' below primary button"
+}"
+</output_format>
+
+
+<component_list>Streak Goal Selection
+Motivational Message Block
+Action Buttons</component_list>
+
+----- RESPONSE -----
+{
+  "id": "msg_017Z7mM6ABeEKS3JJ75ZMNV6",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-3-haiku-20240307",
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"Streak Goal Selection > 3 days\": \"Small text label for a 3 day streak goal option, displayed in the center section.\",\n  \"Streak Goal Selection > 7 days\": \"Small text label for a 7 day streak goal option, displayed in the center section.\",\n  \"Streak Goal Selection > 14 days\": \"Highlighted text label for a 14 day streak goal option, displayed in the center section and indicated as the 'Clearly committed' choice.\",\n  \"Streak Goal Selection > 30 days\": \"Small text label for a 30 day 'Unstoppable streak' goal option, displayed in the center section.\",\n  \"Motivational Message Block > Message\": \"Playful green cartoon frog image with the text 'You'll be 5x more likely to complete the course!'\",\n  \"Action Buttons > Skip\": \"Gray 'SKIP' button in the bottom left, allowing the user to bypass the streak goal selection.\",\n  \"Action Buttons > I Can Do It!\": \"Prominent blue 'I CAN DO IT!' button in the bottom center, indicating the user's commitment to the selected 14 day streak goal.\"\n}"
+    }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 2103,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 274
+  }
+}
+
+----- USAGE -----
+Input Tokens: 2103
+Output Tokens: 274
+Total Tokens: 2377
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:38:38.969Z
+Service: Claude-claude-3-haiku-20240307
+Execution Time: 2.798 seconds
+
+----- PROMPT -----
+
+You are optimizing UI component descriptions for a Vision Language Model (VLM) tasked with drawing bounding boxes accurately.
+The expected output is a flat JSON string.
+DO NOT include any other text or explanation in the output.
+
+Your job is to convert a flat JSON list of UI component keys into detailed visual descriptions that:
+- Make each component visually distinct and detectable
+- Resolves ambiguity between repeated elements by including precise visual anchors 
+- Avoid language that anthropomorphizes, speculates, or adds human-facing UX explanation
+- Preserves the model's focus on the target component  
+- Maintain a tight focus on structure, position, and appearance
+
+Input:  
+- A UI screenshot  
+- A flat JSON list of component IDs → short descriptions
+
+Key Guidance:
+
+1. Prioritize the Component Itself  
+Clearly describe:  
+- Shape and size (e.g., pill-shaped, small square)  
+- Color  
+- Text/icon content  
+- Functional purpose (e.g., ‘decrease item quantity’)  
+
+2. Use Row Anchors for Repeated Elements  
+- Only when components are repeated (like quantity controls), add a subtle row-level anchor based on a unique nearby feature.
+- Anchors must be visually locatable, such as labels, icons, or nearby components
+
+Example (Correct):
+"Plus (+) icon in a light orange pill-shaped button, in the row showing the item titled 'Wenzel with raspberries and currants'"
+
+Avoid (Incorrect):
+"Plus button on the left of the first quantity control"
+"Below the second product title"
+
+3. Do Not Include Purpose or Human Interpretation
+- NEVER explain intent (e.g., "used to add funds", "leads to new screen", "indicating xxxxx" )
+- Only describe what is visually present and identifiable
+
+4. Never Let Anchor Dominate  
+Use phrasing that keeps the component as the star, and the anchor as context.
+
+Good:  
+“...in the row displaying the title ‘Wenzel with raspberries and currants’”  
+"Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name 'DKNY'
+
+
+Bad:  
+“...under the ‘Wenzel’ label” → implies Wenzel might be the bounding box  
+“Gray text 'Aug 20, 2:14 PM' showing the date and time below the merchant name in the second row” → VLM has no way to know what the second row is
+
+<sample_output>
+"  
+{
+  "Cart Items List > Item 2 > Quantity Controls > Increase Button": "Plus (+) button in a light orange pill-shaped control, on the right of the quantity selector in the row showing the item 'Wenzel with raspberries and currants'",
+  "Cart Items List > Item 3 > Quantity Controls > Decrease Button": "Minus (-) button in a light orange pill-shaped control, on the left of the quantity selector in the row displaying the title 'Freshly squeezed orange juice'",
+  "Order Summary & Confirmation Bar > Confirm Button": "White text 'Confirm order' aligned right in the orange confirmation bar at the bottom of the screen"
+}"
+</sample_output>
+
+Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards ` in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
+
+
+<element_list>{
+  "Streak Goal Selection > 3 days": "Small text label for a 3 day streak goal option, displayed in the center section.",
+  "Streak Goal Selection > 7 days": "Small text label for a 7 day streak goal option, displayed in the center section.",
+  "Streak Goal Selection > 14 days": "Highlighted text label for a 14 day streak goal option, displayed in the center section and indicated as the 'Clearly committed' choice.",
+  "Streak Goal Selection > 30 days": "Small text label for a 30 day 'Unstoppable streak' goal option, displayed in the center section.",
+  "Motivational Message Block > Message": "Playful green cartoon frog image with the text 'You'll be 5x more likely to complete the course!'",
+  "Action Buttons > Skip": "Gray 'SKIP' button in the bottom left, allowing the user to bypass the streak goal selection.",
+  "Action Buttons > I Can Do It!": "Prominent blue 'I CAN DO IT!' button in the bottom center, indicating the user's commitment to the selected 14 day streak goal."
+}</element_list>
+
+----- RESPONSE -----
+{
+  "id": "msg_01X439qmYRc9cqQGkJLbEJPW",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-3-haiku-20240307",
+  "content": [
+    {
+      "type": "text",
+      "text": "{\n  \"Streak Goal Selection > 3 days\": \"Small text label for a 3 day streak goal option, displayed in the center section.\",\n  \"Streak Goal Selection > 7 days\": \"Small text label for a 7 day streak goal option, displayed in the center section.\", \n  \"Streak Goal Selection > 14 days\": \"Highlighted text label for a 14 day streak goal option, displayed in the center section and indicated as the 'Clearly committed' choice.\",\n  \"Streak Goal Selection > 30 days\": \"Small text label for a 30 day 'Unstoppable streak' goal option, displayed in the center section.\",\n  \"Motivational Message Block > Message\": \"Playful green cartoon frog image with the text 'You'll be 5x more likely to complete the course!'\",\n  \"Action Buttons > Skip\": \"Gray 'SKIP' button in the bottom left, allowing the user to bypass the streak goal selection.\",\n  \"Action Buttons > I Can Do It!\": \"Prominent blue 'I CAN DO IT!' button in the bottom center, indicating the user's commitment to the selected 14 day streak goal.\"\n}"
+    }
+  ],
+  "stop_reason": "end_turn",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 1956,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 275
+  }
+}
+
+----- USAGE -----
+Input Tokens: 1956
+Output Tokens: 275
+Total Tokens: 2231
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:38:41.461Z
+Service: Moondream-vl-Detect
+Execution Time: 2.37 seconds
+
+----- PROMPT -----
+Detect Gray 'SKIP' button in the bottom left, allowing the user to bypass the streak goal selection. in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.30503979325294495,
+      "y_min": 0.8325818348675966,
+      "x_max": 0.694960206747055,
+      "y_max": 0.8803087901324034
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:38:41.473Z
+Service: Moondream-vl-Detect
+Execution Time: 2.382 seconds
+
+----- PROMPT -----
+Detect Small text label for a 3 day streak goal option, displayed in the center section. in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.32388079166412354,
+      "y_min": 0.2111652009189129,
+      "x_max": 0.6761192083358765,
+      "y_max": 0.2712566740810871
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:38:41.484Z
+Service: Moondream-vl-Detect
+Execution Time: 2.393 seconds
+
+----- PROMPT -----
+Detect Playful green cartoon frog image with the text 'You'll be 5x more likely to complete the course!' in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.3162372373044491,
+      "y_min": 0.5954451598227024,
+      "x_max": 0.4337627626955509,
+      "y_max": 0.6994767151772976
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:38:41.498Z
+Service: Moondream-vl-Detect
+Execution Time: 2.407 seconds
+
+----- PROMPT -----
+Detect Prominent blue 'I CAN DO IT!' button in the bottom center, indicating the user's commitment to the selected 14 day streak goal. in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.3037143349647522,
+      "y_min": 0.8900809716433287,
+      "x_max": 0.6962856650352478,
+      "y_max": 0.9458565283566713
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:38:41.503Z
+Service: Moondream-vl-Detect
+Execution Time: 2.412 seconds
+
+----- PROMPT -----
+Detect Small text label for a 30 day 'Unstoppable streak' goal option, displayed in the center section. in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.32388079166412354,
+      "y_min": 0.39057197608053684,
+      "x_max": 0.6761192083358765,
+      "y_max": 0.42192802391946316
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:38:41.507Z
+Service: Moondream-vl-Detect
+Execution Time: 2.416 seconds
+
+----- PROMPT -----
+Detect Highlighted text label for a 14 day streak goal option, displayed in the center section and indicated as the 'Clearly committed' choice. in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.3178119957447052,
+      "y_min": 0.3146808259189129,
+      "x_max": 0.6821880042552948,
+      "y_max": 0.3747722990810871
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:38:41.679Z
+Service: Moondream-vl-Detect
+Execution Time: 2.588 seconds
+
+----- PROMPT -----
+Detect Small text label for a 7 day streak goal option, displayed in the center section. in image
+
+----- RESPONSE -----
+{
+  "objects": [
+    {
+      "x_min": 0.3178119957447052,
+      "y_min": 0.264238853007555,
+      "x_max": 0.6821880042552948,
+      "y_max": 0.317792396992445
+    }
+  ]
+}
+
+----- USAGE -----
+Input Tokens: N/A
+Output Tokens: N/A
+Total Tokens: N/A
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:38:50.561Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 8.557 seconds
+
+----- PROMPT -----
+
+You are an expert UI bounding box verifier and corrector.
+Your task is to evaluate and correct UI screenshot bounding box annotations.
+
+You are given:
+
+A UI image with pre-drawn bounding boxes.
+
+A JSON object describing each bounding box, including id, label, description, coordinates, and current status.
+
+Your job is to evaluate how accurately each bounding box matches the described UI element in the image and return an updated JSON object with these new fields added to each item:
+
+“accuracy”: A number from 0 to 100 estimating the visual and positional accuracy of the box.
+
+“hidden”:
+
+false if the box is accurate or a corrected version can be suggested
+
+true if the box is inaccurate and no reasonable correction can be made
+
+“suggested_coordinates”: Include only when accuracy is below 50% and correction is feasible. Format must match the original coordinates schema (x_min, y_min, x_max, y_max).
+
+“status”:
+
+Set to “Overwrite” if suggested_coordinates are provided
+
+Otherwise keep the original status value
+
+“explanation”: A concise reason explaining the score and if/how the box was corrected.
+
+Return only the updated JSON array, preserving the original structure and adding these fields to each item.
+
+Example Output:
+"
+{
+  "id": "transaction_item_1_gt_merchant_logo",
+  "label": "Transaction Item 1 > Merchant Logo",
+  "description": "Circular logo showing the green and white Starbucks emblem...",
+  "coordinates": {
+    "x_min": 6.18,
+    "y_min": 795.20,
+    "x_max": 83.67,
+    "y_max": 870.49
+  },
+  "status": "Overwrite",
+  "accuracy": 46,
+  "hidden": false,
+  "suggested_coordinates": {
+    "x_min": 12.0,
+    "y_min": 800.0,
+    "x_max": 76.0,
+    "y_max": 860.0
+  },
+  "explanation": "Box had 19% extra padding and was misaligned; resized to tightly fit the logo."
+}"
+
+  Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards ` or ```json in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
+
+
+Here are the elements to evaluate:
+[{"label":"Motivational Message Block > Message","description":"Playful green cartoon frog image with the text 'You'll be 5x more likely to complete the course!'","bounding_box":{"x_min":253,"y_min":476,"x_max":347,"y_max":560},"status":"Detected","vlm_model":"moondream","element_inference_time":2.393,"error":null}]
+
+----- RESPONSE -----
+{
+  "id": "resp_680e3362964481929a9ae02c84f4c73a0210c20d00a41e35",
+  "object": "response",
+  "created_at": 1745761122,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680e33642c3481929b4c67e6491282580210c20d00a41e35",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"label\": \"Motivational Message Block > Message\",\n    \"description\": \"Playful green cartoon frog image with the text 'You'll be 5x more likely to complete the course!'\",\n    \"bounding_box\": {\n      \"x_min\": 253,\n      \"y_min\": 476,\n      \"x_max\": 347,\n      \"y_max\": 560\n    },\n    \"status\": \"Overwrite\",\n    \"accuracy\": 45,\n    \"hidden\": false,\n    \"suggested_coordinates\": {\n      \"x_min\": 225,\n      \"y_min\": 470,\n      \"x_max\": 430,\n      \"y_max\": 565\n    },\n    \"explanation\": \"Original box only covers the cartoon frog, missing the full message including the adjacent text. Expanded box to fit both the mascot and the '5x more likely' text for completeness.\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1359,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 191,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 1550
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "[\n  {\n    \"label\": \"Motivational Message Block > Message\",\n    \"description\": \"Playful green cartoon frog image with the text 'You'll be 5x more likely to complete the course!'\",\n    \"bounding_box\": {\n      \"x_min\": 253,\n      \"y_min\": 476,\n      \"x_max\": 347,\n      \"y_max\": 560\n    },\n    \"status\": \"Overwrite\",\n    \"accuracy\": 45,\n    \"hidden\": false,\n    \"suggested_coordinates\": {\n      \"x_min\": 225,\n      \"y_min\": 470,\n      \"x_max\": 430,\n      \"y_max\": 565\n    },\n    \"explanation\": \"Original box only covers the cartoon frog, missing the full message including the adjacent text. Expanded box to fit both the mascot and the '5x more likely' text for completeness.\"\n  }\n]"
+}
+
+----- USAGE -----
+Input Tokens: 1359
+Output Tokens: 191
+Total Tokens: 1550
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:38:55.097Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 13.093 seconds
+
+----- PROMPT -----
+
+You are an expert UI bounding box verifier and corrector.
+Your task is to evaluate and correct UI screenshot bounding box annotations.
+
+You are given:
+
+A UI image with pre-drawn bounding boxes.
+
+A JSON object describing each bounding box, including id, label, description, coordinates, and current status.
+
+Your job is to evaluate how accurately each bounding box matches the described UI element in the image and return an updated JSON object with these new fields added to each item:
+
+“accuracy”: A number from 0 to 100 estimating the visual and positional accuracy of the box.
+
+“hidden”:
+
+false if the box is accurate or a corrected version can be suggested
+
+true if the box is inaccurate and no reasonable correction can be made
+
+“suggested_coordinates”: Include only when accuracy is below 50% and correction is feasible. Format must match the original coordinates schema (x_min, y_min, x_max, y_max).
+
+“status”:
+
+Set to “Overwrite” if suggested_coordinates are provided
+
+Otherwise keep the original status value
+
+“explanation”: A concise reason explaining the score and if/how the box was corrected.
+
+Return only the updated JSON array, preserving the original structure and adding these fields to each item.
+
+Example Output:
+"
+{
+  "id": "transaction_item_1_gt_merchant_logo",
+  "label": "Transaction Item 1 > Merchant Logo",
+  "description": "Circular logo showing the green and white Starbucks emblem...",
+  "coordinates": {
+    "x_min": 6.18,
+    "y_min": 795.20,
+    "x_max": 83.67,
+    "y_max": 870.49
+  },
+  "status": "Overwrite",
+  "accuracy": 46,
+  "hidden": false,
+  "suggested_coordinates": {
+    "x_min": 12.0,
+    "y_min": 800.0,
+    "x_max": 76.0,
+    "y_max": 860.0
+  },
+  "explanation": "Box had 19% extra padding and was misaligned; resized to tightly fit the logo."
+}"
+
+  Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards ` or ```json in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
+
+
+Here are the elements to evaluate:
+[{"label":"Action Buttons > Skip","description":"Gray 'SKIP' button in the bottom left, allowing the user to bypass the streak goal selection.","bounding_box":{"x_min":244,"y_min":666,"x_max":556,"y_max":704},"status":"Detected","vlm_model":"moondream","element_inference_time":2.37,"error":null},{"label":"Action Buttons > I Can Do It!","description":"Prominent blue 'I CAN DO IT!' button in the bottom center, indicating the user's commitment to the selected 14 day streak goal.","bounding_box":{"x_min":243,"y_min":712,"x_max":557,"y_max":757},"status":"Detected","vlm_model":"moondream","element_inference_time":2.407,"error":null}]
+
+----- RESPONSE -----
+{
+  "id": "resp_680e33623b7c8192a8d54d81258ff591025e3377d66b9194",
+  "object": "response",
+  "created_at": 1745761122,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680e336528e48192af856e13b6845dd9025e3377d66b9194",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"label\": \"Action Buttons > Skip\",\n    \"description\": \"Gray 'SKIP' button in the bottom left, allowing the user to bypass the streak goal selection.\",\n    \"bounding_box\": {\n      \"x_min\": 244,\n      \"y_min\": 666,\n      \"x_max\": 556,\n      \"y_max\": 704\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 96,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box is well placed around the 'SKIP' button, with only minor over-padding on the left/right edges.\"\n  },\n  {\n    \"label\": \"Action Buttons > I Can Do It!\",\n    \"description\": \"Prominent blue 'I CAN DO IT!' button in the bottom center, indicating the user's commitment to the selected 14 day streak goal.\",\n    \"bounding_box\": {\n      \"x_min\": 243,\n      \"y_min\": 712,\n      \"x_max\": 557,\n      \"y_max\": 757\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 98,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box tightly and accurately fits the 'I CAN DO IT!' button with negligible misalignment.\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1443,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 268,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 1711
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "[\n  {\n    \"label\": \"Action Buttons > Skip\",\n    \"description\": \"Gray 'SKIP' button in the bottom left, allowing the user to bypass the streak goal selection.\",\n    \"bounding_box\": {\n      \"x_min\": 244,\n      \"y_min\": 666,\n      \"x_max\": 556,\n      \"y_max\": 704\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 96,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box is well placed around the 'SKIP' button, with only minor over-padding on the left/right edges.\"\n  },\n  {\n    \"label\": \"Action Buttons > I Can Do It!\",\n    \"description\": \"Prominent blue 'I CAN DO IT!' button in the bottom center, indicating the user's commitment to the selected 14 day streak goal.\",\n    \"bounding_box\": {\n      \"x_min\": 243,\n      \"y_min\": 712,\n      \"x_max\": 557,\n      \"y_max\": 757\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 98,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box tightly and accurately fits the 'I CAN DO IT!' button with negligible misalignment.\"\n  }\n]"
+}
+
+----- USAGE -----
+Input Tokens: 1443
+Output Tokens: 268
+Total Tokens: 1711
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:39:00.447Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 18.442 seconds
+
+----- PROMPT -----
+
+You are an expert UI bounding box verifier and corrector.
+Your task is to evaluate and correct UI screenshot bounding box annotations.
+
+You are given:
+
+A UI image with pre-drawn bounding boxes.
+
+A JSON object describing each bounding box, including id, label, description, coordinates, and current status.
+
+Your job is to evaluate how accurately each bounding box matches the described UI element in the image and return an updated JSON object with these new fields added to each item:
+
+“accuracy”: A number from 0 to 100 estimating the visual and positional accuracy of the box.
+
+“hidden”:
+
+false if the box is accurate or a corrected version can be suggested
+
+true if the box is inaccurate and no reasonable correction can be made
+
+“suggested_coordinates”: Include only when accuracy is below 50% and correction is feasible. Format must match the original coordinates schema (x_min, y_min, x_max, y_max).
+
+“status”:
+
+Set to “Overwrite” if suggested_coordinates are provided
+
+Otherwise keep the original status value
+
+“explanation”: A concise reason explaining the score and if/how the box was corrected.
+
+Return only the updated JSON array, preserving the original structure and adding these fields to each item.
+
+Example Output:
+"
+{
+  "id": "transaction_item_1_gt_merchant_logo",
+  "label": "Transaction Item 1 > Merchant Logo",
+  "description": "Circular logo showing the green and white Starbucks emblem...",
+  "coordinates": {
+    "x_min": 6.18,
+    "y_min": 795.20,
+    "x_max": 83.67,
+    "y_max": 870.49
+  },
+  "status": "Overwrite",
+  "accuracy": 46,
+  "hidden": false,
+  "suggested_coordinates": {
+    "x_min": 12.0,
+    "y_min": 800.0,
+    "x_max": 76.0,
+    "y_max": 860.0
+  },
+  "explanation": "Box had 19% extra padding and was misaligned; resized to tightly fit the logo."
+}"
+
+  Output Requirements (IMPORTANT):  
+- Return string formatted JSON
+- DO NOT include any other text or explanation in the output.
+- DO NOT include code guards ` or ```json in the output. 
+- Each key maps to a component ID  
+- Each value is a full, anchored description  
+
+
+Here are the elements to evaluate:
+[{"label":"Streak Goal Selection > 3 days","description":"Small text label for a 3 day streak goal option, displayed in the center section.","bounding_box":{"x_min":259,"y_min":169,"x_max":541,"y_max":217},"status":"Detected","vlm_model":"moondream","element_inference_time":2.382,"error":null},{"label":"Streak Goal Selection > 7 days","description":"Small text label for a 7 day streak goal option, displayed in the center section.","bounding_box":{"x_min":254,"y_min":211,"x_max":546,"y_max":254},"status":"Detected","vlm_model":"moondream","element_inference_time":2.588,"error":null},{"label":"Streak Goal Selection > 14 days","description":"Highlighted text label for a 14 day streak goal option, displayed in the center section and indicated as the 'Clearly committed' choice.","bounding_box":{"x_min":254,"y_min":252,"x_max":546,"y_max":300},"status":"Detected","vlm_model":"moondream","element_inference_time":2.416,"error":null},{"label":"Streak Goal Selection > 30 days","description":"Small text label for a 30 day 'Unstoppable streak' goal option, displayed in the center section.","bounding_box":{"x_min":259,"y_min":312,"x_max":541,"y_max":338},"status":"Detected","vlm_model":"moondream","element_inference_time":2.412,"error":null}]
+
+----- RESPONSE -----
+{
+  "id": "resp_680e336263188192904c1ff4db08bf6f08ddeef0ca9754ee",
+  "object": "response",
+  "created_at": 1745761122,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680e33636d808192b5e974a6537ab24508ddeef0ca9754ee",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "[\n  {\n    \"label\": \"Streak Goal Selection > 3 days\",\n    \"description\": \"Small text label for a 3 day streak goal option, displayed in the center section.\",\n    \"bounding_box\": {\n      \"x_min\": 259,\n      \"y_min\": 169,\n      \"x_max\": 541,\n      \"y_max\": 217\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 95,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box closely matches the full area of the '3 days' option, including both the label and its description. No correction needed.\"\n  },\n  {\n    \"label\": \"Streak Goal Selection > 7 days\",\n    \"description\": \"Small text label for a 7 day streak goal option, displayed in the center section.\",\n    \"bounding_box\": {\n      \"x_min\": 254,\n      \"y_min\": 211,\n      \"x_max\": 546,\n      \"y_max\": 254\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 90,\n    \"hidden\": false,\n    \"explanation\": \"Box covers the '7 days' goal appropriately. Slightly wider than needed but fully includes both the '7 days' text and its description.\"\n  },\n  {\n    \"label\": \"Streak Goal Selection > 14 days\",\n    \"description\": \"Highlighted text label for a 14 day streak goal option, displayed in the center section and indicated as the 'Clearly committed' choice.\",\n    \"bounding_box\": {\n      \"x_min\": 254,\n      \"y_min\": 252,\n      \"x_max\": 546,\n      \"y_max\": 300\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 98,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box accurately covers the highlighted '14 days' streak goal and its entire description.\"\n  },\n  {\n    \"label\": \"Streak Goal Selection > 30 days\",\n    \"description\": \"Small text label for a 30 day 'Unstoppable streak' goal option, displayed in the center section.\",\n    \"bounding_box\": {\n      \"x_min\": 259,\n      \"y_min\": 312,\n      \"x_max\": 541,\n      \"y_max\": 338\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 95,\n    \"hidden\": false,\n    \"explanation\": \"Box aligns well with the '30 days' option, capturing both its label and explanation text. No correction needed.\"\n  }\n]"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1606,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 541,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 2147
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "[\n  {\n    \"label\": \"Streak Goal Selection > 3 days\",\n    \"description\": \"Small text label for a 3 day streak goal option, displayed in the center section.\",\n    \"bounding_box\": {\n      \"x_min\": 259,\n      \"y_min\": 169,\n      \"x_max\": 541,\n      \"y_max\": 217\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 95,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box closely matches the full area of the '3 days' option, including both the label and its description. No correction needed.\"\n  },\n  {\n    \"label\": \"Streak Goal Selection > 7 days\",\n    \"description\": \"Small text label for a 7 day streak goal option, displayed in the center section.\",\n    \"bounding_box\": {\n      \"x_min\": 254,\n      \"y_min\": 211,\n      \"x_max\": 546,\n      \"y_max\": 254\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 90,\n    \"hidden\": false,\n    \"explanation\": \"Box covers the '7 days' goal appropriately. Slightly wider than needed but fully includes both the '7 days' text and its description.\"\n  },\n  {\n    \"label\": \"Streak Goal Selection > 14 days\",\n    \"description\": \"Highlighted text label for a 14 day streak goal option, displayed in the center section and indicated as the 'Clearly committed' choice.\",\n    \"bounding_box\": {\n      \"x_min\": 254,\n      \"y_min\": 252,\n      \"x_max\": 546,\n      \"y_max\": 300\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 98,\n    \"hidden\": false,\n    \"explanation\": \"Bounding box accurately covers the highlighted '14 days' streak goal and its entire description.\"\n  },\n  {\n    \"label\": \"Streak Goal Selection > 30 days\",\n    \"description\": \"Small text label for a 30 day 'Unstoppable streak' goal option, displayed in the center section.\",\n    \"bounding_box\": {\n      \"x_min\": 259,\n      \"y_min\": 312,\n      \"x_max\": 541,\n      \"y_max\": 338\n    },\n    \"status\": \"Detected\",\n    \"accuracy\": 95,\n    \"hidden\": false,\n    \"explanation\": \"Box aligns well with the '30 days' option, capturing both its label and explanation text. No correction needed.\"\n  }\n]"
+}
+
+----- USAGE -----
+Input Tokens: 1606
+Output Tokens: 541
+Total Tokens: 2147
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:39:08.195Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 7.66 seconds
+
+----- PROMPT -----
+
+You are a world-class UX system documenter tasked with annotating components for a highly structured, discoverable design-reference library.
+
+Your inputs will be:
+
+An image (for context enrichment only — do not add new components).
+
+A JSON object containing component_name and a list of elements with basic label and description.
+
+🧠 Mission:
+
+Annotate and enrich only the listed component_name and elements.
+
+Do not invent, add, or reference any UI parts not explicitly in the JSON.
+
+Follow *good ux annotation guidelines* precisely:
+
+📋 Steps to Follow:
+1. Component Role Recognition
+• Determine the overall purpose and interaction model (e.g., “modal dialog for onboarding reminders”).
+• Use this to complete patternName and componentDescription.
+
+2. Component Enrichment (Top-Level)
+• patternName: Exactly one canonical type (e.g., Primary Button, Modal Dialog, Radio Card List,Form Input with Label	).
+• facetTags (5–10): Diverse terms across Function, Context, and Role (e.g., onboarding, mobile, CTA).
+• componentDescription: Clear and contextual.
+• states: All valid states (e.g., default, hover, selected, disabled, checked).
+• interaction: List of supported events as key-value pairs, using clear, user-centered action-effect language.). ie: {"interaction": {
+  "on_tap": "triggers primary action",
+  "on_swipe": "reveals dismiss option on swipe left"
+}}
+• userFlowImpact: How this component guides the user journey (one sentence).
+
+3. Element Role Recognition
+• Assign exactly one patternName to each element (e.g., Text Header, Illustration).
+• Base enrichment on the provided label and description.
+
+4. Element Enrichment (Inside elements array)
+• patternName: One canonical type.
+• facetTags (5–8): Diverse across Function, Context, Role.
+• states: Valid states (default if static).
+• interaction: list of Supported events ie,   "on_swipe": "reveal delete action when swiped left" , "on_drag": "reorder list item" "none": "Static element—no interaction".
+• userFlowImpact: How the element nudges user behavior (one sentence).
+
+format the output as strict, ordered JSON. use component names and element labels DIRECTLY as keys
+
+<output>
+{
+  "<component_name>": {
+    "componentDescription": "",
+    "patternName": "",
+    "facetTags": [],
+    "states": [],
+    "interaction": {},
+    "userFlowImpact": "",
+    "<element_label_1>": {
+      "patternName": "",
+      "facetTags": [],
+      "states": [],
+      "interaction": {},
+      "userFlowImpact": ""
+    },
+    "<element_label_2>": {
+      "patternName": "",
+      "facetTags": [],
+      "states": [],
+      "interaction": {},
+      "userFlowImpact": ""
+    }
+    // repeat for each element
+  }
+}
+Output only one clean JSON block, no commentary or preambles.
+
+⚡ Critical Reminders:
+Only annotate the component_name and its listed elements.
+
+Do not add new UI parts even if visible in the image.
+
+Think carefully and persistently validate that:
+
+All pattern names are correctly picked.
+
+All tags are precise, useful for filtering.
+
+Label and description are complete and consistent.
+
+States and interactions are appropriate and exhaustive.
+
+User flow impact is clearly action-driven.
+
+Reflect before you output: 
+✅ Do facetTags include diverse terms across function, context, and role?
+✅ Are all interaction events clear, user-centered, and labeled with cause-effect?
+✅ Does the userFlowImpact tie into a journey or behavior outcome?
+✅ Is the final output structured in VALID REQUIRED FORMAT, with no explanations?
+
+---BEGIN NOW---
+
+
+Here is the component information:
+{"component_name":"Motivational Message Block","elements":[{"label":"Motivational Message Block > Message","description":"Playful green cartoon frog image with the text 'You'll be 5x more likely to complete the course!'"}]}
+
+----- RESPONSE -----
+{
+  "id": "resp_680e3374b3a08192a2d91b54f9f4dc01087c0a1a0718764b",
+  "object": "response",
+  "created_at": 1745761140,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680e3375dda481929930ce0971a0b123087c0a1a0718764b",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "{\n  \"Motivational Message Block\": {\n    \"componentDescription\": \"A visually engaging message block using playful illustration and motivational text to encourage continued participation and boost user confidence during the streak goal selection flow.\",\n    \"patternName\": \"Motivational Message Block\",\n    \"facetTags\": [\n      \"motivation\",\n      \"feedback\",\n      \"engagement\",\n      \"illustration\",\n      \"onboarding\",\n      \"progress\",\n      \"educational\",\n      \"goal-setting\",\n      \"mobile\"\n    ],\n    \"states\": [\n      \"default\",\n      \"visible\",\n      \"dismissed\"\n    ],\n    \"interaction\": {\n      \"none\": \"Static support block—no direct interactions\"\n    },\n    \"userFlowImpact\": \"Provides instant motivational feedback to reinforce user's commitment and increase the likelihood of completing the process.\",\n    \"Motivational Message Block > Message\": {\n      \"patternName\": \"Illustrated Message\",\n      \"facetTags\": [\n        \"encouragement\",\n        \"visual-cue\",\n        \"positive-reinforcement\",\n        \"mascot\",\n        \"course-completion\",\n        \"education\",\n        \"static\",\n        \"informational\"\n      ],\n      \"states\": [\n        \"default\"\n      ],\n      \"interaction\": {\n        \"none\": \"Static, non-interactive message\"\n      },\n      \"userFlowImpact\": \"Boosts user morale at a key moment to support decision confidence and reduce drop-off.\"\n    }\n  }\n}"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1595,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 300,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 1895
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "{\n  \"Motivational Message Block\": {\n    \"componentDescription\": \"A visually engaging message block using playful illustration and motivational text to encourage continued participation and boost user confidence during the streak goal selection flow.\",\n    \"patternName\": \"Motivational Message Block\",\n    \"facetTags\": [\n      \"motivation\",\n      \"feedback\",\n      \"engagement\",\n      \"illustration\",\n      \"onboarding\",\n      \"progress\",\n      \"educational\",\n      \"goal-setting\",\n      \"mobile\"\n    ],\n    \"states\": [\n      \"default\",\n      \"visible\",\n      \"dismissed\"\n    ],\n    \"interaction\": {\n      \"none\": \"Static support block—no direct interactions\"\n    },\n    \"userFlowImpact\": \"Provides instant motivational feedback to reinforce user's commitment and increase the likelihood of completing the process.\",\n    \"Motivational Message Block > Message\": {\n      \"patternName\": \"Illustrated Message\",\n      \"facetTags\": [\n        \"encouragement\",\n        \"visual-cue\",\n        \"positive-reinforcement\",\n        \"mascot\",\n        \"course-completion\",\n        \"education\",\n        \"static\",\n        \"informational\"\n      ],\n      \"states\": [\n        \"default\"\n      ],\n      \"interaction\": {\n        \"none\": \"Static, non-interactive message\"\n      },\n      \"userFlowImpact\": \"Boosts user morale at a key moment to support decision confidence and reduce drop-off.\"\n    }\n  }\n}"
+}
+
+----- USAGE -----
+Input Tokens: 1595
+Output Tokens: 300
+Total Tokens: 1895
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:39:17.700Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 17.164 seconds
+
+----- PROMPT -----
+
+You are a world-class UX system documenter tasked with annotating components for a highly structured, discoverable design-reference library.
+
+Your inputs will be:
+
+An image (for context enrichment only — do not add new components).
+
+A JSON object containing component_name and a list of elements with basic label and description.
+
+🧠 Mission:
+
+Annotate and enrich only the listed component_name and elements.
+
+Do not invent, add, or reference any UI parts not explicitly in the JSON.
+
+Follow *good ux annotation guidelines* precisely:
+
+📋 Steps to Follow:
+1. Component Role Recognition
+• Determine the overall purpose and interaction model (e.g., “modal dialog for onboarding reminders”).
+• Use this to complete patternName and componentDescription.
+
+2. Component Enrichment (Top-Level)
+• patternName: Exactly one canonical type (e.g., Primary Button, Modal Dialog, Radio Card List,Form Input with Label	).
+• facetTags (5–10): Diverse terms across Function, Context, and Role (e.g., onboarding, mobile, CTA).
+• componentDescription: Clear and contextual.
+• states: All valid states (e.g., default, hover, selected, disabled, checked).
+• interaction: List of supported events as key-value pairs, using clear, user-centered action-effect language.). ie: {"interaction": {
+  "on_tap": "triggers primary action",
+  "on_swipe": "reveals dismiss option on swipe left"
+}}
+• userFlowImpact: How this component guides the user journey (one sentence).
+
+3. Element Role Recognition
+• Assign exactly one patternName to each element (e.g., Text Header, Illustration).
+• Base enrichment on the provided label and description.
+
+4. Element Enrichment (Inside elements array)
+• patternName: One canonical type.
+• facetTags (5–8): Diverse across Function, Context, Role.
+• states: Valid states (default if static).
+• interaction: list of Supported events ie,   "on_swipe": "reveal delete action when swiped left" , "on_drag": "reorder list item" "none": "Static element—no interaction".
+• userFlowImpact: How the element nudges user behavior (one sentence).
+
+format the output as strict, ordered JSON. use component names and element labels DIRECTLY as keys
+
+<output>
+{
+  "<component_name>": {
+    "componentDescription": "",
+    "patternName": "",
+    "facetTags": [],
+    "states": [],
+    "interaction": {},
+    "userFlowImpact": "",
+    "<element_label_1>": {
+      "patternName": "",
+      "facetTags": [],
+      "states": [],
+      "interaction": {},
+      "userFlowImpact": ""
+    },
+    "<element_label_2>": {
+      "patternName": "",
+      "facetTags": [],
+      "states": [],
+      "interaction": {},
+      "userFlowImpact": ""
+    }
+    // repeat for each element
+  }
+}
+Output only one clean JSON block, no commentary or preambles.
+
+⚡ Critical Reminders:
+Only annotate the component_name and its listed elements.
+
+Do not add new UI parts even if visible in the image.
+
+Think carefully and persistently validate that:
+
+All pattern names are correctly picked.
+
+All tags are precise, useful for filtering.
+
+Label and description are complete and consistent.
+
+States and interactions are appropriate and exhaustive.
+
+User flow impact is clearly action-driven.
+
+Reflect before you output: 
+✅ Do facetTags include diverse terms across function, context, and role?
+✅ Are all interaction events clear, user-centered, and labeled with cause-effect?
+✅ Does the userFlowImpact tie into a journey or behavior outcome?
+✅ Is the final output structured in VALID REQUIRED FORMAT, with no explanations?
+
+---BEGIN NOW---
+
+
+Here is the component information:
+{"component_name":"Streak Goal Selection","elements":[{"label":"Streak Goal Selection > 3 days","description":"Small text label for a 3 day streak goal option, displayed in the center section."},{"label":"Streak Goal Selection > 7 days","description":"Small text label for a 7 day streak goal option, displayed in the center section."},{"label":"Streak Goal Selection > 14 days","description":"Highlighted text label for a 14 day streak goal option, displayed in the center section and indicated as the 'Clearly committed' choice."},{"label":"Streak Goal Selection > 30 days","description":"Small text label for a 30 day 'Unstoppable streak' goal option, displayed in the center section."}]}
+
+----- RESPONSE -----
+{
+  "id": "resp_680e3374bbd4819299616b6cc6504a3103d1ff2c24f2fd9d",
+  "object": "response",
+  "created_at": 1745761140,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680e3375de2c8192baf45052d47fc6a703d1ff2c24f2fd9d",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "{\n  \"Streak Goal Selection\": {\n    \"componentDescription\": \"A selection list allowing users to choose their preferred streak goal duration as part of onboarding or goal-setting, reinforcing motivation and commitment.\",\n    \"patternName\": \"Radio List Selector\",\n    \"facetTags\": [\"goal-setting\", \"motivation\", \"habit-tracking\", \"onboarding\", \"progress\", \"selection\", \"commitment\", \"mobile\", \"behavioral-design\"],\n    \"states\": [\"default\", \"option_selected\", \"option_highlighted\", \"disabled\"],\n    \"interaction\": {\n      \"on_tap_option\": \"selects streak goal and highlights selection\",\n      \"on_tap_confirm\": \"progresses to next onboarding step\"\n    },\n    \"userFlowImpact\": \"Guides users to intentionally select a commitment level, reinforcing engagement with the product’s habit-building journey.\",\n    \"Streak Goal Selection > 3 days\": {\n      \"patternName\": \"Radio Option Label\",\n      \"facetTags\": [\"short-term\", \"beginner\", \"option\", \"selection\", \"motivation\", \"habit\", \"mobile\"],\n      \"states\": [\"default\", \"selected\", \"disabled\"],\n      \"interaction\": {\n        \"on_tap\": \"sets 3-day streak goal as selected\"\n      },\n      \"userFlowImpact\": \"Provides an accessible, low-barrier entry option that encourages users to commit to manageable goals.\"\n    },\n    \"Streak Goal Selection > 7 days\": {\n      \"patternName\": \"Radio Option Label\",\n      \"facetTags\": [\"week-long\", \"intermediate\", \"option\", \"selection\", \"motivation\", \"habit\", \"mobile\"],\n      \"states\": [\"default\", \"selected\", \"disabled\"],\n      \"interaction\": {\n        \"on_tap\": \"sets 7-day streak goal as selected\"\n      },\n      \"userFlowImpact\": \"Encourages users to set a slightly longer commitment, fostering a sense of progress.\"\n    },\n    \"Streak Goal Selection > 14 days\": {\n      \"patternName\": \"Radio Option Label\",\n      \"facetTags\": [\"highlighted\", \"commitment\", \"option\", \"selection\", \"motivation\", \"habit\", \"mobile\", \"primary-choice\"],\n      \"states\": [\"default\", \"selected\", \"highlighted\", \"disabled\"],\n      \"interaction\": {\n        \"on_tap\": \"sets 14-day streak goal as selected\"\n      },\n      \"userFlowImpact\": \"Draws attention to a recommended or psychologically motivating goal, supporting stronger commitment.\"\n    },\n    \"Streak Goal Selection > 30 days\": {\n      \"patternName\": \"Radio Option Label\",\n      \"facetTags\": [\"long-term\", \"advanced\", \"option\", \"selection\", \"motivation\", \"habit\", \"mobile\"],\n      \"states\": [\"default\", \"selected\", \"disabled\"],\n      \"interaction\": {\n        \"on_tap\": \"sets 30-day streak goal as selected\"\n      },\n      \"userFlowImpact\": \"Offers a more ambitious target for users aiming for sustained engagement and habit formation.\"\n    }\n  }\n}"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1701,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 635,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 2336
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "{\n  \"Streak Goal Selection\": {\n    \"componentDescription\": \"A selection list allowing users to choose their preferred streak goal duration as part of onboarding or goal-setting, reinforcing motivation and commitment.\",\n    \"patternName\": \"Radio List Selector\",\n    \"facetTags\": [\"goal-setting\", \"motivation\", \"habit-tracking\", \"onboarding\", \"progress\", \"selection\", \"commitment\", \"mobile\", \"behavioral-design\"],\n    \"states\": [\"default\", \"option_selected\", \"option_highlighted\", \"disabled\"],\n    \"interaction\": {\n      \"on_tap_option\": \"selects streak goal and highlights selection\",\n      \"on_tap_confirm\": \"progresses to next onboarding step\"\n    },\n    \"userFlowImpact\": \"Guides users to intentionally select a commitment level, reinforcing engagement with the product’s habit-building journey.\",\n    \"Streak Goal Selection > 3 days\": {\n      \"patternName\": \"Radio Option Label\",\n      \"facetTags\": [\"short-term\", \"beginner\", \"option\", \"selection\", \"motivation\", \"habit\", \"mobile\"],\n      \"states\": [\"default\", \"selected\", \"disabled\"],\n      \"interaction\": {\n        \"on_tap\": \"sets 3-day streak goal as selected\"\n      },\n      \"userFlowImpact\": \"Provides an accessible, low-barrier entry option that encourages users to commit to manageable goals.\"\n    },\n    \"Streak Goal Selection > 7 days\": {\n      \"patternName\": \"Radio Option Label\",\n      \"facetTags\": [\"week-long\", \"intermediate\", \"option\", \"selection\", \"motivation\", \"habit\", \"mobile\"],\n      \"states\": [\"default\", \"selected\", \"disabled\"],\n      \"interaction\": {\n        \"on_tap\": \"sets 7-day streak goal as selected\"\n      },\n      \"userFlowImpact\": \"Encourages users to set a slightly longer commitment, fostering a sense of progress.\"\n    },\n    \"Streak Goal Selection > 14 days\": {\n      \"patternName\": \"Radio Option Label\",\n      \"facetTags\": [\"highlighted\", \"commitment\", \"option\", \"selection\", \"motivation\", \"habit\", \"mobile\", \"primary-choice\"],\n      \"states\": [\"default\", \"selected\", \"highlighted\", \"disabled\"],\n      \"interaction\": {\n        \"on_tap\": \"sets 14-day streak goal as selected\"\n      },\n      \"userFlowImpact\": \"Draws attention to a recommended or psychologically motivating goal, supporting stronger commitment.\"\n    },\n    \"Streak Goal Selection > 30 days\": {\n      \"patternName\": \"Radio Option Label\",\n      \"facetTags\": [\"long-term\", \"advanced\", \"option\", \"selection\", \"motivation\", \"habit\", \"mobile\"],\n      \"states\": [\"default\", \"selected\", \"disabled\"],\n      \"interaction\": {\n        \"on_tap\": \"sets 30-day streak goal as selected\"\n      },\n      \"userFlowImpact\": \"Offers a more ambitious target for users aiming for sustained engagement and habit formation.\"\n    }\n  }\n}"
+}
+
+----- USAGE -----
+Input Tokens: 1701
+Output Tokens: 635
+Total Tokens: 2336
+========== END OF ENTRY ==========
+
+
+========== PROMPT INTERACTION LOG ==========
+Timestamp: 2025-04-27T13:39:52.602Z
+Service: OpenAI-gpt-4.1-2025-04-14
+Execution Time: 52.067 seconds
+
+----- PROMPT -----
+
+You are a world-class UX system documenter tasked with annotating components for a highly structured, discoverable design-reference library.
+
+Your inputs will be:
+
+An image (for context enrichment only — do not add new components).
+
+A JSON object containing component_name and a list of elements with basic label and description.
+
+🧠 Mission:
+
+Annotate and enrich only the listed component_name and elements.
+
+Do not invent, add, or reference any UI parts not explicitly in the JSON.
+
+Follow *good ux annotation guidelines* precisely:
+
+📋 Steps to Follow:
+1. Component Role Recognition
+• Determine the overall purpose and interaction model (e.g., “modal dialog for onboarding reminders”).
+• Use this to complete patternName and componentDescription.
+
+2. Component Enrichment (Top-Level)
+• patternName: Exactly one canonical type (e.g., Primary Button, Modal Dialog, Radio Card List,Form Input with Label	).
+• facetTags (5–10): Diverse terms across Function, Context, and Role (e.g., onboarding, mobile, CTA).
+• componentDescription: Clear and contextual.
+• states: All valid states (e.g., default, hover, selected, disabled, checked).
+• interaction: List of supported events as key-value pairs, using clear, user-centered action-effect language.). ie: {"interaction": {
+  "on_tap": "triggers primary action",
+  "on_swipe": "reveals dismiss option on swipe left"
+}}
+• userFlowImpact: How this component guides the user journey (one sentence).
+
+3. Element Role Recognition
+• Assign exactly one patternName to each element (e.g., Text Header, Illustration).
+• Base enrichment on the provided label and description.
+
+4. Element Enrichment (Inside elements array)
+• patternName: One canonical type.
+• facetTags (5–8): Diverse across Function, Context, Role.
+• states: Valid states (default if static).
+• interaction: list of Supported events ie,   "on_swipe": "reveal delete action when swiped left" , "on_drag": "reorder list item" "none": "Static element—no interaction".
+• userFlowImpact: How the element nudges user behavior (one sentence).
+
+format the output as strict, ordered JSON. use component names and element labels DIRECTLY as keys
+
+<output>
+{
+  "<component_name>": {
+    "componentDescription": "",
+    "patternName": "",
+    "facetTags": [],
+    "states": [],
+    "interaction": {},
+    "userFlowImpact": "",
+    "<element_label_1>": {
+      "patternName": "",
+      "facetTags": [],
+      "states": [],
+      "interaction": {},
+      "userFlowImpact": ""
+    },
+    "<element_label_2>": {
+      "patternName": "",
+      "facetTags": [],
+      "states": [],
+      "interaction": {},
+      "userFlowImpact": ""
+    }
+    // repeat for each element
+  }
+}
+Output only one clean JSON block, no commentary or preambles.
+
+⚡ Critical Reminders:
+Only annotate the component_name and its listed elements.
+
+Do not add new UI parts even if visible in the image.
+
+Think carefully and persistently validate that:
+
+All pattern names are correctly picked.
+
+All tags are precise, useful for filtering.
+
+Label and description are complete and consistent.
+
+States and interactions are appropriate and exhaustive.
+
+User flow impact is clearly action-driven.
+
+Reflect before you output: 
+✅ Do facetTags include diverse terms across function, context, and role?
+✅ Are all interaction events clear, user-centered, and labeled with cause-effect?
+✅ Does the userFlowImpact tie into a journey or behavior outcome?
+✅ Is the final output structured in VALID REQUIRED FORMAT, with no explanations?
+
+---BEGIN NOW---
+
+
+Here is the component information:
+{"component_name":"Action Buttons","elements":[{"label":"Action Buttons > Skip","description":"Gray 'SKIP' button in the bottom left, allowing the user to bypass the streak goal selection."},{"label":"Action Buttons > I Can Do It!","description":"Prominent blue 'I CAN DO IT!' button in the bottom center, indicating the user's commitment to the selected 14 day streak goal."}]}
+
+----- RESPONSE -----
+{
+  "id": "resp_680e3374c18481929f8470447092ba2707a9dcb01cad20f2",
+  "object": "response",
+  "created_at": 1745761140,
+  "status": "completed",
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4.1-2025-04-14",
+  "output": [
+    {
+      "id": "msg_680e337dee2c8192ac3dc9577172aabc07a9dcb01cad20f2",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "{\n  \"Action Buttons\": {\n    \"componentDescription\": \"A pair of action buttons at the bottom of the screen guiding user commitment or bypass for a streak goal selection process.\",\n    \"patternName\": \"Action Button Group\",\n    \"facetTags\": [\n      \"navigation\",\n      \"decision\",\n      \"commitment\",\n      \"bypass\",\n      \"mobile\",\n      \"progression\",\n      \"call to action\",\n      \"primary action\",\n      \"secondary action\"\n    ],\n    \"states\": [\n      \"default\",\n      \"focused\",\n      \"pressed\",\n      \"disabled\"\n    ],\n    \"interaction\": {\n      \"on_tap_skip\": \"bypasses the streak goal selection and proceeds to the next step\",\n      \"on_tap_i_can_do_it\": \"confirms the streak goal choice and continues the onboarding\"\n    },\n    \"userFlowImpact\": \"Directs the user either to commit to the selected goal or to skip, influencing engagement with the onboarding journey.\",\n    \"Action Buttons > Skip\": {\n      \"patternName\": \"Secondary Button\",\n      \"facetTags\": [\n        \"skip\",\n        \"secondary action\",\n        \"bypass\",\n        \"low emphasis\",\n        \"onboarding\",\n        \"mobile\",\n        \"navigation\"\n      ],\n      \"states\": [\n        \"default\",\n        \"focused\",\n        \"pressed\",\n        \"disabled\"\n      ],\n      \"interaction\": {\n        \"on_tap\": \"skips streak goal selection and advances to the next screen\"\n      },\n      \"userFlowImpact\": \"Offers users an easy exit from commitment, helping reduce drop-off for those not ready to decide.\"\n    },\n    \"Action Buttons > I Can Do It!\": {\n      \"patternName\": \"Primary Button\",\n      \"facetTags\": [\n        \"commit\",\n        \"primary action\",\n        \"confirmation\",\n        \"call to action\",\n        \"high emphasis\",\n        \"onboarding\",\n        \"progression\",\n        \"mobile\"\n      ],\n      \"states\": [\n        \"default\",\n        \"focused\",\n        \"pressed\",\n        \"disabled\"\n      ],\n      \"interaction\": {\n        \"on_tap\": \"confirms user's streak goal selection and moves forward in onboarding\"\n      },\n      \"userFlowImpact\": \"Enables users to actively commit to their selected streak, driving forward momentum in the onboarding journey.\"\n    }\n  }\n}"
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 1630,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 482,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 2112
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "{\n  \"Action Buttons\": {\n    \"componentDescription\": \"A pair of action buttons at the bottom of the screen guiding user commitment or bypass for a streak goal selection process.\",\n    \"patternName\": \"Action Button Group\",\n    \"facetTags\": [\n      \"navigation\",\n      \"decision\",\n      \"commitment\",\n      \"bypass\",\n      \"mobile\",\n      \"progression\",\n      \"call to action\",\n      \"primary action\",\n      \"secondary action\"\n    ],\n    \"states\": [\n      \"default\",\n      \"focused\",\n      \"pressed\",\n      \"disabled\"\n    ],\n    \"interaction\": {\n      \"on_tap_skip\": \"bypasses the streak goal selection and proceeds to the next step\",\n      \"on_tap_i_can_do_it\": \"confirms the streak goal choice and continues the onboarding\"\n    },\n    \"userFlowImpact\": \"Directs the user either to commit to the selected goal or to skip, influencing engagement with the onboarding journey.\",\n    \"Action Buttons > Skip\": {\n      \"patternName\": \"Secondary Button\",\n      \"facetTags\": [\n        \"skip\",\n        \"secondary action\",\n        \"bypass\",\n        \"low emphasis\",\n        \"onboarding\",\n        \"mobile\",\n        \"navigation\"\n      ],\n      \"states\": [\n        \"default\",\n        \"focused\",\n        \"pressed\",\n        \"disabled\"\n      ],\n      \"interaction\": {\n        \"on_tap\": \"skips streak goal selection and advances to the next screen\"\n      },\n      \"userFlowImpact\": \"Offers users an easy exit from commitment, helping reduce drop-off for those not ready to decide.\"\n    },\n    \"Action Buttons > I Can Do It!\": {\n      \"patternName\": \"Primary Button\",\n      \"facetTags\": [\n        \"commit\",\n        \"primary action\",\n        \"confirmation\",\n        \"call to action\",\n        \"high emphasis\",\n        \"onboarding\",\n        \"progression\",\n        \"mobile\"\n      ],\n      \"states\": [\n        \"default\",\n        \"focused\",\n        \"pressed\",\n        \"disabled\"\n      ],\n      \"interaction\": {\n        \"on_tap\": \"confirms user's streak goal selection and moves forward in onboarding\"\n      },\n      \"userFlowImpact\": \"Enables users to actively commit to their selected streak, driving forward momentum in the onboarding journey.\"\n    }\n  }\n}"
+}
+
+----- USAGE -----
+Input Tokens: 1630
+Output Tokens: 482
+Total Tokens: 2112
+========== END OF ENTRY ==========
+

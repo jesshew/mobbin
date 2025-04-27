@@ -13,7 +13,7 @@ const anthropic = new Anthropic({
 const VISION_MODEL_CLAUDE = 'claude-3-7-sonnet-20250219';
 const VISION_MODEL_HAIKU = 'claude-3-5-haiku-20241022';
 const VISION_MODEL_HAIKU_CHEAP = 'claude-3-haiku-20240307';
-const DEV_MODE = false;
+const DEV_MODE = true;
 
 const FINAL_MODEL = DEV_MODE ? VISION_MODEL_HAIKU_CHEAP : VISION_MODEL_CLAUDE;
 

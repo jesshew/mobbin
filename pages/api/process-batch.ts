@@ -23,7 +23,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     
     // Start the batch processing by initializing the job queue
     console.log(`[BatchProcessing] Starting batch processing for ID: ${batchId}`);
-    await batchProcessingService.start(batchId);
+    setTimeout(() => {
+      batchProcessingService.start(batchId).catch(console.error);
+    }, 0);
     
     return res.status(200).json({ message: 'Batch processing started in background' });
   } catch (error) {
