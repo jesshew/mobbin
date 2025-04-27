@@ -5,8 +5,9 @@ import pLimit from 'p-limit';
 import { createScreenshotTrackingContext } from '@/lib/logger';
 import { PromptLogType, EXTRACTION_CONCURRENCY } from '@/lib/constants';
 
-// Constant for concurrency control
-const METADATA_EXTRACTION_CONCURRENCY = EXTRACTION_CONCURRENCY;
+// Constants
+const METADATA_EXTRACTION_CONCURRENCY = EXTRACTION_CONCURRENCY; // Maximum number of concurrent metadata extraction operations
+const COMPONENT_LEVEL_PROPERTIES = ['patternName', 'facetTags', 'states', 'interaction', 'userFlowImpact']; // Keys for component-level metadata
 
 /**
  * MetadataExtractionService
@@ -29,61 +30,71 @@ export class MetadataExtractionService {
     batchId: number,
     components: ComponentDetectionResult[]
   ): Promise<ComponentDetectionResult[]> {
-    console.log(`[Batch ${batchId}] Stage 4: Starting Metadata Extraction for ${components.length} components...`);
     
-    // Create a concurrency limiter
-    const extractionLimit = pLimit(METADATA_EXTRACTION_CONCURRENCY);
-    
-    // Process each component in parallel
+    const extractionLimit = pLimit(METADATA_EXTRACTION_CONCURRENCY); // Limit the number of concurrent extractions
     const extractionPromises = components.map(component => 
-      extractionLimit(async () => {
-        const screenshotId = component.screenshot_id;
-        console.log(`[Batch ${batchId}] Stage 4: Extracting metadata for component ${component.component_name} for screenshot ${screenshotId}...`);
-        
-        try {
-          // Create tracking context for logging
-          const context = createScreenshotTrackingContext(batchId, screenshotId);
-          
-          // 1. Convert image to base64 - prefer original image but fall back to annotated
-          const imageBuffer = component.original_image_object || component.annotated_image_object;
-          const imageBase64 = imageBuffer.toString('base64');
-          
-          // 2. Prepare structured input for OpenAI
-          const inputPayload = {
-            component_name: component.component_name,
-            elements: component.elements.map(element => ({
-              label: element.label,
-              description: element.description
-            }))
-          };
-          
-          // 3. Call OpenAI to extract metadata
-          const metadataResult = await extract_component_metadata(
-            imageBase64,
-            JSON.stringify(inputPayload),
-            context
-          );
-          
-          // 4. Update component and element metadata
-          this.updateComponentWithMetadata(component, metadataResult.parsedContent);
-          
-          console.log(`[Batch ${batchId}] Stage 4: Completed metadata extraction for component ${component.component_name}`);
-          
-          return component;
-        } catch (error) {
-          console.error(`[Batch ${batchId}] Stage 4: Error extracting metadata for component ${component.component_name}:`, error);
-          // Return the original component if extraction fails
-          return component;
-        }
-      })
+      extractionLimit(() => this.extractComponentMetadata(batchId, component)) // Schedule extraction for each component
     );
     
-    // Wait for all components to have metadata extracted
-    const enrichedComponents = await Promise.all(extractionPromises);
+    const enrichedComponents = await Promise.all(extractionPromises); // Wait for all extractions to complete
     
     console.log(`[Batch ${batchId}] Stage 4: Completed Metadata Extraction for all components`);
     
-    return enrichedComponents;
+    return enrichedComponents; // Return components with updated metadata
+  }
+
+  /**
+   * Extracts metadata for a single component
+   */
+  private static async extractComponentMetadata(
+    batchId: number, 
+    component: ComponentDetectionResult
+  ): Promise<ComponentDetectionResult> {
+    const screenshotId = component.screenshot_id; // Get screenshot ID
+    const componentName = component.component_name; // Get component name
+        
+    try {
+      const context = createScreenshotTrackingContext(batchId, screenshotId); // Create context for logging and tracking
+      
+      const imageBase64 = this.convertImageToBase64(component); // Convert image buffer to base64
+      const inputPayload = this.prepareInputPayload(component); // Prepare input payload for AI service
+      
+      const metadataResult = await extract_component_metadata(
+        imageBase64,
+        JSON.stringify(inputPayload),
+        context
+      );
+      
+      this.updateComponentWithMetadata(component, metadataResult.parsedContent); // Update component with extracted metadata
+      
+      console.log(`[Batch ${batchId}] Stage 4: Completed metadata extraction for component ${componentName}`);
+      
+      return component; // Return the component with updated metadata
+    } catch (error) {
+      console.error(`[Batch ${batchId}] Stage 4: Error extracting metadata for component ${componentName}:`, error);
+      return component; // Return the component even if there's an error
+    }
+  }
+
+  /**
+   * Converts component image to base64
+   */
+  private static convertImageToBase64(component: ComponentDetectionResult): string {
+    const imageBuffer = component.original_image_object || component.annotated_image_object; // Use original or annotated image
+    return imageBuffer.toString('base64'); // Convert buffer to base64 string
+  }
+
+  /**
+   * Prepares input payload for the AI service
+   */
+  private static prepareInputPayload(component: ComponentDetectionResult): any {
+    return {
+      component_name: component.component_name, // Include component name
+      elements: component.elements.map(element => ({
+        label: element.label, // Include element label
+        description: element.description // Include element description
+      }))
+    };
   }
   
   /**
@@ -96,57 +107,88 @@ export class MetadataExtractionService {
     component: ComponentDetectionResult,
     metadataData: any
   ): void {
-    // Ensure metadata data has the expected format
-    if (!metadataData) {
-      console.warn('Metadata data is null or undefined');
-      return;
+    if (!this.validateMetadata(component, metadataData)) {
+      return; // Exit if metadata is invalid
     }
     
-    // Get the component metadata object using component name as key
-    const componentMetadata = metadataData[component.component_name];
-    if (!componentMetadata) {
-      console.warn(`No metadata found for component ${component.component_name}`);
-      return;
-    }
+    const componentMetadata = metadataData[component.component_name]; // Get metadata for the specific component
     
     try {
-      // Store all component-level metadata (excluding element-specific metadata)
-      const { componentDescription, patternName, facetTags, states, interaction, userFlowImpact } = componentMetadata;
-    //   const { componentDescription } = componentMetadata;
-      // Create component metadata string
-      component.component_metadata_extraction = JSON.stringify({
-        patternName,
-        facetTags,
-        states,
-        interaction,
-        userFlowImpact
-      });
-
-      component.component_ai_description = componentDescription;
-      
-      // Create a map of elements by label for easier lookup
-      const elementMap = new Map<string, ElementDetectionItem>();
-      component.elements.forEach(element => {
-        elementMap.set(element.label, element);
-      });
-      
-      // Update elements with their specific metadata
-      Object.keys(componentMetadata).forEach(key => {
-        // Skip component-level properties
-        if (['patternName', 'facetTags', 'states', 'interaction', 'userFlowImpact'].includes(key)) {
-          return;
-        }
-        
-        // Check if this key matches an element label
-        const element = elementMap.get(key);
-        if (element) {
-          // Store element-specific metadata
-          const elementMetadata = componentMetadata[key];
-          element.element_metadata_extraction = JSON.stringify(elementMetadata);
-        }
-      });
+      this.updateComponentLevelMetadata(component, componentMetadata); // Update component-level metadata
+      this.updateElementLevelMetadata(component, componentMetadata); // Update element-level metadata
     } catch (error) {
       console.error(`Failed to update component ${component.component_name} with metadata:`, error);
     }
+  }
+
+  /**
+   * Validates that metadata exists and has the expected format
+   */
+  private static validateMetadata(component: ComponentDetectionResult, metadataData: any): boolean {
+    if (!metadataData) {
+      console.warn('Metadata data is null or undefined'); // Warn if metadata is missing
+      return false;
+    }
+    
+    const componentMetadata = metadataData[component.component_name];
+    if (!componentMetadata) {
+      console.warn(`No metadata found for component ${component.component_name}`); // Warn if specific component metadata is missing
+      return false;
+    }
+    
+    return true; // Metadata is valid
+  }
+
+  /**
+   * Updates the component-level metadata
+   */
+  private static updateComponentLevelMetadata(
+    component: ComponentDetectionResult,
+    componentMetadata: any
+  ): void {
+    const { componentDescription, patternName, facetTags, states, interaction, userFlowImpact } = componentMetadata;
+    
+    component.component_metadata_extraction = JSON.stringify({
+      patternName,
+      facetTags,
+      states,
+      interaction,
+      userFlowImpact
+    }); // Serialize component-level metadata
+
+    component.component_ai_description = componentDescription; // Update AI-generated description
+  }
+
+  /**
+   * Updates the element-level metadata for each element in the component
+   */
+  private static updateElementLevelMetadata(
+    component: ComponentDetectionResult,
+    componentMetadata: any
+  ): void {
+    const elementMap = this.createElementMap(component); // Create a map for quick element lookup
+    
+    Object.keys(componentMetadata).forEach(key => {
+      if (COMPONENT_LEVEL_PROPERTIES.includes(key)) {
+        return; // Skip component-level properties
+      }
+      
+      const element = elementMap.get(key); // Get element by label
+      if (element) {
+        const elementMetadata = componentMetadata[key];
+        element.element_metadata_extraction = JSON.stringify(elementMetadata); // Serialize and update element metadata
+      }
+    });
+  }
+
+  /**
+   * Creates a map of elements by label for easier lookup
+   */
+  private static createElementMap(component: ComponentDetectionResult): Map<string, ElementDetectionItem> {
+    const elementMap = new Map<string, ElementDetectionItem>();
+    component.elements.forEach(element => {
+      elementMap.set(element.label, element); // Map element label to element object
+    });
+    return elementMap; // Return the map for element lookup
   }
 } 

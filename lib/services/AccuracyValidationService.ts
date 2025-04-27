@@ -5,11 +5,7 @@ import pLimit from 'p-limit';
 import { generateAnnotatedImageBuffer } from '@/lib/services/imageServices/BoundingBoxService';
 import { createScreenshotTrackingContext } from '@/lib/logger';
 import { PromptLogType, VALIDATION_CONCURRENCY } from '@/lib/constants'
-import fs from 'fs';
-import path from 'path';
-import { saveAnnotatedImageDebug } from '@/lib/services/imageServices/BoundingBoxService';
-// Import sample data
-// import { VALIDATED_RESULTS } from '@/lib/services/sample_data';
+
 
 // Constants for accuracy score thresholds
 const ACCURACY_THRESHOLDS = {
@@ -50,14 +46,6 @@ export class AccuracyValidationService {
   ): Promise<ComponentDetectionResult[]> {
     console.log(`[Batch ${batchId}] Stage 3: Starting Accuracy Validation for ${components.length} components...`);
     
-    // Create a single output directory for all re-annotated images in this batch
-    let batchOutputDir: string | null = null;
-    // if (process.env.SAVE_DEBUG_FILES === 'true') {
-    //   batchOutputDir = `mobbin_validated_batch_${batchId}_${new Date().toISOString().replace(/[:.-]/g,'')}`;
-    //   await fs.promises.mkdir(batchOutputDir, { recursive: true });
-    //   console.log(`[Batch ${batchId}] Created output directory for all validated images: ${batchOutputDir}`);
-    // }
-    
     // Create a concurrency limiter
     const validationLimit = pLimit(VALIDATION_CONCURRENCY);
     
@@ -65,7 +53,7 @@ export class AccuracyValidationService {
     const validationPromises = components.map(component => 
       validationLimit(async () => {
         const screenshotId = component.screenshot_id;
-        console.log(`[Batch ${batchId}] Stage 3: Validating component ${component.component_name} for screenshot ${screenshotId}...`);
+        // console.log(`[Batch ${batchId}] Stage 3: Validating component ${component.component_name} for screenshot ${screenshotId}...`);
         
         try {
           // Create tracking context for logging
@@ -83,74 +71,13 @@ export class AccuracyValidationService {
             context,
             elementsJson
           );
-          
-        //   console.log(
-        //     `[Batch ${batchId}] Accuracy raw response for component ${component.component_name}:`,
-        //     JSON.stringify(validationResult, null, 2)
-        //   );
-          // Extract validation data with type safety
-        //   let validationData: ElementDetectionItem[] | null = null;
-          
-        //   try {
-        //     validationData = validationResult.parsedContent as ValidationData;
-        //     if (!validationData) {
-        //       throw new Error('Validation data is null');
-        //     }
             
-        //     // The response can be an array or an object with elements property
-        //     const elements = Array.isArray(validationData) 
-        //       ? validationData 
-        //       : validationData.elements;
-              
-        //     if (!Array.isArray(elements) || elements.length === 0) {
-        //       throw new Error('No validated elements found in response');
-        //     }
-            
-        //     console.log(`[Batch ${batchId}] Stage 3: Received valid response for component ${component.component_name}, found ${elements.length} elements`);
-        //   } catch (validationError) {
-        //     console.error(`[Batch ${batchId}] Stage 3: Invalid validation data format for component ${component.component_name}:`, validationError);
-        //     // Return the original component if validation data is invalid
-        //     return component;
-        //   }
-          
-          
           // Update elements with accuracy scores and suggested coordinates
           // This mutates the elements array in-place
           this.updateElementsWithValidation(component.elements, validationResult.parsedContent);
 
-          console.log(`[Batch ${batchId}] Stage 3: Updated elements for component ${component.component_name}:`, JSON.stringify(component.elements, null, 2));
-          
-          // Re-render the component's image with updated bounding boxes
-          // Use original image if available, otherwise fall back to annotated image
-        //   const sourceImageBuffer = component.original_image_object
-        //   if (!sourceImageBuffer) {
-        //     console.error(`[Batch ${batchId}] Stage 3: No image buffer available for component ${component.component_name}`);
-        //     return component;
-        //   }
-        //   const updatedImageBuffer = await this.regenerateAnnotatedImage(
-        //     sourceImageBuffer,
-        //     component.elements
-        //   );
-          
-        //   // Update the component with the new image buffer
-        //   if (updatedImageBuffer) {
-        //     component.annotated_image_object = updatedImageBuffer;
-
-        //     // Save the re-annotated image to the batch output directory
-        //     if (batchOutputDir) {
-        //       try {
-        //         const normalizedName = component.component_name.replace(/\s+/g,'_').toLowerCase();
-        //         await saveAnnotatedImageDebug(
-        //           updatedImageBuffer,
-        //           component.component_name,
-        //           batchOutputDir
-        //         );
-        //         console.log(`[Batch ${batchId}] Saved re-annotated image for component '${component.component_name}' to ${batchOutputDir}`);
-        //       } catch (e) {
-        //         console.error(`Failed saving re-annotated image for ${component.component_name}:`, e);
-        //       }
-        //     }
-        //   }
+          // console.log(`[Batch ${batchId}] Stage 3: Updated elements for component ${component.component_name}:`, JSON.stringify(component.elements, null, 2));
+        
           console.log(`[Batch ${batchId}] Stage 3: Completed validation for component ${component.component_name}`);
           
           return component;
@@ -216,52 +143,5 @@ export class AccuracyValidationService {
         }
       }
     });
-  }
-  
-  /**
-   * Regenerates the annotated image with colored bounding boxes based on accuracy
-   * 
-   * @param originalImageBuffer - The original image buffer
-   * @param elements - Array of elements with accuracy scores
-   * @returns New image buffer with colored bounding boxes
-   */
-  private static async regenerateAnnotatedImage(
-    originalImageBuffer: Buffer,
-    elements: ElementDetectionItem[]
-  ): Promise<Buffer | null> {
-    // Process each element to determine its color based on accuracy
-    const coloredElements = elements.map(element => {
-      const accuracy = element.accuracy_score || 0;
-      let color = BOX_COLORS.HIGH;
-      
-      if (accuracy < ACCURACY_THRESHOLDS.LOW) {
-        color = BOX_COLORS.LOW;
-      } else if (accuracy < ACCURACY_THRESHOLDS.MEDIUM) {
-        color = BOX_COLORS.MEDIUM;
-      }
-      
-      // Add properties that will be used by enhanced BoundingBoxService
-      const enhancedElement = {
-        ...element,
-        boxColor: color,
-        dashed: accuracy < ACCURACY_THRESHOLDS.LOW && (!element.suggested_coordinates && element.status === 'Overwrite'),
-        masked: element.status === 'Overwrite' || element.hidden === true
-      };
-      
-      return enhancedElement;
-    });
-    
-    // Generate a new annotated image with colored boxes
-    try {
-      return await generateAnnotatedImageBuffer(
-        originalImageBuffer,
-        coloredElements,
-        undefined, // Use default color, our elements have custom boxColor property
-        PromptLogType.ACCURACY_VALIDATION // Category name for logging
-      );
-    } catch (error) {
-      console.error('Error generating annotated image buffer:', error);
-      return null;
-    }
   }
 } 

@@ -6,7 +6,7 @@ import { SUPABASE_BUCKET_NAME } from '@/config';
 // Storage bucket name for Supabase
 const STORAGE_BUCKET = SUPABASE_BUCKET_NAME || 'v5';
 
-export class ResultPersistenceService {
+export class SaveAnnotationService {
   private supabaseClient: SupabaseClient;
 
   constructor(supabaseClient: SupabaseClient = supabase) {
@@ -26,7 +26,7 @@ export class ResultPersistenceService {
     
     // Process each component result
     for (const result of enrichedResults) {
-      await this.persistComponentResult(result);
+      await this.saveComponentAnnotations(result);
     }
     
     console.log(`[Batch ${batchId}] Successfully persisted all component and element data.`);
@@ -36,7 +36,7 @@ export class ResultPersistenceService {
    * Persists a single component and its elements to the database
    * @param result The component detection result with elements
    */
-  private async persistComponentResult(
+  private async saveComponentAnnotations(
     result: ComponentDetectionResult
   ): Promise<void> {
     try {
@@ -80,7 +80,7 @@ export class ResultPersistenceService {
 
       // 3. Insert elements
       if (result.elements && result.elements.length > 0) {
-        await this.persistElements(component_id, screenshot_id, result.elements);
+        await this.saveElements(component_id, screenshot_id, result.elements);
       }
     } catch (error) {
       console.error(`Error persisting component result:`, error);
@@ -134,7 +134,7 @@ export class ResultPersistenceService {
    * @param screenshot_id The ID of the screenshot
    * @param elements Array of elements to persist
    */
-  private async persistElements(
+  private async saveElements(
     component_id: number,
     screenshot_id: number,
     elements: any[]

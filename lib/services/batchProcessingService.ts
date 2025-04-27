@@ -9,8 +9,8 @@ import { AIExtractionService, Stage1Result } from '@/lib/services/ParallelExtrac
 import { ParallelMoondreamDetectionService } from '@/lib/services/ParallelAnnotationService';
 import { AccuracyValidationService } from '@/lib/services/AccuracyValidationService';
 import { MetadataExtractionService } from '@/lib/services/MetadataExtractionService';
-import { ResultPersistenceService } from '@/lib/services/ResultPersistenceService';
-import { EXTRACTION_CONCURRENCY, MOONDREAM_CONCURRENCY, ProcessStatus } from '@/lib/constants';
+import { SaveAnnotationService } from '@/lib/services/SaveAnnotationService';
+import { ProcessStatus } from '@/lib/constants';
 import fs from 'fs';
 
 // --- Constants ---
@@ -25,14 +25,14 @@ const ERROR_STAGES = {
 
 export class BatchProcessingService {
   private supabaseClient: SupabaseClient;
-  private resultPersistenceService: ResultPersistenceService;
+  private saveAnnotationService: SaveAnnotationService;
 
   constructor(
     supabaseClient: SupabaseClient = supabase,
-    resultPersistenceService?: ResultPersistenceService
+    saveAnnotationService?: SaveAnnotationService
   ) {
     this.supabaseClient = supabaseClient;
-    this.resultPersistenceService = resultPersistenceService || new ResultPersistenceService(supabaseClient);
+    this.saveAnnotationService = saveAnnotationService || new SaveAnnotationService(supabaseClient);
   }
 
   /**
@@ -201,7 +201,7 @@ export class BatchProcessingService {
       await this.updateBatchStatus(batchId, ProcessStatus.SAVING);
       console.log(`[Batch ${batchId}] Stage 5: Persisting results to database...`);
       
-      await this.resultPersistenceService.persistResults(batchId, enrichedResults);
+      await this.saveAnnotationService.persistResults(batchId, enrichedResults);
       console.log(`[Batch ${batchId}] Stage 5: Database persistence complete.`);
       
       return true;
