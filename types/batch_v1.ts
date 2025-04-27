@@ -3,6 +3,7 @@ export interface Batch {
   name: string
   timestamp: Date
   status: 'uploading' | 'extracting' | 'annotating' | 'preview' | 'done'
+  stage?: 'setup' | 'extraction' | 'annotation' | 'validation' | 'metadata' | 'saving' | 'completed' | 'failed'
   analysisType: string
   performance?: {
     masterPromptRuntime: number

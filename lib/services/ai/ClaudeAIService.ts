@@ -10,9 +10,12 @@ const anthropic = new Anthropic({
 });
 
 // Specify the Claude vision model version
-// const VISION_MODEL_CLAUDE = 'claude-3-7-sonnet-20250219';
+const VISION_MODEL_CLAUDE = 'claude-3-7-sonnet-20250219';
 const VISION_MODEL_HAIKU = 'claude-3-5-haiku-20241022';
 const VISION_MODEL_HAIKU_CHEAP = 'claude-3-haiku-20240307';
+const DEV_MODE = false;
+
+const FINAL_MODEL = DEV_MODE ? VISION_MODEL_HAIKU_CHEAP : VISION_MODEL_CLAUDE;
 
 // const MAX_TOKENS = 8192;
 const MAX_TOKENS = 4096;
@@ -57,7 +60,7 @@ export async function callClaudeVisionModel(
     
     const response = await anthropic.messages.create({
       // model: VISION_MODEL_HAIKU,
-      model: VISION_MODEL_HAIKU_CHEAP,
+      model: FINAL_MODEL,
       max_tokens: MAX_TOKENS, // tweak as needed
       messages: messages as Anthropic.MessageParam[],
     });
@@ -72,7 +75,7 @@ export async function callClaudeVisionModel(
     
     // Log the interaction using the context with the measured duration
     await context.logPromptInteraction(
-      `Claude-${VISION_MODEL_HAIKU_CHEAP}`,
+      `Claude-${FINAL_MODEL}`,
       promptType,
       prompt,
       JSON.stringify(response),
@@ -226,8 +229,39 @@ function parseClaudeTextToJson(rawText: string): Record<string, any> {
     console.error('Failed to parse Claude response as JSON even after cleaning.', error);
     console.error('Original rawText:', rawText);
     console.error('Content attempted for parsing:', jsonContent); // Log the extracted part
+    
+    // More aggressive repair attempt for malformed JSON
+    try {
+      // Try to repair truncated JSON by closing unclosed structures
+      if (jsonContent.includes('{') && !jsonContent.endsWith('}')) {
+        // Attempt to fix truncated JSON by adding closing braces
+        const openBraces = (jsonContent.match(/{/g) || []).length;
+        const closeBraces = (jsonContent.match(/}/g) || []).length;
+        if (openBraces > closeBraces) {
+          const fixedJson = jsonContent + '}'.repeat(openBraces - closeBraces);
+          return JSON.parse(fixedJson);
+        }
+      }
+      
+      // If we can't parse the whole thing, try to extract key-value pairs manually
+      // This is a fallback approach for severely malformed JSON
+      const keyValueRegex = /"([^"]+)":\s*"([^"]+)"/g;
+      const extractedPairs: Record<string, any> = {};
+      let match;
+      while ((match = keyValueRegex.exec(jsonContent)) !== null) {
+        extractedPairs[match[1]] = match[2];
+      }
+      
+      if (Object.keys(extractedPairs).length > 0) {
+        console.log('Recovered partial JSON data through regex extraction');
+        return extractedPairs;
+      }
+    } catch (repairError) {
+      console.error('JSON repair attempt also failed:', repairError);
+    }
+    
     // Return empty object on failure to prevent downstream errors
-    return {}; 
+    return {} as Record<string, any>;
   }
 }
 

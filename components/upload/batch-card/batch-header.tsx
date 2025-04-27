@@ -16,7 +16,7 @@ export const BatchHeader = ({ batch, isExpanded, onToggle, onViewResults }: Batc
     <div className="flex items-center justify-between mb-1">
       <h3 className="font-medium">{batch.name}</h3>
       <div className="flex items-center gap-2">
-        <StatusBadge status={batch.status} />
+        <StatusBadge status={batch.status} stage={batch.stage} />
         {/* {batch.status === 'extracting' && (
           <Button 
             variant="outline" 

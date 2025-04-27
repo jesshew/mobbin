@@ -40,7 +40,7 @@ export function UploadInterface({
     error,
     isLoading,
     mutate,
-    expandedBatchId,
+    expandedBatchIds,
     toggleBatch,
     showToast,
     setShowToast,
@@ -110,7 +110,7 @@ export function UploadInterface({
         ) : batches ? (
           <BatchList
             batches={batches}
-            expandedBatchId={expandedBatchId}
+            expandedBatchIds={expandedBatchIds}
             toggleBatch={toggleBatch}
             onImageSelect={onImageSelect}
             onViewResults={onViewResults}

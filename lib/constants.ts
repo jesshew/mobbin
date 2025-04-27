@@ -24,7 +24,16 @@ export enum ProcessStatus {
   FAILED = 'failed',
 }
 
-
+export const STAGE_STATUS_MAPPING = {
+  setup: 'uploading',
+  extraction: 'extracting',
+  annotation: 'annotating',
+  validation: 'validating',
+  metadata: 'extracting ux metadata',
+  saving: 'saving results',
+  completed: 'done',
+  failed: 'done'
+}
 
 export const API_ENDPOINTS = {
   BATCHES: '/api/batches',

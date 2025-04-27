@@ -21,7 +21,7 @@ const ERROR_STAGES = {
   ANNOTATION: 'annotation',
   VALIDATION: 'validation',
   METADATA: 'metadata',
-  PERSISTENCE: 'persistence'
+  SAVING: 'saving'
 };
 
 // Processing stages for the batch job queue
@@ -31,7 +31,7 @@ export enum ProcessingStage {
   ANNOTATION = 'annotation',
   VALIDATION = 'validation',
   METADATA = 'metadata',
-  PERSISTENCE = 'persistence',
+  SAVING = 'saving',
   COMPLETED = 'completed',
   FAILED = 'failed'
 }
@@ -177,10 +177,10 @@ export class BatchProcessingService {
           nextStage = ProcessingStage.METADATA;
           break;
         case ProcessingStage.METADATA:
-          nextStage = ProcessingStage.PERSISTENCE;
+          nextStage = ProcessingStage.SAVING;
           await this.updateBatchStatus(batchId, ProcessStatus.SAVING);
           break;
-        case ProcessingStage.PERSISTENCE:
+        case ProcessingStage.SAVING:
           nextStage = ProcessingStage.COMPLETED;
           await this.updateBatchStatus(batchId, ProcessStatus.DONE);
           isCompletedOrFailed = true;
@@ -551,11 +551,11 @@ export class BatchProcessingService {
       await this.resultPersistenceService.persistResults(batchId, enrichedResults);
       console.log(`[Batch ${batchId}] Stage 5: Database persistence complete.`);
       
-      await this.advanceToNextStage(batchId, ProcessingStage.PERSISTENCE);
+      await this.advanceToNextStage(batchId, ProcessingStage.SAVING);
       
       return true;
     } catch (error) {
-      await this.handleProcessingError(batchId, error, ERROR_STAGES.PERSISTENCE);
+      await this.handleProcessingError(batchId, error, ERROR_STAGES.SAVING);
       throw error;
     }
   }

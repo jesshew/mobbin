@@ -23,7 +23,7 @@ export default function Home() {
   const {
     batches,
     mutate: refetchBatches,
-    expandedBatchId,
+    expandedBatchIds,
     toggleBatch,
     showToast,
     setShowToast,
@@ -75,13 +75,13 @@ export default function Home() {
   const handleProcessBatch = async () => {
     if (!processingBatchId) {
       setProcessingStatus("Please enter a batch ID")
-      console.log(`[DEBUG] Batch ID is empty. Please enter a valid batch ID.`) // Added debug printing statement for visibility
+      // console.log(`[DEBUG] Batch ID is empty. Please enter a valid batch ID.`) // Added debug printing statement for visibility
       return
     }
 
     try {
       setProcessingStatus("Processing batch...")
-      console.log(`[DEBUG] Processing batch ID: ${processingBatchId}`) // Added debug printing statement for visibility
+      // console.log(`[DEBUG] Processing batch ID: ${processingBatchId}`) // Added debug printing statement for visibility
       
       // Use server action to process batch instead of direct client-side processing
       const response = await fetch('/api/process-batch', {
@@ -92,20 +92,20 @@ export default function Home() {
         body: JSON.stringify({ batchId: parseInt(processingBatchId) }),
       });
       
-      console.log(`[DEBUG] Received response from /api/process-batch: ${response.status} ${response.statusText}`) // Added debug printing statement for visibility
+      // console.log(`[DEBUG] Received response from /api/process-batch: ${response.status} ${response.statusText}`) // Added debug printing statement for visibility
       
       if (!response.ok) {
         const errorData = await response.json();
-        console.log(`[DEBUG] Error response from /api/process-batch: ${errorData.message}`) // Added debug printing statement for visibility
+        // console.log(`[DEBUG] Error response from /api/process-batch: ${errorData.message}`) // Added debug printing statement for visibility
         throw new Error(errorData.message || 'Failed to process batch');
       }
       
       setProcessingStatus("Processing request sent successfully")
-      console.log(`[DEBUG] Processing request sent successfully. Refetching batches...`) // Added debug printing statement for visibility
+      // console.log(`[DEBUG] Processing request sent successfully. Refetching batches...`) // Added debug printing statement for visibility
       refetchBatches()
     } catch (error) {
-      console.error("Error processing batch:", error)
-      console.log(`[DEBUG] Error processing batch: ${error instanceof Error ? error.message : "Unknown error"}`) // Added debug printing statement for visibility
+      // console.error("Error processing batch:", error)
+      // console.log(`[DEBUG] Error processing batch: ${error instanceof Error ? error.message : "Unknown error"}`) // Added debug printing statement for visibility
       setProcessingStatus(`Processing failed: ${error instanceof Error ? error.message : "Unknown error"}`)
     }
   }
@@ -138,7 +138,7 @@ export default function Home() {
       setLoadedComponents(data.components || []);
       setProcessingStatus(`Loaded ${data.components.length} components successfully`);
     } catch (error) {
-      console.error("Error loading batch components:", error);
+      // console.error("Error loading batch components:", error);
       setProcessingStatus(`Loading failed: ${error instanceof Error ? error.message : "Unknown error"}`);
       setLoadedComponents([]);
     } finally {

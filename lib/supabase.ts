@@ -12,3 +12,30 @@ const serviceRoleKey = process.env.SUPABASE_SERVICE_KEY!
 export const supabase = createClient(supabaseUrl, serviceRoleKey)
 // Client for client-side operations
 export const supabaseClient = createClient(supabaseUrl, supabaseKey) 
+
+// Client with service role for server-side operations with real-time enabled
+// export const supabase = createClient(supabaseUrl, serviceRoleKey, {
+//   realtime: {
+//     // Configure real-time settings here if needed
+//     params: {
+//       eventsPerSecond: 10
+//     }
+//   }
+// })
+
+// Client for client-side operations with real-time enabled
+// export const supabaseClient = createClient(supabaseUrl, supabaseKey, {
+//   realtime: {
+//     params: {
+//       eventsPerSecond: 10
+//     }
+//   }
+// })
+
+// Helper function to connect to real-time
+// export const connectToRealtime = () => {
+//   // Explicitly connect to the realtime service
+//   supabase.realtime.connect()
+  
+//   return supabase
+// } 

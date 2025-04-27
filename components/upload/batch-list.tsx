@@ -4,7 +4,7 @@ import { BatchCard } from "@/components/upload/batch-card"
 
 interface BatchListProps {
   batches: Batch[]
-  expandedBatchId: string | null
+  expandedBatchIds: string[]
   toggleBatch: (batchId: string) => void
   onImageSelect: (batchId: string, imageIndex: number) => void
   onViewResults: (batchId: string) => void
@@ -12,7 +12,7 @@ interface BatchListProps {
 
 export function BatchList({ 
   batches, 
-  expandedBatchId, 
+  expandedBatchIds, 
   toggleBatch, 
   onImageSelect,
   onViewResults,
@@ -25,7 +25,7 @@ export function BatchList({
             <BatchCard
               key={batch.id}
               batch={batch}
-              isExpanded={expandedBatchId === batch.id}
+              isExpanded={expandedBatchIds.includes(batch.id)}
               onToggle={() => toggleBatch(batch.id)}
               onImageSelect={(imageIndex: number) => onImageSelect(batch.id, imageIndex)}
               onViewResults={() => onViewResults(batch.id)}
