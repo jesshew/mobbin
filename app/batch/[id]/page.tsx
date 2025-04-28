@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback } from "react"
 import { useParams } from "next/navigation"
-import { ControlPanel } from "@/components/control-panel"
 import { Component as OriginalComponent, Element } from "@/types/annotation"
 import { ComponentDetectionResult } from "@/types/DetectionResult"
 import { Layers, AlertCircle } from "lucide-react"
@@ -218,15 +217,15 @@ const BoxRenderer = ({
   const highlightSuggested = isHovered && isLowAccuracy && hasSuggestedBox;
   const highlightMain = isHovered && !highlightSuggested;
   
-  // Only show red boxes on hover, but always show suggested boxes when hovering 
-  // and for low accuracy elements
-  const showLowAccuracyBox = isLowAccuracy ? isHovered : true;
+  // Always show low accuracy boxes, regardless of suggested coordinates
+  // Only non-low accuracy boxes follow the previous behavior
+  const showMainBox = isLowAccuracy || !isLowAccuracy;
   const showSuggestedBox = hasSuggestedBox && (isHovered || isLowAccuracy);
   
   return (
     <>
       {/* Main bounding box */}
-      {showLowAccuracyBox && (
+      {showMainBox && (
         <div
           className={`absolute border-2 ${
             highlightMain ? 'border-blue-500 animate-pulse' : borderColor
@@ -240,7 +239,7 @@ const BoxRenderer = ({
             pointerEvents: 'auto',
             cursor: 'pointer',
             backgroundColor: highlightMain ? 'rgba(59, 130, 246, 0.15)' : 'transparent',
-            opacity: isLowAccuracy && !isHovered ? 0 : 1
+            opacity: isLowAccuracy && !isHovered ? 0.7 : 1
           }}
           onMouseEnter={() => onHover(element.element_id)}
           onMouseLeave={() => onHover(null)}

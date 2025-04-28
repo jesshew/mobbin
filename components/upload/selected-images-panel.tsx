@@ -15,8 +15,8 @@ import React from "react"
 
 // Define analysis types as constants to avoid magic strings
 const ANALYSIS_TYPES = {
-    USABILITY: 'Usability Audit',
-    MARKETING: 'Conversion Analysis',
+    // USABILITY: 'Usability Audit',
+    // MARKETING: 'Conversion Analysis',
     // ACCESSIBILITY: 'Inclusive Design Audit',
     TAXONOMY: 'UI Categorization'
   }  
@@ -85,12 +85,12 @@ export function SelectedImagesPanel({
                 <SelectValue placeholder="Select Analysis Type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={ANALYSIS_TYPES.USABILITY}>
+                {/* <SelectItem value={ANALYSIS_TYPES.USABILITY}>
                   {ANALYSIS_TYPES.USABILITY}
                 </SelectItem>
                 <SelectItem value={ANALYSIS_TYPES.MARKETING}>
                   {ANALYSIS_TYPES.MARKETING}
-                </SelectItem>
+                </SelectItem> */}
                 {/* <SelectItem value={ANALYSIS_TYPES.ACCESSIBILITY}>
                   {ANALYSIS_TYPES.ACCESSIBILITY}
                 </SelectItem> */}

@@ -50,13 +50,13 @@ export function ImageCard({
       className={cardClassName}
       onClick={onClick}
     >
-      <CardContent className="p-2">
-      <div className="aspect-square relative overflow-hidden rounded-md mb-2">
+      <CardContent className="p-1">
+      <div className="aspect-square relative overflow-hidden rounded-md mb-1">
         <Image
           src={getImageUrl()}
           alt={getFileName()}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="(max-width: 768px) 60vw, (max-width: 1200px) 40vw, 33vw"
           className="object-cover"
         />
         {isUploadMode && onRemove && (

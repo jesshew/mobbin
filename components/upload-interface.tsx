@@ -3,7 +3,6 @@
 import { useState, useCallback } from "react"
 import { Loader2 } from "lucide-react"
 import type { Batch } from "@/types/batch_v1"
-import { useIsMobile } from "@/hooks/use-mobile"
 import { useBatchManagement } from "@/hooks/use-batch-management"
 import { filterAndLimitImageFiles, removeFileAtIndex } from "@/lib/file-utils"
 import { uploadFiles } from "@/services/upload-service"
@@ -17,7 +16,7 @@ interface UploadInterfaceProps {
   selectedFiles: File[]
   onFilesSelected: (files: File[]) => void
   onUploadBatch: (batchName: string, analysisType: string, uploadedFiles: File[]) => void
-  onImageSelect: (batchId: string, imageIndex: number) => void
+  onImageSelect: (batchId: string) => void
   onViewResults: (batchId: string) => void
   onRefetchBatches: () => void
 }
@@ -33,7 +32,6 @@ export function UploadInterface({
   const [isDragging, setIsDragging] = useState(false)
   const [batchName, setBatchName] = useState("")
   const [analysisType, setAnalysisType] = useState("")
-  const isMobile = useIsMobile()
   
   const {
     batches,
@@ -42,6 +40,7 @@ export function UploadInterface({
     mutate,
     expandedBatchIds,
     toggleBatch,
+    toggleAllBatches,
     showToast,
     setShowToast,
     generateDefaultBatchName,
@@ -112,6 +111,7 @@ export function UploadInterface({
             batches={batches}
             expandedBatchIds={expandedBatchIds}
             toggleBatch={toggleBatch}
+            toggleAllBatches={toggleAllBatches}
             onImageSelect={onImageSelect}
             onViewResults={onViewResults}
           />
