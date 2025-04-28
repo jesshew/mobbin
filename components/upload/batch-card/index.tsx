@@ -1,6 +1,5 @@
 import { Separator } from "@/components/ui/separator";
 import { BatchHeader } from "./batch-header";
-import { PerformanceStats } from "./performance-stats";
 import { ImageGrid } from "./image-grid";
 import type { Batch } from "@/types/batch_v1";
 // import { BatchCard } from "@/components/upload/batch-card";

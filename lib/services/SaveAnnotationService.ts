@@ -4,7 +4,7 @@ import { ComponentDetectionResult } from '@/types/DetectionResult';
 import { ProcessStatus } from '@/lib/constants';
 import { SUPABASE_BUCKET_NAME } from '@/config';
 // Storage bucket name for Supabase
-const STORAGE_BUCKET = SUPABASE_BUCKET_NAME || 'v5';
+const STORAGE_BUCKET = SUPABASE_BUCKET_NAME || 'v6';
 
 export class SaveAnnotationService {
   private supabaseClient: SupabaseClient;

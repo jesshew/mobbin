@@ -1,4 +1,4 @@
-import { useDropzone } from "react-dropzone"
+ import { useDropzone } from "react-dropzone"
 import { Upload, ImageIcon, FolderOpen } from "lucide-react"
 import { Button } from "@/components/ui/button"
 

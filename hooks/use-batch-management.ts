@@ -35,6 +35,17 @@ export function useBatchManagement() {
     });
   };
 
+  const toggleAllBatches = () => {
+    if (!data) return;
+    
+    setExpandedBatchIds(current => {
+      const allBatchIds = data.map(batch => batch.id);
+      const areAllExpanded = allBatchIds.every(id => current.includes(id));
+      
+      return areAllExpanded ? [] : allBatchIds;
+    });
+  };
+
   const generateDefaultBatchName = () => {
     const date = new Date();
     return `Batch ${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
@@ -47,6 +58,7 @@ export function useBatchManagement() {
     mutate,
     expandedBatchIds,
     toggleBatch,
+    toggleAllBatches,
     showToast,
     setShowToast,
     generateDefaultBatchName,

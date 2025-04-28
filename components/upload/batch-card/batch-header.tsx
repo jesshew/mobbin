@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { FileImage, ChevronUp, ChevronDown, ClipboardCheck, ExternalLink } from "lucide-react";
 import { StatusBadge } from "./status-badge";
-import { PerformanceTooltip } from "./performance-tooltip";
 import type { Batch } from "@/types/batch_v1";
 
 interface BatchHeaderProps {

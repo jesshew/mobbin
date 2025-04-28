@@ -13,12 +13,12 @@ const anthropic = new Anthropic({
 const VISION_MODEL_CLAUDE = 'claude-3-7-sonnet-20250219';
 const VISION_MODEL_HAIKU = 'claude-3-5-haiku-20241022';
 const VISION_MODEL_HAIKU_CHEAP = 'claude-3-haiku-20240307';
-const DEV_MODE = true;
+const DEV_MODE = false;
 
 const FINAL_MODEL = DEV_MODE ? VISION_MODEL_HAIKU_CHEAP : VISION_MODEL_CLAUDE;
 
-// const MAX_TOKENS = 8192;
-const MAX_TOKENS = 4096;
+const MAX_TOKENS = 8192;
+// const MAX_TOKENS = 4096;
 
 // Constants for token cost calculation (update with actual costs)
 const CLAUDE_INPUT_TOKEN_COST = 0.000015; // example cost per input token
