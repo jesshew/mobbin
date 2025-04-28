@@ -5,7 +5,9 @@ import { useParams } from "next/navigation"
 import { Component as OriginalComponent, Element } from "@/types/annotation"
 import { ComponentDetectionResult } from "@/types/DetectionResult"
 import { Layers, AlertCircle } from "lucide-react"
-import { ComponentListItem } from "@/components/control-panel/component-list-item"
+// import { ComponentListItem } from "@/components/component-list-item"
+import { ComponentListItem } from "@/components/component";
+
 import { parseMetadata } from "@/utils/component-converter"
 
 // Extend the Component type to include component_accuracy
