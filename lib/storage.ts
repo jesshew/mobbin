@@ -1,4 +1,3 @@
-import { createClient } from '@supabase/supabase-js';
 import { supabase } from './supabase';
 import fs from 'fs';
 import { SUPABASE_BUCKET_NAME } from '@/config';
