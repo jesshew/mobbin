@@ -1,7 +1,7 @@
 import { SupabaseClient, PostgrestError } from '@supabase/supabase-js';
 import { SUPABASE_BUCKET_NAME } from '@/config';
 
-const SCREENSHOT_BUCKET = SUPABASE_BUCKET_NAME || 'v5'
+const SCREENSHOT_BUCKET = SUPABASE_BUCKET_NAME || 'v6'
 const SIGNED_URL_EXPIRY_SECONDS = 3600 // 1 hour
 
 const ERROR_GENERATING_SIGNED_URL = 'Error generating signed URL';

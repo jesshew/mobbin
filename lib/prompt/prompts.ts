@@ -1545,8 +1545,10 @@ Follow *good ux annotation guidelines* precisely:
 • states: All valid states (e.g., default, hover, selected, disabled, checked).
 • interaction: List of supported events as key-value pairs, using clear, user-centered action-effect language.). ie: {"interaction": {
   "on_tap": "triggers primary action",
-  "on_swipe": "reveals dismiss option on swipe left"
+  "on_swipe_left": "reveals delete buttons and archive chat option"
 }}
+  
+     - on_long_hold, on_submit, on_hover, on_swipe_left
 • userFlowImpact: How this component guides the user journey (one sentence).
 
 3. Element Role Recognition

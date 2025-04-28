@@ -7,8 +7,28 @@ import { Component, Element } from "@/types/annotation";
 import { TagList } from "@/components/ui/tag";
 import { parseMetadata, elementToBoundingBox } from "@/utils/component-converter";
 
+// Helper function to get accuracy badge color
+function getAccuracyBadgeColor(score: number): string {
+  if (score >= 90) return "bg-green-100 text-green-800";
+  if (score >= 70) return "bg-yellow-100 text-yellow-800";
+  return "bg-red-100 text-red-800";
+}
+
+// Component accuracy badge
+function AccuracyBadge({ score }: { score: number | undefined }) {
+  if (score === undefined) return null;
+  
+  const colorClass = getAccuracyBadgeColor(score);
+  
+  return (
+    <span className={`text-xs ${colorClass} px-2 py-0.5 rounded-full font-medium`}>
+      {score}%
+    </span>
+  );
+}
+
 interface ComponentListItemProps {
-  component: Component;
+  component: Component & { component_accuracy?: number };
   onElementSelect: (element: Element) => void;
   onElementDelete: (elementId: number) => void;
   hoveredElementId: number | null;
@@ -44,29 +64,19 @@ export function ComponentListItem({
           - "Expand" button visually separated.
         */}
         <div
-          className="flex items-center justify-between p-4 border-b cursor-pointer group hover:bg-muted/30 transition"
+          className="flex flex-col p-2 cursor-pointer group hover:bg-muted/30 transition"
           onClick={() => setIsExpanded(prev => !prev)}
         >
-          {/* Main info area */}
-          <div className="flex flex-col flex-1 min-w-0">
+          {/* Title row - isolated on its own row */}
+          <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2 min-w-0">
               <span className="font-medium text-base truncate">{component.component_name}</span>
-              {facetTags.length > 0 && !isExpanded && (
-                <TagList tags={facetTags} maxDisplay={2} className="ml-2" />
+              {component.component_accuracy !== undefined && (
+                <AccuracyBadge score={component.component_accuracy} />
               )}
             </div>
-            {userFlowImpact && (
-              <div className="text-xs text-muted-foreground mt-1 overflow-hidden max-w-full">
-                {userFlowImpact}
-              </div>
-            )}
-          </div>
-
-          {/* Right-side summary and expand/collapse */}
-          <div className="flex items-center gap-3 flex-shrink-0 ml-4">
-            <span className="text-xs bg-muted/60 px-2 py-1 rounded-full font-medium text-muted-foreground">
-              {component.elements.length} {component.elements.length === 1 ? "element" : "elements"}
-            </span>
+            
+            {/* Expand/collapse button moved to right side of title row */}
             <Button
               variant="ghost"
               size="icon"
@@ -84,6 +94,26 @@ export function ComponentListItem({
                 <ChevronDown className="h-5 w-5 text-muted-foreground" />
               )}
             </Button>
+          </div>
+          
+          {/* Secondary information row */}
+          <div className="flex items-center justify-between">
+            {/* User flow impact and facet tags */}
+            <div className="flex flex-col flex-1 min-w-0">
+              {userFlowImpact && (
+                <span className="text-xs text-muted-foreground truncate overflow-hidden whitespace-nowrap pr-4 max-w-full">
+                  {userFlowImpact}
+                </span>
+              )}
+              {facetTags.length > 0 && !isExpanded && (
+                <TagList tags={facetTags} maxDisplay={2} className="mt-1" />
+              )}
+            </div>
+            
+            {/* Element count badge */}
+            <span className="text-xs bg-muted/60 px-2 py-1 rounded-full font-medium text-muted-foreground">
+              {component.elements.length} {component.elements.length === 1 ? "element" : "elements"}
+            </span>
           </div>
         </div>
 
@@ -118,18 +148,18 @@ export function ComponentListItem({
                       {/* --- Description & User Flow Impact Section --- */}
                       {(component.component_ai_description || userFlowImpact) && (
                         <div>
-                          <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-2">Component Purpose</div>
-                          <div className="flex flex-col gap-2">
+                          <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-1">Component Purpose</div>
+                          <div className="flex flex-col gap-1">
                             {component.component_ai_description && (
                               <div className="flex items-start gap-2">
-                                <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[110px] text-center">Description</span>
-                                <span className="text-sm text-foreground leading-snug flex-1">{component.component_ai_description}</span>
+                                <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[90px] text-center">Description</span>
+                                <span className="text-xs text-foreground leading-snug flex-1">{component.component_ai_description}</span>
                               </div>
                             )}
                             {userFlowImpact && (
                               <div className="flex items-start gap-2">
-                                <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[110px] text-center">User Flow Impact</span>
-                                <span className="text-sm text-foreground leading-snug flex-1">{userFlowImpact}</span>
+                                <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[90px] text-center">User Flow Impact</span>
+                                <span className="text-xs text-foreground leading-snug flex-1">{userFlowImpact}</span>
                               </div>
                             )}
                           </div>
@@ -139,23 +169,23 @@ export function ComponentListItem({
                       <div className="border-t border-muted-foreground/10" />
                       {/* --- Component Specification Section --- */}
                       <div>
-                        <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-2">Component Specification</div>
-                        <div className="space-y-4">
+                        <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-1">Component Specification</div>
+                        <div className="space-y-2">
                           {patternName && (
                             <div className="flex items-start gap-2">
-                              <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[110px] text-center">Pattern</span>
-                              <span className="text-sm text-foreground flex-1">{patternName}</span>
+                              <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[90px] text-center">Pattern</span>
+                              <span className="text-xs text-foreground flex-1">{patternName}</span>
                             </div>
                           )}
                           {facetTags.length > 0 && (
                             <div className="flex items-start gap-2">
-                              <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[110px] text-center">Facets</span>
+                              <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[90px] text-center">Facets</span>
                               <span className="flex-1"><TagList tags={facetTags} className="mt-1" /></span>
                             </div>
                           )}
                           {states.length > 0 && (
                             <div className="flex items-start gap-2">
-                              <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[110px] text-center">States</span>
+                              <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[90px] text-center">States</span>
                               <span className="flex-1"><TagList tags={states} variant="info" className="mt-1" /></span>
                             </div>
                           )}
@@ -235,6 +265,10 @@ function ElementListItem({
     height: element.suggested_coordinates.y_max - element.suggested_coordinates.y_min
   } : null;
 
+  // Get the full element path and the display name
+  const elementPath = element.label;
+  const elementName = elementPath.includes(" > ") ? elementPath.split(" > ").slice(1).join(" > ") : elementPath;
+
   return (
     <div
       className={`p-2 rounded-md border transition-all duration-200 ${
@@ -248,7 +282,7 @@ function ElementListItem({
         {/* Left side with element title and score */}
         <div className="overflow-hidden pr-2" style={{ width: "calc(100% - 40px)" }}>
           <div className="flex items-center gap-2">
-            <span className="font-medium text-sm truncate">{element.label.split(" > ").pop()}</span>
+            <span className="font-medium text-sm truncate">{elementName}</span>
             <div 
               className={`inline-block px-2 py-0.5 rounded-full text-xs font-bold ${getAccuracyColor(element.accuracy_score)}`}
               title={`Accuracy: ${element.accuracy_score}%`}
@@ -280,22 +314,33 @@ function ElementListItem({
 
       {/* Expanded Content */}
       {isExpanded && (
-        <div className="mt-3 p-3 rounded-md bg-muted/40 space-y-6 border border-muted-foreground/10">
+        <div className="mt-3 p-3 rounded-md bg-muted/40 space-y-4 border border-muted-foreground/10">
+          {/* Element Path Section */}
+          {elementPath.includes(" > ") && (
+            <div>
+              <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-1">Element Path</div>
+              <div className="flex items-start gap-2">
+                <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[90px] text-center">Full Path</span>
+                <span className="text-xs text-foreground leading-snug flex-1">{elementPath}</span>
+              </div>
+            </div>
+          )}
+
           {/* Purpose Section */}
           {(element.description || metadata.userFlowImpact) && (
             <div>
-              <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-2">Element Purpose</div>
-              <div className="flex flex-col gap-2">
+              <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-1">Element Purpose</div>
+              <div className="flex flex-col gap-1">
                 {element.description && (
                   <div className="flex items-start gap-2">
-                    <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[110px] text-center">Description</span>
-                    <span className="text-sm text-foreground leading-snug flex-1">{element.description}</span>
+                    <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[90px] text-center">Description</span>
+                    <span className="text-xs text-foreground leading-snug flex-1">{element.description}</span>
                   </div>
                 )}
                 {metadata.userFlowImpact && (
                   <div className="flex items-start gap-2">
-                    <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[110px] text-center">User Flow Impact</span>
-                    <span className="text-sm text-foreground leading-snug flex-1">{metadata.userFlowImpact}</span>
+                    <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[90px] text-center">User Flow Impact</span>
+                    <span className="text-xs text-foreground leading-snug flex-1">{metadata.userFlowImpact}</span>
                   </div>
                 )}
               </div>
@@ -307,19 +352,19 @@ function ElementListItem({
           
           {/* Specification Section */}
           <div>
-            <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-2">Element Behavior Specification</div>
-            <div className="space-y-4">
+            <div className="text-xs font-bold text-muted-foreground uppercase tracking-wide mb-1">Element Behavior Specification</div>
+            <div className="space-y-2">
               {(patternName || facetTags.length > 0) && (
                 <div className="flex flex-col gap-2">
                   {patternName && (
                     <div className="flex items-start gap-2">
-                      <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[110px] text-center">Pattern</span>
-                      <span className="text-sm text-foreground flex-1">{patternName}</span>
+                      <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[90px] text-center">Pattern</span>
+                      <span className="text-xs text-foreground flex-1">{patternName}</span>
                     </div>
                   )}
                   {facetTags.length > 0 && (
                     <div className="flex items-start gap-2">
-                      <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[110px] text-center">Facets</span>
+                      <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[90px] text-center">Facets</span>
                       <span className="flex-1"><TagList tags={facetTags} className="mt-1" /></span>
                     </div>
                   )}
@@ -327,16 +372,16 @@ function ElementListItem({
               )}
               {states.length > 0 && (
                 <div className="flex items-start gap-2">
-                  <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[110px] text-center">States</span>
+                  <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[90px] text-center">States</span>
                   <span className="flex-1"><TagList tags={states} variant="info" className="mt-1" /></span>
                 </div>
               )}
               {metadata.interaction && (
                 <div className="flex items-start gap-2">
-                  <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[110px] text-center">Interaction</span>
+                  <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[90px] text-center">Interaction</span>
                   <span className="flex-1 space-y-1">
                     {Object.entries(metadata.interaction).map(([key, value]) => (
-                      <div key={key} className="text-sm text-foreground ml-2">
+                      <div key={key} className="text-xs text-foreground ml-2">
                         <span className="font-medium capitalize">{key}:</span> {String(value)}
                       </div>
                     ))}
