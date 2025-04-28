@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useMemo, useCallback } from "react"
+import React from "react"
 import { useParams } from "next/navigation"
 import { Component as OriginalComponent, Element } from "@/types/annotation"
 import { ComponentDetectionResult } from "@/types/DetectionResult"
@@ -20,6 +21,7 @@ type Component = OriginalComponent & {
 const getAccuracyColor = (score: number) => {
   if (score >= 90) return 'border-green-500/70';
   if (score >= 70) return 'border-yellow-500/70';
+  if (score >= 50) return 'border-pink-500/70';
   return 'border-red-400/80'; // Lighter, less dominant red with opacity
 };
 
@@ -45,32 +47,52 @@ const shouldShowExplanation = (element: any): boolean => {
   return false;
 };
 
-// Unified explanation tooltip component
-const ExplanationTooltip = ({ 
-  element, 
-  isHovered 
-}: { 
-  element: any, 
-  isHovered: boolean 
-}) => {
-  if (!isHovered || !shouldShowExplanation(element)) return null;
+// Unified ElementTooltip component for all element-related tooltips
+interface ElementTooltipProps {
+  element: any;
+  isHovered: boolean;
+  type: 'label' | 'explanation';
+}
+
+const ElementTooltip = ({ element, isHovered, type }: ElementTooltipProps) => {
+  if (!isHovered) return null;
   
-  const hasYellowAccuracy = element.accuracy_score >= 70 && element.accuracy_score < 90;
-  const hasSuggestedCoordinates = !!element.suggested_coordinates;
-  
-  let tooltipTitle = "Element Explanation";
-  let bgColorClass = "bg-amber-500";
-  
-  if (hasSuggestedCoordinates) {
-    tooltipTitle = "Suggested Adjustment";
+  // Label tooltip
+  if (type === 'label') {
+    return (
+      <div 
+        className="absolute -top-5 left-0 text-white text-[10px] px-1.5 py-0.5 rounded-t-md whitespace-nowrap overflow-hidden max-w-[120px] text-ellipsis"
+        style={{ backgroundColor: 'var(--primary)' }}
+      >
+        <div className="flex items-center gap-1">
+          <span className="truncate">{element.label.split(' > ').pop()}</span>
+          <span className="bg-white/20 rounded-full px-1 text-[10px]">{element.accuracy_score}%</span>
+        </div>
+      </div>
+    );
   }
   
-  return (
-    <div className={`absolute bottom-16 right-4 ${bgColorClass} text-white text-[10px] p-1.5 rounded-md max-w-[250px] z-30 shadow-lg`}>
-      <span className="font-bold block mb-0.5">{tooltipTitle}:</span>
-      <p className="leading-tight">{element.explanation}</p>
-    </div>
-  );
+  // Explanation tooltip
+  if (type === 'explanation' && shouldShowExplanation(element)) {
+    const hasYellowAccuracy = element.accuracy_score >= 70 && element.accuracy_score < 90;
+    const hasSuggestedCoordinates = !!element.suggested_coordinates;
+    
+    let tooltipTitle = "Element Explanation";
+    let bgColorClass = "bg-amber-500";
+    
+    if (hasSuggestedCoordinates) {
+      tooltipTitle = "Suggested Adjustment";
+    }
+    
+    return (
+      <div className={`absolute bottom-16 right-4 ${bgColorClass} text-white text-[10px] p-1.5 rounded-md max-w-[250px] z-30 shadow-lg`}>
+        <span className="font-bold block mb-0.5">{tooltipTitle}:</span>
+        <p className="leading-tight">{element.explanation}</p>
+      </div>
+    );
+  }
+  
+  return null;
 };
 
 // Component tooltip for hover state
@@ -163,115 +185,7 @@ const useImageScale = (imageRef: HTMLImageElement | null) => {
   return scale;
 };
 
-// Element label tooltip component
-const ElementLabel = ({ element, isHovered }: { element: any, isHovered: boolean }) => {
-  if (!isHovered) return null;
-  
-  return (
-    <div 
-      className="absolute -top-5 left-0 text-white text-[10px] px-1.5 py-0.5 rounded-t-md whitespace-nowrap overflow-hidden max-w-[120px] text-ellipsis"
-      style={{ backgroundColor: 'var(--primary)' }}
-    >
-      <div className="flex items-center gap-1">
-        <span className="truncate">{element.label.split(' > ').pop()}</span>
-        <span className="bg-white/20 rounded-full px-1 text-[10px]">{element.accuracy_score}%</span>
-      </div>
-    </div>
-  );
-};
-
-// Unified BoxRenderer component to replace both BoundingRect and SuggestedRect
-const BoxRenderer = ({ 
-  element, 
-  scale, 
-  isHovered, 
-  onHover 
-}: { 
-  element: any, 
-  scale: { x: number, y: number }, 
-  isHovered: boolean, 
-  onHover: (id: number | null) => void 
-}) => {
-  // Main box coordinates
-  const box = element.bounding_box;
-  const mainBox = {
-    left: box.x_min * scale.x,
-    top: box.y_min * scale.y,
-    width: (box.x_max - box.x_min) * scale.x,
-    height: (box.y_max - box.y_min) * scale.y,
-  };
-  
-  // Check for suggested box
-  const hasSuggestedBox = !!element.suggested_coordinates;
-  const suggestedBox = hasSuggestedBox ? {
-    left: element.suggested_coordinates.x_min * scale.x,
-    top: element.suggested_coordinates.y_min * scale.y,
-    width: (element.suggested_coordinates.x_max - element.suggested_coordinates.x_min) * scale.x,
-    height: (element.suggested_coordinates.y_max - element.suggested_coordinates.y_min) * scale.y,
-  } : null;
-  
-  // Determine visual states
-  const accuracyScore = element.accuracy_score;
-  const isLowAccuracy = accuracyScore < 70;
-  const borderColor = getAccuracyColor(accuracyScore);
-  
-  // Determine which box to highlight on hover
-  const highlightSuggested = isHovered && isLowAccuracy && hasSuggestedBox;
-  const highlightMain = isHovered && !highlightSuggested;
-  
-  // Always show low accuracy boxes, regardless of suggested coordinates
-  // Only non-low accuracy boxes follow the previous behavior
-  const showMainBox = isLowAccuracy || !isLowAccuracy;
-  const showSuggestedBox = hasSuggestedBox && (isHovered || isLowAccuracy);
-  
-  return (
-    <>
-      {/* Main bounding box */}
-      {showMainBox && (
-        <div
-          className={`absolute border-2 ${
-            highlightMain ? 'border-blue-500 animate-pulse' : borderColor
-          } hover:border-blue-500 hover:z-20 transition-opacity duration-150`}
-          style={{
-            left: `${mainBox.left}px`,
-            top: `${mainBox.top}px`,
-            width: `${mainBox.width}px`,
-            height: `${mainBox.height}px`,
-            zIndex: isHovered ? 20 : 10,
-            pointerEvents: 'auto',
-            cursor: 'pointer',
-            backgroundColor: highlightMain ? 'rgba(59, 130, 246, 0.15)' : 'transparent',
-            opacity: isLowAccuracy && !isHovered ? 0.7 : 1
-          }}
-          onMouseEnter={() => onHover(element.element_id)}
-          onMouseLeave={() => onHover(null)}
-        >
-          <ElementLabel element={element} isHovered={isHovered} />
-        </div>
-      )}
-      
-      {/* Suggested bounding box (if available) */}
-      {showSuggestedBox && suggestedBox && (
-        <div
-          className={`absolute border-2 border-dashed ${
-            highlightSuggested ? 'border-blue-500 animate-pulse' : 'border-amber-500'
-          } pointer-events-none transition-opacity duration-150`}
-          style={{
-            left: `${suggestedBox.left}px`,
-            top: `${suggestedBox.top}px`,
-            width: `${suggestedBox.width}px`,
-            height: `${suggestedBox.height}px`,
-            zIndex: isHovered ? 19 : 9,
-            backgroundColor: highlightSuggested ? 'rgba(59, 130, 246, 0.15)' : 'transparent',
-            opacity: isHovered ? 1 : 0.7
-          }}
-        />
-      )}
-    </>
-  );
-};
-
-// Unified BoundingBoxesOverlay component - updated to use BoxRenderer
+// Unified BoundingBoxesOverlay component with integrated BoxRenderer
 const BoundingBoxesOverlay = ({ 
   elements, 
   imageRef,
@@ -302,6 +216,87 @@ const BoundingBoxesOverlay = ({
   const elementsWithSuggestions = elements.filter(el => el.suggested_coordinates && el.accuracy_score < 70);
   const otherElements = elements.filter(el => !el.suggested_coordinates || el.accuracy_score >= 70);
 
+  // Render a bounding box for a single element
+  const renderBoundingBox = (element: any, isHovered: boolean) => {
+    // Main box coordinates
+    const box = element.bounding_box;
+    const mainBox = {
+      left: box.x_min * scale.x,
+      top: box.y_min * scale.y,
+      width: (box.x_max - box.x_min) * scale.x,
+      height: (box.y_max - box.y_min) * scale.y,
+    };
+    
+    // Check for suggested box
+    const hasSuggestedBox = !!element.suggested_coordinates;
+    const suggestedBox = hasSuggestedBox ? {
+      left: element.suggested_coordinates.x_min * scale.x,
+      top: element.suggested_coordinates.y_min * scale.y,
+      width: (element.suggested_coordinates.x_max - element.suggested_coordinates.x_min) * scale.x,
+      height: (element.suggested_coordinates.y_max - element.suggested_coordinates.y_min) * scale.y,
+    } : null;
+    
+    // Determine visual states
+    const accuracyScore = element.accuracy_score;
+    const isLowAccuracy = accuracyScore < 70;
+    const borderColor = getAccuracyColor(accuracyScore);
+    
+    // Determine which box to highlight on hover
+    const highlightSuggested = isHovered && isLowAccuracy && hasSuggestedBox;
+    const highlightMain = isHovered && !highlightSuggested;
+    
+    // Always show low accuracy boxes, regardless of suggested coordinates
+    // Only non-low accuracy boxes follow the previous behavior
+    const showLowAccuracyBox = isLowAccuracy ? isHovered : true;
+    const showSuggestedBox = hasSuggestedBox && (isHovered || isLowAccuracy);
+    
+    return (
+      <React.Fragment key={element.element_id}>
+        {/* Main bounding box */}
+        {showLowAccuracyBox && (
+          <div
+            className={`absolute border-2 ${
+              highlightMain ? 'border-blue-500 animate-pulse' : borderColor
+            } hover:border-blue-500 hover:z-20 transition-opacity duration-150`}
+            style={{
+              left: `${mainBox.left}px`,
+              top: `${mainBox.top}px`,
+              width: `${mainBox.width}px`,
+              height: `${mainBox.height}px`,
+              zIndex: isHovered ? 20 : 10,
+              pointerEvents: 'auto',
+              cursor: 'pointer',
+              backgroundColor: highlightMain ? 'rgba(59, 130, 246, 0.15)' : 'transparent',
+              opacity: isLowAccuracy && !isHovered ? 0.7 : 1
+            }}
+            onMouseEnter={() => setHoveredElementId(element.element_id)}
+            onMouseLeave={() => setHoveredElementId(null)}
+          >
+            <ElementTooltip element={element} isHovered={isHovered} type="label" />
+          </div>
+        )}
+        
+        {/* Suggested bounding box (if available) */}
+        {showSuggestedBox && suggestedBox && (
+          <div
+            className={`absolute border-2 border-dashed ${
+              highlightSuggested ? 'border-blue-500 animate-pulse' : 'border-amber-500'
+            } pointer-events-none transition-opacity duration-150`}
+            style={{
+              left: `${suggestedBox.left}px`,
+              top: `${suggestedBox.top}px`,
+              width: `${suggestedBox.width}px`,
+              height: `${suggestedBox.height}px`,
+              zIndex: isHovered ? 19 : 9,
+              backgroundColor: highlightSuggested ? 'rgba(59, 130, 246, 0.15)' : 'transparent',
+              opacity: isHovered ? 1 : 0.7
+            }}
+          />
+        )}
+      </React.Fragment>
+    );
+  };
+
   return (
     <div 
       ref={overlayRef}
@@ -314,32 +309,17 @@ const BoundingBoxesOverlay = ({
       }}
     >
       {/* Render elements without suggestions first */}
-      {otherElements.map((element) => (
-        <BoxRenderer
-          key={element.element_id}
-          element={element} 
-          scale={scale} 
-          isHovered={hoveredElementId === element.element_id}
-          onHover={setHoveredElementId}
-        />
-      ))}
+      {otherElements.map((element) => renderBoundingBox(element, hoveredElementId === element.element_id))}
       
       {/* Render elements with suggestions on top */}
-      {elementsWithSuggestions.map((element) => (
-        <BoxRenderer
-          key={element.element_id}
-          element={element} 
-          scale={scale} 
-          isHovered={hoveredElementId === element.element_id}
-          onHover={setHoveredElementId}
-        />
-      ))}
+      {elementsWithSuggestions.map((element) => renderBoundingBox(element, hoveredElementId === element.element_id))}
       
       {/* Render the unified explanation tooltip at the bottom right of the container */}
       {hoveredElement && (
-        <ExplanationTooltip 
+        <ElementTooltip 
           element={hoveredElement}
           isHovered={hoveredElementId === hoveredElement.element_id}
+          type="explanation"
         />
       )}
     </div>
@@ -569,33 +549,53 @@ const ComponentList = ({
   );
 };
 
-// UI state components
-const LoadingSpinner = () => (
-  <div className="flex items-center justify-center h-64">
-    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-  </div>
-);
+// Unified UIState component to replace LoadingSpinner, ErrorCard, and EmptyState
+interface UIStateProps {
+  isLoading: boolean;
+  error: string | null;
+  isEmpty: boolean;
+  emptyMessage?: string;
+  errorMessage?: string;
+  loadingMessage?: string;
+}
 
-const ErrorCard = ({ message }: { message: string }) => (
-  <div className="bg-red-50 border border-red-200 p-6 rounded-lg">
-    <div className="flex items-start gap-3">
-      <AlertCircle className="h-5 w-5 text-red-500 mt-0.5" />
-      <div>
-        <h2 className="text-xl font-semibold text-red-700">Error loading components</h2>
-        <p className="text-red-600 mt-2">{message}</p>
+const UIState = ({ isLoading, error, isEmpty, emptyMessage, errorMessage, loadingMessage }: UIStateProps) => {
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        {loadingMessage && <p className="ml-4 text-muted-foreground">{loadingMessage}</p>}
       </div>
-    </div>
-  </div>
-);
+    );
+  }
 
-const EmptyState = () => (
-  <div className="bg-muted p-6 rounded-lg">
-    <h2 className="text-xl font-semibold">No screenshots found</h2>
-    <p className="text-muted-foreground mt-2">
-      No screenshots were found for this batch. Please check the batch ID and try again.
-    </p>
-  </div>
-);
+  if (error) {
+    return (
+      <div className="bg-red-50 border border-red-200 p-6 rounded-lg">
+        <div className="flex items-start gap-3">
+          <AlertCircle className="h-5 w-5 text-red-500 mt-0.5" />
+          <div>
+            <h2 className="text-xl font-semibold text-red-700">Error loading components</h2>
+            <p className="text-red-600 mt-2">{errorMessage || error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isEmpty) {
+    return (
+      <div className="bg-muted p-6 rounded-lg">
+        <h2 className="text-xl font-semibold">No screenshots found</h2>
+        <p className="text-muted-foreground mt-2">
+          {emptyMessage || "No screenshots were found for this batch. Please check the batch ID and try again."}
+        </p>
+      </div>
+    );
+  }
+
+  return null;
+};
 
 // Metadata row rendering helpers
 const MetadataRow = ({ label, value }: { label: string, value: string | React.ReactNode }) => (
@@ -882,13 +882,13 @@ export default function BatchDetailPage() {
           </div>
         </div>
         
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : error ? (
-          <ErrorCard message={error} />
-        ) : screenshots.length === 0 ? (
-          <EmptyState />
-        ) : (
+        <UIState 
+          isLoading={isLoading} 
+          error={error}
+          isEmpty={screenshots.length === 0}
+        />
+        
+        {!isLoading && !error && screenshots.length > 0 && (
           <div className="space-y-8">
             {screenshots.map((screenshot) => (
               <div key={screenshot.id} className="border rounded-lg overflow-hidden shadow-sm">
