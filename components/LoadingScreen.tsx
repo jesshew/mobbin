@@ -6,8 +6,8 @@ interface LoadingScreenProps {
   forceComplete?: boolean; // Optional prop to signal early completion
 }
 
-const TYPING_SPEED_MS = 15; // Faster typing
-const MESSAGE_DELAY_MS = 800; // Faster delay between messages
+const TYPING_SPEED_MS = 8; // Faster typing
+const MESSAGE_DELAY_MS = 2500; // Faster delay between messages
 
 export const LoadingScreen: React.FC<LoadingScreenProps> = ({ messages, onLoadingComplete, forceComplete = false }) => {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
@@ -23,11 +23,17 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ messages, onLoadin
     return () => clearInterval(cursorInterval);
   }, []);
 
+  // Separate useEffect to handle forceComplete immediately
   useEffect(() => {
-    // Check for forced completion first - this is now the ONLY way to complete
     if (forceComplete) {
-        onLoadingComplete();
-        return;
+      onLoadingComplete();
+    }
+  }, [forceComplete, onLoadingComplete]);
+
+  useEffect(() => {
+    // If forceComplete is true, we let the above effect handle it
+    if (forceComplete) {
+      return;
     }
 
     // If all messages are typed, just stop the typing process
@@ -56,7 +62,6 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ messages, onLoadin
       }, MESSAGE_DELAY_MS);
       return () => clearTimeout(messageDelayTimer);
     }
-    // Add forceComplete to dependency array to react immediately
   }, [currentMessageIndex, charIndex, messages, onLoadingComplete, forceComplete]);
 
   return (

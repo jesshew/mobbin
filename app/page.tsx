@@ -8,6 +8,7 @@ import { BatchProcessingService } from "@/lib/services/batchProcessingService"
 import { ComponentDetectionResult } from "@/types/DetectionResult"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 export default function Home() {
   const router = useRouter()
@@ -165,12 +166,24 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-background">
-      <Tabs defaultValue="main" className="w-full">
+      <div className="max-w-screen-lg mx-auto pt-4">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">ForMobbin</h1>
+          <Link 
+            href="/documentation" 
+            className="bg-gradient-to-r from-purple-400 to-indigo-500 hover:from-purple-500 hover:to-indigo-600 text-white px-5 py-2 rounded-md text-sm font-medium shadow-sm transition-all duration-200 ease-in-out transform hover:scale-105"
+          >
+            View Documentation
+          </Link>
+        </div>
+      </div>
+
+      {/* <Tabs defaultValue="main" className="w-full">
         <TabsList className="mx-auto mt-8 mb-6">
           <TabsTrigger value="main">Main App</TabsTrigger>
           <TabsTrigger value="debug">Debugging</TabsTrigger>
         </TabsList>
-        <TabsContent value="main">
+        <TabsContent value="main"> */}
           {currentView === "upload" && (
             <UploadInterface
               selectedFiles={selectedFiles}
@@ -181,10 +194,10 @@ export default function Home() {
               onRefetchBatches={refetchBatches}
             />
           )}
-        </TabsContent>
+        {/* </TabsContent>
         <TabsContent value="debug">
           {/* Temporary Batch Processing Section */}
-          <div className="max-w-screen-lg mx-auto p-4 mt-8 bg-card rounded-lg border border-border">
+          {/* <div className="max-w-screen-lg mx-auto p-4 mt-8 bg-card rounded-lg border border-border">
             <h2 className="text-xl font-bold mb-4">Temporary Batch Processing</h2>
             <div className="flex items-center gap-4 mb-2">
               <input
@@ -208,7 +221,7 @@ export default function Home() {
             )}
           </div>
         </TabsContent>
-      </Tabs>
+      </Tabs> */}
     </main>
   )
 }

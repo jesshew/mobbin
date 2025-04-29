@@ -17,14 +17,16 @@ const simulatedLoadingMessages = [
   "Loading batch details and components...",
   "Drawing bounding boxes on detected elements...",
   "Almost there... finalizing layout",
-  "Why is this taking longer than expected....",
   "Mmmmmmmmmmmm....",
-  "\"It works on my machine\" -- really it does....",
-  "So...While we wait...",
+  "These boxes...are taking forever to draw....",
+  "Mmmmmmmmmmmm....",
+  "So.....",
+  "While we wait...",
   "How's your day so far?",
   "Good? Mine too!",
   "Just kinda nervous about why this is taking longer than expected....",
   "Fingers crossed, we are al....most there....",
+  "Mmmmmm....",
   "We're almost done, just a few more seconds....",
 ];
 
@@ -78,6 +80,13 @@ export default function BatchDetailPage() {
   const handleLoadingComplete = useCallback(() => {
     setIsSimulatedLoading(false);
   }, []);
+  
+  // Automatically end the loading screen when data is ready
+  useEffect(() => {
+    if (isDataReady) {
+      setIsSimulatedLoading(false);
+    }
+  }, [isDataReady]);
 
   // --- Effects ---
   useEffect(() => {
