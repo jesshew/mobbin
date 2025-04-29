@@ -8,6 +8,7 @@ import { ComponentDetectionResult } from "@/types/DetectionResult"
 import { Layers, AlertCircle } from "lucide-react"
 // import { ComponentListItem } from "@/components/component-list-item"
 import { ComponentListItem } from "@/components/component";
+import { DetailedBatchAnalytics, SimplifiedPromptBatchRecord } from "@/types/BatchSummaries";
 
 import { parseMetadata } from "@/utils/component-converter"
 
@@ -713,19 +714,44 @@ interface EditingLabelState {
   updateLabelAndFinishEditing: () => void
 }
 
+// Define the title mapping and desired order
+const PROMPT_TYPE_TITLES: { [key: string]: string } = {
+  component_extraction: "Extract High Level UI (OpenAI)",
+  element_extraction: "Extract Element By Component (Claude 3.7)",
+  anchoring: "Optimise Description for VLM Detection (Claude 3.7)",
+  vlm_labeling: "VLM Element Detection (Moondream)",
+  accuracy_validation: "Validate VLM Detection (Moondream)",
+  metadata_extraction: "Extract Metadata of each component (OpenAI)",
+};
+
+const PROMPT_TYPE_ORDER: string[] = [
+  "component_extraction",
+  "element_extraction",
+  "anchoring",
+  "vlm_labeling",
+  "accuracy_validation",
+  "metadata_extraction",
+];
+
 export default function BatchDetailPage() {
   const params = useParams() as { id: string }
   const batchId = params.id
   const [screenshots, setScreenshots] = useState<{ id: number; url: string; components: Component[] }[]>([])
   const [components, setComponents] = useState<Component[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [error, setError] = useState<string | null>(null)
+  const [isComponentsLoading, setIsComponentsLoading] = useState<boolean>(true);
+  const [componentsError, setComponentsError] = useState<string | null>(null);
   const [selectedElement, setSelectedElement] = useState<null | any>(null)
   const [selectedComponent, setSelectedComponent] = useState<Component | null>(null)
   const [hoveredComponent, setHoveredComponent] = useState<Component | null>(null)
   const [hoveredElementId, setHoveredElementId] = useState<number | null>(null)
   const [hoveredDetails, setHoveredDetails] = useState<any | null>(null)
   const [imageRef, setImageRef] = useState<HTMLImageElement | null>(null)
+
+  // New state for analytics
+  const [analyticsData, setAnalyticsData] = useState<DetailedBatchAnalytics | null>(null);
+  const [isAnalyticsLoading, setIsAnalyticsLoading] = useState<boolean>(true);
+  const [analyticsError, setAnalyticsError] = useState<string | null>(null);
+
   const [editingLabelState, setEditingLabelState] = useState<EditingLabelState>({
     editingLabelId: null,
     editingLabelText: "",
@@ -742,40 +768,113 @@ export default function BatchDetailPage() {
   })
 
   useEffect(() => {
-    async function loadBatchComponents() {
-      if (!batchId) return
-      
-      setIsLoading(true)
-      setError(null)
-      try {
-        const response = await fetch('/api/load-batch-components', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ batchId: Number(batchId) })
-        })
-        
-        const data = await response.json()
-        if (data.success && Array.isArray(data.components)) {
-          // Organize the components by screenshot
-          const organized = organizeComponentsByScreenshot(data.components)
-          setScreenshots(organized.screenshots)
-          setComponents(organized.allComponents)
-        } else {
-          setError(data.error || 'Failed to load components')
-          console.error('Failed to load components:', data.error)
+    async function loadBatchData() {
+      if (!batchId) return;
+
+      setIsComponentsLoading(true);
+      setIsAnalyticsLoading(true);
+      setComponentsError(null);
+      setAnalyticsError(null);
+      setAnalyticsData(null); // Reset analytics data on new load
+      setScreenshots([]); // Reset screenshots
+      setComponents([]); // Reset components
+
+      const componentsApiUrl = `/api/load-batch-components/${batchId}`;
+      const analyticsApiUrl = `/api/batch/analytics/${batchId}`;
+
+      const [componentsResult, analyticsResult] = await Promise.allSettled([
+        fetch(componentsApiUrl, { method: 'GET', headers: { 'Content-Type': 'application/json' } }),
+        fetch(analyticsApiUrl, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
+      ]);
+
+      // Process Components Response
+      if (componentsResult.status === 'fulfilled') {
+        try {
+          if (!componentsResult.value.ok) {
+            // Handle HTTP errors (like 404, 500) before trying to parse JSON
+             let errorMsg = `HTTP error ${componentsResult.value.status} loading components`;
+             try {
+               const errorBody = await componentsResult.value.json();
+               errorMsg = errorBody.error || errorMsg;
+             } catch (jsonError) {
+               // Ignore if response body isn't JSON or empty
+             }
+             throw new Error(errorMsg);
+          }
+          const componentsData = await componentsResult.value.json();
+          if (componentsData.success && Array.isArray(componentsData.components)) {
+            const organized = organizeComponentsByScreenshot(componentsData.components);
+            setScreenshots(organized.screenshots);
+            setComponents(organized.allComponents);
+            setComponentsError(null); // Clear previous error on success
+          } else {
+            const errorMsg = componentsData.error || 'Failed to load components';
+            setComponentsError(errorMsg);
+            console.error('Error in component data response:', errorMsg);
+            setScreenshots([]); // Clear data on error
+            setComponents([]);
+          }
+        } catch (e) {
+           const errorMsg = e instanceof Error ? e.message : 'Failed to process component response';
+           setComponentsError(errorMsg);
+           console.error('Error processing component data:', e);
+           setScreenshots([]); // Clear data on error
+           setComponents([]);
+        } finally {
+          setIsComponentsLoading(false);
         }
-      } catch (error) {
-        setError(error instanceof Error ? error.message : 'Unknown error occurred')
-        console.error('Error loading batch components:', error)
-      } finally {
-        setIsLoading(false)
+      } else {
+        const errorMsg = componentsResult.reason instanceof Error ? componentsResult.reason.message : 'Network error loading components';
+        setComponentsError(errorMsg);
+        console.error('Error fetching components:', componentsResult.reason);
+        setIsComponentsLoading(false);
+        setScreenshots([]); // Clear data on error
+        setComponents([]);
+      }
+
+      // Process Analytics Response
+      if (analyticsResult.status === 'fulfilled') {
+        try {
+          if (!analyticsResult.value.ok) {
+             // Handle HTTP errors
+             let errorMsg = `HTTP error ${analyticsResult.value.status} loading analytics`;
+             try {
+               const errorBody = await analyticsResult.value.json();
+               errorMsg = errorBody.error || errorMsg;
+             } catch (jsonError) {
+                // Ignore
+             }
+             throw new Error(errorMsg);
+          }
+          const analyticsResponseData = await analyticsResult.value.json();
+          if (analyticsResponseData.success && analyticsResponseData.data) {
+            setAnalyticsData(analyticsResponseData.data as DetailedBatchAnalytics);
+            setAnalyticsError(null); // Clear previous error on success
+          } else {
+            const errorMsg = analyticsResponseData.error || 'Failed to load batch analytics';
+            setAnalyticsError(errorMsg);
+            console.error('Error in analytics data response:', errorMsg);
+            setAnalyticsData(null); // Clear data on error
+          }
+        } catch (e) {
+            const errorMsg = e instanceof Error ? e.message : 'Failed to process analytics response';
+            setAnalyticsError(errorMsg);
+            console.error('Error processing analytics data:', e);
+            setAnalyticsData(null); // Clear data on error
+        } finally {
+          setIsAnalyticsLoading(false);
+        }
+      } else {
+        const errorMsg = analyticsResult.reason instanceof Error ? analyticsResult.reason.message : 'Network error loading analytics';
+        setAnalyticsError(errorMsg);
+        console.error('Error fetching analytics:', analyticsResult.reason);
+        setIsAnalyticsLoading(false);
+        setAnalyticsData(null); // Clear data on error
       }
     }
-    
-    loadBatchComponents()
-  }, [batchId])
+
+    loadBatchData();
+  }, [batchId]);
 
   const handleElementSelect = useCallback((element: any) => {
     setSelectedElement(element)
@@ -863,6 +962,24 @@ export default function BatchDetailPage() {
     );
   }, [screenshots]);
 
+  // Determine overall loading state
+  const isLoading = isComponentsLoading || isAnalyticsLoading;
+  const combinedError = componentsError || analyticsError; // Prioritize components error or show first error
+
+  // Generate dynamic loading message
+  let loadingMessage: string | undefined = undefined;
+  if (isLoading) {
+    if (!isAnalyticsLoading && analyticsData?.batch_summary?.total_elements_detected) {
+      loadingMessage = `Drawing bounding boxes for ${analyticsData.batch_summary.total_elements_detected} elements, please hold on...`;
+    } else if (isAnalyticsLoading && isComponentsLoading) {
+        loadingMessage = "Loading batch details and components...";
+    } else if (isAnalyticsLoading) {
+        loadingMessage = "Loading batch details...";
+    } else if (isComponentsLoading) {
+        loadingMessage = "Loading components...";
+    }
+  }
+
   return (
     <div className="flex h-screen overflow-hidden">
       <main className="flex-1 overflow-y-auto p-6">
@@ -881,15 +998,27 @@ export default function BatchDetailPage() {
             )}
           </div>
         </div>
-        
-        <UIState 
-          isLoading={isLoading} 
-          error={error}
-          isEmpty={screenshots.length === 0}
+
+        {/* Render Analytics Display right after the header */}
+        {/* Show if analytics loading is done AND data is available */}
+        {/* We don't need to check for !analyticsError here, as UIState handles error display */}
+        {!isAnalyticsLoading && analyticsData && (
+           <BatchAnalyticsDisplay analytics={analyticsData} />
+        )}
+
+        {/* UI State (Loading/Error/Empty) - This handles displaying errors */}
+        <UIState
+          isLoading={isLoading}
+          error={combinedError} // Use the combined error state
+          isEmpty={!isLoading && !combinedError && screenshots.length === 0} // Check isEmpty only when not loading and no error
+          loadingMessage={loadingMessage} // Pass the dynamic loading message
+          errorMessage={combinedError ? `Failed to load batch data: ${combinedError}` : undefined}
+          emptyMessage="No components were found for this batch. The batch might be empty or processing failed."
         />
-        
-        {!isLoading && !error && screenshots.length > 0 && (
-          <div className="space-y-8">
+
+        {/* Render Component List/Screenshots only if components are loaded and no component error */}
+        {!isComponentsLoading && !componentsError && screenshots.length > 0 && (
+          <div className="space-y-8 mt-6"> {/* Added margin-top for spacing */}
             {screenshots.map((screenshot) => (
               <div key={screenshot.id} className="border rounded-lg overflow-hidden shadow-sm">
                 <div className="bg-muted p-4 border-b flex justify-between items-center">
@@ -945,4 +1074,123 @@ export default function BatchDetailPage() {
       </div> */}
     </div>
   )
-} 
+}
+
+// Update BatchAnalyticsDisplay Props and implementation
+interface BatchAnalyticsDisplayProps {
+  analytics: DetailedBatchAnalytics | null;
+}
+
+const BatchAnalyticsDisplay: React.FC<BatchAnalyticsDisplayProps> = ({ analytics }) => {
+  // Log the received analytics data, especially the prompt_type_summary
+  // console.log("BatchAnalyticsDisplay received analytics:", analytics);
+  // console.log("Prompt Type Summary:", analytics?.prompt_type_summary);
+
+  if (!analytics) {
+    // console.log("BatchAnalyticsDisplay: No analytics data, returning null.");
+    return null; // Exit early if no analytics data
+  }
+
+  // Destructure *after* the null check
+  const { batch_summary: summary, prompt_type_summary: promptSummary } = analytics;
+
+  // Convert promptSummary to a Map for easier lookup
+  const promptSummaryMap = new Map<string, SimplifiedPromptBatchRecord>();
+  if (promptSummary) {
+      promptSummary.forEach(item => {
+          promptSummaryMap.set(item.prompt_type_name, item);
+      });
+  }
+   // console.log("Prompt Summary Map:", promptSummaryMap);
+
+
+  // Log the result of the condition check for prompt summary
+  // const shouldRenderPromptSummary = promptSummary && promptSummary.length > 0;
+  const shouldRenderPromptSummary = promptSummaryMap.size > 0;
+  // console.log("Should render prompt summary?", shouldRenderPromptSummary);
+
+
+  return (
+    <div className="mb-6 p-4 border rounded-lg bg-secondary/50 shadow-sm">
+      {/* Batch Summary Section */}
+      {summary && (
+        <>
+          <h2 className="text-lg font-semibold mb-3">Batch Summary</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-sm mb-4 border-b pb-4">
+            {/* Batch Summary Fields */}
+            <div>
+              <span className="text-muted-foreground block text-xs uppercase tracking-wider">Total Time</span>
+              <span className="font-medium">{(summary.total_batch_processing_time_seconds/60).toFixed(2)} minutes </span>
+            </div>
+            <div>
+              <span className="text-muted-foreground block text-xs uppercase tracking-wider">Elements Detected</span>
+              <span className="font-medium">{summary.total_elements_detected}</span>
+            </div>
+            <div>
+              <span className="text-muted-foreground block text-xs uppercase tracking-wider">Avg Time / Element</span>
+              <span className="font-medium">{summary.avg_seconds_per_element}s</span>
+            </div>
+            <div>
+              <span className="text-muted-foreground block text-xs uppercase tracking-wider">Total Input Tokens</span>
+              <span className="font-medium">{summary.total_input_tokens?.toLocaleString() ?? 'N/A'}</span>
+            </div>
+            <div>
+              <span className="text-muted-foreground block text-xs uppercase tracking-wider">Total Output Tokens</span>
+              <span className="font-medium">{summary.total_output_tokens?.toLocaleString() ?? 'N/A'}</span>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Prompt Type Breakdown Section - Updated Logic */}
+      {shouldRenderPromptSummary && ( // Use the calculated boolean
+        <>
+          <h2 className="text-lg font-semibold mb-3 mt-4">Prompt Type Breakdown</h2>
+           <div className="overflow-x-auto">
+             <table className="min-w-full divide-y divide-gray-200 text-sm">
+               <thead className="bg-gray-50">
+                 <tr>
+                   <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Type</th>
+                   <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Count</th>
+                   <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Total Time (s)</th>
+                   <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Avg Time / Prompt (s)</th>
+                   <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Input Tokens</th>
+                   <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Output Tokens</th>
+                   <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Avg Output / Prompt</th>
+                 </tr>
+               </thead>
+               <tbody className="bg-white divide-y divide-gray-200">
+                 {/* Iterate through the fixed order */}
+                 {PROMPT_TYPE_ORDER.map((typeName) => {
+                   const item = promptSummaryMap.get(typeName);
+                   const title = PROMPT_TYPE_TITLES[typeName] || typeName; // Fallback to original name if title missing
+
+                   // Conditionally render row only if data exists for this type
+                   // Or always render the row and show N/A for missing data
+                   // Let's always render the row as per the example
+                   return (
+                     <tr key={typeName}>
+                       <td className="px-3 py-2 whitespace-nowrap font-medium">{title}</td>
+                       <td className="px-3 py-2 whitespace-nowrap">{item?.prompt_type_log_count ?? 'N/A'}</td>
+                       <td className="px-3 py-2 whitespace-nowrap">{item?.total_processing_time_seconds?.toFixed(2) ?? 'N/A'}</td>
+                       <td className="px-3 py-2 whitespace-nowrap">{item?.avg_processing_seconds_per_prompt?.toFixed(2) ?? 'N/A'}</td>
+                       <td className="px-3 py-2 whitespace-nowrap">{item?.total_input_tokens_for_type?.toLocaleString() ?? 'N/A'}</td>
+                       <td className="px-3 py-2 whitespace-nowrap">{item?.total_output_tokens_for_type?.toLocaleString() ?? 'N/A'}</td>
+                       <td className="px-3 py-2 whitespace-nowrap">{item?.avg_output_tokens_per_prompt?.toFixed(2) ?? 'N/A'}</td>
+                     </tr>
+                   );
+                 })}
+               </tbody>
+             </table>
+           </div>
+        </>
+      )}
+
+      {/* Fallback message if promptSummary array was initially empty */}
+      {/* Add a fallback message if promptSummary exists but is empty */}
+      {!promptSummary || promptSummary.length === 0 && (
+         <p className="text-muted-foreground text-sm mt-4">No prompt type breakdown available for this batch.</p>
+      )}
+    </div>
+  );
+}; 

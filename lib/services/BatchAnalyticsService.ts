@@ -122,9 +122,9 @@ export class BatchAnalyticsService {
     // Return object with renamed fields
     return {
       batch_id: batchId,
-      total_batch_processing_time_seconds: Number(totalTimeSpan.toFixed(3)),
+      total_batch_processing_time_seconds: Number(totalTimeSpan.toFixed(2)),
       total_elements_detected: vlmLabelingCount,
-      avg_seconds_per_element: Number(avgTimePerElement.toFixed(3)), // Renamed field
+      avg_seconds_per_element: Number(avgTimePerElement.toFixed(2)), // Renamed field
       total_input_tokens: sampleRecord.total_input_tokens_batch_level, // Renamed field
       total_output_tokens: sampleRecord.total_output_tokens_batch_level, // Renamed field
     };

@@ -122,12 +122,15 @@ export default function Home() {
       setLoadingComponents(true)
       setProcessingStatus("Loading batch components...")
       
-      const response = await fetch('/api/load-batch-components', {
-        method: 'POST',
+      // Construct the URL with the batch ID
+      const apiUrl = `/api/load-batch-components/${loadComponentsBatchId}`;
+
+      const response = await fetch(apiUrl, {
+        method: 'GET', // Change method to GET
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ batchId: parseInt(loadComponentsBatchId) }),
+        // Remove the body as the ID is now in the URL
       });
       
       if (!response.ok) {
