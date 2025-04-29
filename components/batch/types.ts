@@ -66,12 +66,12 @@ export type PromptTypeTitles = {
 
 // Define the title mapping and desired order for Prompt Types
 export const PROMPT_TYPE_TITLES: PromptTypeTitles = {
-  component_extraction: "Extract High Level UI (OpenAI)",
-  element_extraction: "Extract Element By Component (Claude 3.7)",
-  anchoring: "Optimise Description for VLM Detection (Claude 3.7)",
-  vlm_labeling: "VLM Element Detection (Moondream)",
-  accuracy_validation: "Validate VLM Detection (Moondream)",
-  metadata_extraction: "UX Metadata Extraction (OpenAI)",
+  component_extraction: "Extract High Level UI",
+  element_extraction: "Extract Element By Component",
+  anchoring: "Optimise Description for VLM Detection ",
+  vlm_labeling: "VLM Element Detection",
+  accuracy_validation: "Validate VLM Detection ",
+  metadata_extraction: "UX Metadata Extraction",
 };
 
 export const PROMPT_TYPE_ORDER: string[] = [

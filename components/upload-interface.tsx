@@ -100,7 +100,7 @@ export function UploadInterface({
 
         {isLoading ? (
           <LoadingScreen
-            messages={["Loading batches..."]}
+            messages={["Loading batches...", "Preloading Images..."]}
             onLoadingComplete={() => {}}
             forceComplete={!isLoading}
           />

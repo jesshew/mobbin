@@ -2,25 +2,8 @@ import { ComponentDetectionResult, ElementDetectionItem } from '@/types/Detectio
 // import { validate_bounding_boxes_base64 } from '@/lib/services/ai/OpenAIDirectService';
 import { validate_bounding_boxes_base64 } from '@/lib/services/ai/OpenAIService';
 import pLimit from 'p-limit';
-import { generateAnnotatedImageBuffer } from '@/lib/services/imageServices/BoundingBoxService';
 import { createScreenshotTrackingContext } from '@/lib/logger';
-import { PromptLogType, VALIDATION_CONCURRENCY } from '@/lib/constants'
-
-
-// Constants for accuracy score thresholds
-const ACCURACY_THRESHOLDS = {
-  HIGH: 85, // Green boxes
-  MEDIUM: 70, // Yellow/orange boxes
-  LOW: 50, // Overwrite/redashed + suggested orange box
-};
-
-// Box colors for different accuracy levels
-const BOX_COLORS = {
-  HIGH: 0x00FF00FF, // Green (RGBA)
-  MEDIUM: 0xFFA500FF, // Orange (RGBA)
-  LOW: 0xFF0000FF, // Red (RGBA)
-  SUGGESTED: 0xFFA500FF, // Orange for suggested box (RGBA)
-};
+import { VALIDATION_CONCURRENCY } from '@/lib/constants'
 
 
 /**

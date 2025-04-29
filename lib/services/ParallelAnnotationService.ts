@@ -35,7 +35,7 @@ export class ParallelMoondreamDetectionService {
     const moondreamLimit = pLimit(MOONDREAM_CONCURRENCY);
     const allDetectionResults: ComponentDetectionResult[] = [];
     
-    console.log(`[Batch ${batchId}] Stage 2: Starting Bounding Box Detection for ${screenshotsWithBuffers.length} screenshots... Concurrency: ${MOONDREAM_CONCURRENCY}`);
+    // console.log(`[Batch ${batchId}] Stage 2: Starting Bounding Box Detection for ${screenshotsWithBuffers.length} screenshots... Concurrency: ${MOONDREAM_CONCURRENCY}`);
 
     // Process each screenshot with controlled concurrency
     const detectionPromises = screenshotsWithBuffers.map(screenshot =>

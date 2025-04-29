@@ -95,7 +95,7 @@ export class AIExtractionService {
 
     await Promise.allSettled(extractionPromises);
     console.log(`[Batch ${batchId}] Completed Stage 1 AI extraction for all applicable screenshots.`);
-    console.log(`[Batch ${batchId}] Stage 1: Extraction complete. Results ${JSON.stringify(stage1Results, null, 2)}\n`);
+    // console.log(`[Batch ${batchId}] Stage 1: Extraction complete. Results ${JSON.stringify(stage1Results, null, 2)}\n`);
 
     return stage1Results;
   }
