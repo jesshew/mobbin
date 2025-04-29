@@ -30,6 +30,7 @@ interface SelectedImagesPanelProps {
   analysisType: string
   setAnalysisType: (type: string) => void
   onRefetchBatches: () => void
+  disabled?: boolean
 }
 
 export function SelectedImagesPanel({
@@ -41,6 +42,7 @@ export function SelectedImagesPanel({
   analysisType,
   setAnalysisType,
   onRefetchBatches,
+  disabled = false,
 }: SelectedImagesPanelProps) {
   const [showToast, setShowToast] = React.useState(false);
   const [isUploading, setIsUploading] = React.useState(false);
@@ -103,12 +105,18 @@ export function SelectedImagesPanel({
             <Button 
               className="w-full sm:w-auto" 
               onClick={handleUpload} 
-              disabled={isUploading}
+              disabled={isUploading || disabled}
+              title={disabled ? "Demo Mode - Upload Disabled" : ""}
             >
               {isUploading ? (
                 <>
                   <span className="animate-spin mr-2">⏳</span>
                   Uploading...
+                </>
+              ) : disabled ? (
+                <>
+                  <Upload className="mr-2 h-4 w-4" />
+                  Demo Mode
                 </>
               ) : (
                 <>

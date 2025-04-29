@@ -166,12 +166,14 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-background">
-      <div className="max-w-screen-lg mx-auto pt-4">
+      <div className="max-w-screen-lg mx-auto pt-4 px-4">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">ForMobbin</h1>
           <Link 
-            href="/documentation" 
+            href="https://jesshew.notion.site/?pvs=4" 
             className="bg-gradient-to-r from-purple-400 to-indigo-500 hover:from-purple-500 hover:to-indigo-600 text-white px-5 py-2 rounded-md text-sm font-medium shadow-sm transition-all duration-200 ease-in-out transform hover:scale-105"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             View Documentation
           </Link>
