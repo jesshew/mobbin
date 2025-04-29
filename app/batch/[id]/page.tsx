@@ -3,12 +3,12 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react"
 import React from "react"
 import { useParams, useRouter } from "next/navigation"
-import { Component as OriginalComponent, Element } from "@/types/annotation"
-import { ComponentDetectionResult } from "@/types/DetectionResult"
 import { Layers, AlertCircle, ArrowLeft } from "lucide-react"
 // import { ComponentListItem } from "@/components/component-list-item"
+import { Component } from "@/types/annotation";
 import { ComponentListItem } from "@/components/component";
 import { DetailedBatchAnalytics, SimplifiedPromptBatchRecord } from "@/types/BatchSummaries";
+import { useImageScale } from "@/hooks/use-image-scale";
 // Import the newly created utility functions
 import {
   getAccuracyColor,
@@ -17,28 +17,18 @@ import {
   parseMetadata, // Now imported from the new utils file
   organizeComponentsByScreenshot
 } from "@/components/batch/utils";
+// Import types from the new types file
+import {
+  // Component, // Use the extended Component type from types.ts
+  ElementTooltipProps,
+  ScreenshotContentProps,
+  ComponentListProps,
+  UIStateProps,
+  EditingLabelState,
+  BatchAnalyticsDisplayProps,
+  PromptTypeTitles
+} from "@/components/batch/types";
 
-// Extend the Component type to include component_accuracy
-type Component = OriginalComponent & {
-  component_accuracy?: number;
-};
-
-// ------------------- Local Utilities -------------------
-// Remove getAccuracyColor definition
-// const getAccuracyColor = (score: number) => { ... };
-
-// Calculate average component accuracy
-// const calculateComponentAccuracy = (elements: any[]): number => { ... };
-
-// Helper function to determine if an element needs to show explanation
-// const shouldShowExplanation = (element: any): boolean => { ... };
-
-// Unified ElementTooltip component for all element-related tooltips
-interface ElementTooltipProps {
-  element: any;
-  isHovered: boolean;
-  type: 'label' | 'explanation';
-}
 
 const ElementTooltip = ({ element, isHovered, type }: ElementTooltipProps) => {
   if (!isHovered) return null;
@@ -134,42 +124,7 @@ const ComponentTooltip = ({ component }: { component: Component | null }) => {
 };
 
 // Custom hook for image scaling
-const useImageScale = (imageRef: HTMLImageElement | null) => {
-  const [scale, setScale] = useState({ x: 1, y: 1 });
 
-  useEffect(() => {
-    if (!imageRef) return;
-
-    const calculateScale = () => {
-      const naturalWidth = imageRef.naturalWidth;
-      const naturalHeight = imageRef.naturalHeight;
-      
-      const displayedWidth = imageRef.width;
-      const displayedHeight = imageRef.height;
-
-      setScale({
-        x: displayedWidth / naturalWidth,
-        y: displayedHeight / naturalHeight,
-      });
-    };
-
-    calculateScale();
-
-    // Add a resize observer for dynamic updates
-    const resizeObserver = new ResizeObserver(calculateScale);
-    resizeObserver.observe(imageRef);
-
-    // Also recalculate on window resize
-    window.addEventListener('resize', calculateScale);
-
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener('resize', calculateScale);
-    };
-  }, [imageRef]);
-
-  return scale;
-};
 
 // Unified BoundingBoxesOverlay component with integrated BoxRenderer
 const BoundingBoxesOverlay = ({ 
@@ -313,17 +268,8 @@ const BoundingBoxesOverlay = ({
 };
 
 // Wrapper components for common UI states to reduce repetitive conditional rendering
-interface ScreenshotContentProps {
-  screenshot: { id: number; url: string; components: Component[] };
-  imageRef: HTMLImageElement | null;
-  setImageRef: (el: HTMLImageElement | null) => void;
-  hoveredComponent: Component | null;
-  selectedComponent: Component | null;
-  hoveredElementId: number | null;
-  setHoveredElementId: (id: number | null) => void;
-  hoveredDetails: any | null;
-  getElementsToDisplay: (screenshot: { id: number; url: string; components: Component[] }) => any[];
-}
+// Remove interface definition
+// interface ScreenshotContentProps { ... }
 
 const ScreenshotContent = ({ 
   screenshot, 
@@ -472,17 +418,8 @@ const ScreenshotContent = ({
 };
 
 // Component list section wrapper
-interface ComponentListProps {
-  screenshot: { id: number; url: string; components: Component[] };
-  handleComponentSelect: (component: Component) => void;
-  handleComponentHover: (component: Component | null) => void;
-  handleElementSelect: (element: any) => void;
-  hoveredElementId: number | null;
-  setHoveredElementId: (id: number | null) => void;
-  selectedComponent: Component | null;
-  // Removed calculateComponentAccuracy from props
-  // calculateComponentAccuracy: (elements: any[]) => number;
-}
+// Remove interface definition
+// interface ComponentListProps { ... }
 
 const ComponentList = ({ 
   screenshot, 
@@ -492,8 +429,6 @@ const ComponentList = ({
   hoveredElementId,
   setHoveredElementId,
   selectedComponent,
-  // Removed calculateComponentAccuracy from props
-  // calculateComponentAccuracy 
 }: ComponentListProps) => {
   // Sort components alphabetically by component_name
   const sortedComponents = [...screenshot.components].sort((a, b) => {
@@ -543,14 +478,8 @@ const ComponentList = ({
 };
 
 // Unified UIState component to replace LoadingSpinner, ErrorCard, and EmptyState
-interface UIStateProps {
-  isLoading: boolean;
-  error: string | null;
-  isEmpty: boolean;
-  emptyMessage?: string;
-  errorMessage?: string;
-  loadingMessage?: string;
-}
+// Remove interface definition
+// interface UIStateProps { ... }
 
 const UIState = ({ isLoading, error, isEmpty, emptyMessage, errorMessage, loadingMessage }: UIStateProps) => {
   if (isLoading) {
@@ -619,16 +548,12 @@ const TagsRow = ({ label, tags, variant = "default" }: { label: string, tags: st
 // const organizeComponentsByScreenshot = (detectionResults: ComponentDetectionResult[]): { ... } => { ... };
 
 // Define the type for editing label state
-interface EditingLabelState {
-  editingLabelId: number | null
-  editingLabelText: string
-  setEditingLabelId: (id: number | null) => void
-  setEditingLabelText: (text: string) => void
-  updateLabelAndFinishEditing: () => void
-}
+// Remove interface definition
+// interface EditingLabelState { ... }
 
 // Define the title mapping and desired order
-const PROMPT_TYPE_TITLES: { [key: string]: string } = {
+// Use imported type
+const PROMPT_TYPE_TITLES: PromptTypeTitles = {
   component_extraction: "Extract High Level UI (OpenAI)",
   element_extraction: "Extract Element By Component (Claude 3.7)",
   anchoring: "Optimise Description for VLM Detection (Claude 3.7)",
@@ -1001,9 +926,8 @@ export default function BatchDetailPage() {
 }
 
 // Update BatchAnalyticsDisplay Props and implementation
-interface BatchAnalyticsDisplayProps {
-  analytics: DetailedBatchAnalytics | null;
-}
+// Remove interface definition
+// interface BatchAnalyticsDisplayProps { ... }
 
 const BatchAnalyticsDisplay: React.FC<BatchAnalyticsDisplayProps> = ({ analytics }) => {
   // Log the received analytics data, especially the prompt_type_summary

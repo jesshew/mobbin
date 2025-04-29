@@ -1,57 +1,38 @@
-import { useState, useEffect, RefObject, useRef } from "react"
+import { useState, useEffect } from "react"
 
-export function useImageScale(
-  imageUrl: string,
-  containerRef: RefObject<HTMLDivElement>,
-  imageRef: RefObject<HTMLImageElement>
-) {
-  const [scale, setScale] = useState<number>(1)
-  const lastScaleRef = useRef(1)
-  const resizeTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
+export const useImageScale = (imageRef: HTMLImageElement | null) => {
+  const [scale, setScale] = useState({ x: 1, y: 1 });
 
-  // Calculate scale factor when image loads or container resizes
   useEffect(() => {
-    const updateScale = () => {
-      if (imageRef.current && containerRef.current) {
-        const containerWidth = containerRef.current.clientWidth
-        const imageNaturalWidth = imageRef.current.naturalWidth
+    if (!imageRef) return;
 
-        if (imageNaturalWidth > containerWidth) {
-          const newScale = containerWidth / imageNaturalWidth
-          // Only update if the scale has changed significantly
-          if (Math.abs(newScale - lastScaleRef.current) > 0.01) {
-            lastScaleRef.current = newScale
-            setScale(newScale)
-          }
-        } else if (lastScaleRef.current !== 1) {
-          lastScaleRef.current = 1
-          setScale(1)
-        }
-      }
-    }
+    const calculateScale = () => {
+      const naturalWidth = imageRef.naturalWidth;
+      const naturalHeight = imageRef.naturalHeight;
+      
+      const displayedWidth = imageRef.width;
+      const displayedHeight = imageRef.height;
 
-    // Debounced resize handler
-    const handleResize = () => {
-      if (resizeTimeoutRef.current) {
-        clearTimeout(resizeTimeoutRef.current)
-      }
-      resizeTimeoutRef.current = setTimeout(updateScale, 100)
-    }
+      setScale({
+        x: displayedWidth / naturalWidth,
+        y: displayedHeight / naturalHeight,
+      });
+    };
 
-    // Update scale when image loads
-    if (imageRef.current) {
-      imageRef.current.onload = updateScale
-    }
+    calculateScale();
 
-    // Update scale on window resize with debounce
-    window.addEventListener("resize", handleResize)
+    // Add a resize observer for dynamic updates
+    const resizeObserver = new ResizeObserver(calculateScale);
+    resizeObserver.observe(imageRef);
+
+    // Also recalculate on window resize
+    window.addEventListener('resize', calculateScale);
+
     return () => {
-      window.removeEventListener("resize", handleResize)
-      if (resizeTimeoutRef.current) {
-        clearTimeout(resizeTimeoutRef.current)
-      }
-    }
-  }, [imageUrl, containerRef, imageRef])
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', calculateScale);
+    };
+  }, [imageRef]);
 
-  return { scale }
-} 
+  return scale;
+};
