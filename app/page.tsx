@@ -150,15 +150,15 @@ export default function Home() {
     }
   }
 
-  // Handle image selection from a batch
-  const handleImageSelect = (batchId: string) => {
-    router.push(`/batch/${batchId}`)
-  }
+  // // Handle image selection from a batch
+  // const handleImageSelect = (batchId: string) => {
+  //   router.push(`/batch/${batchId}`)
+  // }
 
   // Handle viewing results from a batch
   const handleViewResults = (batchId: string) => {
     const batch = batches?.find(b => b.id === batchId)
-    if (batch && batch.images && batch.images.length > 0) {
+    if (batch && batch.images.length > 0) {
       router.push(`/batch/${batchId}`)
     }
   }
@@ -176,7 +176,7 @@ export default function Home() {
               selectedFiles={selectedFiles}
               onFilesSelected={handleFilesSelected}
               onUploadBatch={handleUploadBatch}
-              onImageSelect={handleImageSelect}
+              onImageSelect={handleViewResults}
               onViewResults={handleViewResults}
               onRefetchBatches={refetchBatches}
             />

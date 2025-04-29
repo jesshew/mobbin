@@ -8,11 +8,11 @@ interface BatchCardProps {
   batch: Batch;
   isExpanded: boolean;
   onToggle: () => void;
-  onImageSelect: (imageIndex: number) => void;
+  onImageClick: () => void;
   onViewResults: (batchId: string) => void;
 }
 
-export function BatchCard({ batch, isExpanded, onToggle, onImageSelect, onViewResults }: BatchCardProps) {
+export function BatchCard({ batch, isExpanded, onToggle, onImageClick, onViewResults }: BatchCardProps) {
   return (
     <div className="rounded-md border border-border overflow-hidden">
       <div
@@ -27,7 +27,7 @@ export function BatchCard({ batch, isExpanded, onToggle, onImageSelect, onViewRe
       {isExpanded && (
         <>
           <Separator />
-          <ImageGrid images={batch.images} onImageSelect={onImageSelect} />
+          <ImageGrid images={batch.images} onImageClick={onImageClick} />
         </>
       )}
     </div>

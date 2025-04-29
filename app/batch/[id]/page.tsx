@@ -2,15 +2,21 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback } from "react"
 import React from "react"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { Component as OriginalComponent, Element } from "@/types/annotation"
 import { ComponentDetectionResult } from "@/types/DetectionResult"
-import { Layers, AlertCircle } from "lucide-react"
+import { Layers, AlertCircle, ArrowLeft } from "lucide-react"
 // import { ComponentListItem } from "@/components/component-list-item"
 import { ComponentListItem } from "@/components/component";
 import { DetailedBatchAnalytics, SimplifiedPromptBatchRecord } from "@/types/BatchSummaries";
-
-import { parseMetadata } from "@/utils/component-converter"
+// Import the newly created utility functions
+import {
+  getAccuracyColor,
+  calculateComponentAccuracy,
+  shouldShowExplanation,
+  parseMetadata, // Now imported from the new utils file
+  organizeComponentsByScreenshot
+} from "@/components/batch/utils";
 
 // Extend the Component type to include component_accuracy
 type Component = OriginalComponent & {
@@ -18,35 +24,14 @@ type Component = OriginalComponent & {
 };
 
 // ------------------- Local Utilities -------------------
-// Get color based on accuracy score - updated with lighter red and opacity
-const getAccuracyColor = (score: number) => {
-  if (score >= 90) return 'border-green-500/70';
-  if (score >= 70) return 'border-yellow-500/70';
-  if (score >= 50) return 'border-pink-500/70';
-  return 'border-red-400/80'; // Lighter, less dominant red with opacity
-};
+// Remove getAccuracyColor definition
+// const getAccuracyColor = (score: number) => { ... };
 
 // Calculate average component accuracy
-const calculateComponentAccuracy = (elements: any[]): number => {
-  if (!elements || elements.length === 0) return 0;
-  
-  const sum = elements.reduce((total, element) => {
-    return total + (element.accuracy_score || 0);
-  }, 0);
-  
-  return Math.round(sum / elements.length);
-};
+// const calculateComponentAccuracy = (elements: any[]): number => { ... };
 
 // Helper function to determine if an element needs to show explanation
-const shouldShowExplanation = (element: any): boolean => {
-  // Show explanation for elements with suggested coordinates
-  if (element.suggested_coordinates && element.explanation) return true;
-  
-  // Show explanation for yellow accuracy elements (70-89%)
-  if (element.accuracy_score >= 70 && element.accuracy_score < 90 && element.explanation) return true;
-  
-  return false;
-};
+// const shouldShowExplanation = (element: any): boolean => { ... };
 
 // Unified ElementTooltip component for all element-related tooltips
 interface ElementTooltipProps {
@@ -74,7 +59,7 @@ const ElementTooltip = ({ element, isHovered, type }: ElementTooltipProps) => {
   }
   
   // Explanation tooltip
-  if (type === 'explanation' && shouldShowExplanation(element)) {
+  if (type === 'explanation' && shouldShowExplanation(element)) { // Use imported function
     const hasYellowAccuracy = element.accuracy_score >= 70 && element.accuracy_score < 90;
     const hasSuggestedCoordinates = !!element.suggested_coordinates;
     
@@ -100,7 +85,7 @@ const ElementTooltip = ({ element, isHovered, type }: ElementTooltipProps) => {
 const ComponentTooltip = ({ component }: { component: Component | null }) => {
   if (!component) return null;
   
-  // Get component metadata
+  // Get component metadata using the imported function
   const metadata = parseMetadata(component.component_metadata_extraction || "");
   const userFlowImpact = metadata.userFlowImpact || "";
   const facetTags = metadata.facetTags || [];
@@ -240,7 +225,7 @@ const BoundingBoxesOverlay = ({
     // Determine visual states
     const accuracyScore = element.accuracy_score;
     const isLowAccuracy = accuracyScore < 70;
-    const borderColor = getAccuracyColor(accuracyScore);
+    const borderColor = getAccuracyColor(accuracyScore); // Use imported function
     
     // Determine which box to highlight on hover
     const highlightSuggested = isHovered && isLowAccuracy && hasSuggestedBox;
@@ -495,7 +480,8 @@ interface ComponentListProps {
   hoveredElementId: number | null;
   setHoveredElementId: (id: number | null) => void;
   selectedComponent: Component | null;
-  calculateComponentAccuracy: (elements: any[]) => number;
+  // Removed calculateComponentAccuracy from props
+  // calculateComponentAccuracy: (elements: any[]) => number;
 }
 
 const ComponentList = ({ 
@@ -506,12 +492,18 @@ const ComponentList = ({
   hoveredElementId,
   setHoveredElementId,
   selectedComponent,
-  calculateComponentAccuracy
+  // Removed calculateComponentAccuracy from props
+  // calculateComponentAccuracy 
 }: ComponentListProps) => {
   // Sort components alphabetically by component_name
-  const sortedComponents = [...screenshot.components].sort((a, b) => 
-    a.component_name.localeCompare(b.component_name)
-  );
+  const sortedComponents = [...screenshot.components].sort((a, b) => {
+    // Calculate accuracy for comparison if not already present
+    // const accuracyA = a.component_accuracy ?? calculateComponentAccuracy(a.elements);
+    // const accuracyB = b.component_accuracy ?? calculateComponentAccuracy(b.elements);
+    // // Sort by accuracy descending (higher first)
+    // return accuracyB - accuracyA;
+    return a.component_name.localeCompare(b.component_name)
+  });
   
   return (
     <div className="md:w-[40%] h-full md:overflow-hidden flex flex-col">
@@ -519,8 +511,8 @@ const ComponentList = ({
       
       <div className="space-y-3 overflow-y-auto flex-grow pr-2">
         {sortedComponents.map((component) => {
-          // Calculate component accuracy
-          const componentAccuracy = calculateComponentAccuracy(component.elements);
+          // Calculate component accuracy using the imported function
+          const componentAccuracy = calculateComponentAccuracy(component.elements as any[]); // Use imported function
           
           return (
             <div 
@@ -624,86 +616,7 @@ const TagsRow = ({ label, tags, variant = "default" }: { label: string, tags: st
 };
 
 // Helper function to organize ComponentDetectionResults into the correct hierarchy
-const organizeComponentsByScreenshot = (detectionResults: ComponentDetectionResult[]): {
-  screenshots: { 
-    id: number; 
-    url: string; 
-    components: Component[] 
-  }[];
-  allComponents: Component[];
-} => {
-  // Group by screenshot ID
-  const screenshotMap = new Map<number, {
-    url: string;
-    components: ComponentDetectionResult[];
-  }>();
-  
-  // Organize by screenshot first
-  detectionResults.forEach(result => {
-    if (!screenshotMap.has(result.screenshot_id)) {
-      screenshotMap.set(result.screenshot_id, {
-        url: result.screenshot_url || "",
-        components: []
-      });
-    }
-    
-    screenshotMap.get(result.screenshot_id)?.components.push(result);
-  });
-  
-  // Convert to the format needed
-  const screenshots: { id: number; url: string; components: Component[] }[] = [];
-  const allComponents: Component[] = [];
-  
-  screenshotMap.forEach((data, screenshotId) => {
-    const screenshotComponents: Component[] = [];
-    
-    // Convert each component detection result to a Component
-    data.components.forEach(result => {
-      const componentElements = result.elements.map(element => ({
-        element_id: element.element_id || 0,
-        label: element.label,
-        description: element.description,
-        bounding_box: element.bounding_box,
-        status: element.status,
-        element_inference_time: element.element_inference_time || 0,
-        accuracy_score: element.accuracy_score || 90,
-        suggested_coordinates: element.suggested_coordinates,
-        hidden: element.hidden || false,
-        explanation: element.explanation || "",
-        element_metadata_extraction: element.element_metadata_extraction || ""
-      }));
-      
-      // Calculate component accuracy
-      const componentAccuracy = calculateComponentAccuracy(componentElements);
-      
-      const component: Component = {
-        screenshot_id: screenshotId,
-        component_id: result.component_id || 0,
-        component_name: result.component_name,
-        component_description: result.component_description,
-        detection_status: result.detection_status,
-        inference_time: result.inference_time,
-        screenshot_url: result.screenshot_url || "",
-        annotated_image_url: result.annotated_image_url || "",
-        component_ai_description: result.component_ai_description || "",
-        component_metadata_extraction: result.component_metadata_extraction || "",
-        elements: componentElements,
-        component_accuracy: componentAccuracy
-      };
-      
-      screenshotComponents.push(component);
-      allComponents.push(component);
-    });
-    
-    screenshots.push({
-      id: screenshotId,
-      url: data.url,
-      components: screenshotComponents
-    });
-  });
-  
-  return { screenshots, allComponents };
-};
+// const organizeComponentsByScreenshot = (detectionResults: ComponentDetectionResult[]): { ... } => { ... };
 
 // Define the type for editing label state
 interface EditingLabelState {
@@ -721,7 +634,7 @@ const PROMPT_TYPE_TITLES: { [key: string]: string } = {
   anchoring: "Optimise Description for VLM Detection (Claude 3.7)",
   vlm_labeling: "VLM Element Detection (Moondream)",
   accuracy_validation: "Validate VLM Detection (Moondream)",
-  metadata_extraction: "Extract Metadata of each component (OpenAI)",
+  metadata_extraction: "UX Metadata Extraction (OpenAI)",
 };
 
 const PROMPT_TYPE_ORDER: string[] = [
@@ -736,6 +649,7 @@ const PROMPT_TYPE_ORDER: string[] = [
 export default function BatchDetailPage() {
   const params = useParams() as { id: string }
   const batchId = params.id
+  const router = useRouter();
   const [screenshots, setScreenshots] = useState<{ id: number; url: string; components: Component[] }[]>([])
   const [components, setComponents] = useState<Component[]>([])
   const [isComponentsLoading, setIsComponentsLoading] = useState<boolean>(true);
@@ -803,6 +717,7 @@ export default function BatchDetailPage() {
           }
           const componentsData = await componentsResult.value.json();
           if (componentsData.success && Array.isArray(componentsData.components)) {
+            // Use the imported organize function
             const organized = organizeComponentsByScreenshot(componentsData.components);
             setScreenshots(organized.screenshots);
             setComponents(organized.allComponents);
@@ -913,7 +828,8 @@ export default function BatchDetailPage() {
     }
 
     if (foundElement) {
-      const metadata = parseMetadata(foundElement.element_metadata_extraction || "")
+      // Use the imported parseMetadata function
+      const metadata = parseMetadata(foundElement.element_metadata_extraction || "");
       setHoveredDetails({
         ...foundElement,
         metadata
@@ -984,7 +900,16 @@ export default function BatchDetailPage() {
     <div className="flex h-screen overflow-hidden">
       <main className="flex-1 overflow-y-auto p-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Batch {batchId} Components</h1>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => router.push('/')}
+              className="p-2 rounded-md hover:bg-accent text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Go back to dashboard"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </button>
+            <h1 className="text-2xl font-bold">Batch {batchId} Components</h1>
+          </div>
           <div className="text-sm text-muted-foreground">
             {screenshots.length > 0 && (
               <div className="flex items-center gap-1">
@@ -1051,7 +976,6 @@ export default function BatchDetailPage() {
                     hoveredElementId={hoveredElementId}
                     setHoveredElementId={setHoveredElementId}
                     selectedComponent={selectedComponent}
-                    calculateComponentAccuracy={calculateComponentAccuracy}
                   />
                 </div>
               </div>
@@ -1129,14 +1053,6 @@ const BatchAnalyticsDisplay: React.FC<BatchAnalyticsDisplayProps> = ({ analytics
             <div>
               <span className="text-muted-foreground block text-xs uppercase tracking-wider">Avg Time / Element</span>
               <span className="font-medium">{summary.avg_seconds_per_element}s</span>
-            </div>
-            <div>
-              <span className="text-muted-foreground block text-xs uppercase tracking-wider">Total Input Tokens</span>
-              <span className="font-medium">{summary.total_input_tokens?.toLocaleString() ?? 'N/A'}</span>
-            </div>
-            <div>
-              <span className="text-muted-foreground block text-xs uppercase tracking-wider">Total Output Tokens</span>
-              <span className="font-medium">{summary.total_output_tokens?.toLocaleString() ?? 'N/A'}</span>
             </div>
           </div>
         </>
