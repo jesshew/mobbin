@@ -1,9 +1,8 @@
 import { ComponentDetectionResult, ElementDetectionItem } from '@/types/DetectionResult';
-// import { extract_component_metadata } from '@/lib/services/ai/OpenAIDirectService';
 import { extract_component_metadata } from '@/lib/services/ai/OpenAIService';
 import pLimit from 'p-limit';
 import { createScreenshotTrackingContext } from '@/lib/logger';
-import { PromptLogType, VALIDATION_CONCURRENCY } from '@/lib/constants';
+import { VALIDATION_CONCURRENCY } from '@/lib/constants';
 
 // Constants
 const METADATA_EXTRACTION_CONCURRENCY = VALIDATION_CONCURRENCY; // Maximum number of concurrent metadata extraction operations
@@ -19,13 +18,8 @@ const COMPONENT_LEVEL_PROPERTIES = ['patternName', 'facetTags', 'states', 'inter
  * 4. Updating component and element metadata fields with the extracted information
  */
 export class MetadataExtractionService {
-  /**
-   * Performs metadata extraction for all validated components
-   * 
-   * @param batchId - The ID of the batch being processed
-   * @param components - Array of ComponentDetectionResult after validation
-   * @returns The components array with updated metadata fields
-   */
+
+  // Performs metadata extraction for all validated components
   public static async performMetadataExtraction(
     batchId: number,
     components: ComponentDetectionResult[]
@@ -43,9 +37,7 @@ export class MetadataExtractionService {
     return enrichedComponents; // Return components with updated metadata
   }
 
-  /**
-   * Extracts metadata for a single component
-   */
+  // Extracts metadata for a single component
   private static async extractComponentMetadata(
     batchId: number, 
     component: ComponentDetectionResult
@@ -54,7 +46,8 @@ export class MetadataExtractionService {
     const componentName = component.component_name; // Get component name
         
     try {
-      const context = createScreenshotTrackingContext(batchId, screenshotId); // Create context for logging and tracking
+      // Create context for logging and tracking (Dev purposes)
+      const context = createScreenshotTrackingContext(batchId, screenshotId); 
       
       const imageBase64 = this.convertImageToBase64(component); // Convert image buffer to base64
       const inputPayload = this.prepareInputPayload(component); // Prepare input payload for AI service
@@ -65,7 +58,8 @@ export class MetadataExtractionService {
         context
       );
       
-      this.updateComponentWithMetadata(component, metadataResult.parsedContent); // Update component with extracted metadata
+      // Update component with extracted metadata
+      this.updateComponentWithMetadata(component, metadataResult.parsedContent); 
       
       console.log(`[Batch ${batchId}] Stage 4: Completed metadata extraction for component ${componentName}`);
       
@@ -76,17 +70,13 @@ export class MetadataExtractionService {
     }
   }
 
-  /**
-   * Converts component image to base64
-   */
+  // Converts component image to base64
   private static convertImageToBase64(component: ComponentDetectionResult): string {
     const imageBuffer = component.original_image_object || component.annotated_image_object; // Use original or annotated image
     return imageBuffer.toString('base64'); // Convert buffer to base64 string
   }
 
-  /**
-   * Prepares input payload for the AI service
-   */
+  // Prepares input payload for the AI service
   private static prepareInputPayload(component: ComponentDetectionResult): any {
     return {
       component_name: component.component_name, // Include component name
@@ -160,9 +150,8 @@ export class MetadataExtractionService {
     component.component_ai_description = componentDescription; // Update AI-generated description
   }
 
-  /**
-   * Updates the element-level metadata for each element in the component
-   */
+
+  // Updates the element-level metadata for each element in the component
   private static updateElementLevelMetadata(
     component: ComponentDetectionResult,
     componentMetadata: any
@@ -182,9 +171,8 @@ export class MetadataExtractionService {
     });
   }
 
-  /**
-   * Creates a map of elements by label for easier lookup
-   */
+
+  // Creates a map of elements by label for easier lookup
   private static createElementMap(component: ComponentDetectionResult): Map<string, ElementDetectionItem> {
     const elementMap = new Map<string, ElementDetectionItem>();
     component.elements.forEach(element => {

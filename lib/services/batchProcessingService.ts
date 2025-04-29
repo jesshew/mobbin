@@ -1,10 +1,8 @@
 import { supabase } from '@/lib/supabase'; 
 import { SupabaseClient } from '@supabase/supabase-js';
-import { generateSignedUrls, getScreenshotPath, getSignedUrls } from '@/lib/supabaseUtils';
+import { getScreenshotPath, getSignedUrls } from '@/lib/supabaseUtils';
 import { fetchScreenshotBuffers } from '@/lib/services/imageServices/imageFetchingService';
 import { BatchProcessingScreenshot as Screenshot } from '@/types/BatchProcessingScreenshot';
-import type { ComponentDetectionResult } from '@/types/DetectionResult'; 
-import pLimit from 'p-limit';
 import { AIExtractionService, Stage1Result } from '@/lib/services/ParallelExtractionService';
 import { ParallelMoondreamDetectionService } from '@/lib/services/ParallelAnnotationService';
 import { AccuracyValidationService } from '@/lib/services/AccuracyValidationService';

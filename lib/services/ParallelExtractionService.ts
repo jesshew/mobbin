@@ -21,19 +21,16 @@ export interface Stage1Result {
  * using multiple AI systems (OpenAI and Claude).
  * 
  * DESIGN DECISIONS:
- * 1. Parallel Processing: We use controlled parallelism to maximize throughput without overwhelming 
- *    external API services. This balances speed with reliability and cost management.
- * 
- * 2. Fault Tolerance: Each screenshot is processed independently, and errors are captured per 
+ * 1. Parallel Processing: Screenshots are processed in parallel, but independently,errors are captured per 
  *    screenshot rather than failing the entire batch. This allows partial batch success.
  * 
- * 3. Progressive Enhancement: The extraction pipeline builds incrementally, with each step using 
+ * 2. Progressive Enhancement: The extraction pipeline builds incrementally, with each step using 
  *    the results of the previous step:
  *    - Component extraction identifies high-level UI patterns
  *    - Element extraction uses components to find specific elements
  *    - Anchor labeling uses element data to establish reference points
  * 
- * 4. Data Integrity: Results include error tracking to allow downstream processes to filter out
+ * 3. Results include error tracking to allow downstream processes to filter out
  *    failed operations and proceed with successful ones.
  */
 export class AIExtractionService {
@@ -41,8 +38,6 @@ export class AIExtractionService {
    * Extracts components, elements, and anchors from screenshots in parallel
    * 
    * TECHNICAL DETAILS:
-   * - Implements controlled parallelism with p-limit to manage API rate limits
-   * - Each screenshot processing runs independently with Promise.allSettled for fault isolation
    * - Maps screenshot IDs to their extraction results for later processing stages
    * - Progressive extraction: Components → Elements → Anchors
    * - Comprehensive error capture to prevent batch failure from individual items
@@ -52,48 +47,33 @@ export class AIExtractionService {
    * @returns Map of screenshot IDs to Stage1Result objects
    */
   public static async performAIExtraction(batchId: number, screenshots: Screenshot[]): Promise<Map<number, Stage1Result>> {
-  
-    // Create a concurrency limiter to prevent overwhelming external AI services
-    // This is crucial for rate limit management and cost control
     const extractionLimit = pLimit(EXTRACTION_CONCURRENCY);
-    const stage1Results = new Map<number, Stage1Result>(); // Map screenshot_id to results
+    const stage1Results = new Map<number, Stage1Result>();
 
-    // Map each screenshot to a promise that processes it within concurrency limits
     const extractionPromises = screenshots.map(screenshot =>
       extractionLimit(async () => {
         const screenshotId = screenshot.screenshot_id;
-        const signedUrl = screenshot.screenshot_signed_url!; // We filtered for this previously
+        const signedUrl = screenshot.screenshot_signed_url!;
         console.log(`[Batch ${batchId}] Stage 1: Processing screenshot ${screenshotId}...`);
 
-        // Create a tracking context for this screenshot
         const context = createScreenshotTrackingContext(batchId, screenshotId);
 
         try {
-          // 1. Extract Components using OpenAI vision capabilities
-          // Components represent high-level UI patterns (forms, cards, etc.)
           console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.1 : Extracting High-Level Components...`);
-          const componentResult = await extract_component_from_image(signedUrl, context);
-          const componentSummaries = this.extractComponentSummaries(componentResult.parsedContent || []);
-          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.1 Complete. Found ${componentSummaries.length} Main Components.`);
 
-          // 2. Extract Elements based on Components using Claude
-          // Elements are specific interactive parts informed by component context
-          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.2 : Extracting Detailed Elements...`);
-          const elementResult = await extract_element_from_image(signedUrl, componentSummaries.join('\n'), context);
-          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.2 Complete. Found ${elementResult.parsedContent.length} Detailed Elements.`);
+          // Step 1.1: Extract high-level components  
+          const componentSummaries = await this.extractComponents(signedUrl, context, batchId, screenshotId);
 
-          // 3. Anchor Elements based on Element Extraction
-          // Anchors provide spatial reference points for Moondream to use later
-          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.3 : Optimising descriptions for VLM detection`);
-          const anchorResult = await anchor_elements_from_image(signedUrl, `${elementResult.rawText}`, context);
-          const anchorLabels: Record<string, string> = anchorResult.parsedContent || {};
-          console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.3 Complete. Optimised ${Object.keys(anchorLabels).length} labels.`);
+          // Step 1.2: Extract detailed elements
+          const elementResult = await this.extractElements(signedUrl, componentSummaries, context, batchId, screenshotId);
+
+          // Step 1.3: Optimise descriptions for VLM detection
+          const anchorLabels = await this.optimizeDescriptions(signedUrl, elementResult.rawText, context, batchId, screenshotId);
 
           if (Object.keys(anchorLabels).length === 0) {
             console.warn(`[Batch ${batchId}][Screenshot ${screenshotId}] No anchor labels generated. Moondream detection might be ineffective.`);
           }
 
-          // Store successful results
           stage1Results.set(screenshotId, {
             componentSummaries,
             elementResultRawText: elementResult.rawText || '',
@@ -103,20 +83,16 @@ export class AIExtractionService {
 
         } catch (error) {
           console.error(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.4 : Error processing screenshot ${screenshotId}:`, error);
-          // Store error information for reporting and later filtering
-          // This resilience allows the process to continue with successfully processed screenshots
           stage1Results.set(screenshotId, {
             componentSummaries: [],
             elementResultRawText: '',
             anchorLabels: {},
-            error: error, // Store the error for filtering and diagnosis
+            error: error,
           });
         }
       })
     );
 
-    // Wait for all extractions to complete (successfully or with errors)
-    // We use Promise.allSettled instead of Promise.all to prevent a single failure from stopping the batch
     await Promise.allSettled(extractionPromises);
     console.log(`[Batch ${batchId}] Completed Stage 1 AI extraction for all applicable screenshots.`);
     console.log(`[Batch ${batchId}] Stage 1: Extraction complete. Results ${JSON.stringify(stage1Results, null, 2)}\n`);
@@ -124,6 +100,30 @@ export class AIExtractionService {
     return stage1Results;
   }
 
+  // Extracts high-level components from the image
+  private static async extractComponents(signedUrl: string, context: PromptTrackingContext, batchId: number, screenshotId: number): Promise<string[]> {
+    const componentResult = await extract_component_from_image(signedUrl, context);
+    const componentSummaries = this.extractComponentSummaries(componentResult.parsedContent || []);
+    console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.1 Complete. Found ${componentSummaries.length} Main Components.`);
+    return componentSummaries;
+  }
+
+  // Extracts detailed elements based on components
+  private static async extractElements(signedUrl: string, componentSummaries: string[], context: PromptTrackingContext, batchId: number, screenshotId: number): Promise<any> {
+    console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.2 : Extracting Detailed Elements...`);
+    const elementResult = await extract_element_from_image(signedUrl, componentSummaries.join('\n'), context);
+    console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.2 Complete. Found ${elementResult.parsedContent.length} Detailed Elements.`);
+    return elementResult;
+  }
+
+  // Optimizes descriptions for VLM detection
+  private static async optimizeDescriptions(signedUrl: string, rawText: string, context: PromptTrackingContext, batchId: number, screenshotId: number): Promise<Record<string, string>> {
+    console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.3 : Optimising descriptions for VLM detection`);
+    const anchorResult = await anchor_elements_from_image(signedUrl, rawText, context);
+    const anchorLabels: Record<string, string> = anchorResult.parsedContent || {};
+    console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.3 Complete. Optimised ${Object.keys(anchorLabels).length} labels.`);
+    return anchorLabels;
+  }
 
   /**
    * Helper function to extract component summaries from AI extraction results

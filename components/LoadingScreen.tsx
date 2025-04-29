@@ -6,7 +6,7 @@ interface LoadingScreenProps {
   forceComplete?: boolean; // Optional prop to signal early completion
 }
 
-const TYPING_SPEED_MS = 40; // Faster typing
+const TYPING_SPEED_MS = 25; // Faster typing
 const MESSAGE_DELAY_MS = 800; // Faster delay between messages
 
 export const LoadingScreen: React.FC<LoadingScreenProps> = ({ messages, onLoadingComplete, forceComplete = false }) => {
