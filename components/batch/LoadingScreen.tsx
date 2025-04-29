@@ -1,42 +1,75 @@
-import { UIStateProps } from "@/components/batch/types";
-import { AlertCircle } from "lucide-react";
+import React, { useState, useEffect } from 'react';
 
-// Unified UIState component to replace LoadingSpinner, ErrorCard, and EmptyState
-// Keep UIState for now unless requested to move
-export const LoadingScreen = ({ isLoading, error, isEmpty, emptyMessage, errorMessage, loadingMessage }: UIStateProps) => {
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-        {loadingMessage && <p className="ml-4 text-muted-foreground">{loadingMessage}</p>}
+interface LoadingScreenProps {
+  messages: string[];
+  onLoadingComplete: () => void;
+  forceComplete?: boolean; // Optional prop to signal early completion
+}
+
+const TYPING_SPEED_MS = 30; // Faster typing
+const MESSAGE_DELAY_MS = 800; // Faster delay between messages
+
+export const LoadingScreen: React.FC<LoadingScreenProps> = ({ messages, onLoadingComplete, forceComplete = false }) => {
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState('');
+  const [charIndex, setCharIndex] = useState(0);
+  const [showCursor, setShowCursor] = useState(true);
+
+  useEffect(() => {
+    // Cursor blinking effect
+    const cursorInterval = setInterval(() => {
+      setShowCursor(prev => !prev);
+    }, 500);
+    return () => clearInterval(cursorInterval);
+  }, []);
+
+  useEffect(() => {
+    // Check for forced completion first
+    if (forceComplete) {
+        onLoadingComplete();
+        return;
+    }
+
+    if (currentMessageIndex >= messages.length) {
+      // All messages displayed, trigger completion after a short delay
+      const completionTimer = setTimeout(() => {
+         onLoadingComplete();
+      }, MESSAGE_DELAY_MS / 2); // Shorter delay before disappearing
+      return () => clearTimeout(completionTimer);
+    }
+
+    const currentMessage = messages[currentMessageIndex];
+
+    if (charIndex < currentMessage.length) {
+      // Typing effect for the current message
+      const typingTimer = setTimeout(() => {
+        setDisplayedText(prev => prev + currentMessage[charIndex]);
+        setCharIndex(prev => prev + 1);
+      }, TYPING_SPEED_MS);
+      return () => clearTimeout(typingTimer);
+    } else {
+      // Message finished typing, wait then move to next message
+      const messageDelayTimer = setTimeout(() => {
+        setCurrentMessageIndex(prev => prev + 1);
+        setCharIndex(0);
+        setDisplayedText(''); // Reset for the next message
+      }, MESSAGE_DELAY_MS);
+      return () => clearTimeout(messageDelayTimer);
+    }
+    // Add forceComplete to dependency array to react immediately
+  }, [currentMessageIndex, charIndex, messages, onLoadingComplete, forceComplete]);
+
+  return (
+    <div className="flex flex-col items-center justify-center h-64 font-mono text-lg text-muted-foreground">
+      <div className="flex items-center">
+         <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-primary mr-3"></div>
+         <span>{displayedText}</span>
+         {showCursor && <span className="animate-pulse">_</span>}
       </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="bg-red-50 border border-red-200 p-6 rounded-lg">
-        <div className="flex items-start gap-3">
-          <AlertCircle className="h-5 w-5 text-red-500 mt-0.5" />
-          <div>
-            <h2 className="text-xl font-semibold text-red-700">Error loading components</h2>
-            <p className="text-red-600 mt-2">{errorMessage || error}</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (isEmpty) {
-    return (
-      <div className="bg-muted p-6 rounded-lg">
-        <h2 className="text-xl font-semibold">No screenshots found</h2>
-        <p className="text-muted-foreground mt-2">
-          {emptyMessage || "No screenshots were found for this batch. Please check the batch ID and try again."}
-        </p>
-      </div>
-    );
-  }
-
-  return null;
+       {/* Optionally display the full current message dimmed below
+       currentMessageIndex < messages.length && (
+         <p className="mt-2 text-sm text-muted-foreground/50">{messages[currentMessageIndex]}</p>
+       )*/}
+    </div>
+  );
 };
