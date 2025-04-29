@@ -11,6 +11,7 @@ import { DropzoneArea } from "@/components/upload/dropzone-area"
 import { SelectedImagesPanel } from "@/components/upload/selected-images-panel"
 import { BatchList } from "@/components/upload/batch-list"
 import { Toast, ToastProvider, ToastViewport, ToastTitle, ToastDescription } from "@/components/ui/toast"
+import { LoadingScreen } from "@/components/LoadingScreen"
 
 interface UploadInterfaceProps {
   selectedFiles: File[]
@@ -98,12 +99,11 @@ export function UploadInterface({
         )}
 
         {isLoading ? (
-          <div className="flex items-center justify-center h-full">
-            <div className="flex flex-col items-center">
-              <Loader2 className="h-8 w-8 animate-spin" />
-              <p className="mt-4 text-lg">{TOAST_MESSAGES.LOADING_BATCHES}</p>
-            </div>
-          </div>
+          <LoadingScreen
+            messages={["Loading batches..."]}
+            onLoadingComplete={() => {}}
+            forceComplete={!isLoading}
+          />
         ) : error ? (
           <div>Error loading batches</div>
         ) : batches ? (

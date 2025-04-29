@@ -38,6 +38,7 @@ export interface Component {
   component_ai_description: string
   component_metadata_extraction: string
   elements: Element[]
+  component_accuracy?: number;
 }
 
 export interface BoundingBox {

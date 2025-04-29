@@ -9,6 +9,7 @@ export function ComponentMetadataPanel({
   patternName,
   facetTags,
   states,
+  flowPosition,
   isExpanded,
   onToggleExpand
 }: ComponentMetadataPanelProps) {
@@ -37,20 +38,25 @@ export function ComponentMetadataPanel({
               <div className="flex flex-col gap-1">
                 {componentDescription && (
                   <div className="flex items-start gap-2">
-                    <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[90px] text-center">Description</span>
+                    <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[120px] text-center">Description</span>
                     <span className="text-xs text-foreground leading-snug flex-1">{componentDescription}</span>
                   </div>
                 )}
                 {userFlowImpact && (
                   <div className="flex items-start gap-2">
-                    <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[90px] text-center">User Flow Impact</span>
+                    <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[120px] text-center">User Flow Impact</span>
                     <span className="text-xs text-foreground leading-snug flex-1">{userFlowImpact}</span>
+                  </div>
+                )}
+                {flowPosition && (
+                  <div className="flex items-start gap-2">
+                    <span className="text-xs font-semibold border border-muted-foreground/20 bg-white px-2 py-0.5 rounded-full min-w-[120px] text-center">Flow Position</span>
+                    <span className="text-xs text-foreground leading-snug flex-1">{flowPosition}</span>
                   </div>
                 )}
               </div>
             </div>
           )}
-          
           {/* Divider */}
           {hasPurpose && hasSpecs && <div className="border-t border-muted-foreground/10" />}
           

@@ -122,12 +122,15 @@ export default function Home() {
       setLoadingComponents(true)
       setProcessingStatus("Loading batch components...")
       
-      const response = await fetch('/api/load-batch-components', {
-        method: 'POST',
+      // Construct the URL with the batch ID
+      const apiUrl = `/api/load-batch-components/${loadComponentsBatchId}`;
+
+      const response = await fetch(apiUrl, {
+        method: 'GET', // Change method to GET
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ batchId: parseInt(loadComponentsBatchId) }),
+        // Remove the body as the ID is now in the URL
       });
       
       if (!response.ok) {
@@ -147,15 +150,15 @@ export default function Home() {
     }
   }
 
-  // Handle image selection from a batch
-  const handleImageSelect = (batchId: string) => {
-    router.push(`/batch/${batchId}`)
-  }
+  // // Handle image selection from a batch
+  // const handleImageSelect = (batchId: string) => {
+  //   router.push(`/batch/${batchId}`)
+  // }
 
   // Handle viewing results from a batch
   const handleViewResults = (batchId: string) => {
     const batch = batches?.find(b => b.id === batchId)
-    if (batch && batch.images && batch.images.length > 0) {
+    if (batch && batch.images.length > 0) {
       router.push(`/batch/${batchId}`)
     }
   }
@@ -173,7 +176,7 @@ export default function Home() {
               selectedFiles={selectedFiles}
               onFilesSelected={handleFilesSelected}
               onUploadBatch={handleUploadBatch}
-              onImageSelect={handleImageSelect}
+              onImageSelect={handleViewResults}
               onViewResults={handleViewResults}
               onRefetchBatches={refetchBatches}
             />

@@ -1547,9 +1547,10 @@ Follow *good ux annotation guidelines* precisely:
   "on_tap": "triggers primary action",
   "on_swipe_left": "reveals delete buttons and archive chat option"
 }}
-  
-     - on_long_hold, on_submit, on_hover, on_swipe_left
+     - ie: on_long_press, on_scroll, on_hover, on_swipe_left
 • userFlowImpact: How this component guides the user journey (one sentence).
+• flowPosition: Where this component sits in the typical user journey (e.g., "Checkout - Cart Review")
+
 
 3. Element Role Recognition
 • Assign exactly one patternName to each element (e.g., Text Header, Illustration).
@@ -1573,6 +1574,7 @@ format the output as strict, ordered JSON. use component names and element label
     "states": [],
     "interaction": {},
     "userFlowImpact": "",
+    "flowPosition": "",
     "<element_label_1>": {
       "patternName": "",
       "facetTags": [],

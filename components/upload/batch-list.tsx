@@ -51,7 +51,7 @@ export function BatchList({
               batch={batch}
               isExpanded={expandedBatchIds.includes(batch.id)}
               onToggle={() => toggleBatch(batch.id)}
-              onImageSelect={() => onImageSelect(batch.id)}
+              onImageClick={() => onImageSelect(batch.id)}
               onViewResults={() => onViewResults(batch.id)}
             />
         ))}

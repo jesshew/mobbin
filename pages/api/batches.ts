@@ -78,6 +78,8 @@ async function fetchBatchesFromSupabase(): Promise<BatchData[]> {
       )
     `)
     .order('batch_created_at', { ascending: false })
+    .is('inactive_flag', null)  // <-- Only keep rows where inactive_flag IS NULL
+
 
   // Explicitly type the result based on the select query
   const { data, error } = await query as { data: BatchData[] | null, error: PostgrestError | null }

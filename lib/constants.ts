@@ -4,6 +4,7 @@ export const EXTRACTION_CONCURRENCY = 3; // Concurrency limit for OpenAI/Claude 
 export const MOONDREAM_CONCURRENCY = 10; // Limit concurrency for Moondream processing per batch
 export const VALIDATION_CONCURRENCY = 10;
 
+
 export enum PromptLogType {
   COMPONENT_EXTRACTION = 'component_extraction',
   ELEMENT_EXTRACTION = 'element_extraction',
