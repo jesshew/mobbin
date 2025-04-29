@@ -9,12 +9,13 @@ import { parseMetadata } from "@/components/batch/utils";
 import { ScreenshotContent } from "@/components/batch/ScreenshotContent";
 import { ComponentList } from "@/components/batch/ComponentList";
 import { BatchAnalyticsDisplay } from "@/components/batch/BatchAnalyticsDisplay";
-import { LoadingScreen } from "@/components/batch/LoadingScreen"
+import { LoadingScreen } from "@/components/LoadingScreen"
 import { useBatchData } from "@/hooks/useBatchData";
 import { BatchPageHeader } from "@/components/batch/BatchPageHeader";
 
 // Static messages for the simulated loading screen
 const simulatedLoadingMessages = [
+  "Loading batch details and components...",
   "Drawing bounding boxes on detected elements...",
   "Almost there... finalizing layout.",
 ];
