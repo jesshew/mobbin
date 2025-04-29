@@ -3,10 +3,10 @@ import { ComponentDetectionResult, ElementDetectionItem } from '@/types/Detectio
 import { extract_component_metadata } from '@/lib/services/ai/OpenAIService';
 import pLimit from 'p-limit';
 import { createScreenshotTrackingContext } from '@/lib/logger';
-import { PromptLogType, EXTRACTION_CONCURRENCY } from '@/lib/constants';
+import { PromptLogType, VALIDATION_CONCURRENCY } from '@/lib/constants';
 
 // Constants
-const METADATA_EXTRACTION_CONCURRENCY = EXTRACTION_CONCURRENCY; // Maximum number of concurrent metadata extraction operations
+const METADATA_EXTRACTION_CONCURRENCY = VALIDATION_CONCURRENCY; // Maximum number of concurrent metadata extraction operations
 const COMPONENT_LEVEL_PROPERTIES = ['patternName', 'facetTags', 'states', 'interaction', 'userFlowImpact']; // Keys for component-level metadata
 
 /**
@@ -146,14 +146,15 @@ export class MetadataExtractionService {
     component: ComponentDetectionResult,
     componentMetadata: any
   ): void {
-    const { componentDescription, patternName, facetTags, states, interaction, userFlowImpact } = componentMetadata;
+    const { componentDescription, patternName, facetTags, states, interaction, userFlowImpact, flowPosition } = componentMetadata;
     
     component.component_metadata_extraction = JSON.stringify({
       patternName,
       facetTags,
       states,
       interaction,
-      userFlowImpact
+      userFlowImpact,
+      flowPosition
     }); // Serialize component-level metadata
 
     component.component_ai_description = componentDescription; // Update AI-generated description

@@ -19,7 +19,7 @@ interface CachedUrl {
 }
 
 // Simple in-memory cache.
-// Consider using a proper LRU cache library (e.g., 'lru-cache') for large-scale applications
+// Consider using a proper LRU cache library (e.g., 'lru-cache')
 // to manage memory effectively by evicting least recently used items.
 const signedUrlCache = new Map<string, CachedUrl>();
 
@@ -149,11 +149,9 @@ export async function getSignedUrls(
             signedUrlMap.set(path, cacheEntry.signedUrl);
         } else {
             // Cache miss or expired
-            // console.log(`Cache miss for path: ${path}, will fetch`);
             pathsToFetch.push(path);
-            // Optional: Remove expired entry if it exists
+            // Remove expired entry if it exists
             if (cacheEntry) {
-                // console.log(`Removing expired cache entry for path: ${path}`);
                 signedUrlCache.delete(path);
             }
         }
@@ -172,13 +170,6 @@ export async function getSignedUrls(
             // Throw a specific error indicating bulk operation failure
             throw new Error(`${ERROR_GENERATING_SIGNED_URL}: Bulk operation failed.`);
         }
-
-        if (!signedUrlsResult) {
-            // This case should theoretically be covered by bulkUrlError, but added for robustness
-            console.error(`No data returned for signed URLs batch for bucket '${SCREENSHOT_BUCKET}', but no error reported.`);
-            throw new Error(`${ERROR_GENERATING_SIGNED_URL}: No data returned from Supabase.`);
-        }
-
         // console.log(`Received ${signedUrlsResult.length} results from Supabase`);
         
         // Calculate expiry time for the newly fetched URLs
@@ -190,16 +181,10 @@ export async function getSignedUrls(
             // The path corresponds to the path requested in pathsToFetch
             const path = pathsToFetch[i];
 
-            if (item.error) {
+            if (item.error || !item.signedUrl) {
                 console.error(`Failed to generate signed URL for path: ${path} in bucket '${SCREENSHOT_BUCKET}'. Error: ${item.error}`);
                 // Throw an error specific to the failing path, maintaining original behavior
-                throw new Error(`${ERROR_GENERATING_SIGNED_URL} for path: ${path}. Reason: ${item.error}`);
-            }
-
-            if (!item.signedUrl) {
-                // Handle cases where there's no error but also no URL (should be unlikely)
-                console.error(`No signed URL returned for path: ${path} in bucket '${SCREENSHOT_BUCKET}', although no specific error was reported.`);
-                throw new Error(`${ERROR_GENERATING_SIGNED_URL} - missing URL for path: ${path}`);
+                throw new Error(`${ERROR_GENERATING_SIGNED_URL} for path: ${path}. Reason: ${item.error} / missing URL`);
             }
 
             // Add the newly fetched URL to the result map

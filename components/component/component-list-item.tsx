@@ -26,7 +26,7 @@ export function ComponentListItem({
   const facetTags = metadata.facetTags || [];
   const states = metadata.states || [];
   const userFlowImpact = metadata.userFlowImpact || "";
-
+  const flowPosition = metadata.flowPosition || "";
   const toggleExpand = () => setIsExpanded(prev => !prev);
   const toggleMetadataExpand = () => setIsMetadataExpanded(prev => !prev);
 
@@ -108,6 +108,7 @@ export function ComponentListItem({
                   patternName={patternName}
                   facetTags={facetTags}
                   states={states}
+                  flowPosition={flowPosition}
                   isExpanded={isMetadataExpanded}
                   onToggleExpand={toggleMetadataExpand}
                 />

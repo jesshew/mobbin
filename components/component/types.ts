@@ -44,6 +44,7 @@ export interface ComponentMetadataPanelProps {
   patternName?: string;
   facetTags: string[];
   states: string[];
+  flowPosition?: string;
   isExpanded: boolean;
   onToggleExpand: () => void;
 }
