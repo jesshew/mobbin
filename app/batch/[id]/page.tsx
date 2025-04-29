@@ -4,7 +4,6 @@ import { useState, useEffect, useMemo, useCallback } from "react"
 import React from "react"
 import { useParams, useRouter } from "next/navigation"
 import { Component } from "@/types/annotation";
-import { DetailedBatchAnalytics } from "@/types/BatchSummaries";
 import { parseMetadata } from "@/components/batch/utils";
 import { ScreenshotContent } from "@/components/batch/ScreenshotContent";
 import { ComponentList } from "@/components/batch/ComponentList";
@@ -17,7 +16,16 @@ import { BatchPageHeader } from "@/components/batch/BatchPageHeader";
 const simulatedLoadingMessages = [
   "Loading batch details and components...",
   "Drawing bounding boxes on detected elements...",
-  "Almost there... finalizing layout.",
+  "Almost there... finalizing layout",
+  "Why is this taking longer than expected....",
+  "Mmmmmmmmmmmm....",
+  "\"It works on my machine\" -- really it does....",
+  "So...While we wait...",
+  "How's your day so far?",
+  "Good? Mine too!",
+  "Just kinda nervous about why this is taking longer than expected....",
+  "Fingers crossed, we are al....most there....",
+  "We're almost done, just a few more seconds....",
 ];
 
 // --- Main Page Component ---
