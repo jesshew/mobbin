@@ -53,14 +53,6 @@ export interface UIStateProps {
   loadingMessage?: string;
 }
 
-// State management for editing element labels inline
-export interface EditingLabelState {
-  editingLabelId: number | null
-  editingLabelText: string
-  setEditingLabelId: (id: number | null) => void
-  setEditingLabelText: (text: string) => void
-  updateLabelAndFinishEditing: () => void
-}
 
 // Props for the BatchAnalyticsDisplay component
 export interface BatchAnalyticsDisplayProps {
@@ -71,6 +63,26 @@ export interface BatchAnalyticsDisplayProps {
 export type PromptTypeTitles = {
   [key: string]: string;
 };
+
+// Define the title mapping and desired order for Prompt Types
+export const PROMPT_TYPE_TITLES: PromptTypeTitles = {
+  component_extraction: "Extract High Level UI (OpenAI)",
+  element_extraction: "Extract Element By Component (Claude 3.7)",
+  anchoring: "Optimise Description for VLM Detection (Claude 3.7)",
+  vlm_labeling: "VLM Element Detection (Moondream)",
+  accuracy_validation: "Validate VLM Detection (Moondream)",
+  metadata_extraction: "UX Metadata Extraction (OpenAI)",
+};
+
+export const PROMPT_TYPE_ORDER: string[] = [
+  "component_extraction",
+  "element_extraction",
+  "anchoring",
+  "vlm_labeling",
+  "accuracy_validation",
+  "metadata_extraction",
+];
+
 
 // --- Potentially needed types (re-exported or defined) ---
 // Re-exporting DetailedBatchAnalytics and SimplifiedPromptBatchRecord if they are only used here
