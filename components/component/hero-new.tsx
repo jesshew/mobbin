@@ -5,6 +5,7 @@ import { AuroraText } from '../magicui/aurora-text';
 import Iphone15Pro from '../magicui/iphone-15-pro';
 import TravelCard from './travel-card';
 import GridPatternBackground from './grid-pattern-background';
+import MockupInPhoneOne from './mockupone';
 
 // Constants for the MLLMs text circling animation
 const MLLMS_ANIMATION_DURATION = 1.25; // Duration of one animation cycle in seconds
@@ -85,51 +86,53 @@ const HeroNew = () => {
             <Iphone15Pro 
               width={433}
               height={882}
-              src="/demo-app-screenshot.png"
+              src="/nike2.jpg"
               // Uncomment below and comment out src to use video instead
               // videoSrc="/demo-app-video.mp4"
             />
           </div>
+
+          <MockupInPhoneOne />
           
           {/* Left side cards */}
           <div className="absolute top-[15%] -left-[2%] z-10 animate-float-delay transform rotate-[-6deg] hover:rotate-[-3deg] transition-transform duration-500">
             <TravelCard 
               imageUrl="/lovable-uploads/d075041a-997d-47e7-b305-36f86a71b8b5.png" 
-              className="shadow-2xl mb-4 rounded-2xl border-4 border-white"
+              className="shadow-2xl mb-4 rounded-2xl border-2 border-white"
             />
           </div>
           <div className="absolute top-[50%] left-[3%] z-0 animate-float transform rotate-[-4deg] hover:rotate-[-1deg] transition-transform duration-500">
             <TravelCard 
-              imageUrl="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3" 
-              className="shadow-2xl rounded-2xl border-4 border-white"
+              imageUrl="./top_up_success.png" 
+              className="shadow-2xl rounded-2xl border-2 border-white"
             />
           </div>
           
           {/* Right side cards */}
           <div className="absolute top-[12%] right-[3%] z-0 animate-float transform rotate-[6deg] hover:rotate-[3deg] transition-transform duration-500">
             <TravelCard 
-              imageUrl="https://images.unsplash.com/photo-1500313830540-7b6650a74fd0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3" 
-              className="shadow-2xl rounded-2xl border-4 border-white"
+              imageUrl="./wpay4.png" 
+              className="shadow-2xl rounded-2xl border-2 border-white"
             />
           </div>
           <div className="absolute top-[45%] -right-[2%] z-10 animate-float-delay transform rotate-[8deg] hover:rotate-[5deg] transition-transform duration-500">
             <TravelCard 
               imageUrl="https://images.unsplash.com/photo-1499856871958-5b9357976b82?q=80&w=2020&auto=format&fit=crop&ixlib=rb-4.0.3" 
-              className="shadow-2xl rounded-2xl border-4 border-white"
+              className="shadow-2xl rounded-2xl border-2 border-white"
             />
           </div>
           
           {/* Paris label */}
-          <div className="absolute top-[15%] right-[15%] bg-white px-5 py-2 rounded-full shadow-xl flex items-center z-30 border border-gray-100 transform hover:scale-105 transition-transform duration-300">
+          {/* <div className="absolute top-[15%] right-[15%] bg-white px-5 py-2 rounded-full shadow-xl flex items-center z-30 border border-gray-100 transform hover:scale-105 transition-transform duration-300">
             <div className="w-3 h-3 bg-indigo-600 rounded-full mr-2 animate-pulse"></div>
             <span className="font-semibold text-gray-800">Paris</span>
-          </div>
+          </div> */}
           
           {/* Additional labels for visual interest */}
-          <div className="absolute bottom-[20%] left-[15%] bg-white px-5 py-2 rounded-full shadow-xl flex items-center z-30 border border-gray-100 transform hover:scale-105 transition-transform duration-300">
+          {/* <div className="absolute bottom-[20%] left-[15%] bg-white px-5 py-2 rounded-full shadow-xl flex items-center z-30 border border-gray-100 transform hover:scale-105 transition-transform duration-300">
             <div className="w-3 h-3 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
             <span className="font-semibold text-gray-800">New York</span>
-          </div>
+          </div> */}
         </div>
         
         {/* Feature highlights */}

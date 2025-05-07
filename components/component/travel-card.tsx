@@ -14,14 +14,14 @@ const TravelCard: React.FC<TravelCardProps> = ({ imageUrl, className }) => {
         "relative rounded-2xl overflow-hidden shadow-lg card-hover", 
         className
       )}
-      style={{ width: '240px', height: '180px' }}
+      style={{ width: '200px', height: '430px' }}
     >
       <img 
         src={imageUrl} 
         alt="Travel destination" 
         className="w-full h-full object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+      <div className="scale-130 inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
     </div>
   );
 };
