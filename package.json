@@ -54,6 +54,7 @@
     "lru-cache": "^11.1.0",
     "lucide-react": "^0.485.0",
     "moondream": "^0.1.0",
+    "motion": "^12.10.1",
     "next": "15.2.4",
     "openai": "^4.95.1",
     "p-limit": "^6.2.0",
