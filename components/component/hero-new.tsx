@@ -1,9 +1,15 @@
 import React from 'react';
 import { Plane } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { AuroraText } from '../magicui/aurora-text';
 import Iphone15Pro from '../magicui/iphone-15-pro';
 import TravelCard from './travel-card';
 import GridPatternBackground from './grid-pattern-background';
+
+// Constants for the MLLMs text circling animation
+const MLLMS_ANIMATION_DURATION = 1.25; // Duration of one animation cycle in seconds
+const MLLMS_ANIMATION_TOTAL_CYCLE_DURATION = 5; // Total time for one cycle including delay in seconds
+const MLLMS_ANIMATION_REPEAT_DELAY = MLLMS_ANIMATION_TOTAL_CYCLE_DURATION - MLLMS_ANIMATION_DURATION; // Delay before animation repeats in seconds
 
 const HeroNew = () => {
   return (
@@ -20,7 +26,7 @@ const HeroNew = () => {
         <div className="flex flex-col items-center justify-center text-center max-w-4xl mx-auto mb-16">
           <div className="inline-flex items-center justify-center px-4 py-1.5 mb-6 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 font-medium text-sm">
             <Plane className="w-4 h-4 mr-2" />
-            <span>Mini Research: Zero Shot Prompting on VLM</span>
+            <span>Mini Research on Zero Shot Prompting</span>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-gray-900 mb-8 leading-tight">
@@ -28,12 +34,34 @@ const HeroNew = () => {
             <AuroraText className="font-extrabold">UX Annotation</AuroraText>
             <div className="inline-flex items-center mt-2">
               <span className="mr-2">with</span>
-              <span className="ml-2 bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">MLLMs</span>
+              <span className="ml-2 relative">
+                <span className="bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent relative z-10">MLLMs</span>
+                <svg
+                  viewBox="0 0 130 50"
+                  fill="none"
+                  className="absolute -left-2 -right-2 -top-2 -bottom-1 w-full h-full"
+                >
+                  <motion.path
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{
+                      duration: MLLMS_ANIMATION_DURATION, // Set animation duration
+                      ease: "easeInOut",
+                      repeat: Infinity, // Repeat the animation indefinitely
+                      repeatType: "loop", // Restart animation from the beginning after each cycle
+                      repeatDelay: MLLMS_ANIMATION_REPEAT_DELAY, // Wait for this duration before repeating
+                    }}
+                    d="M64.5 1C48.5 7.5 2.5 4.5 1 22.5C-0.5 40.5 15 48.5 58.5 47.5C102 46.5 145 47 125.5 20C103.5 -10.5 43.5 15 26 1"
+                    stroke="#818cf8"
+                    strokeWidth="3"
+                  />
+                </svg>
+              </span>
             </div>
           </h1>
           
           <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-            An exploration into transforming UI screenshots into structured UX annotations using language and vision models.
+            Transforming UI screenshots into structured UX annotations using language and vision models.
           </p>
           
           <div className="flex flex-wrap gap-4 justify-center">

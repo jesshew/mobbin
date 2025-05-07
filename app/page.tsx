@@ -168,8 +168,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-background">
-      <div className="max-w-screen-lg mx-auto pt-4 px-4">
-        <div className="flex justify-between items-center mb-6">
+        {/* <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">ForMobbin</h1>
           <Link 
             href="https://jesshew.notion.site/?pvs=4" 
@@ -179,8 +178,7 @@ export default function Home() {
           >
             View Documentation
           </Link>
-        </div>
-      </div>
+        </div> */}
       <HeroNew/>
       <Hero/>
 
