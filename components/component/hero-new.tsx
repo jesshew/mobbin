@@ -67,7 +67,7 @@ const HeroNew = () => {
           
           <div className="flex flex-wrap gap-4 justify-center">
             <button className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-full transition shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/30">
-              Explore Demo
+              Explore Demo Results
             </button>
             <button className="px-8 py-3 bg-white hover:bg-gray-50 text-indigo-600 font-medium rounded-full border border-gray-200 transition shadow-sm hover:shadow-md">
               Learn More
@@ -95,12 +95,12 @@ const HeroNew = () => {
           <MockupInPhoneOne />
           
           {/* Left side cards */}
-          <div className="absolute top-[15%] -left-[2%] z-10 animate-float-delay transform rotate-[-6deg] hover:rotate-[-3deg] transition-transform duration-500">
+          {/* <div className="absolute top-[15%] -left-[2%] z-10 animate-float-delay transform rotate-[-6deg] hover:rotate-[-3deg] transition-transform duration-500">
             <TravelCard 
-              imageUrl="/lovable-uploads/d075041a-997d-47e7-b305-36f86a71b8b5.png" 
+              imageUrl="/nike2.jpg" 
               className="shadow-2xl mb-4 rounded-2xl border-2 border-white"
             />
-          </div>
+          </div> */}
           <div className="absolute top-[50%] left-[3%] z-0 animate-float transform rotate-[-4deg] hover:rotate-[-1deg] transition-transform duration-500">
             <TravelCard 
               imageUrl="./top_up_success.png" 
@@ -111,16 +111,16 @@ const HeroNew = () => {
           {/* Right side cards */}
           <div className="absolute top-[12%] right-[3%] z-0 animate-float transform rotate-[6deg] hover:rotate-[3deg] transition-transform duration-500">
             <TravelCard 
-              imageUrl="./wpay4.png" 
+              imageUrl="./nike2.jpg" 
               className="shadow-2xl rounded-2xl border-2 border-white"
             />
           </div>
-          <div className="absolute top-[45%] -right-[2%] z-10 animate-float-delay transform rotate-[8deg] hover:rotate-[5deg] transition-transform duration-500">
+          {/* <div className="absolute top-[45%] -right-[2%] z-10 animate-float-delay transform rotate-[8deg] hover:rotate-[5deg] transition-transform duration-500">
             <TravelCard 
               imageUrl="https://images.unsplash.com/photo-1499856871958-5b9357976b82?q=80&w=2020&auto=format&fit=crop&ixlib=rb-4.0.3" 
               className="shadow-2xl rounded-2xl border-2 border-white"
             />
-          </div>
+          </div> */}
           
           {/* Paris label */}
           {/* <div className="absolute top-[15%] right-[15%] bg-white px-5 py-2 rounded-full shadow-xl flex items-center z-30 border border-gray-100 transform hover:scale-105 transition-transform duration-300">

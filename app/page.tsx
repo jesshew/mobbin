@@ -180,7 +180,7 @@ export default function Home() {
           </Link>
         </div> */}
       <HeroNew/>
-      <Hero/>
+      {/* <Hero/> */}
 
       {/* <Tabs defaultValue="main" className="w-full">
         <TabsList className="mx-auto mt-8 mb-6">

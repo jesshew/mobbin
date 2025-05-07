@@ -9,7 +9,7 @@ const MockupInPhoneOne = () => {
       {/* Position the content inside the phone screen area */}
       <div className="absolute top-[19.25px] left-1/2 -translate-x-1/2 w-[389.5px] h-[843.5px] overflow-hidden rounded-[55.75px] bg-white">
         {/* Apply a negative Y translation to shift the WireframeMockup up by 40px */}
-        <div className="w-full h-full scale-130 -translate-y-[110px]">
+        <div className="w-full h-full scale-120 -translate-y-[140px]">
           <WireframeMockup />
         </div>
       </div>

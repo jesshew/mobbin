@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Check, MousePointer } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -30,8 +29,8 @@ const AnnotationBox: React.FC<AnnotationBoxProps> = ({
   left,
   right,
   bottom,
-  borderColor ,
-  borderStyle = 'solid',
+  borderColor, // This prop is defined but not directly used for the main border color in the current implementation
+  borderStyle,
   delay,
   children,
   isFocused = false,
@@ -74,12 +73,12 @@ const AnnotationBox: React.FC<AnnotationBoxProps> = ({
       <div
         className={cn(
           "w-full h-full border-2",
-          `border-${borderColor}`,
+          `border-blue-500`, // Main border color is hardcoded
           borderStyle === 'dashed' ? 'border-dashed' : '',
           "relative transition-all duration-300",
           {
-            "ring-2 ring-offset-2 ring-annotation-accent": isFocused,
-            "animate-pulse shadow-[0_0_15px_rgba(99,102,241,0.5)]": isHovered,
+            "ring-2 ring-offset-2 ring-[#099cff]": isFocused,
+            "animate-pulse shadow-[0_0_15px_rgba(9,156,255,0.5)]": isHovered,
           }
         )}
       >
@@ -88,9 +87,10 @@ const AnnotationBox: React.FC<AnnotationBoxProps> = ({
       {showLabel && (
         <div 
           className={cn(
-            "absolute -top-8 left-0 bg-annotation-primary text-white text-xs py-1 px-2 rounded whitespace-nowrap transition-all duration-300",
+            "absolute -top-8 left-0 bg-[#099cff] text-white text-xs py-1 px-2 rounded whitespace-nowrap transition-all duration-300",
             {
-              "opacity-0": !showLabel,
+              // Opacity is handled by isVisible for the parent, showLabel for this specific element
+              "opacity-0": !showLabel, // This could be tied to isVisible as well if label should fade with box
               "opacity-100": showLabel,
               "font-semibold": isFocused || isHovered,
             }
@@ -108,8 +108,8 @@ const WireframeMockup = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const animationIntervalsRef = useRef<NodeJS.Timeout[]>([]);
   
-  // Refined annotations with slight offset for better visibility
   const annotations = [
     { id: 0, title: "Header", width: "350px", height: "110px", top: "-5px", left: "-5px", delay: 1000 },
     { id: 1, title: "Success Icon", width: "90px", height: "90px", top: "130px", left: "125px", delay: 1500 },
@@ -122,7 +122,6 @@ const WireframeMockup = () => {
     { id: 8, title: "Additional Action", width: "185px", height: "35px", top: "650px", left: "78px", delay: 5000 }
   ];
   
-  // Function to generate a random box index different from current
   const getRandomBoxIndex = (current: number | null) => {
     let newIndex;
     do {
@@ -131,104 +130,51 @@ const WireframeMockup = () => {
     return newIndex;
   };
   
-  // Simulate realistic mouse movement
   useEffect(() => {
-    // Wait a bit before starting animation
-    const initialDelay = setTimeout(() => {
-      // Initial sequence through each annotation
-      let currentIndex = 0;
-      const initialSequenceInterval = setInterval(() => {
-        if (currentIndex < annotations.length) {
-          setActiveIndex(currentIndex);
-          
-          const annotation = annotations[currentIndex];
-          const x = parseInt(annotation.left || "0") + parseInt(annotation.width) / 2;
-          const y = parseInt(annotation.top || "0") + parseInt(annotation.height) / 2;
-          
-          // Add slight natural movement
-          const randomOffsetX = (Math.random() - 0.5) * 10;
-          const randomOffsetY = (Math.random() - 0.5) * 10;
-          
-          setMousePosition({ 
-            x: x + randomOffsetX, 
-            y: y + randomOffsetY 
-          });
-          currentIndex++;
+    // Clear any existing intervals from previous renders / hot reloads
+    animationIntervalsRef.current.forEach(clearInterval);
+    animationIntervalsRef.current = [];
+
+    const initialDelayTimer = setTimeout(() => {
+      let currentAnnotationIndex = 0;
+
+      const sequenceIntervalTimer = setInterval(() => {
+        if (currentAnnotationIndex < annotations.length) {
+          const annotation = annotations[currentAnnotationIndex];
+          setActiveIndex(annotation.id);
+
+          const targetX = parseInt(annotation.left || "0", 10) + parseInt(annotation.width, 10) / 2;
+          const targetY = parseInt(annotation.top || "0", 10) + parseInt(annotation.height, 10) / 2;
+          setMousePosition({ x: targetX, y: targetY });
+
+          currentAnnotationIndex++;
         } else {
-          clearInterval(initialSequenceInterval);
-          
-          // After initial sequence, start random movements
-          const randomMovementInterval = setInterval(() => {
-            const randomIndex = getRandomBoxIndex(activeIndex);
-            setActiveIndex(randomIndex);
-            
-            const annotation = annotations[randomIndex];
-            const x = parseInt(annotation.left || "0") + parseInt(annotation.width) / 2;
-            const y = parseInt(annotation.top || "0") + parseInt(annotation.height) / 2;
-            
-            // Add slight natural movement
-            const randomOffsetX = (Math.random() - 0.5) * 15;
-            const randomOffsetY = (Math.random() - 0.5) * 15;
-            
-            // Animate the mouse movement with a smoother transition
-            animateMouseMovement(
-              mousePosition.x, 
-              mousePosition.y, 
-              x + randomOffsetX, 
-              y + randomOffsetY, 
-              30
-            );
-          }, 2500);
-          
-          return () => clearInterval(randomMovementInterval);
+          clearInterval(sequenceIntervalTimer); // Stop the sequence interval
+
+          // Start random movements
+          const randomMovementTimer = setInterval(() => {
+            setActiveIndex(prevActiveIndex => {
+              const randomIndex = getRandomBoxIndex(prevActiveIndex);
+              const annotation = annotations[randomIndex];
+
+              const targetX = parseInt(annotation.left || "0", 10) + parseInt(annotation.width, 10) / 2;
+              const targetY = parseInt(annotation.top || "0", 10) + parseInt(annotation.height, 10) / 2;
+              setMousePosition({ x: targetX, y: targetY });
+              return annotation.id; 
+            });
+          }, 2500); // Interval for random movements
+          animationIntervalsRef.current.push(randomMovementTimer);
         }
-      }, 1200);
-      
-      return () => {
-        clearTimeout(initialDelay);
-        clearInterval(initialSequenceInterval);
-      };
-    }, 1000);
-    
+      }, 1200); // Interval for initial sequence
+      animationIntervalsRef.current.push(sequenceIntervalTimer);
+    }, 1000); // Initial delay before starting anything
+
+    // Cleanup function
     return () => {
-      // Cleanup
+      clearTimeout(initialDelayTimer);
+      animationIntervalsRef.current.forEach(clearInterval);
     };
-  }, []);
-  
-  // Function to animate mouse movement in a more natural way
-  const animateMouseMovement = (startX: number, startY: number, endX: number, endY: number, steps: number) => {
-    let step = 0;
-    
-    // Add some natural curve to the movement
-    const bezierX = startX + (Math.random() - 0.5) * 30;
-    const bezierY = startY + (Math.random() - 0.5) * 30;
-    
-    const interval = setInterval(() => {
-      if (step <= steps) {
-        const progress = step / steps;
-        const easedProgress = easeInOutCubic(progress);
-        
-        // Quadratic bezier curve for more natural movement
-        const x = quadraticBezier(startX, bezierX, endX, easedProgress);
-        const y = quadraticBezier(startY, bezierY, endY, easedProgress);
-        
-        setMousePosition({ x, y });
-        step++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 16); // ~60fps
-  };
-  
-  // Easing function for smoother animation
-  const easeInOutCubic = (t: number) => {
-    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-  };
-  
-  // Quadratic bezier curve calculation for natural mouse movement
-  const quadraticBezier = (p0: number, p1: number, p2: number, t: number) => {
-    return (1 - t) * (1 - t) * p0 + 2 * (1 - t) * t * p1 + t * t * p2;
-  };
+  }, []); // Empty dependency array means this runs once on mount and cleans up on unmount
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -325,7 +271,7 @@ const WireframeMockup = () => {
             height={annotation.height}
             top={annotation.top}
             left={annotation.left}
-            borderColor={annotation.borderColor || "annotation-primary"}
+            borderColor={"#099cff"} // Passed but not used for main border by AnnotationBox
             borderStyle={annotation.borderStyle || "solid"}
             delay={annotation.delay}
             isFocused={activeIndex === annotation.id}
@@ -335,23 +281,23 @@ const WireframeMockup = () => {
             onLeave={() => setHoveredIndex(null)}
           >
             <div className={cn(
-              "w-full h-full bg-annotation-primary/10 transition-all duration-300",
-              { "bg-annotation-primary/30": hoveredIndex === annotation.id }
+              "w-full h-full bg-[#099cff]/10 transition-all duration-300",
+              { "bg-[#099cff]/30": hoveredIndex === annotation.id || activeIndex === annotation.id } // Highlight if focused too
             )}></div>
           </AnnotationBox>
         ))}
         
         {/* Animated Mouse Pointer */}
         <div 
-          className="absolute z-40 pointer-events-none transition-all duration-300 ease-out"
+          className="absolute z-40 pointer-events-none transition-all duration-300 ease-out" // CSS handles smooth movement
           style={{ 
             left: `${mousePosition.x}px`, 
             top: `${mousePosition.y}px`,
-            opacity: activeIndex !== null ? 1 : 0,
-            transform: 'translate(-50%, -50%)'
+            opacity: activeIndex !== null ? 1 : 0, // Show mouse when an item is active
+            transform: 'translate(-50%, -50%)' // Center pointer on coordinates
           }}
         >
-          <MousePointer size={24} className="text-annotation-accent animate-pulse" />
+          <MousePointer size={24} className="text-[#099cff] animate-pulse" />
         </div>
       </div>
     </div>
