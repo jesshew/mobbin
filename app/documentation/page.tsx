@@ -21,7 +21,7 @@ export default function DocumentationPage() {
             </Link>
             <span className="text-gray-400">|</span>
             <Link 
-              href="https://github.com/jessunited/formobbin"
+              href="https://github.com/jesshew/formobbin"
               className="text-gray-700 hover:text-purple-600 text-sm flex items-center transition-all duration-200"
               target="_blank"
               rel="noopener noreferrer"

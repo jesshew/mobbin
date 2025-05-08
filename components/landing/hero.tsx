@@ -7,6 +7,7 @@ import FeatureCards from './features';
 import ImageComparisonCarousel from './image-comparison-carousel';
 import PhoneShowcase from './phone-showcase';
 import Link from 'next/link';
+import { TechStackMarquee } from '../magicui/TechStackMarquee';
 
 // Constants for the MLLMs text circling animation
 const MLLMS_ANIMATION_DURATION = 1.25; // Duration of one animation cycle in seconds
@@ -274,6 +275,8 @@ const Hero = () => {
         <div className="mb-16">
           <ImageComparisonCarousel />
         </div>
+
+        <TechStackMarquee/>
 
         {/* Feature cards section with ref */}
         <div ref={featuresRef}>

@@ -17,7 +17,18 @@ const simulatedLoadingMessages = [
   "Loading batch details and components...",
   "Drawing bounding boxes on detected elements...",
   "Almost there... finalizing layout",
-  "Almost there... finalizing layout",
+  "Rendering the boxes takes some time, this may take awhile",
+  "Rendering the boxes takes some time, this may take awhile",
+  "Rendering the boxes takes some time, this may take awhile",
+  "Rendering the boxes takes some time, this may take awhile",
+  "Rendering the boxes takes some time, this may take awhile",
+  "Rendering the boxes takes some time, this may take awhile",
+  "Rendering the boxes takes some time, this may take awhile",
+  "Rendering the boxes takes some time, this may take awhile",
+  "Rendering the boxes takes some time, this may take awhile",
+  "Rendering the boxes takes some time, this may take awhile",
+  "Rendering the boxes takes some time, this may take awhile",
+  // "Almost there... finalizing layout",
 ];
 
 // --- Main Page Component ---

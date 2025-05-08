@@ -12,6 +12,7 @@ import Link from "next/link"
 import Hero from "@/components/landing/hero"
 import Footer from "@/components/landing/footer"
 import ImageComparisonCarousel from "@/components/landing/image-comparison-carousel"
+import { TechStackMarquee } from "@/components/magicui/TechStackMarquee"
 
 export default function Home() {
   const router = useRouter()

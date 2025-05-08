@@ -28,7 +28,7 @@ const Footer = () => {
             <h3 className="text-base font-semibold text-gray-900 mb-4">Contact</h3>
             <p className="text-gray-600 text-sm mb-4">Building something cool too? I would love to connect!</p>
             <Link 
-              href="mailto:contact@formobbin.com" 
+              href="mailto:jess.hewyz@gmail.com" 
               className="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium text-sm"
             >
               <Mail className="mr-2 w-4 h-4" /> jess.hewyz@gmail.com
