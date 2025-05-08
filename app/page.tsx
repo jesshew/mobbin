@@ -9,9 +9,8 @@ import { ComponentDetectionResult } from "@/types/DetectionResult"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import Hero from "@/components/component/hero"
-import HeroNew from "@/components/landing/hero-new"
-
+import Hero from "@/components/landing/hero-new"
+import ImageComparisonCarousel from "@/components/landing/ImageComparisonCarousel"
 export default function Home() {
   const router = useRouter()
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
@@ -162,8 +161,8 @@ export default function Home() {
             View Documentation
           </Link>
         </div> */}
-      <HeroNew/>
-      {/* <Hero/> */}
+      <Hero/>
+      <ImageComparisonCarousel/>
 
       {/* <Tabs defaultValue="main" className="w-full">
         <TabsList className="mx-auto mt-8 mb-6">

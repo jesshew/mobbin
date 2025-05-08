@@ -14,7 +14,7 @@ const MLLMS_ANIMATION_DURATION = 1.25; // Duration of one animation cycle in sec
 const MLLMS_ANIMATION_TOTAL_CYCLE_DURATION = 5; // Total time for one cycle including delay in seconds
 const MLLMS_ANIMATION_REPEAT_DELAY = MLLMS_ANIMATION_TOTAL_CYCLE_DURATION - MLLMS_ANIMATION_DURATION; // Delay before animation repeats in seconds
 
-const HeroNew = () => {
+const Hero = () => {
   return (
     <div className="relative w-full overflow-hidden py-20 bg-gradient-to-b from-indigo-50/50 to-white">
       {/* Enhanced Background */}
@@ -270,4 +270,4 @@ const HeroNew = () => {
   );
 };
 
-export default HeroNew;
+export default Hero;
