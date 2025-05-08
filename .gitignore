@@ -47,5 +47,6 @@ debug_results/
 batch_*_results.json
 batch_*_components.json
 validate_json/
+validation_json_*/
 prompt-interactions*.log
 logs/*

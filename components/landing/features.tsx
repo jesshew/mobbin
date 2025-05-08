@@ -1,5 +1,5 @@
 
-import { InformativeInfoGraphic,cardData} from './RenderInfoGraphic';
+import { InformativeInfoGraphic,cardData} from './render-info-graphics';
 // More informativeand self-explanatory infographic component for each card
 
 // Main component for displaying feature cards

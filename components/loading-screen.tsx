@@ -7,7 +7,7 @@ interface LoadingScreenProps {
 }
 
 const TYPING_SPEED_MS = 8; // Faster typing
-const MESSAGE_DELAY_MS = 2500; // Faster delay between messages
+const MESSAGE_DELAY_MS = 5000; // Faster delay between messages
 
 export const LoadingScreen: React.FC<LoadingScreenProps> = ({ messages, onLoadingComplete, forceComplete = false }) => {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
@@ -37,7 +37,6 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ messages, onLoadin
     }
 
     // If all messages are typed, just stop the typing process
-    // Do NOT call onLoadingComplete here anymore
     if (currentMessageIndex >= messages.length) {
       // Stop cursor blinking maybe? Or just let it run.
       // We don't set a timer to call onLoadingComplete.

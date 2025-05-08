@@ -8,7 +8,7 @@ import { parseMetadata } from "@/components/batch/utils";
 import { ScreenshotContent } from "@/components/batch/ScreenshotContent";
 import { ComponentList } from "@/components/batch/ComponentList";
 import { BatchAnalyticsDisplay } from "@/components/batch/BatchAnalyticsDisplay";
-import { LoadingScreen } from "@/components/LoadingScreen"
+import { LoadingScreen } from "@/components/loading-screen"
 import { useBatchData } from "@/hooks/useBatchData";
 import { BatchPageHeader } from "@/components/batch/BatchPageHeader";
 
@@ -17,17 +17,7 @@ const simulatedLoadingMessages = [
   "Loading batch details and components...",
   "Drawing bounding boxes on detected elements...",
   "Almost there... finalizing layout",
-  "Mmmmmmmmmmmm....",
-  "These boxes...are taking forever to draw....",
-  "Mmmmmmmmmmmm....",
-  "So.....",
-  "While we wait...",
-  "How's your day so far?",
-  "Good? Mine too!",
-  "Just kinda nervous about why this is taking longer than expected....",
-  "Fingers crossed, we are al....most there....",
-  "Mmmmmm....",
-  "We're almost done, just a few more seconds....",
+  "Almost there... finalizing layout",
 ];
 
 // --- Main Page Component ---

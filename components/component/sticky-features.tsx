@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { MessageSquare, Layers, Image, Users, FileText, Activity, Monitor } from 'lucide-react';
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { InformativeInfoGraphic, cardData } from '../landing/RenderInfoGraphic';
+import { InformativeInfoGraphic, cardData } from '../landing/render-info-graphics';
 // More informativeand self-explanatory infographic component for each card
 
 // Main component for displaying feature cards

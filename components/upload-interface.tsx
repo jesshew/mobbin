@@ -11,7 +11,7 @@ import { DropzoneArea } from "@/components/upload/dropzone-area"
 import { SelectedImagesPanel } from "@/components/upload/selected-images-panel"
 import { BatchList } from "@/components/upload/batch-list"
 import { Toast, ToastProvider, ToastViewport, ToastTitle, ToastDescription } from "@/components/ui/toast"
-import { LoadingScreen } from "@/components/LoadingScreen"
+import { LoadingScreen } from "@/components/loading-screen"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 interface UploadInterfaceProps {
@@ -87,7 +87,7 @@ export function UploadInterface({
   }
 
   return (
-    <div className="container mx-auto py-6 md:py-10 px-4 z-20 relative">
+    <div className="container mx-auto py-6 md:py-10 px-4 z-20 relative bg-white">
       <h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center">Annotation Tool</h1>
       
       <Alert className="mb-6 bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200">
