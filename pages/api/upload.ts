@@ -1,22 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import formidable, { File, Fields } from 'formidable'
-// Remove unused image processing imports
-// import { resizeAndPadImageBuffer, deleteFile } from '@/lib/image-processor'
-// import fs from 'fs' // Keep fs if parseFormData needs it, or remove if not needed elsewhere. Check parseFormData usage.
-// import { uploadImageToStorage } from '@/lib/storage' // Removed, handled by ScreenshotProcessor
+
 import { supabase } from '@/lib/supabase'
 import { SupabaseClient } from '@supabase/supabase-js'
 // Import the new services using relative paths
 import { ScreenshotProcessor } from '../../lib/services/imageServices/screenshotProcessor';
 import { BatchProcessingService } from '../../lib/services/batchProcessingService';
 
-// Keep ProcessedImage interface ONLY if still needed by parseFormData or other parts.
-// If not, it can be removed as ScreenshotProcessor encapsulates its own processing details.
-// interface ProcessedImage {
-//  processedBlob: Blob;
-//  filename: string;
-//  processingTime?: number;
-// }
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
 
@@ -49,10 +39,6 @@ async function parseFormData(req: NextApiRequest): Promise<{ fields: Fields, fil
     })
   })
 }
-
-// Removed processUploadedFile function - logic moved to ScreenshotProcessor
-
-// Removed saveScreenshotRecord function - logic moved to ScreenshotProcessor
 
 
 // --- Refactored Helper Functions ---
@@ -105,9 +91,6 @@ async function createBatchRecord(
   }
   return batchData;
 }
-
-// Removed processAndSaveImages function - logic replaced by direct calls to ScreenshotProcessor
-// Removed updateBatchStatus function - BatchProcessingService handles status updates post-upload
 
 
 // 5. Handle Errors

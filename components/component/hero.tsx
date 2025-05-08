@@ -1,7 +1,7 @@
 
 import React from 'react';
 import PhoneMockup from './phone-mock-up';
-import TravelCard from './travel-card';
+import TravelCard from '../landing/travel-card';
 // import SearchBar from './SearchBar';
 import { Plane } from 'lucide-react';
 

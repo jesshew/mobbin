@@ -65,11 +65,29 @@ export function UploadInterface({
   const handleUpload = async (files: File[], batchName: string, analysisType: string) => {
     // This function is now disabled due to serverless limitations
     // Visual feedback is provided in the UI to explain why
-    setShowToast(true)
+
+    if (files.length === 0) {
+      // Optionally, show a message if no files are selected
+      // console.log("No files selected for upload.")
+      return
+    }
+
+    try {
+      // console.log("Uploading files:", files, "Batch Name:", batchName, "Analysis Type:", analysisType)
+      const uploaded = await uploadFiles(files, batchName, analysisType)
+      // console.log("Upload successful:", uploaded)
+      onUploadBatch(batchName, analysisType, files) // Call the prop
+      onFilesSelected([]) // Clear selected files after successful upload
+      // mutate() // Re-fetch batches to include the new one
+      // generateDefaultBatchName() // Generate a new default batch name
+    } catch (error) {
+      console.error(TOAST_MESSAGES.UPLOAD_ERROR, error)
+      // Handle upload error (e.g., show a toast message)
+    }
   }
 
   return (
-    <div className="container mx-auto py-6 md:py-10 px-4 z-20">
+    <div className="container mx-auto py-6 md:py-10 px-4 z-20 relative">
       <h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center">Annotation Tool</h1>
       
       <Alert className="mb-6 bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200">
@@ -110,7 +128,7 @@ export function UploadInterface({
             analysisType={analysisType}
             setAnalysisType={setAnalysisType}
             onRefetchBatches={onRefetchBatches}
-            disabled={true} // Disable upload functionality
+            disabled={false}
           />
         )}
 

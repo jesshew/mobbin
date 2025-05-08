@@ -6,8 +6,8 @@ import Iphone15Pro from '../magicui/iphone-15-pro';
 import TravelCard from './travel-card';
 import GridPatternBackground from './grid-pattern-background';
 import MockupInPhoneOne from './mockupone';
-import Features from './features';
 import FeatureCards from './features';
+import { SampleStickyCards } from '../component/scroll_animation';
 
 // Constants for the MLLMs text circling animation
 const MLLMS_ANIMATION_DURATION = 1.25; // Duration of one animation cycle in seconds
@@ -140,6 +140,8 @@ const HeroNew = () => {
         {/* Feature highlights */}
         {/* Feature highlights */}
         <FeatureCards />
+        {/* <HumanoidSection />
+        <HumanoidSectio2 /> */}
         {/* <div className="max-w-6xl mx-auto mt-24">
           <div className="text-center mb-12">
             <div className="inline-flex items-center justify-center px-4 py-1.5 mb-4 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 font-medium text-sm">
@@ -262,6 +264,7 @@ const HeroNew = () => {
                 <p className="text-gray-600">Produces annotated screenshots, component trees, and structured metadata logs to clearly communicate model outputs and internal logic.</p>
               </div>
             </div> */}
+            {/* <SampleStickyCards/> */}
           </div>
         </div>
   );

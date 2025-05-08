@@ -93,37 +93,6 @@ async function fetchBatchesFromSupabase(): Promise<BatchData[]> {
 }
 
 /**
- * Extracts the storage path from a Supabase screenshot URL.
- */
-// function getScreenshotPath(url: string): string {
-//   console.log('Extracting storage path from screenshot URL:', url);
-//   try {
-//     const parsedUrl = new URL(url);
-//     console.log('Parsed URL:', parsedUrl);
-//     // Example path: /storage/v1/object/public/screenshot/batch_123/image.jpg
-//     // We need the part after the bucket name: batch_123/image.jpg
-//     const pathParts = parsedUrl.pathname.split('/');
-//     console.log('Path parts:', pathParts);
-//     const bucketNameIndex = pathParts.findIndex(part => part === SCREENSHOT_BUCKET);
-//     console.log('Bucket name index:', bucketNameIndex);
-
-//     if (bucketNameIndex === -1 || bucketNameIndex + 1 >= pathParts.length) {
-//       console.error(`Bucket '${SCREENSHOT_BUCKET}' not found or path is incomplete in URL: ${url}`);
-//       throw new Error(`Invalid screenshot URL format: ${url}`);
-//     }
-//     // Join the parts after the bucket name
-//     const storagePath = pathParts.slice(bucketNameIndex + 1).join('/');
-//     console.log('Extracted storage path:', storagePath);
-//     return storagePath;
-//   } catch (e) {
-//     // Catch URL parsing errors as well
-//     console.error(`Error parsing screenshot URL '${url}':`, e);
-//     // Re-throw a more specific error or handle as needed
-//     throw new Error(`Invalid screenshot URL format: ${url}`);
-//   }
-// }
-
-/**
  * Transforms a raw batch object (matching SelectedBatchData) into the API response format.
  * Generates signed URLs for all screenshots in the batch using a single API call.
  */

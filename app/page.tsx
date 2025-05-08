@@ -10,7 +10,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import Hero from "@/components/component/hero"
-import HeroNew from "@/components/component/hero-new"
+import HeroNew from "@/components/landing/hero-new"
 
 export default function Home() {
   const router = useRouter()
@@ -63,17 +63,6 @@ export default function Home() {
     // simulateBatchProcessing(newBatchId)
   }
 
-  // Simulate batch processing with status changes
-  const simulateBatchProcessing = (batchId: string) => {
-    // Simulate upload completion after 2 seconds
-    setTimeout(() => {
-      refetchBatches()
-      // Simulate extraction completion after 3 more seconds
-      setTimeout(() => {
-        refetchBatches()
-      }, 3000)
-    }, 2000)
-  }
 
   // Handle batch processing for temporary debugging
   const handleProcessBatch = async () => {
@@ -152,12 +141,6 @@ export default function Home() {
       setLoadingComponents(false);
     }
   }
-
-  // // Handle image selection from a batch
-  // const handleImageSelect = (batchId: string) => {
-  //   router.push(`/batch/${batchId}`)
-  // }
-
   // Handle viewing results from a batch
   const handleViewResults = (batchId: string) => {
     const batch = batches?.find(b => b.id === batchId)
