@@ -122,71 +122,97 @@ const InformativeInfoGraphic = ({ type }: { type: string }) => {
         );
       case "detection":
         return (
-          // Container for Detection infographic, increased height from h-64 to h-72
-          <div className="relative h-72 w-full bg-cyan-50 rounded-lg overflow-hidden p-4 shadow-inner">
-            <div className="absolute top-2 left-2 bg-cyan-100 text-cyan-700 text-xs px-2 py-1 rounded-full font-medium">Component Detection</div>
+          // Container for Detection infographic, conveying element localization from description
+          <div className="relative h-85 w-full bg-cyan-50 rounded-lg overflow-hidden p-4 shadow-inner">
+            {/* Title for the infographic */}
+            <div className="absolute top-2 left-2 bg-cyan-100 text-cyan-700 text-xs px-2 py-1 rounded-full font-medium">Element Localization</div>
             
-            {/* UI Screenshot with detection overlay */}
-            <div className="relative mt-6 border border-gray-200 bg-white rounded-lg p-2 shadow-sm mb-3">
-              {/* UI mockup */}
-              <div className="relative">
-                <div className="bg-cyan-50 p-2 rounded-md">
-                  <div className="flex justify-between mb-2">
-                    <div className="h-4 w-16 bg-gray-200 rounded"></div>
-                    <div className="h-4 w-4 bg-gray-200 rounded-full"></div>
-                  </div>
-                  <div className="h-12 w-full bg-white rounded-md shadow-sm mb-2 p-2 flex items-center">
-                    <div className="h-4 w-2/3 bg-gray-100 rounded"></div>
-                  </div>
-                  <div className="flex space-x-2">
-                    <div className="h-8 w-8 bg-cyan-200 rounded-md"></div>
-                    <div className="h-8 w-8 bg-cyan-200 rounded-md"></div>
-                    <div className="h-8 w-8 bg-cyan-200 rounded-md"></div>
-                  </div>
-                </div>
-                
-                {/* Detection overlay, animates opacity */}
-                <div className={`absolute inset-0 transition-all duration-1000 ${animate ? 'opacity-100' : 'opacity-0'}`}>
-                  <div className="absolute top-4 right-4 h-4 w-4 border-2 border-cyan-500 rounded-full">
-                    <div className="absolute -top-6 -left-12 bg-cyan-100 text-cyan-700 text-xs px-1 rounded">Icon</div>
-                  </div>
-                  <div className="absolute top-11 left-2 right-2 h-12 border-2 border-cyan-500 rounded-md">
-                    <div className="absolute -top-5 -left-1 bg-cyan-100 text-cyan-700 text-xs px-1 rounded">Card</div>
-                  </div>
-                  <div className="absolute bottom-2 left-2 right-2 flex space-x-2">
-                    <div className="h-8 w-8 border-2 border-cyan-500 rounded-md">
-                      <div className="absolute -top-5 -left-2 bg-cyan-100 text-cyan-700 text-xs px-1 rounded">Button</div>
+            {/* Section for Input Description and UI Screenshot with detection overlay */}
+            <div className={`flex flex-col items-center mt-8 mb-2 transition-all duration-700 ${animate ? 'opacity-100' : 'opacity-0'}`}> {/* Added delay and opacity animation */}
+              {/* Input Description Box */}
+              <div className="bg-white rounded-md p-2 border border-cyan-200 shadow-sm mb-2 w-full max-w-xs">
+                <div className="text-xs text-cyan-700 font-medium">Input Description:</div>
+                <div className="text-xs text-gray-600 italic">"Locate the primary user avatar and the main login button."</div>
+              </div>
+
+              {/* UI Screenshot with detection overlay */}
+              <div className="relative border border-gray-200 bg-white rounded-lg p-1 shadow-sm w-full max-w-xs">
+                {/* Simplified UI mockup */}
+                <div className="relative">
+                  <div className="bg-cyan-50 p-1 rounded-md">
+                    <div className="flex justify-between items-center mb-1">
+                      <div className="h-5 w-5 bg-gray-200 rounded-full"></div> {/* Avatar placeholder */}
+                      <div className="h-3 w-12 bg-gray-200 rounded"></div>
                     </div>
-                    <div className="h-8 w-8 border-2 border-cyan-500 rounded-md opacity-0"></div> {/* Placeholder for spacing */}
-                    <div className="h-8 w-8 border-2 border-cyan-500 rounded-md opacity-0"></div> {/* Placeholder for spacing */}
+                    <div className="h-8 w-full bg-white rounded-md shadow-sm mb-1 p-1 flex items-center justify-center">
+                      <div className="h-5 w-20 bg-gray-100 rounded"></div> {/* Login button placeholder */}
+                    </div>
+                    <div className="flex space-x-1">
+                      <div className="h-5 w-1/3 bg-cyan-100 rounded-sm"></div>
+                      <div className="h-5 w-1/3 bg-cyan-100 rounded-sm"></div>
+                      <div className="h-5 w-1/3 bg-cyan-100 rounded-sm"></div>
+                    </div>
+                  </div>
+                  
+                  {/* Detection overlay based on description, animates opacity with delay */}
+                  <div className={`absolute inset-0 transition-all duration-1000 delay-300 ${animate ? 'opacity-100' : 'opacity-0'}`}>
+                    {/* Bounding box for "user avatar" */}
+                    <div className="absolute top-1 left-1 h-5 w-5 border-2 border-cyan-500 rounded-full">
+                      <div className="absolute -top-5 right-[-50px] bg-cyan-100 text-cyan-700 text-xs px-1 rounded whitespace-nowrap">User Avatar</div>
+                    </div>
+                    {/* Bounding box for "login button" */}
+                    <div className="absolute top-[22px] left-1/2 transform -translate-x-1/2 h-8 w-[88px] border-2 border-cyan-500 rounded-md"> {/* Adjusted position and size */}
+                       <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 bg-cyan-100 text-cyan-700 text-xs px-1 rounded whitespace-nowrap">Login Button</div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             
-            {/* Detection process steps, animates opacity */}
-            <div className={`flex items-center justify-between transition-all duration-1000 mb-2 ${animate ? 'opacity-100' : 'opacity-0'}`}>
-              <div className="flex flex-col items-center">
-                <div className="h-8 w-8 bg-cyan-200 rounded-full flex items-center justify-center text-cyan-700 mb-1">1</div>
-                <div className="text-xs text-center text-cyan-700">Scan UI</div>
+            {/* Detection process steps, animates opacity with delay */}
+            <div className={`flex items-center justify-between transition-all duration-1000 delay-500 ${animate ? 'opacity-100' : 'opacity-0'} px-2`}>
+              {/* Step 1: Input Description */}
+              <div className="flex flex-col items-center text-center">
+                <div className="flex items-center justify-center h-10 w-10 bg-cyan-200 rounded-full mb-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-cyan-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <div className="text-xs text-cyan-700 w-20">Input: Text</div>
               </div>
-              <svg className="w-4 h-4 text-cyan-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              
+              <svg className="w-5 h-5 text-cyan-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
-              <div className="flex flex-col items-center">
-                <div className="h-8 w-8 bg-cyan-300 rounded-full flex items-center justify-center text-cyan-700 mb-1">2</div>
-                <div className="text-xs text-center text-cyan-700">Detect Elements</div>
+              
+              {/* Step 2: VLM Analysis */}
+              <div className="flex flex-col items-center text-center">
+                <div className="flex items-center justify-center h-10 w-10 bg-cyan-300 rounded-full mb-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-cyan-700" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.566.379-1.566 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.566 2.6 1.566 2.978 0a1.532 1.532 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.532 1.532 0 01-.947-2.287c1.566-.379 1.566-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="text-xs text-cyan-700 w-20">VLM Analysis</div>
               </div>
-              <svg className="w-4 h-4 text-cyan-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              
+              <svg className="w-5 h-5 text-cyan-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
-              <div className="flex flex-col items-center">
-                <div className="h-8 w-8 bg-cyan-400 rounded-full flex items-center justify-center text-white mb-1">3</div>
-                <div className="text-xs text-center text-cyan-700">Classify</div>
+              
+              {/* Step 3: Output Bounding Boxes */}
+              <div className="flex flex-col items-center text-center">
+                <div className="flex items-center justify-center h-10 w-10 bg-cyan-400 rounded-full mb-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 2v3m0 14v3m-7-9H2m17 0h-3"></path>
+                  </svg>
+                </div>
+                <div className="text-xs text-cyan-700 w-20">Output: Boxes</div>
               </div>
             </div>
             
-            <div className="text-xs text-center font-medium text-cyan-600">VLMs identify UI components with high precision</div>
+            {/* Final descriptive text for the infographic */}
+            <div className="text-xs text-center font-medium text-cyan-600 mt-3">VLMs locate elements from descriptions & output bounding box coordinates.</div>
           </div>
         );
       case "tree":
@@ -524,16 +550,16 @@ export default function FeatureCards() {
       description: "Runs extraction, optimization, and annotation concurrently across image batches—processing 160+ elements in under 6 minutes, significantly outperforming manual efforts.",
       type: "pipeline"
     },
-    {
-      gradient: "from-orange-500 to-red-500",
-      iconBg: "bg-orange-100",
-      iconHoverBg: "bg-orange-200",
-      icon: <Monitor className="w-5 h-5 text-orange-600" />,
-      title: "Visualized Output & Documentation",
-      description: "Produces annotated screenshots, component trees, and structured metadata logs to clearly communicate model outputs and internal logic.",
-      type: "visualized", // This type might have a different layout or be handled by the default case
-      fullWidth: true // Custom property, not used by InformativeInfoGraphic directly but could be used by parent
-    }
+    // {
+    //   gradient: "from-orange-500 to-red-500",
+    //   iconBg: "bg-orange-100",
+    //   iconHoverBg: "bg-orange-200",
+    //   icon: <Monitor className="w-5 h-5 text-orange-600" />,
+    //   title: "Visualized Output & Documentation",
+    //   description: "Produces annotated screenshots, component trees, and structured metadata logs to clearly communicate model outputs and internal logic.",
+    //   type: "visualized", // This type might have a different layout or be handled by the default case
+    //   fullWidth: true // Custom property, not used by InformativeInfoGraphic directly but could be used by parent
+    // }
   ];
 
   return (
@@ -554,7 +580,7 @@ export default function FeatureCards() {
         </div>
         
         {/* Grid layout for feature cards */}
-        {/* <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           {cardData.map((card, index) => (
             // Individual feature card container
             <div 
@@ -585,7 +611,7 @@ export default function FeatureCards() {
               </div>
             </div>
           ))}
-        </div> */}
+        </div>
       </div>
     </>
   );

@@ -94,7 +94,7 @@ const HeroNew = () => {
             />
           </div>
 
-          <MockupInPhoneOne />
+          {/* <MockupInPhoneOne /> */}
           
           {/* Left side cards */}
           {/* <div className="absolute top-[15%] -left-[2%] z-10 animate-float-delay transform rotate-[-6deg] hover:rotate-[-3deg] transition-transform duration-500">
