@@ -85,8 +85,8 @@ export const InformativeInfoGraphic = ({ type }: { type: string }) => {
         case "llm":
           return (
             // Container for LLM infographic, increased height from h-64 to h-72
-            <div className="relative h-90 w-full bg-indigo-50 rounded-lg overflow-hidden p-4 shadow-inner">
-              <div className="absolute top-2 left-2 bg-indigo-100 text-indigo-700 text-xs px-2 py-1 rounded-full font-medium">ML Processing</div>
+            <div className="relative h-95 w-full bg-indigo-50 rounded-lg overflow-hidden p-4 shadow-inner">
+              <div className="absolute top-2 left-2 bg-indigo-100 text-indigo-700 text-xs px-2 py-1 rounded-full font-medium">Image Processing</div>
               
               {/* UI screenshot with elements */}
               <div className="relative mt-6 border border-gray-200 bg-white rounded-lg p-2 mx-auto max-w-xs shadow-sm">
@@ -131,112 +131,117 @@ export const InformativeInfoGraphic = ({ type }: { type: string }) => {
               <div className="text-xs text-center mt-2 font-medium text-indigo-600">Auto-generated labels & descriptions from UI images</div>
             </div>
           );
-        case "prompt":
-          return (
-            // Container for Prompt infographic, increased height from h-64 to h-72
-            <div className="relative h-80 w-full bg-blue-50 rounded-lg overflow-hidden p-4 shadow-inner">
-              <div className="absolute top-2 left-2 bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">Spatial Context</div>
-              
-              {/* UI Screenshot */}
-              <div className="relative mt-6 border border-gray-200 bg-white rounded-lg shadow-sm mx-auto mb-2">
-                {/* UI mockup with animated rings on elements */}
-                <div className="p-2 relative">
-                  <div className="absolute inset-0 bg-blue-50 bg-opacity-0 transition-all duration-500"></div>
-                  <div className="flex items-center space-x-2 mb-2 relative">
-                    <div className={`h-6 w-6 bg-blue-100 rounded-md transition-all duration-500 ${animate ? 'ring-2 ring-blue-500' : ''}`}></div>
-                    <div className="h-6 w-24 bg-gray-100 rounded-md"></div>
-                    <div className={`h-6 w-6 bg-blue-100 rounded-md ml-auto transition-all duration-500 ${animate ? 'ring-2 ring-blue-500 delay-300' : ''}`}></div>
-                  </div>
-                  
-                  <div className={`h-8 w-full bg-blue-100 rounded-md mb-2 transition-all duration-500 ${animate ? 'ring-2 ring-blue-500 delay-100' : ''}`}></div>
-                  
-                  <div className="flex space-x-2">
-                    <div className={`h-6 w-12 bg-blue-100 rounded-md transition-all duration-500 ${animate ? 'ring-2 ring-blue-500 delay-200' : ''}`}></div>
-                    <div className="h-6 w-32 bg-gray-100 rounded-md"></div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Context aware prompt, animates opacity */}
-              <div className={`bg-white rounded-lg p-2 border border-blue-100 shadow-md mb-2 transition-all duration-700 ${animate ? 'opacity-100' : 'opacity-0'}`}>
-                <div className="text-xs text-blue-600 font-medium">Generated Context-Aware Prompt:</div>
-                <div className="text-xs text-gray-700 mt-1 italic">
-                  "Identify the main search field <span className="text-blue-600 font-medium">located in the center</span> and the 
-                  <span className="text-blue-600 font-medium"> adjacent button to its right</span>. Determine the 
-                  <span className="text-blue-600 font-medium"> hierarchical relationship</span> between elements."
-                </div>
-              </div>
-              
-              {/* Diagram showing spatial relationships, animates opacity */}
-              <div className={`flex justify-center items-center mt-1 transition-all duration-1000 delay-500 ${animate ? 'opacity-100' : 'opacity-0'}`}>
-                <div className="flex space-x-4 items-center">
-                  <div className="text-xs text-center">
-                    <div className="h-6 w-6 bg-blue-200 rounded-md mx-auto"></div>
-                    <span className="text-blue-600">Button</span>
-                  </div>
-                  <svg className="w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                  <div className="text-xs text-center">
-                    <div className="h-6 w-12 bg-blue-300 rounded-md mx-auto"></div>
-                    <span className="text-blue-600">Search Field</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="text-xs text-center mt-2 font-medium text-blue-600">Spatial relationships inform better annotations</div>
-            </div>
-          );
+          case "prompt":
+  return (
+    <div className="relative h-auto w-full bg-blue-50 rounded-lg overflow-hidden p-4 shadow-inner space-y-4">
+      <div className="absolute top-2 left-2 bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">
+        Optimise Zero Shot Prompts for VLM
+      </div>
+
+      {/* UI Screenshot */}
+
+      {/* Side-by-side prompts - now a 2x2 grid on medium screens */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+        {/* Bad Prompt Example 1 */}
+        <div className="bg-white rounded-lg p-3 border border-red-200 shadow-md">
+          <div className="text-xs text-red-600 font-semibold mb-1">❌ Ineffective Prompt:</div>
+          <div className="text-xs text-gray-700 italic">
+            "Text displaying the price of the choco croissant.  
+          </div>
+          <div className="text-[10px] text-red-500 mt-1">
+            ✘ Ambiguous, no anchor elements, unclear target or hierarchy.
+          </div>
+        </div>
+
+        {/* Optimized Prompt Example 1 */}
+        <div className="bg-white rounded-lg p-3 border border-green-200 shadow-md">
+          <div className="text-xs text-green-600 font-semibold mb-1">✅ Optimized Prompt:</div>
+          <div className="text-xs text-gray-700 italic">
+            "Text displaying the price of the <span className='text-green-600 font-medium'>'choco croissant'</span> as 
+            <span className='text-green-600 font-medium'>'$5.90'</span>, with an 
+            <span className='text-green-600 font-medium'>'Add to cart'</span> button below."<br/>           
+          </div>
+          <div className="text-[10px] text-green-500 mt-1">
+            ✔ Anchors price using color, nearby text, and button placement.
+          </div>
+        </div>
+
+        {/* Bad Prompt Example 2 */}
+        <div className="bg-white rounded-lg p-3 border border-red-200 shadow-md">
+          <div className="text-xs text-red-600 font-semibold mb-1">❌ Another Ineffective Prompt:</div>
+          <div className="text-xs text-gray-700 italic">
+            "Weight label of first item"
+          </div>
+          <div className="text-[10px] text-red-500 mt-1">
+            ✘ Too generic, lacks specific identifiers or contextual clues.
+          </div>
+        </div>
+
+        {/* Optimized Prompt Example 2 */}
+        <div className="bg-white rounded-lg p-3 border border-green-200 shadow-md">
+          <div className="text-xs text-green-600 font-semibold mb-1">✅ Another Optimized Prompt:</div>
+          <div className="text-xs text-gray-700 italic">
+          Gray text <span className='text-green-600 font-medium'> '230g' </span> displayed to the right of
+          <span className='text-green-600 font-medium'> 'Gnocchi with mushroom gravy'</span> title."
+          </div>
+          <div className="text-[10px] text-green-500 mt-1">
+            ✔ Specific label, clear positioning relative to other UI landmarks and content.
+          </div>
+        </div>
+      </div>      
+
+      <div className="text-xs text-center mt-2 font-medium text-blue-600">
+        Clear anchoring & specificity lead to better annotation results
+      </div>
+    </div>
+  );
+
         case "detection":
           return (
             // Container for Detection infographic, conveying element localization from description
-            <div className="relative h-85 w-full bg-cyan-50 rounded-lg overflow-hidden p-4 shadow-inner">
+            <div className="relative h-95 w-full bg-cyan-50 rounded-lg overflow-hidden p-4 shadow-inner">
               {/* Title for the infographic */}
               <div className="absolute top-2 left-2 bg-cyan-100 text-cyan-700 text-xs px-2 py-1 rounded-full font-medium">Element Localization</div>
               
               {/* Section for Input Description and UI Screenshot with detection overlay */}
-              <div className={`flex flex-col items-center mt-8 mb-2 transition-all duration-700 ${animate ? 'opacity-100' : 'opacity-0'}`}> {/* Added delay and opacity animation */}
-                {/* Input Description Box */}
+              <div className={`flex flex-col items-center mt-8 mb-2 transition-all duration-700 ${animate ? 'opacity-100' : 'opacity-0'}`}> {/* Animation for opacity */}
+                {/* Input Description Box - remains unchanged as it's the input for the process */}
                 <div className="bg-white rounded-md p-2 border border-cyan-200 shadow-sm mb-2 w-full max-w-xs">
                   <div className="text-xs text-cyan-700 font-medium">Input Description:</div>
-                  <div className="text-xs text-gray-600 italic">"Locate the primary user avatar and the main login button."</div>
+                  <div className="text-xs text-gray-600 italic">"Gray text '230g' displayed to the right of 'Gnocchi with mushroom gravy' title."</div>
                 </div>
   
-                {/* UI Screenshot with detection overlay */}
-                <div className="relative border border-gray-200 bg-white rounded-lg p-1 shadow-sm w-full max-w-xs">
-                  {/* Simplified UI mockup */}
-                  <div className="relative">
-                    <div className="bg-cyan-50 p-1 rounded-md">
-                      <div className="flex justify-between items-center mb-1">
-                        <div className="h-5 w-5 bg-gray-200 rounded-full"></div> {/* Avatar placeholder */}
-                        <div className="h-3 w-12 bg-gray-200 rounded"></div>
+                {/* UI Screenshot with detection overlay - updated to match input description */}
+                <div className="relative border border-gray-300 bg-white rounded-lg p-2 shadow-sm w-full max-w-xs mx-auto">
+                  {/* Simplified UI mockup for a food item card */}
+                  <div className="relative"> {/* Reference for absolute positioning of bounding boxes */}
+                    <div className="bg-gray-50 p-3 rounded-md"> {/* Card background */}
+                      {/* Item Content */}
+                      <div className="flex justify-between items-baseline mb-1">
+                        <span className="text-sm font-semibold text-gray-800 mr-2">Gnocchi with mushroom gravy</span>
+                        <span className="text-xs text-gray-600 whitespace-nowrap">230g</span> {/* Weight element (gray text) */}
                       </div>
-                      <div className="h-8 w-full bg-white rounded-md shadow-sm mb-1 p-1 flex items-center justify-center">
-                        <div className="h-5 w-20 bg-gray-100 rounded"></div> {/* Login button placeholder */}
+                      <div className="text-xs text-gray-500 mb-2">
+                        A delightful dish of potato gnocchi served with a rich mushroom gravy.
                       </div>
-                      <div className="flex space-x-1">
-                        <div className="h-5 w-1/3 bg-cyan-100 rounded-sm"></div>
-                        <div className="h-5 w-1/3 bg-cyan-100 rounded-sm"></div>
-                        <div className="h-5 w-1/3 bg-cyan-100 rounded-sm"></div>
-                      </div>
+                      <button className="w-full py-1.5 bg-green-500 text-white text-xs font-medium rounded hover:bg-green-600">
+                        Add to Cart
+                      </button>
                     </div>
                     
                     {/* Detection overlay based on description, animates opacity with delay */}
-                    <div className={`absolute inset-0 transition-all duration-1000 delay-300 ${animate ? 'opacity-100' : 'opacity-0'}`}>
-                      {/* Bounding box for "user avatar" */}
-                      <div className="absolute top-1 left-1 h-5 w-5 border-2 border-cyan-500 rounded-full">
-                        <div className="absolute -top-5 right-[-50px] bg-cyan-100 text-cyan-700 text-xs px-1 rounded whitespace-nowrap">User Avatar</div>
-                      </div>
-                      {/* Bounding box for "login button" */}
-                      <div className="absolute top-[22px] left-1/2 transform -translate-x-1/2 h-8 w-[88px] border-2 border-cyan-500 rounded-md"> {/* Adjusted position and size */}
-                         <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 bg-cyan-100 text-cyan-700 text-xs px-1 rounded whitespace-nowrap">Login Button</div>
+                    <div className={`absolute inset-0 p-3 transition-all duration-1000 delay-300 ${animate ? 'opacity-100' : 'opacity-0'}`}> {/* Matches padding of content area */}
+
+                      {/* Bounding box for "230g" text */}
+                      <div className="absolute top-[15px] right-[8px] h-[20px] w-[40px] border-2 border-cyan-500 rounded-sm">
+                         <div className="absolute -bottom-5 right-0 bg-cyan-100 text-cyan-700 text-xs px-1 py-0.5 rounded whitespace-nowrap">Weight Label</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               
-              {/* Detection process steps, animates opacity with delay */}
+              {/* Detection process steps, animates opacity with delay - remains unchanged */}
               <div className={`flex items-center justify-between transition-all duration-1000 delay-500 ${animate ? 'opacity-100' : 'opacity-0'} px-2`}>
                 {/* Step 1: Input Description */}
                 <div className="flex flex-col items-center text-center">
@@ -259,7 +264,7 @@ export const InformativeInfoGraphic = ({ type }: { type: string }) => {
                       <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.566.379-1.566 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.566 2.6 1.566 2.978 0a1.532 1.532 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.532 1.532 0 01-.947-2.287c1.566-.379 1.566-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <div className="text-xs text-cyan-700 w-20">VLM Analysis</div>
+                  <div className="text-xs text-cyan-700 w-20">VLM Detection</div>
                 </div>
                 
                 <svg className="w-5 h-5 text-cyan-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -278,7 +283,7 @@ export const InformativeInfoGraphic = ({ type }: { type: string }) => {
                 </div>
               </div>
               
-              {/* Final descriptive text for the infographic */}
+              {/* Final descriptive text for the infographic - remains unchanged */}
               <div className="text-xs text-center font-medium text-cyan-600 mt-3">VLMs locate elements from descriptions & output bounding box coordinates.</div>
             </div>
           );

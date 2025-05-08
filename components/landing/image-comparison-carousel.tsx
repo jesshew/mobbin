@@ -8,48 +8,39 @@ const imageData = [
     title: 'Nike App',
     beforeSrc: '/results/nike_before.jpg',
     afterSrc: '/results/nike_after.png',
+    stats: '18 Elements, 6 Components, detected and pre-annotated in 90seconds',
   },
   {
     id: 'duolingo',
     title: 'Duolingo Notifications',
     beforeSrc: '/results/duolingo_before.jpeg',
     afterSrc: '/results/duolingo_after.png',
+    stats: '14 Elements, 4 Components, detected and pre-annotated in 60seconds',
+
   },
   {
     id: 'topup',
     title: 'Mobile Top-Up Page',
     beforeSrc: '/results/topup_before.png',
     afterSrc: '/results/topup_after.png',
+    stats: '14 Elements, 5 Components, detected and pre-annotated in 60seconds',
   },
   {
     id: 'wpay',
-    title: 'Payment Success Page',
+    title: 'Payment Page',
     beforeSrc: '/results/wpay_before.png',
     afterSrc: '/results/wpay_after.png',
+    stats: '18 Elements, 6 Components, detected and pre-annotated in 90seconds',
   },
 ];
 
 // Component to display a single pair of before/after images with a slider
-const CarouselSlideDisplay = ({ title, beforeSrc, afterSrc }: { title: string; beforeSrc: string; afterSrc: string }) => {
+const CarouselSlideDisplay = ({ title, beforeSrc, afterSrc, stats }: { title: string; beforeSrc: string; afterSrc: string; stats: string }) => {
   const [sliderPosition, setSliderPosition] = useState(50); // Initial position at 50%
   const imageContainerRef = useRef<HTMLDivElement>(null);
 
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSliderPosition(Number(event.target.value));
-  };
-
-  // Style for the range input for a more custom look
-  const rangeInputStyle: React.CSSProperties = {
-    WebkitAppearance: 'none',
-    appearance: 'none',
-    width: 'calc(100% + 10px)', // Extend slightly to align thumb with edges
-    height: '2px',
-    background: 'rgba(255, 255, 255, 0.3)',
-    outline: 'none',
-    cursor: 'ew-resize',
-    position: 'absolute',
-    margin: '0 -5px', // Offset the extension
-    // Thumb styling will be handled by ::-webkit-slider-thumb and ::-moz-range-thumb in global CSS or a style tag if necessary for more complex styling
   };
 
   return (
@@ -108,11 +99,53 @@ const CarouselSlideDisplay = ({ title, beforeSrc, afterSrc }: { title: string; b
           max="100" 
           value={sliderPosition}
           onChange={handleSliderChange}
-          className="absolute top-0 left-0 w-full h-full opacity-0 cursor-ew-resize z-10"
+          className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-16 opacity-0 cursor-ew-resize z-10"
           aria-label={`Compare ${title} before and after`}
         />
       </div>
       <p className="text-center text-sm text-gray-500 mt-4">Slide the bar to compare before and after versions.</p>
+      
+      {/* Stats Section */}
+      {stats && (() => {
+        const parts = stats.split(',').map(s => s.trim());
+        const elementsMatch = parts.find(p => p.toLowerCase().includes('elements'))?.match(/(\d+)\s*Elements/i);
+        const componentsMatch = parts.find(p => p.toLowerCase().includes('components'))?.match(/(\d+)\s*Components/i);
+        const timeMatch = parts.find(p => p.toLowerCase().includes('seconds'))?.match(/(\d+)seconds/i);
+
+        const elements = elementsMatch ? elementsMatch[1] : null;
+        const components = componentsMatch ? componentsMatch[1] : null;
+        const time = timeMatch ? timeMatch[1] : null;
+
+        // Only render the section if at least one stat is parseable
+        if (!elements && !components && !time) {
+          return null;
+        }
+        
+        return (
+          <div className="mt-6 pt-6 border-t border-slate-200">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+              {elements && (
+                <div>
+                  <p className="text-2xl sm:text-3xl font-bold text-indigo-600">{elements}</p>
+                  <p className="text-xs sm:text-sm text-gray-500">Elements Detected</p>
+                </div>
+              )}
+              {components && (
+                <div>
+                  <p className="text-2xl sm:text-3xl font-bold text-indigo-600">{components}</p>
+                  <p className="text-xs sm:text-sm text-gray-500">Components Identified</p>
+                </div>
+              )}
+              {time && (
+                <div>
+                  <p className="text-2xl sm:text-3xl font-bold text-indigo-600">{time}s</p>
+                  <p className="text-xs sm:text-sm text-gray-500">Analysis Duration</p>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 };
@@ -159,6 +192,7 @@ export default function ImageComparisonCarousel() {
           title={currentSlide.title}
           beforeSrc={currentSlide.beforeSrc}
           afterSrc={currentSlide.afterSrc}
+          stats={currentSlide.stats}
         />
 
         {/* Navigation Buttons */}
