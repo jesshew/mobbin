@@ -14,35 +14,13 @@ const PhoneShowcase = () => {
         <Iphone15Pro
           width={433}
           height={882}
-          src="/nike2.jpg"
+          src="/results/duolingo_before.jpeg"
           // Uncomment below and comment out src to use video instead
           // videoSrc="/demo-app-video.mp4"
         />
       </div>
 
       {/* <MockupInPhoneOne /> */}
-
-      {/* Left side cards */}
-      {/* <div className="absolute top-[15%] -left-[2%] z-10 animate-float-delay transform rotate-[-6deg] hover:rotate-[-3deg] transition-transform duration-500">
-        <TravelCard
-          imageUrl="/nike2.jpg"
-          className="shadow-2xl mb-4 rounded-2xl border-2 border-white"
-        />
-      </div> */}
-      <div className="absolute top-[50%] left-[3%] z-0 animate-float transform rotate-[-4deg] hover:rotate-[-1deg] transition-transform duration-500">
-        <TravelCard
-          imageUrl="./top_up_success.png"
-          className="shadow-2xl rounded-2xl border-2 border-white"
-        />
-      </div>
-
-      {/* Right side cards */}
-      <div className="absolute top-[12%] right-[3%] z-0 animate-float transform rotate-[6deg] hover:rotate-[3deg] transition-transform duration-500">
-        <TravelCard
-          imageUrl="./nike2.jpg"
-          className="shadow-2xl rounded-2xl border-2 border-white"
-        />
-      </div>
     </div>
   );
 };

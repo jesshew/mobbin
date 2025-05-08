@@ -10,7 +10,9 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import Hero from "@/components/landing/hero"
+import Footer from "@/components/landing/footer"
 import ImageComparisonCarousel from "@/components/landing/image-comparison-carousel"
+
 export default function Home() {
   const router = useRouter()
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
@@ -168,7 +170,7 @@ export default function Home() {
           <TabsTrigger value="debug">Debugging</TabsTrigger>
         </TabsList>
         <TabsContent value="main"> */}
-          {currentView === "upload" && (
+          {/* {currentView === "upload" && (
             <UploadInterface
               selectedFiles={selectedFiles}
               onFilesSelected={handleFilesSelected}
@@ -177,7 +179,7 @@ export default function Home() {
               onViewResults={handleViewResults}
               onRefetchBatches={refetchBatches}
             />
-          )}
+          )} */}
         {/* </TabsContent>
         <TabsContent value="debug">
           {/* Temporary Batch Processing Section */}
@@ -206,6 +208,7 @@ export default function Home() {
           </div>
         </TabsContent>
       </Tabs> */}
+      <Footer />
     </main>
   )
 }

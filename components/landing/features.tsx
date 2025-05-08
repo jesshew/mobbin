@@ -19,7 +19,7 @@ export default function FeatureCards() {
             </svg>
             <span>Project Highlights</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Advanced UX Annotation Features</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How The Pipeline Works</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">Leveraging cutting-edge ML technology to transform UI screenshots into detailed annotations</p>
         </div>
         

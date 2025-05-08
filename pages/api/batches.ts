@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabase'
 import { PostgrestError } from '@supabase/supabase-js'
 // import { SUPABASE_BUCKET_NAME } from '@/config'
 import { getScreenshotPath,getSignedUrls } from '@/lib/supabaseUtils'
+import type { Batch } from '@/types/batch_v1'
 
 // --- Constants ---
 const BATCH_TABLE = 'batch'
