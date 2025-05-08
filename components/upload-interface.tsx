@@ -69,7 +69,7 @@ export function UploadInterface({
   }
 
   return (
-    <div className="container mx-auto py-6 md:py-10 px-4">
+    <div className="container mx-auto py-6 md:py-10 px-4 z-20">
       <h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center">Annotation Tool</h1>
       
       <Alert className="mb-6 bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200">
