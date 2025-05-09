@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "For Mobbin By Jess Hew",
+  title: "By Jess Hew",
   description: "LLM-VLM-powered UI Labelling and Analysis",
 };
 
