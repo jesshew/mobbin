@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from '@/lib/constants';
-import type { Batch } from '@/types/batch_v1';
+import type { Batch } from '@/types/Batch_v1';
 
 /**
  * Fetches all batches from the API

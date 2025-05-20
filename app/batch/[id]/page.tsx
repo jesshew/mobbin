@@ -3,13 +3,13 @@
 import { useState, useEffect, useMemo, useCallback } from "react"
 import React from "react"
 import { useParams, useRouter } from "next/navigation"
-import { Component } from "@/types/annotation";
+import { Component } from "@/types/Annotation";
 import { parseMetadata } from "@/components/batch/utils";
 import { ScreenshotContent } from "@/components/batch/ScreenshotContent";
 import { ComponentList } from "@/components/batch/ComponentList";
 import { BatchAnalyticsDisplay } from "@/components/batch/BatchAnalyticsDisplay";
 import { LoadingScreen } from "@/components/loading-screen"
-import { useBatchData } from "@/hooks/useBatchData";
+import { useBatchData } from "@/hooks/use-batch-data";
 import { BatchPageHeader } from "@/components/batch/BatchPageHeader";
 
 // Static messages for the simulated loading screen
@@ -17,15 +17,6 @@ const simulatedLoadingMessages = [
   "Loading batch details and components...",
   "Drawing bounding boxes on detected elements...",
   "Almost there... finalizing layout",
-  "Rendering the boxes takes some time, this may take awhile",
-  "Rendering the boxes takes some time, this may take awhile",
-  "Rendering the boxes takes some time, this may take awhile",
-  "Rendering the boxes takes some time, this may take awhile",
-  "Rendering the boxes takes some time, this may take awhile",
-  "Rendering the boxes takes some time, this may take awhile",
-  "Rendering the boxes takes some time, this may take awhile",
-  "Rendering the boxes takes some time, this may take awhile",
-  "Rendering the boxes takes some time, this may take awhile",
   "Rendering the boxes takes some time, this may take awhile",
   "Rendering the boxes takes some time, this may take awhile",
   // "Almost there... finalizing layout",

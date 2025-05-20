@@ -1,18 +1,13 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { UploadInterface } from "@/components/upload-interface"
-import type { Batch } from "@/types/batch_v1"
+import type { Batch } from "@/types/Batch_v1"
 import { useBatchManagement } from "@/hooks/use-batch-management"
-import { BatchProcessingService } from "@/lib/services/batchProcessingService"
 import { ComponentDetectionResult } from "@/types/DetectionResult"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
 import Hero from "@/components/landing/hero"
 import Footer from "@/components/landing/footer"
-import ImageComparisonCarousel from "@/components/landing/image-comparison-carousel"
-import { TechStackMarquee } from "@/components/magicui/TechStackMarquee"
+
 
 export default function Home() {
   const router = useRouter()
@@ -165,50 +160,6 @@ export default function Home() {
           </Link>
         </div> */}
       <Hero/>
-      {/* <Tabs defaultValue="main" className="w-full">
-        <TabsList className="mx-auto mt-8 mb-6">
-          <TabsTrigger value="main">Main App</TabsTrigger>
-          <TabsTrigger value="debug">Debugging</TabsTrigger>
-        </TabsList>
-        <TabsContent value="main"> */}
-          {/* {currentView === "upload" && ( 
-            <UploadInterface
-              selectedFiles={selectedFiles}
-              onFilesSelected={handleFilesSelected}
-              onUploadBatch={handleUploadBatch}
-              onImageSelect={handleViewResults}
-              onViewResults={handleViewResults}
-              onRefetchBatches={refetchBatches}
-            />
-          )} */}
-        {/* </TabsContent>
-        <TabsContent value="debug">
-          {/* Temporary Batch Processing Section */}
-          {/* <div className="max-w-screen-lg mx-auto p-4 mt-8 bg-card rounded-lg border border-border">
-            <h2 className="text-xl font-bold mb-4">Temporary Batch Processing</h2>
-            <div className="flex items-center gap-4 mb-2">
-              <input
-                type="text"
-                value={processingBatchId}
-                onChange={(e) => setProcessingBatchId(e.target.value)}
-                placeholder="Enter batch ID"
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              />
-              <button 
-                onClick={handleProcessBatch}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 rounded-md"
-              >
-                Process Batch
-              </button>
-            </div>
-            {processingStatus && (
-              <div className="mt-2 text-sm">
-                <p>{processingStatus}</p>
-              </div>
-            )}
-          </div>
-        </TabsContent>
-      </Tabs> */}
       <Footer />
     </main>
   )

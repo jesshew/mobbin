@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { UploadInterface } from "@/components/upload-interface"
-import type { Batch } from "@/types/batch_v1"
+import type { Batch } from "@/types/Batch_v1"
 import { useBatchManagement } from "@/hooks/use-batch-management"
 import { ComponentDetectionResult } from "@/types/DetectionResult"
 import { useRouter } from "next/navigation"

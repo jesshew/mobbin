@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react"
 import { Loader2, Info } from "lucide-react"
-import type { Batch } from "@/types/batch_v1"
+import type { Batch } from "@/types/Batch_v1"
 import { useBatchManagement } from "@/hooks/use-batch-management"
 import { filterAndLimitImageFiles, removeFileAtIndex } from "@/lib/file-utils"
 import { uploadFiles } from "@/services/upload-service"

@@ -3,7 +3,7 @@ import React from 'react';
 import { ComponentListItem } from "@/components/component"; 
 import { ComponentListProps } from './types';
 import { calculateComponentAccuracy } from './utils';
-import { Component } from "@/types/annotation"; // Import base Component type
+import { Component } from "@/types/Annotation"; // Import base Component type
 
 export const ComponentList = ({ 
   screenshot, 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Component } from "@/types/annotation";
+import { Component } from "@/types/Annotation";
 import { DetailedBatchAnalytics } from "@/types/BatchSummaries";
 import { organizeComponentsByScreenshot } from "@/components/batch/utils"; // Assuming this util is reusable or move it if specific
 

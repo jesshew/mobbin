@@ -1,6 +1,5 @@
 import React from 'react';
 import Iphone15Pro from '../magicui/iphone-15-pro';
-import TravelCard from './travel-card';
 
 const PhoneShowcase = () => {
   return (

@@ -1,6 +1,6 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ImageCard } from "../image-card";
-import type { Batch } from "@/types/batch_v1";
+import type { Batch } from "@/types/Batch_v1";
 
 interface ImageGridProps {
   images: Batch["images"];

@@ -1,4 +1,4 @@
-import type { Batch } from "@/types/batch_v1";
+import type { Batch } from "@/types/Batch_v1";
 
 // Status display mapping
 export const STATUS_DISPLAY: Record<Batch['status'], string> = {

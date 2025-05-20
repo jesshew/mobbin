@@ -1,4 +1,4 @@
-import { Component, Element } from "@/types/annotation";
+import { Component, Element } from "@/types/Annotation";
 
 export interface ComponentListItemProps {
   component: Component & { component_accuracy?: number };

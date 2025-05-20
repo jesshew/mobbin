@@ -1,5 +1,5 @@
 import { useCallback, useEffect, RefObject, useMemo, useState, useRef } from "react"
-import { BoundingBox } from "@/types/annotation"
+import { BoundingBox } from "@/types/Annotation"
 
 
 type DragState = {

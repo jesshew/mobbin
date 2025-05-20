@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase'
 import { PostgrestError } from '@supabase/supabase-js'
 // import { SUPABASE_BUCKET_NAME } from '@/config'
 import { getScreenshotPath,getSignedUrls } from '@/lib/supabaseUtils'
-import type { Batch } from '@/types/batch_v1'
+import type { Batch } from '@/types/Batch_v1'
 
 // --- Constants ---
 const BATCH_TABLE = 'batch'
@@ -144,7 +144,7 @@ async function enrichBatchWithSignedImages(batch: BatchData): Promise<EnrichedBa
         throw new Error(ERROR_GENERATING_SIGNED_URL);
     }
   }
-  // If screenshotPaths was empty, signedImages will remain an empty array, which is correct.
+  // If screenshotPaths was empty, signedImages will remain an empty array
 
   return {
     id: batch.batch_id.toString(),

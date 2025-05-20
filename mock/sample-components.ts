@@ -1,4 +1,4 @@
-import { Component } from "@/types/annotation";
+import { Component } from "@/types/Annotation";
 
 export const sampleComponents: Component[] = [
   {

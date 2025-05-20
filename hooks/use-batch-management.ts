@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import { API_ENDPOINTS, DEFAULT_BATCH_NAME_PREFIX, TOAST_MESSAGES, STAGE_STATUS_MAPPING } from '@/lib/constants';
-import type { Batch } from '@/types/batch_v1';
+import type { Batch } from '@/types/Batch_v1';
 
 // Define fetcher inline to avoid module resolution issues
 const fetcher = (url: string) => fetch(url).then(res => res.json());

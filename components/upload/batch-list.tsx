@@ -1,4 +1,4 @@
-import type { Batch } from "@/types/batch_v1"
+import type { Batch } from "@/types/Batch_v1"
 import { BatchCard } from "@/components/upload/batch-card"
 import { ChevronDown, ChevronUp } from "lucide-react"
 // import { RevealOnHover } from "@/components/ui/reveal-on-hover"

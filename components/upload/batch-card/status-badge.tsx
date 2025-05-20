@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { STATUS_BADGE_CONFIG } from "./constants";
 import { Loader2 } from "lucide-react";
-import type { Batch } from "@/types/batch_v1";
+import type { Batch } from "@/types/Batch_v1";
 
 // Only use Loader2 icon for all statuses
 const iconComponents = {

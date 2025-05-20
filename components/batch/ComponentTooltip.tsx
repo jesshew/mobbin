@@ -1,5 +1,5 @@
 import React from 'react';
-import { Component } from "@/types/annotation"; // Assuming Component type comes from here based on page.tsx
+import { Component } from "@/types/Annotation"; // Assuming Component type comes from here based on page.tsx
 import { parseMetadata } from "./utils";
 
 // Note: If the Component type used here needs the 'component_accuracy' field,

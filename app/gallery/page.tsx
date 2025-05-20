@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { BatchGallery } from "@/components/batch-gallery";
-import type { Batch } from "@/types/batch_v1";
+import type { Batch } from "@/types/Batch_v1";
 import { getBatches } from "@/services/batch-service";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";

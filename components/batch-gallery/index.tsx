@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import type { Batch } from "@/types/batch_v1";
+import type { Batch } from "@/types/Batch_v1";
 import { STATUS_COLORS, STATUS_DISPLAY, ANIMATION, GRID_BREAKPOINTS } from "./constants";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";

@@ -1,4 +1,4 @@
-import { Element } from "@/types/annotation";
+import { Element } from "@/types/Annotation";
 import { BoundingBoxInfo } from "./types";
 
 export function getAccuracyBadgeColor(score: number): string {

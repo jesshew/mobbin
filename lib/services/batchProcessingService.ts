@@ -1,7 +1,7 @@
 import { supabase } from '@/lib/supabase'; 
 import { SupabaseClient } from '@supabase/supabase-js';
 import { getScreenshotPath, getSignedUrls } from '@/lib/supabaseUtils';
-import { fetchScreenshotBuffers } from '@/lib/services/imageServices/imageFetchingService';
+import { fetchScreenshotBuffers } from '@/lib/services/imageServices/ImageFetchingService';
 import { BatchProcessingScreenshot as Screenshot } from '@/types/BatchProcessingScreenshot';
 import { AIExtractionService, Stage1Result } from '@/lib/services/ParallelExtractionService';
 import { ParallelMoondreamDetectionService } from '@/lib/services/ParallelAnnotationService';

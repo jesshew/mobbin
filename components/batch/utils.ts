@@ -1,7 +1,7 @@
 import { ComponentDetectionResult } from "@/types/DetectionResult";
 // Import the specific Component and Element types from the new types file
 // import { Component, Element } from "./types"; // Assuming types.ts is in the same directory
-import { Component, Element } from "@/types/annotation";
+import { Component, Element } from "@/types/Annotation";
 
 // Get color based on accuracy score - updated with lighter red and opacity
 export const getAccuracyColor = (score: number): string => {

@@ -7,7 +7,7 @@ import FeatureCards from './features';
 import ImageComparisonCarousel from './image-comparison-carousel';
 import PhoneShowcase from './phone-showcase';
 import Link from 'next/link';
-import { TechStackMarquee } from '../magicui/TechStackMarquee';
+import { TechStackMarquee } from '../magicui/tech-stack-marquee';
 import PainPointSection from './pain-point-section';
 import SolutionSection from './solution-section';
 import UIDetailsCarousel from './ui-details-carousel';

@@ -1,4 +1,4 @@
-import { Component, Element } from "@/types/annotation";
+import { Component, Element } from "@/types/Annotation";
 import { DetailedBatchAnalytics, SimplifiedPromptBatchRecord } from "@/types/BatchSummaries";
 
 

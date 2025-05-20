@@ -1,4 +1,4 @@
-import { BoundingBox, Component, Element } from "@/types/annotation";
+import { BoundingBox, Component, Element } from "@/types/Annotation";
 
 // Extract metadata from JSON string
 export function parseMetadata(metadataStr?: string) {
