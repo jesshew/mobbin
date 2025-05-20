@@ -4,7 +4,7 @@ import formidable, { File, Fields } from 'formidable'
 import { supabase } from '@/lib/supabase'
 import { SupabaseClient } from '@supabase/supabase-js'
 // Import the new services using relative paths
-import { ScreenshotProcessor } from '../../lib/services/imageServices/ScreenshotProcessor';
+import { ScreenshotProcessor } from '../../lib/services/imageServices/screenshotProcessor';
 import { BatchProcessingService } from '../../lib/services/batchProcessingService';
 
 
