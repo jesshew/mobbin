@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { supabase } from '@/lib/supabase';
-import { BatchProcessingService } from '@/lib/services/batchProcessingService';
+import { BatchProcessingService } from '@/lib/services/BatchProcessingService';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
