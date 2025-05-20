@@ -177,9 +177,9 @@ const Hero = () => {
         </div>
 
          {/* Problem and Solution Section */}
-         <div className="max-w-3xl mx-auto mb-16 space-y-12 px-4 sm:px-6 lg:px-8"> {/* Added padding for responsiveness */}
+         <div className="max-w-5xl mx-auto mb-16 space-y-12"> {/* Unified width with other sections */}
             {/* Section header */}
-            <div className="text-center mb-10 sm:mb-12">
+            <div className="text-center mb-10 sm:mb-12 max-w-3xl mx-auto">
               <div className="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 mb-4 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 font-medium text-xs sm:text-sm">
                 <Search className="w-4 h-4 mr-2" />
                 <span>Background Statement</span>

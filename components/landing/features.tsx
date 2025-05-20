@@ -1,4 +1,3 @@
-
 import { InformativeInfoGraphic,cardData} from './render-info-graphics';
 // More informativeand self-explanatory infographic component for each card
 
@@ -9,7 +8,7 @@ export default function FeatureCards() {
   return (
     <>
       {/* Section for feature highlights */}
-      <div className="max-w-6xl mx-auto mt-24">
+      <div className="max-w-5xl mx-auto mt-24 px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center px-4 py-1.5 mb-4 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 font-medium text-sm">

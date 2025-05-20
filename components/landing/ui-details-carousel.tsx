@@ -23,7 +23,7 @@ const uiDetailsData = [
     title: 'Clear Communication for Informed Decisions',
     imageSrc: '/details/top-up-success.png',
     alt: 'Mobile top-up fee detail UI',
-    caption: 'Thoughtful UI details, like explicit transaction breakdowns, help users feel confident and in control.'
+    caption: 'Specifying which virtual card is being topped up eliminates confusion and builds trust in the transaction process.'
   },
   {
     id: 'wpay-fee-detail',
@@ -56,7 +56,7 @@ export default function UIDetailsCarousel() {
   const currentSlide = uiDetailsData[currentIndex];
 
   return (
-    <section className="max-w-4xl mx-auto mt-24 px-4 sm:px-6">
+    <section className="max-w-5xl mx-auto mt-24 px-4 sm:px-6 lg:px-8">
       {/* Section header */}
       <div className="text-center mb-10 sm:mb-12">
         <div className="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 mb-4 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 font-medium text-xs sm:text-sm">
@@ -67,7 +67,7 @@ export default function UIDetailsCarousel() {
             Small Touches, Big Difference
         </h2>
         <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-            Thoughtful details shape seamless, trustworthy experiences, often in ways we don’t even notice. Here are some real-world examples of small, but impactful touches.
+            Thoughtful details shape seamless, trustworthy experiences, often in ways we don't even notice. Here are some real-world examples of small, but impactful touches.
         </p>
       </div>
 

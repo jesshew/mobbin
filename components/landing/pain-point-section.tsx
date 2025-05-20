@@ -11,29 +11,31 @@ const PainPointCard = ({ icon, title, description }: { icon: React.ReactNode, ti
 );
 
 const PainPointSection = () => (
-  <div className="bg-white rounded-xl shadow-xl border border-gray-200 p-6 md:p-8">
-    <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">The Pain Point: Manual UX Annotation</h2>
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <PainPointCard
-        icon={<Clock className="w-8 h-8 text-red-500" />}
-        title="Painfully Slow"
-        description="Manual bounding boxes & metadata tagging devour design hours, delaying projects."
-      />
-      <PainPointCard
-        icon={<Users className="w-8 h-8 text-orange-500" />} 
-        title="Highly Inconsistent"
-        description="Varied annotator styles lead to inconsistencies."
-      />
-      <PainPointCard
-        icon={<AlertTriangle className="w-8 h-8 text-yellow-500" />} 
-        title="Error-Prone Process"
-        description="Repetitive manual tasks increase human mistakes in labeling and classification."
-      />
-      <PainPointCard
-        icon={<TrendingDown className="w-8 h-8 text-purple-500" />} 
-        title="Impossible to Scale"
-        description="Manual workflows bottleneck innovation and can't match rapid design iterations."
-      />
+  <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="bg-white rounded-xl shadow-xl border border-gray-200 p-6 md:p-8">
+      <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">The Pain Point: Manual UX Annotation</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <PainPointCard
+          icon={<Clock className="w-8 h-8 text-red-500" />}
+          title="Painfully Slow"
+          description="Manual bounding boxes & metadata tagging devour design hours, delaying projects."
+        />
+        <PainPointCard
+          icon={<Users className="w-8 h-8 text-orange-500" />} 
+          title="Highly Inconsistent"
+          description="Varied annotator styles lead to inconsistencies."
+        />
+        <PainPointCard
+          icon={<AlertTriangle className="w-8 h-8 text-yellow-500" />} 
+          title="Error-Prone Process"
+          description="Repetitive manual tasks increase human mistakes in labeling and classification."
+        />
+        <PainPointCard
+          icon={<TrendingDown className="w-8 h-8 text-purple-500" />} 
+          title="Impossible to Scale"
+          description="Manual workflows bottleneck innovation and can't match rapid design iterations."
+        />
+      </div>
     </div>
   </div>
 );

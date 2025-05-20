@@ -174,7 +174,7 @@ export default function ImageComparisonCarousel() {
   const currentSlide = imageData[currentIndex];
 
   return (
-    <div className="max-w-5xl mx-auto mt-20 sm:mt-24 px-4 sm:px-6">
+    <div className="max-w-5xl mx-auto mt-20 sm:mt-24 px-4 sm:px-6 lg:px-8">
       {/* Section header */}
       <div className="text-center mb-10 sm:mb-12">
         <div className="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 mb-4 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 font-medium text-xs sm:text-sm">
