@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Presentation, ClipboardCheck, Clock, UserCheck, Layers, Cpu, ScanEye, GitMerge, XCircle, CheckCircle2, Users, AlertTriangle, TrendingDown } from 'lucide-react';
+import { Presentation, ClipboardCheck, Clock, UserCheck, Layers, Cpu, ScanEye, GitMerge, XCircle, CheckCircle2, Users, AlertTriangle, TrendingDown, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { AuroraText } from '../magicui/aurora-text';
 import GridPatternBackground from './grid-pattern-background';
@@ -8,6 +8,9 @@ import ImageComparisonCarousel from './image-comparison-carousel';
 import PhoneShowcase from './phone-showcase';
 import Link from 'next/link';
 import { TechStackMarquee } from '../magicui/TechStackMarquee';
+import PainPointSection from './pain-point-section';
+import SolutionSection from './solution-section';
+import UIDetailsCarousel from './ui-details-carousel';
 
 // Constants for the MLLMs text circling animation
 const MLLMS_ANIMATION_DURATION = 1.25; // Duration of one animation cycle in seconds
@@ -149,7 +152,7 @@ const Hero = () => {
           </p>
         
           {/* Buttons text size defaults to browser/Tailwind base, which is fine */}
-          <div className="flex flex-wrap gap-4 justify-center mb-16">
+          <div className="flex flex-wrap gap-4 justify-center mb-8">
             <Link href="/gallery" className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-full transition shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/30">
               Explore Demo Results
             </Link>
@@ -164,116 +167,30 @@ const Hero = () => {
 
         {/* <PhoneShowcase /> */}
 
-        {/* Problem and Solution Section */}
-        <div className="max-w-3xl mx-auto mb-16 space-y-12 px-4 sm:px-6 lg:px-8"> {/* Added padding for responsiveness */}
-
-          {/* Problem Card: The Old Way */}
-          <div className="bg-white rounded-xl shadow-xl border border-gray-200 p-6 md:p-8">
-            {/* Section title reduced from text-3xl to text-2xl */}
-            <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">The Pain Point: Manual UX Annotation</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <PainPointCard
-                icon={<Clock className="w-8 h-8 text-red-500" />}
-                title="Painfully Slow"
-                description="Manual bounding boxes & metadata tagging devour design hours, delaying projects."
-              />
-              <PainPointCard
-                icon={<Users className="w-8 h-8 text-orange-500" />} // Users icon for inconsistency
-                title="Highly Inconsistent"
-                description="Varied annotator styles lead to inconsistencies."
-              />
-              <PainPointCard
-                icon={<AlertTriangle className="w-8 h-8 text-yellow-500" />} // AlertTriangle for error-prone
-                title="Error-Prone Process"
-                description="Repetitive manual tasks increase human mistakes in labeling and classification."
-              />
-              <PainPointCard
-                icon={<TrendingDown className="w-8 h-8 text-purple-500" />} // TrendingDown for scaling
-                title="Impossible to Scale"
-                description="Manual workflows bottleneck innovation and can't match rapid design iterations."
-              />
-            </div>
-          </div>
-
-          {/* Solution Card: The New Way */}
-          <div className="bg-white rounded-xl shadow-xl border text-gray-800 border-gray-200 p-6 md:p-8">
-            {/* Section title reduced from text-3xl to text-2xl */}
-            <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">The Solution: AI-Powered Automation</h2>
-            
-            <div className="flex flex-col lg:flex-row gap-8 items-stretch"> {/* items-stretch for equal height columns if needed */}
-              {/* Left side: Key benefits/features of the solution */}
-              <div className="lg:w-3/5 space-y-6">
-                {/* Benefit 1: Automated UI Detection */}
-                <div className="flex items-start space-x-4 p-4 bg-indigo-50 rounded-lg">
-                  <div className="flex-shrink-0 w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center shadow-md">
-                    <ScanEye className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    {/* Benefit title changed from text-lg to text-xl */}
-                    <h4 className="font-semibold text-xl text-gray-700">Automated UI Detection</h4>
-                    {/* Benefit description changed from text-sm to text-base */}
-                    <p className="text-gray-600 text-base leading-relaxed">AI accurately identifies UI elements in your screenshots.</p>
-                  </div>
-                </div>
-                {/* Benefit 2: Intelligent Classification */}
-                <div className="flex items-start space-x-4 p-4 bg-indigo-50 rounded-lg">
-                  <div className="flex-shrink-0 w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center shadow-md">
-                    <Cpu className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    {/* Benefit title changed from text-lg to text-xl */}
-                    <h4 className="font-semibold text-xl text-gray-700">Element Detection</h4>
-                    {/* Benefit description changed from text-sm to text-base */}
-                    <p className="text-gray-600 text-base leading-relaxed">
-                     Models grasp component function and context <span className="font-semibold text-indigo-600">without explicit training</span>.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Right side: Human Role Transformation */}
-              <div className="lg:w-2/5 bg-gray-50 p-6 rounded-xl border border-gray-200 flex flex-col justify-center">
-                {/* Sub-heading "Impact on Workflow" kept as text-xl, consistent with other card-level titles */}
-                <h3 className="font-bold text-xl text-gray-800 mb-4 text-center">Impact on Workflow</h3>
-                <p className="text-sm text-gray-500 mb-6 italic text-center">
-                  "Empower designers to create, not just catalogue. Let AI handle the heavy lifting."
-                </p>
-                {/* Before */}
-                <div className="mb-6 p-4 bg-red-50 rounded-lg border border-red-200 shadow-inner">
-                  <div className="flex items-center mb-2">
-                    <XCircle className="w-7 h-7 text-red-500 mr-3 flex-shrink-0" />
-                    {/* "Before" title changed from text-lg to text-xl */}
-                    <div className="font-semibold text-xl text-red-500">Before: The Annotator</div>
-                  </div>
-                  {/* "Before" description changed from text-sm to text-base */}
-                  <p className="text-base text-red-500 leading-relaxed">
-                    Bogged down by tedious, repetitive clicking. Drained by manual data entry.
-                  </p>
-                </div>
-
-                {/* After */}
-                <div className="p-4 bg-green-50 rounded-lg border border-green-200 shadow-inner">
-                  <div className="flex items-center mb-2">
-                    <CheckCircle2 className="w-7 h-7 text-green-500 mr-3 flex-shrink-0" />
-                    {/* "After" title changed from text-lg to text-xl */}
-                    <div className="font-semibold text-xl text-green-500">After: The Strategist</div>
-                  </div>
-                  {/* "After" description changed from text-sm to text-base */}
-                  <p className="text-base text-green-500 leading-relaxed">
-                    Elevated to reviewer. Focused on UX quality & insights. Driving innovation at speed.
-                  </p>
-                </div>
-                
-                {/* Quote text size kept as text-xs, appropriate for a small quote */}
-                
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Image comparison showcase */}
         <div className="mb-16">
           <ImageComparisonCarousel />
+        </div>
+        {/* Image comparison showcase */}
+        <div className="mb-16">
+          <UIDetailsCarousel />
+        </div>
+
+         {/* Problem and Solution Section */}
+         <div className="max-w-3xl mx-auto mb-16 space-y-12 px-4 sm:px-6 lg:px-8"> {/* Added padding for responsiveness */}
+            {/* Section header */}
+            <div className="text-center mb-10 sm:mb-12">
+              <div className="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 mb-4 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 font-medium text-xs sm:text-sm">
+                <Search className="w-4 h-4 mr-2" />
+                <span>Background Statement</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Problem & Solution</h2>
+              <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+              What is the problem we are trying to bridge?
+              </p>
+            </div>
+          <PainPointSection />
+          <SolutionSection />
         </div>
 
         <TechStackMarquee/>

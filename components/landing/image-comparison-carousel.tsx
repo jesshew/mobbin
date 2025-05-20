@@ -34,6 +34,8 @@ const imageData = [
   },
 ];
 
+
+
 // Component to display a single pair of before/after images with a slider
 const CarouselSlideDisplay = ({ title, beforeSrc, afterSrc, stats }: { title: string; beforeSrc: string; afterSrc: string; stats: string }) => {
   const [sliderPosition, setSliderPosition] = useState(50); // Initial position at 50%
