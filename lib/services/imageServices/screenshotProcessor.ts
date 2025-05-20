@@ -1,6 +1,6 @@
 import { File } from 'formidable';
 import fs from 'fs';
-import { resizeAndPadImageBuffer, deleteFile } from '@/lib/services/imageServices/ImageProcessor';
+import { resizeAndPadImageBuffer, deleteFile } from '@/lib/services/imageServices/imageProcessor';
 import { uploadImageToStorage } from '@/lib/storage';
 import { supabase } from '@/lib/supabase'; // Assuming shared Supabase client
 import { SupabaseClient } from '@supabase/supabase-js';

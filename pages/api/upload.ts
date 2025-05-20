@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase'
 import { SupabaseClient } from '@supabase/supabase-js'
 // Import the new services using relative paths
 import { ScreenshotProcessor } from '../../lib/services/imageServices/ScreenshotProcessor';
-import { BatchProcessingService } from '../../lib/services/BatchProcessingService';
+import { BatchProcessingService } from '../../lib/services/batchProcessingService';
 
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
