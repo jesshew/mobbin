@@ -6,6 +6,9 @@ import pLimit from 'p-limit';
 import { MOONDREAM_CONCURRENCY } from '@/lib/constants';
 import { createScreenshotTrackingContext } from '@/lib/logger';
 
+// Helper function to wait for specified milliseconds
+const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 // ParallelMoondreamDetectionService processes screenshots using Moondream's vision models.
 // It uses anchor labels from previous AI steps for object detection in UI screenshots.
 export class ParallelMoondreamDetectionService {
@@ -30,16 +33,25 @@ export class ParallelMoondreamDetectionService {
         throw new Error('No screenshots have image buffers. Cannot proceed with Moondream detection.');
       }
     }
-    
-    // Limit concurrency to manage resource usage
-    const moondreamLimit = pLimit(MOONDREAM_CONCURRENCY);
-    const allDetectionResults: ComponentDetectionResult[] = [];
-    
-    // console.log(`[Batch ${batchId}] Stage 2: Starting Bounding Box Detection for ${screenshotsWithBuffers.length} screenshots... Concurrency: ${MOONDREAM_CONCURRENCY}`);
 
-    // Process each screenshot with controlled concurrency
-    const detectionPromises = screenshotsWithBuffers.map(screenshot =>
-      moondreamLimit(async () => {
+    // Helper to chunk array into batches
+    const chunkArray = <T>(arr: T[], size: number): T[][] => {
+      const result: T[][] = [];
+      for (let i = 0; i < arr.length; i += size) {
+        result.push(arr.slice(i, i + size));
+      }
+      return result;
+    };
+
+    const allDetectionResults: ComponentDetectionResult[] = [];
+    const screenshotBatches = chunkArray(screenshotsWithBuffers, MOONDREAM_CONCURRENCY);
+
+    for (let batchIndex = 0; batchIndex < screenshotBatches.length; batchIndex++) {
+      const batch = screenshotBatches[batchIndex];
+      console.log(`[Batch ${batchId}] Stage 2: Processing batch ${batchIndex + 1} of ${screenshotBatches.length} (${batch.length} screenshots)...`);
+
+      // Process this batch in parallel
+      const detectionPromises = batch.map((screenshot) => {
         const screenshotId = screenshot.screenshot_id;
         const buffer = screenshot.screenshot_image_buffer!;
         const screenshotUrl = screenshot.screenshot_signed_url || '';
@@ -48,35 +60,39 @@ export class ParallelMoondreamDetectionService {
 
         console.log(`[Batch ${batchId}] Stage 2: Moondream labelling screenshot ${screenshotId}...`);
 
-        try {
-          const results: ComponentDetectionResult[] = await processAndSaveByCategory(
-            screenshotId,
-            buffer,
-            anchorLabels,
-            batchId,
-            screenshotUrl
-          );
-          console.log(`[Batch ${batchId}] Stage 2: Finished Moondream labelling for screenshot ${screenshotId}. Results count: ${results.length}`);
-          return results; // Return results for this screenshot
-        } catch (error) {
-          console.error(`[Batch ${batchId}] Stage 2: Error in Moondream labelling for screenshot ${screenshotId}:`, error);
-          return [];
+        return processAndSaveByCategory(
+          screenshotId,
+          buffer,
+          anchorLabels,
+          batchId,
+          screenshotUrl
+        )
+          .then((results: ComponentDetectionResult[]) => {
+            console.log(`[Batch ${batchId}] Stage 2: Finished Moondream labelling for screenshot ${screenshotId}. Results count: ${results.length}`);
+            return results;
+          })
+          .catch((error) => {
+            console.error(`[Batch ${batchId}] Stage 2: Error in Moondream labelling for screenshot ${screenshotId}:`, error);
+            return [];
+          });
+      });
+
+      // Wait for all in this batch to finish
+      const batchResults = await Promise.all(detectionPromises);
+      batchResults.forEach(results => {
+        if (Array.isArray(results)) {
+          allDetectionResults.push(...results);
         }
-      })
-    );
+      });
 
-    // Wait for all detection tasks to complete
-    const settledMoondreamResults = await Promise.allSettled(detectionPromises);
-    console.log(`[Batch ${batchId}] Stage 2: All Moondream detection promises settled.`);
-
-    // Aggregate successful detection results
-    settledMoondreamResults.forEach(result => {
-      if (result.status === 'fulfilled' && Array.isArray(result.value)) {
-        allDetectionResults.push(...result.value);
+      // Wait 2 seconds between batches, except after the last batch
+      if (batchIndex < screenshotBatches.length - 1) {
+        console.log(`[Batch ${batchId}] Stage 2: Cooling down for 2 seconds before next batch...`);
+        await wait(2000);
       }
-    });
+    }
 
     console.log(`[Batch ${batchId}] Stage 2: All Moondream detection results aggregated. Total components: ${allDetectionResults.length}`);
     return allDetectionResults;
   }
-} 
+}

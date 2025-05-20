@@ -180,7 +180,7 @@ function cleanTextToList(components: any[]): string[] {
  * @returns Parsed JSON object, or an empty object if parsing fails.
  */
 function parseClaudeTextToJson(rawText: string): Record<string, any> {
-  console.log('Attempting to parse Claude response as JSON');
+  // console.log('Attempting to parse Claude response as JSON');
   let jsonContent = '';
   
   try {
@@ -226,9 +226,9 @@ function parseClaudeTextToJson(rawText: string): Record<string, any> {
     return JSON.parse(cleanedText);
 
   } catch (error) {
-    console.error('Failed to parse Claude response as JSON even after cleaning.', error);
-    console.error('Original rawText:', rawText);
-    console.error('Content attempted for parsing:', jsonContent); // Log the extracted part
+    // console.error('Failed to parse Claude response as JSON even after cleaning.', error);
+    // console.error('Original rawText:', rawText);
+    // console.error('Content attempted for parsing:', jsonContent); // Log the extracted part
     
     // More aggressive repair attempt for malformed JSON
     try {
@@ -257,7 +257,7 @@ function parseClaudeTextToJson(rawText: string): Record<string, any> {
         return extractedPairs;
       }
     } catch (repairError) {
-      console.error('JSON repair attempt also failed:', repairError);
+      // console.error('JSON repair attempt also failed:', repairError);
     }
     
     // Return empty object on failure to prevent downstream errors
@@ -280,7 +280,7 @@ export function extractClaudeResponseData(response: any): {
   }
 } {
   const rawText = response?.content?.find((item: any) => item.type === 'text')?.text ?? '';
-  console.log('returned from claude rawText', rawText);
+  console.log('returned from claude VL: ', rawText);
 
   const parsedContent = parseClaudeTextToJson(rawText);
 

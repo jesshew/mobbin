@@ -90,7 +90,7 @@ export function UploadInterface({
     <div className="container mx-auto py-6 md:py-10 px-4 z-20 relative bg-white">
       <h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center">Annotation Tool</h1>
       
-      <Alert className="mb-6 bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200">
+      {/* <Alert className="mb-6 bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200">
         <Info className="h-4 w-4 text-purple-600" />
         <AlertTitle className="text-gray-800">
           Demo Mode - Viewing Pre-Processed Results
@@ -109,7 +109,7 @@ export function UploadInterface({
             Feel free to browse the existing results or check out my documentation for more information.
           </span>
         </AlertDescription>
-      </Alert>
+      </Alert> */}
 
       <div className="flex flex-col gap-8">
         <DropzoneArea 
