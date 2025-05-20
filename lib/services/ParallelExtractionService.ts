@@ -56,7 +56,7 @@ export class AIExtractionService {
         const signedUrl = screenshot.screenshot_signed_url!;
         console.log(`[Batch ${batchId}] Stage 1: Processing screenshot ${screenshotId}...`);
 
-        const context = createScreenshotTrackingContext(batchId, screenshotId);
+        const context = createScreenshotTrackingContext(batchId, screenshotId); //for logging and debugging
 
         try {
           console.log(`[Batch ${batchId}][Screenshot ${screenshotId}] Step 1.1 : Extracting High-Level Components...`);
