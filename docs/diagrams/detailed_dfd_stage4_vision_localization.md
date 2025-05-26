@@ -4,7 +4,7 @@ graph TD
     B[Processed Image] --> C;
     C -- Raw Bounding Boxes & Confidence Scores --> D{BoundingBoxService.drawBoundingBoxesOnImage};
     B --> D; 
-    D -- Annotated Screenshot Image --> E[Stored Annotated Screenshot (PNG)];
+    D -- Annotated Screenshot Image --> E[Stored Annotated Screenshot- PNG ];
     C -- Raw Bounding Boxes & Confidence Scores --> F{Result Normalization & Formatting};
     F -- Formatted Data --> G[Array {id, label, coordinates, score, status}];
 
