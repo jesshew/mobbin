@@ -1,13 +1,13 @@
 ```mermaid
 graph TD
     A[User] --> B(Next.js Frontend);
-    B --> C{Backend API (Next.js)};
+    B --> C{Backend API-Next.js};
     C --> D[ScreenshotProcessor];
     D --> E[ImageProcessor];
     D --> F[ClaudeAIService];
     D --> G[MoondreamDetectionService];
     D --> H[DatabaseService];
-    D --> I[File Storage (e.g., S3)];
+    D --> I[File Storage e.g., S3];
     E --> I;
     H --> J[Database];
 
