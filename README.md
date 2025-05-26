@@ -1,3 +1,10 @@
+## Quick Links
+- [View Demo Results - https://for-mobbin.vercel.app/](https://for-mobbin.vercel.app/)
+- [1. Project Overview](#1-project-overview)
+- [2. Pipeline Overview](#2-pipeline-overview)
+- [3. Local Development Setup](#3-local-development-setup)
+- [4. Pipeline Stages](#4-pipeline-stages)
+- [5. Code Structure (Modules & Class Responsibilities)](#5-code-structure-modules--class-responsibilities)
 
 ## 1. Project Overview
 **Reimagining UX Annotation with MLLMs**
@@ -9,17 +16,12 @@ The system employs various **prompt engineering techniques** including:
 - **Zero-shot prompting** 
 - **Agentic prompting**
 
+---
+
 **Key findings from this project:**
 1. **Vision-language models struggle** with precise UI component analysis when elements share similar visual characteristics
 2. **Current models require extensive prompt engineering** to achieve basic accuracy
 3. **Results show potential** but are far from production-ready
-
-*   **Potential Enhancement:**
-1. Incorporate Mobbin's UI pattern naming rules for consistent UX annotation in Step 6, which would improve metadata quality and alignment with Mobbin's standards.
-2. Further break down the architecture to support a serverless approach (Vercel's 60s limit). This involves decomposing tasks into smaller, independent functions that can execute within the time constraints.
-3. Leverage a more powerful vision-language model or fine-tune the VLM with segmentation models/methods 
-- **QwenVL/Image Segmentation**: [GitHub Repository](https://github.com/carachu1/Qwen-VL-and-Image-Segmentation)
-- **VLSM**: [arXiv PDF](https://arxiv.org/pdf/2405.06196)
 
 
 ## 2. Pipeline Overview
@@ -32,6 +34,15 @@ Seven-stage orchestrated pipeline transforming raw screenshots into detailed UX 
 6. Validation
 7. Metadata enrichment
 
+
+### 2.1 Potential Enhancement:
+1. Incorporate Mobbin's UI pattern naming rules for consistent UX annotation in Step 7, which would improve metadata quality and alignment with Mobbin's standards.
+2. Further break down the architecture to support a serverless approach (Vercel's 60s limit). This involves decomposing tasks into smaller, independent functions that can execute within the time constraints.
+3. Leverage a more powerful vision-language model or fine-tune the VLM with segmentation models/methods 
+- **QwenVL/Image Segmentation**: [GitHub Repository](https://github.com/carachu1/Qwen-VL-and-Image-Segmentation)
+- **VLSM**: [arXiv PDF](https://arxiv.org/pdf/2405.06196)
+
+---
 ### High Level Diagrams
 ```mermaid
 graph TD
@@ -205,7 +216,46 @@ BATCH ||--o{ PROMPT_LOG : has
 SCREENSHOT ||--o{ PROMPT_LOG : has
 ```
 
-## 3. Pipeline Stages (With Code References & Logic)
+## 3. Local Development Setup
+
+### Prerequisites
+1. **Supabase Setup**:
+   - Create a Supabase project
+   - Set up storage bucket and database tables
+   - Configure environment variables in `.env` file
+
+2. **API Keys**:
+   - Obtain and configure the following API keys in `.env`:
+     - `SUPABASE_URL`
+     - `SUPABASE_ANON_KEY`
+     - `SUPABASE_SERVICE_KEY`
+     - `ANTHROPIC_API_KEY`
+     - `OPENAI_API_KEY`
+     - `MOON_DREAM_API_KEY`
+
+3. **Environment Variables**:
+   - Copy `.env.example` to `.env` and fill in required values
+   - Ensure all API keys and Supabase credentials are properly configured
+
+### Important Notes
+- **Local Execution Only**: Due to Vercel's 60-second execution limit, the pipeline currently only works in local development
+
+
+### Running Locally
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Start development server:
+   ```bash
+   npm run dev
+   ```
+
+3. Access the application at `http://localhost:3000`
+
+
+## 4. Pipeline Stages
 
 This section details each stage of the UI analysis pipeline, outlining its objective, the core reasoning behind its design, and its implementation.
 
