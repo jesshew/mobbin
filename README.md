@@ -1,25 +1,28 @@
-# UI Analyzer Demo: Detailed Pipeline & Code Reference README
----
 
 ## 1. Project Overview
+**Reimagining UX Annotation with MLLMs**
 
-Reimagining UX Annotation with MLLMs.
+This project explores the capabilities of **vision-language models** with **zero-shot prompts** for **automated UI analysis**, particularly in challenging scenarios where components appear **visually similar**. Through a chain of **engineered prompts**, we investigate whether these models can reliably **extract**, **localize**, and **describe** UI elements from screenshots.
 
-This project explores the capabilities of vision-language models with zero shot prompts for automated UI analysis, particularly in challenging scenarios where components appear visually similar. Through a chain of engineered prompts, we investigate whether these models can reliably extract, localize, and describe UI elements from screenshots.
+The system employs various **prompt engineering techniques** including:
+- **Few-shot prompting**
+- **Zero-shot prompting** 
+- **Agentic prompting**
 
-The system employs various prompt engineering techniques including:
-- Few-shot prompting, Zero-shot prompting, Agentic prompting
+**Key findings from this project:**
+1. **Vision-language models struggle** with precise UI component analysis when elements share similar visual characteristics
+2. **Current models require extensive prompt engineering** to achieve basic accuracy
+3. **Results show potential** but are far from production-ready
 
-Key findings from this project:
-1. Vision-language models struggle with precise UI component analysis when elements share similar visual characteristics
-2. Current models require extensive prompt engineering to achieve basic accuracy
-3. Results shows potential but is far from production-ready
+*   **Potential Enhancement:**
+1. Incorporate Mobbin's UI pattern naming rules for consistent UX annotation in Step 6, which would improve metadata quality and alignment with Mobbin's standards.
+2. Further break down the architecture to support a serverless approach (Vercel's 60s limit). This involves decomposing tasks into smaller, independent functions that can execute within the time constraints.
+3. Leverage a more powerful vision-language model or fine-tune the VLM with segmentation models/methods 
+- **QwenVL/Image Segmentation**: [GitHub Repository](https://github.com/carachu1/Qwen-VL-and-Image-Segmentation)
+- **VLSM**: [arXiv PDF](https://arxiv.org/pdf/2405.06196)
 
-
----
 
 ## 2. Pipeline Overview
-
 Seven-stage orchestrated pipeline transforming raw screenshots into detailed UX annotations:
 1. Image preprocessing
 2. High-level segmentation
@@ -70,7 +73,7 @@ graph TD
     style I fill:#lightgrey,stroke:#333,stroke-width:2px;
 ```
 
-## Sequence Diagram
+### Sequence Diagram
 ```mermaid
 sequenceDiagram
     actor User;
@@ -124,7 +127,7 @@ sequenceDiagram
     BE-->>FE: analysisResults;
     FE-->>User: Display Results;
 ```
-## ERD Diagram
+### ERD Diagram
 ```mermaid
 erDiagram
 
@@ -202,32 +205,25 @@ BATCH ||--o{ PROMPT_LOG : has
 SCREENSHOT ||--o{ PROMPT_LOG : has
 ```
 
----
-
 ## 3. Pipeline Stages (With Code References & Logic)
 
 This section details each stage of the UI analysis pipeline, outlining its objective, the core reasoning behind its design, and its implementation.
 
 ### **Stage 0: Image Preprocessing**
 * **How:**
-  - Resize images to maximum 800x800px while preserving aspect ratio
-  - Add white padding to achieve exact 800x800 dimensions
-  - Standardize image size for Moondream VLM compatibility
+  - Standardize images to 800x800px while preserving aspect ratio
   - Maintain consistent dimensions for UI rendering
-  - Optimize resolution for Claude token efficiency
+  - Optimize resolution for token efficiency (Claude)
   - Sanitize filenames for safe storage
 
 * **Implementation:**
-  - **Modules:**
-    - `ImageProcessor.ts`: Image processing operations
-    - `ScreenshotProcessor.ts`: Workflow management
+    - `ImageProcessor.ts`, `ScreenshotProcessor.ts`
   - **Steps:**
-    1. Validate image file
-    2. Resize with aspect ratio preservation
-    3. Add white padding to 800x800
-    4. Convert to JPEG
-    5. Sanitize filename
-    6. Prepare for storage and processing
+    1. Validate image file, resize with aspect ratio preservation
+    2. Add white padding to 800x800
+    3. Convert to JPEG, Sanitize filename
+    5. Prepare for storage and processing
+
 
 * **Example Usage:**
   ```typescript
@@ -249,9 +245,6 @@ This section details each stage of the UI analysis pipeline, outlining its objec
     2.  **Model:** `OpenAIService.extract_component_from_image()` uses OpenAI's vision model with `EXTRACTION_PROMPT_v6` to identify major components
     3.  **Output:** Parses model response into array of objects with `component_name` and `description`
 
-*   **Implementation:**
-    *   Module: [`OpenAIService.extract_component_from_image()`](/lib/services/ai/OpenAIService.js)
-    *   Prompt: `EXTRACTION_PROMPT_v6` ([lib/prompt/prompts.ts])
 *   **Usage:**
     ```typescript
     // signedUrl is the preprocessed image URL
@@ -273,20 +266,12 @@ This section details each stage of the UI analysis pipeline, outlining its objec
         - Generate accurate descriptions tailored to each component's context
 *   **Process:**
     1.  **Input:** The standardized image buffer (`signedUrl`) and the list of component names from Stage 1.
-    2.  **Contextual Prompting:** `ClaudeAIService.extract_element_from_image()` processes the entire screen. The `EXTRACT_ELEMENTS_PROMPT_v2` directs the model to identify elements within the UI, using the component list to define the scope.
-    3.  **Hierarchical Naming:** The model outputs a flat map with keys that suggest hierarchy (e.g., `Component Name > Element Label`).
-    4.  **Data Aggregation:** The results are compiled into a JSON object mapping these keys to their detailed descriptions.
+    2.  **Hierarchical Naming:** The model outputs a flat map with keys that suggest hierarchy (e.g., `Component Name > Element Label`).
+    3.  **Data Aggregation:** The results are compiled into a JSON object mapping these keys to their detailed descriptions.
 
 *   **Main Module:**
     *   [`ClaudeAIService.extract_element_from_image()`](/lib/services/ai/ClaudeAIService.ts)
     *   Prompt: `EXTRACT_ELEMENTS_PROMPT_v2` ([lib/prompt/prompts.ts])
-*   **Typical Call (within `ParallelExtractionService.ts`):**
-    ```typescript
-    // componentSummaries is an array of names from Stage 1
-    const elementResult = await extract_element_from_image(signedUrl, componentSummaries.join('\n'), context);
-    // elementResult.rawText contains the flat map as a string
-    // elementResult.parsedContent contains the parsed JSON object
-    ```
 
 ---
 ### **Stage 3: Anchor-Aware Description Refinement**
@@ -363,13 +348,11 @@ Pinpoint exact locations of UI elements by predicting their bounding box coordin
 ### **Stage 5: Bounding Box Accuracy Validation & Correction**
 
 *   **Objective:** To critically assess the accuracy of bounding boxes predicted by the VLM (Stage 4) and, where possible, suggest corrections to improve their precision.
-*   **Why This Matters:**
-    *   **Reliability of Localization:** VLMs, while powerful, are not infallible and can produce misaligned or inaccurately sized bounding boxes. This stage acts as a quality control mechanism.
-    *   **First-Round Validator:** Simulates human review but unoptimised; current accuracy may be flawed.
+    * VLMs, while powerful, can still produce misaligned or inaccurately sized bounding boxes. This stage acts as a quality control mechanism.
+    * Simulates human review but unoptimised; current accuracy may be flawed.
 *   **How It Works (Design Decisions):**
     1.  **Input:** The original image, the bounding box JSON (from Stage 4) for each element, including its label and coordinates.
-    2.  **Validation:** `ClaudeAIService.validateBoundingBoxes()` uses Claude to check if the predicted bounding boxes match the element descriptions and image. The `ACCURACY_VALIDATION_PROMPT_v0` guides this verification process.
-    3.  **Structured Feedback & Automated Correction:** 
+    2.  **Structured Feedback & Automated Correction:** 
 
         | Field                 | Type/Values            | Description                                                                 |
         |-----------------------|------------------------|-----------------------------------------------------------------------------|
@@ -377,8 +360,7 @@ Pinpoint exact locations of UI elements by predicting their bounding box coordin
         | `status`              | `Verified`/`Overwrite` | Validation outcome - whether box is accepted or needs correction           |
         | `suggested_coordinates` | Object (optional)     | New coordinates provided when accuracy is low and correction is feasible   |
         | `explanation`         | String                 | Detailed rationale supporting the assessment                               |
-
-    4.  **Automated Correction:** When `status` is `Overwrite`, the pipeline automatically replaces the original VLM box with the LLM's `suggested_coordinates` to improve accuracy.
+        
 *   **Main Module:**
     *   [`ClaudeAIService.validateBoundingBoxes()`](/lib/services/ai/ClaudeAIService.ts)
     *   Prompt: `ACCURACY_VALIDATION_PROMPT_v0` ([lib/prompt/prompts.ts])
@@ -397,8 +379,7 @@ Pinpoint exact locations of UI elements by predicting their bounding box coordin
 *   **Objective:** Generate standardized metadata for UI components and elements
 *   **Current Implementation:**
     *   Uses experimental prompt (`METADATA_EXTRACTION_PROMPT_FINAL`)
-    *   Extracts basic component and element attributes
-    *   Does not currently integrate Mobbin UI reference library naming conventions
+    *   Extracts attributes of the component and the element in the UI screenshot with respect to the role they play
 *   **Potential Enhancement:**
     *   Could incorporate Mobbin's UI pattern naming rules for consistent classification
     *   Would improve metadata quality and alignment with mobbin's standards
@@ -438,11 +419,5 @@ Pinpoint exact locations of UI elements by predicting their bounding box coordin
 | `/lib/prompt/MetadataExtractionPrompts.ts`          | Prompt constant(s) for structured metadata enrichment                                                                                         | `METADATA_EXTRACTION_PROMPT_FINAL`                                                                                                                      |
 | `/lib/services/PromptTrackingContext.ts`            | Tracks prompt invocations and results for audit, debugging, and reproducibility                                                               | `PromptTrackingContext`                                                                                                                                 |
 | `/lib/services/DatabaseService.ts`                  | Handles result persistence for runs, metadata, logs                                                                                           | `DatabaseService`                                                                                                                                       |
-
-**Additional Utility Modules:**
-
-* `/lib/utils/imageUtils.js` — Pre/post-processing images for VLM compatibility (Note: Referenced in README, specific tasks handled by `ImageProcessor.ts`)
-* `/lib/utils/validationUtils.ts` — Validates JSON structure, deduplication, type guards
-
 ---
 
