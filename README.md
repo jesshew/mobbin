@@ -8,21 +8,13 @@ Reimagining UX Annotation with MLLMs: Transforming UI screenshots into structure
 
 This project explores the capabilities of vision-language models with zero shot prompts for automated UI analysis, particularly in challenging scenarios where components appear visually similar. Through a chain of carefully engineered prompts, we investigate whether these models can reliably extract, localize, and describe UI elements from screenshots.
 
-### Key Techniques
-| Approach | Description |
-|----------|-------------|
-| Zero-shot prompting | Direct instructions without examples |
-| Few-shot prompting | Using examples to guide model behavior |
-| Agentic prompting | Giving models specific roles/personas |
+The system employs various prompt engineering techniques including:
+- Few-shot prompting, Zero-shot prompting, Agentic prompting
 
-### Key Findings
-| Finding | Details |
-|---------|----------|
-| Accuracy Challenges | Models struggle with visually similar UI components |
-| Prompt Engineering | Extensive prompt tuning needed for basic accuracy |
-| Production Readiness | Shows potential but needs significant improvement |
-
-
+Key findings from this project:
+1. Vision-language models struggle with precise UI component analysis when elements share similar visual characteristics
+2. Current models require extensive prompt engineering to achieve basic accuracy
+3. Results shows potential but is far from production-ready
 
 The project outputs structured JSON annotations and visual artifacts, serving as a foundation for further research in automated UX analysis.
 
@@ -30,26 +22,15 @@ The project outputs structured JSON annotations and visual artifacts, serving as
 
 ## 2. Pipeline Overview
 
-Seven-stage orchestrated pipeline transforming raw screenshots into detailed UX annotations:
-1. Image preprocessing
-2. High-level segmentation
-3. Fine-grained extraction
-4. Description refinement
-5. Vision localization
-6. Validation
-7. Metadata enrichment
+The UI Analyzer pipeline transforms a raw screenshot through seven orchestrated stages, each with a clear contract and responsibility. The design intentionally separates concerns: image preprocessing, high-level segmentation, fine-grained extraction, description refinement, vision localization, validation, and metadata enrichment
 
 ---
 
-## 3. Pipeline Stages
+## 3. Pipeline Stages (With Code References & Logic)
 
-### Stage 0: Image Preprocessing
+This section details each stage of the UI analysis pipeline, outlining its objective, the core reasoning behind its design, and its implementation.
 
-| Aspect | Details |
-|--------|----------|
-| **Core Function** | Standardize images for consistent processing |
-| **Key Operations** | - Scale to 800x800px bounds (maintain proportions)<br>- Add white borders<br>- Optimize for Claude token count<br>- Clean filenames |
-| **Benefits** | - Consistent input size for Moondream model<br>- Uniform UI rendering<br>- Cost-effective processing |
+### **Stage 0: Image Preprocessing**
 
 * **How:**
   - Scale images to fit within 800x800px bounds while keeping their original proportions. No squashing, no stretching.
@@ -69,6 +50,15 @@ Seven-stage orchestrated pipeline transforming raw screenshots into detailed UX 
     4. Convert to optimized JPEG format
     5. Clean up the filename for safe storage
     6. Prepare for storage and downstream processing
+
+* **Example Usage:**
+  ```typescript
+  // In ScreenshotProcessor.ts
+  const fileBuffer = fs.readFileSync(uploadedFile.filepath);
+  const originalFilename = uploadedFile.originalFilename || 'default_image.png';
+  const processedImageOutput = await resizeAndPadImageBuffer(fileBuffer, originalFilename);
+  // processedImageOutput.buffer ready for Stage 1 processing
+  ```
 
 ---
 
@@ -131,8 +121,6 @@ Seven-stage orchestrated pipeline transforming raw screenshots into detailed UX 
     1.  **Input:** The standardized image (`signedUrl`) and the raw text string containing the flat map of element descriptions from Stage 2.
     2.  **Contextual Refinement Prompt:** `ClaudeAIService.anchor_elements_from_image()` uses the `ANCHOR_ELEMENTS_PROMPT_v3`. This prompt instructs the Claude model to rewrite each description, focusing on the element itself while subtly incorporating 1-2 nearby visual cues (text, icons) as anchors. The emphasis is on making the *target element* more findable, not describing the anchor.
     3.  **Preserving Focus:** The prompt design ensures anchors are phrased subordinately (e.g., "..., located below the 'Settings' icon") so the VLM's attention remains on the primary element being described.
-    4.  **Output Structure:** The output is a flat JSON object (Record<string, string>) where keys are element identifiers (often hierarchical paths) and values are the new, anchor-enriched descriptions.
-    5.  **Validation (Implicit):** While not a formal validation step with explicit metrics at this point, the prompt's design encourages clarity and the inclusion of useful anchors. The actual effectiveness of these anchored descriptions is practically validated by the performance of the bounding box detection in Stage 4.
 
 *   **Main Module:**
     *   [`ClaudeAIService.anchor_elements_from_image()`](/lib/services/ai/ClaudeAIService.ts)
