@@ -23,8 +23,8 @@ This project explores the capabilities of vision-language models with zero shot 
 | Production Readiness | Shows potential but needs significant improvement |
 
 
-
 The project outputs structured JSON annotations and visual artifacts, serving as a foundation for further research in automated UX analysis.
+
 
 ---
 
@@ -38,6 +38,97 @@ Seven-stage orchestrated pipeline transforming raw screenshots into detailed UX 
 5. Vision localization
 6. Validation
 7. Metadata enrichment
+
+### High Level Diagrams
+```mermaid
+sequenceDiagram
+    actor User;
+    participant FE as Next.js Frontend;
+    participant BE as Backend API;
+    participant SP as ScreenshotProcessor;
+    participant IP as ImageProcessor;
+    participant CS as ClaudeAIService;
+    participant MS as MoondreamDetectionService;
+    participant BBS as BoundingBoxService;
+    participant DS as DatabaseService;
+    participant FS as FileStorage;
+
+    User->>FE: Upload Screenshot;
+    FE->>BE: POST /api/analyze (screenshot);
+    BE->>SP: processAndSave(screenshotData);
+    
+    SP->>IP: resizeAndPadImageBuffer(rawImg);
+    IP-->>SP: processedImage;
+    SP->>FS: Store processedImage;
+    FS-->>SP: storedImageURL;
+
+    loop Pipeline Stages 1-3 (Claude Text Processing)
+        SP->>CS: Stage 1: extractComponents(processedImage);
+        CS-->>SP: componentData;
+        SP->>CS: Stage 2: extractElements(componentData);
+        CS-->>SP: elementData;
+        SP->>CS: Stage 3: anchorElementDescriptions(elementData);
+        CS-->>SP: anchoredDescriptions;
+    end
+
+    loop Stage 4 (Vision Localization)
+        SP->>MS: detectBoundingBoxes(processedImage, anchoredDescriptions);
+        MS-->>SP: boundingBoxData;
+        SP->>BBS: drawBoundingBoxesOnImage(processedImage, boundingBoxData);
+        BBS-->>SP: annotatedImage;
+        SP->>FS: Store annotatedImage;
+        FS-->>SP: storedAnnotatedImageURL;
+    end
+
+    SP->>CS: Stage 5: validateBoundingBoxes(boundingBoxData);
+    CS-->>SP: validatedData;
+
+    SP->>CS: Stage 6: enrichMetadata(validatedData);
+    CS-->>SP: finalJsonAnnotations;
+
+    SP->>DS: saveResults(finalJsonAnnotations, metadata, imageURLs);
+    DS-->>SP: saveConfirmation;
+
+    SP-->>BE: analysisResults (finalJsonAnnotations);
+    BE-->>FE: analysisResults;
+    FE-->>User: Display Results;
+```
+```mermaid
+graph TD
+    A[User] --> B(Next.js Frontend);
+    B --> C{Backend API-Next.js};
+    C --> D[ScreenshotProcessor];
+    D --> E[ImageProcessor];
+    D --> F[ClaudeAIService];
+    D --> G[MoondreamDetectionService];
+    D --> H[Database Service];
+    D --> I[Supabase Private Buckets];
+    E --> I;
+    H --> J[Supabase PostgreSQL DB];
+
+    subgraph "Application Services"
+        C
+        D
+        E
+        H
+    end
+
+    subgraph "AI/VLM Services"
+        F
+        G
+    end
+
+    subgraph "Data Stores"
+        I
+        J
+    end
+
+    style B fill:#f9f,stroke:#333,stroke-width:2px;
+    style F fill:#ccf,stroke:#333,stroke-width:2px;
+    style G fill:#ccf,stroke:#333,stroke-width:2px;
+    style J fill:#lightgrey,stroke:#333,stroke-width:2px;
+    style I fill:#lightgrey,stroke:#333,stroke-width:2px;
+```
 
 ---
 
