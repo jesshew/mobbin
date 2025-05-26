@@ -6,8 +6,8 @@ graph TD
     D --> E[ImageProcessor];
     D --> F[ClaudeAIService];
     D --> G[MoondreamDetectionService];
-    D --> H[DatabaseService];
-    D --> I[File Storage e.g., S3];
+    D --> H[Supabase PostgreSQL DB];
+    D --> I[Supabase Private Buckets];
     E --> I;
     H --> J[Database];
 
