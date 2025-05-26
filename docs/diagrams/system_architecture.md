@@ -6,10 +6,10 @@ graph TD
     D --> E[ImageProcessor];
     D --> F[ClaudeAIService];
     D --> G[MoondreamDetectionService];
-    D --> H[Supabase PostgreSQL DB];
+    D --> H[Database Service];
     D --> I[Supabase Private Buckets];
     E --> I;
-    H --> J[Database];
+    H --> J[Supabase PostgreSQL DB];
 
     subgraph "Application Services"
         C
