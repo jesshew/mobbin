@@ -41,6 +41,47 @@ Seven-stage orchestrated pipeline transforming raw screenshots into detailed UX 
 
 ### High Level Diagrams
 ```mermaid
+graph TD
+    A[User] --> B(Next.js Frontend);
+    B --> C{Backend API-Next.js};
+    C --> D[ScreenshotProcessor];
+    D --> E[ImageProcessor];
+    D --> F[ClaudeAIService];
+    D --> K[OpenAIService];
+
+    D --> G[MoondreamDetectionService];
+    D --> H[Database Service];
+    D --> I[Supabase Private Buckets];
+    E --> I;
+    H --> J[Supabase PostgreSQL DB];
+
+    subgraph "Application Services"
+        C
+        D
+        E
+        H
+    end
+
+    subgraph "AI/VLM Services"
+        F
+        G
+        K
+    end
+
+    subgraph "Data Stores"
+        I
+        J
+    end
+
+    style B fill:#f9f,stroke:#333,stroke-width:2px;
+    style F fill:#ccf,stroke:#333,stroke-width:2px;
+    style G fill:#ccf,stroke:#333,stroke-width:2px;
+    style J fill:#lightgrey,stroke:#333,stroke-width:2px;
+    style I fill:#lightgrey,stroke:#333,stroke-width:2px;
+```
+
+## Sequence Diagram
+```mermaid
 sequenceDiagram
     actor User;
     participant FE as Next.js Frontend;
@@ -93,41 +134,82 @@ sequenceDiagram
     BE-->>FE: analysisResults;
     FE-->>User: Display Results;
 ```
+## ERD Diagram
 ```mermaid
-graph TD
-    A[User] --> B(Next.js Frontend);
-    B --> C{Backend API-Next.js};
-    C --> D[ScreenshotProcessor];
-    D --> E[ImageProcessor];
-    D --> F[ClaudeAIService];
-    D --> G[MoondreamDetectionService];
-    D --> H[Database Service];
-    D --> I[Supabase Private Buckets];
-    E --> I;
-    H --> J[Supabase PostgreSQL DB];
+erDiagram
 
-    subgraph "Application Services"
-        C
-        D
-        E
-        H
-    end
+BATCH {
+  BIGSERIAL batch_id PK
+  TEXT batch_name
+  TIMESTAMPTZ batch_created_at
+  TEXT batch_status
+  TEXT batch_analysis_type
+  TEXT batch_description
+  TIMESTAMPTZ updated_at
+  TEXT inactive_flag
+}
 
-    subgraph "AI/VLM Services"
-        F
-        G
-    end
+SCREENSHOT {
+  BIGSERIAL screenshot_id PK
+  BIGINT batch_id FK
+  TEXT screenshot_file_name
+  TEXT screenshot_file_url
+  INTERVAL screenshot_processing_time
+  TIMESTAMPTZ screenshot_created_at
+}
 
-    subgraph "Data Stores"
-        I
-        J
-    end
+COMPONENT {
+  BIGSERIAL component_id PK
+  BIGINT screenshot_id FK
+  TEXT component_name
+  TEXT component_description
+  NUMERIC inference_time
+  TEXT screenshot_url
+  JSONB component_metadata_extraction
+  TEXT component_ai_description
+  TIMESTAMPTZ component_created_at
+}
 
-    style B fill:#f9f,stroke:#333,stroke-width:2px;
-    style F fill:#ccf,stroke:#333,stroke-width:2px;
-    style G fill:#ccf,stroke:#333,stroke-width:2px;
-    style J fill:#lightgrey,stroke:#333,stroke-width:2px;
-    style I fill:#lightgrey,stroke:#333,stroke-width:2px;
+ELEMENT {
+  BIGSERIAL element_id PK
+  BIGINT component_id FK
+  BIGINT screenshot_id FK
+  TEXT element_label
+  TEXT element_description
+  TEXT element_status
+  BOOLEAN element_hidden
+  JSONB bounding_box
+  JSONB suggested_coordinates
+  NUMERIC element_accuracy_score
+  TEXT element_explanation
+  TEXT element_vlm_model
+  JSONB element_metadata_extraction
+  NUMERIC element_inference_time
+  TIMESTAMPTZ element_created_at
+  TIMESTAMPTZ element_updated_at
+}
+
+PROMPT_LOG {
+  BIGSERIAL prompt_log_id PK
+  BIGINT batch_id FK
+  BIGINT screenshot_id FK
+  TEXT prompt_log_type
+  TEXT prompt_log_model
+  INTEGER prompt_log_input_tokens
+  INTEGER prompt_log_output_tokens
+  NUMERIC prompt_log_cost
+  NUMERIC prompt_log_duration
+  TIMESTAMPTZ prompt_log_started_at
+  TIMESTAMPTZ prompt_log_completed_at
+  TEXT prompt_response
+  TEXT inactive_flag
+}
+
+BATCH ||--o{ SCREENSHOT : has
+SCREENSHOT ||--o{ COMPONENT : has
+COMPONENT ||--o{ ELEMENT : has
+BATCH ||--o{ PROMPT_LOG : has
+SCREENSHOT ||--o{ PROMPT_LOG : has
 ```
 
 ---
